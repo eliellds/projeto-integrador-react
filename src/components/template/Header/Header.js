@@ -23,11 +23,11 @@ function Header(props) {
                         <a href="./index.html" className="logo-marca" title="Velho Luxo">
                         <img className="logo d-sm-block d-none" alt="Velho Luxo"
                             src={Logo}/>
-                        <img className="logo2- d-block d-sm-none" alt="Velho Luxo"
+                        <img className="logo-2 d-block d-sm-none" alt="Velho Luxo"
                             src={Logo2}/>
                         </a>
                     </div>
-                    <form action="./busca.html" className="form-pesquisa col-lg-6 d-lg-block d-none">
+                    <form action="./search" className="form-pesquisa col-lg-6 d-lg-block d-none">
                         <div className="container">
                             <div className="row">
                                 <div className="pesquisa-btn mx-0 col-11">

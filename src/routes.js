@@ -13,6 +13,7 @@ import Success from './pages/Success/Success'
 import NotFound from "./pages/NotFound/NotFound"
 import Catalog from "./pages/Catalog/Catalog"
 import Sales from "./pages/Sales/Sales"
+import Search from "./pages/Search/Search"
 
 export const Routes = () => {
     return (
@@ -29,6 +30,7 @@ export const Routes = () => {
             <Route path="/success" component={Success}/>
             <Route path="/catalog" component={Catalog}/>
             <Route path="/sales" component={Sales}/>
+            <Route path="/search" component={Search}/>
             <Route component={NotFound}/>
         </Switch>
     )

@@ -1,6 +1,10 @@
 import React from 'react'
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 import './Cart.css'
-import Remove from '../../assets/imgs/cart/remove.png'
+import Remove from '../../assets/imgs/cart/remover.png'
+import Produto from '../../assets/imgs/cart/caixaRegistradora.png'
+
 
 function Cart(props) {
 
@@ -14,46 +18,50 @@ function Cart(props) {
             </div>
         </div>
     
-        <div className=" container
-        personalizado-carrinho-desc p-0 pl-md-1 pr-md-1  ">
+        <div className=" container personalizado-carrinho-desc p-0 pl-md-1 pr-md-1  ">
         
 
             <div className="row container-descricao justify-content-between align-items-center">
-                <h2 className=" ms-4 texto-desc col-5  col-md-4 col">
+                <div className="col-2"></div>
+                <h2 className=" texto-desc col-4  col-md-4 col">
                     DESCRIÇÃO PRODUTOS
 
                 </h2>
-                <h2 className="texto-desc col-2 ms-5 "><abbr title="Quantidade unitaria">QTD UN.</abbr></h2>
-                <h2 className="texto-desc col-2 me-5">PREÇO </h2>
+                <h2 className="texto-desc col-1  "><abbr title="Quantidade unitaria">QTD UN.</abbr></h2>
+                <h2 className="texto-desc col-2 ">PREÇO </h2>
+                <h2 className="texto-desc col-2"><span className="d-lg-block"><abbr title="Remover do carrinho">REM</abbr></span></h2>
 
             </div>
 
 
 
         </div>
-        <div className=" container
-        personalizado-carrinho p-0 pl-md-1 pr-md-1  ">
+        <div className=" container personalizado-carrinho p-0 pl-md-1 pr-md-1  ">
             <div className="row carrinho-card mt-1 mb-2 mx-0 align-items-center justify-content-between">
-                <div className="col-2 col-md-1  p-0">
-                    <a href="#"> <img src="./jose/carrinhoCard/images/caixaRegistradora.png" className="card-image " alt=""/></a>
+                <div className="col-2 col-md-2  p-0">
+                    <a href="#"> <img src={Produto} className="card-image " alt=""/></a>
                 </div>
-                <a href="#paginaProduto" className="col-4 col-md-3  texto-carrinho">
+                <a href="#paginaProduto" className="col-4 col-md-4 pe-0  texto-carrinho">
                     Caixa registradora
-                    <br/>fabricada em <span className="numero">1932</span><br/>
-                    feita aço inoxidavel<br/>
+                    fabricada em <span className="numero">1932 </span>
+                    feita aço inoxidavel
                     Criada por James
                     Ritty.
 
 
-                </a>
-                <div className=" col-1 numero quantidade align-content-center">
-                    <a href="" className="controle negativo">-</a><br/> 01 <br/><a href="" className="controle positivo">+</a>
+                </a>                    
+                <div className=" col-1 numero quantidade align-content-center text-center">
+                <a href="#" className="controle positivo">+</a> 1 <a href="" className="controle negativo">-</a>
                 </div>
-                <div className="col-md-2 col-lg-1 col-2 texto-carrinho ms-4">
+                <div className="col-2 texto-carrinho  text-center">
                     R$<span className="numero">2.500</span>
 
                 </div>
-                <div className="col-1 ms-0"><a href="#" className="removerCarrinho"><img src={Remove} alt="" /> </a></div>
+                <div className="col-2 ">
+                    <a href="#" className="removerCarrinho row justify-content-center">
+                        <img className="col-7 col-md-4" src={Remove} alt="" width="20px" />
+                    </a>
+                </div>
 
 
 
@@ -64,7 +72,11 @@ function Cart(props) {
 
     
             <div className="row tamanho  ">
-                <div className="col-11 mb-3 mt-3">
+                <div className="col-5 mb-3 mt-3 text-start">
+                    <h4 className="texto-total">Frete fixo: R$<span className="numero total">150,00</span></h4>
+                </div>
+
+                <div className="col-5 mb-3 mt-3">
                     <h4 className="texto-total">Total:R$ <span className="numero total">7500,00</span></h4>
                 </div>
                 

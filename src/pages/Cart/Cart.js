@@ -1,9 +1,11 @@
-import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import React from 'react'
 
-import './Cart.css'
+
+
 import Remove from '../../assets/images/cart/remover.png'
 import Produto from '../../assets/images/cart/caixaRegistradora.png'
+import './Cart.css'
 
 
 function Cart(props) {
@@ -23,13 +25,10 @@ function Cart(props) {
 
             <div className="row container-descricao justify-content-between align-items-center">
                 <div className="col-2"></div>
-                <h2 className=" texto-desc col-4  col-md-4 col">
-                    DESCRIÇÃO PRODUTOS
-
-                </h2>
+                <h2 className=" texto-desc col-4  col-md-4">DESCRIÇÃO PRODUTOS</h2>
                 <h2 className="texto-desc col-1  "><abbr title="Quantidade unitaria">QTD UN.</abbr></h2>
                 <h2 className="texto-desc col-2 ">PREÇO </h2>
-                <h2 className="texto-desc col-2"><span className="d-lg-block"><abbr title="Remover do carrinho">REM</abbr></span></h2>
+                <h2 className="texto-desc col-2"><abbr title="Remover do carrinho">REM</abbr></h2>
 
             </div>
 
@@ -39,7 +38,7 @@ function Cart(props) {
         <div className=" container personalizado-carrinho p-0 pl-md-1 pr-md-1  ">
             <div className="row carrinho-card mt-1 mb-2 mx-0 align-items-center justify-content-between">
                 <div className="col-2 col-md-2  p-0">
-                    <a href="#"> <img src={Produto} className="card-image " alt=""/></a>
+                    <a href="#"> <img src={Produto} className="card-image" /></a>
                 </div>
                 <a href="#paginaProduto" className="col-4 col-md-4 pe-0  texto-carrinho">
                     Caixa registradora

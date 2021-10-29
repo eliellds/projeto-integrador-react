@@ -1,6 +1,5 @@
 import React from 'react'
 import './FormDefault.css'
-import Input from '../../../micro/Forms/Input/Input'
 
 function FormDefault(props) {
 

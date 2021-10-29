@@ -18,7 +18,6 @@ function Button(props) {
                 </button>
             )
         }
-        
     }
 
     return(

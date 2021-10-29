@@ -53,7 +53,7 @@ function Cart(props) {
                     R$<span className="numero">2.500</span>
 
                 </div>
-                <div className="col-1 ms-0"><a href="#" className="removerCarrinho"><img src={Remove} /> </a></div>
+                <div className="col-1 ms-0"><a href="#" className="removerCarrinho"><img src={Remove} alt="" /> </a></div>
 
 
 

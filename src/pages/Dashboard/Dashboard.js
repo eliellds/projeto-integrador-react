@@ -1,7 +1,9 @@
 import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Dashboard.css'
-import FormDefault from '../../components/macro/Forms/FormDefault/FormDefault'
+// import Address from '../../components/macro/Forms/Address/AddressForm';
+// import FormUser from '../../components/macro/Forms/FormUser/FormUser';
+
 
 function Dashboard(props) {
 
@@ -33,8 +35,8 @@ function Dashboard(props) {
 
                     <div class="row d-flex justify-content-center col-md-9 col-12">
 
-                        <FormDefault title="xxx">
-                        </FormDefault>
+                        {/* <Address/> */}
+                        {/* <FormUser/> */}
 
                     </div>
                 </div>

@@ -23,7 +23,7 @@ function Header(props) {
                         <a href="./index.html" className="logo-marca" title="Velho Luxo">
                         <img className="logo d-sm-block d-none" alt="Velho Luxo"
                             src={Logo}/>
-                        <img className="logo-2 d-block d-sm-none" alt="Velho Luxo"
+                        <img className="logo2- d-block d-sm-none" alt="Velho Luxo"
                             src={Logo2}/>
                         </a>
                     </div>

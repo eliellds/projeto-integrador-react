@@ -11,6 +11,8 @@ import Product from './pages/Product/Product'
 import Register from './pages/Register/Register'
 import Success from './pages/Success/Success'
 import NotFound from "./pages/NotFound/NotFound"
+import Catalog from "./pages/Catalog/Catalog"
+import Sales from "./pages/Sales/Sales"
 
 export const Routes = () => {
     return (
@@ -25,6 +27,8 @@ export const Routes = () => {
             <Route path="/product/:id" component={Product}/>
             <Route path="/register" component={Register}/>
             <Route path="/success" component={Success}/>
+            <Route path="/catalog" component={Catalog}/>
+            <Route path="/sales" component={Sales}/>
             <Route component={NotFound}/>
         </Switch>
     )

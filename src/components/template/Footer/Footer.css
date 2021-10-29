@@ -16,7 +16,7 @@
 .pinterest::after {
     content: "";
     display: block;
-    background: url('../../../assets/imgs/footers/pinterest.png') no-repeat;
+    background: url('../../../assets/images/footers/pinterest.png') no-repeat;
     background-size: 20px;
     width: 20px;
     height: 20px;
@@ -27,7 +27,7 @@
 .facebook::after {
     content: "";
     display: block;
-    background: url('../../../assets/imgs/footers/facebook.png') no-repeat;
+    background: url('../../../assets/images/footers/facebook.png') no-repeat;
     background-size: 20px;
     width: 20px;
     height: 20px;
@@ -38,7 +38,7 @@
 .instagram::after {
     content: "";
     display: block;
-    background: url('../../../assets/imgs/footers/instagram.png') no-repeat;
+    background: url('../../../assets/images/footers/instagram.png') no-repeat;
     background-size: 20px;
     width: 20px;
     height: 20px;

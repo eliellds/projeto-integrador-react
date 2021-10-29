@@ -1,8 +1,6 @@
 import React from 'react'
 import './Footer.css'
-import Facebook from '../../../assets/imgs/footers/facebook.png'
-import Instagram from '../../../assets/imgs/footers/instagram.png'
-import Pinterest from '../../../assets/imgs/footers/pinterest.png'
+
 
 function Footer(props) {
 

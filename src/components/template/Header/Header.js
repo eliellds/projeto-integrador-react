@@ -1,10 +1,10 @@
 import React from 'react'
 import './Header.css'
-import Lupa from '../../../assets/imgs/headers/lupa.png'
-import Logo from '../../../assets/imgs/headers/velho-luxo.png'
-import Logo2 from '../../../assets/imgs/headers/vl.png'
-import Sacola from '../../../assets/imgs/headers/sacola.png'
-import Menu from '../../../assets/imgs/headers/Menu-de-Tres-Linhas.png'
+import Lupa from '../../../assets/images/headers/lupa.png'
+import Logo from '../../../assets/images/headers/velho-luxo.png'
+import Logo2 from '../../../assets/images/headers/vl.png'
+import Sacola from '../../../assets/images/headers/sacola.png'
+import Menu from '../../../assets/images/headers/Menu-de-Tres-Linhas.png'
 
 function Header(props) {
 

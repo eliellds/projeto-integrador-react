@@ -2,8 +2,8 @@ import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import './Cart.css'
-import Remove from '../../assets/imgs/cart/remover.png'
-import Produto from '../../assets/imgs/cart/caixaRegistradora.png'
+import Remove from '../../assets/images/cart/remover.png'
+import Produto from '../../assets/images/cart/caixaRegistradora.png'
 
 
 function Cart(props) {

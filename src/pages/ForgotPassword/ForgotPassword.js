@@ -5,7 +5,7 @@ function ForgotPassword(props) {
     return (
         <>
             <FormForgotPassword/>
-            
+
         </>
     )
 }

@@ -33,7 +33,7 @@ function Address(props) {
 
                                 <label for="bairro" class="form-label">Bairro</label>
                                 <input type="text" id="bairro" class="form-input col-12"
-                                    placeholder="Digite sua senha...">
+                                    placeholder="Digite sua senha..."/>
 
                             </div>
 
@@ -41,7 +41,7 @@ function Address(props) {
 
                                 <label for="ponto-referencia" class="form-label">Ponto de referência</label>
                                 <input type="text" id="ponto-referencia" class="form-input col-12"
-                                    placeholder="Digite um ponto de referência...">
+                                    placeholder="Digite um ponto de referência..."/>
 
                             </div>
 
@@ -53,7 +53,7 @@ function Address(props) {
 
                                 <label for="cidade" class="form-label">Cidade</label>
                                 <input type="text" id="cidade" class="form-input col-12"
-                                    placeholder="Digite sua cidade">
+                                    placeholder="Digite sua cidade"/>
                             </div>
 
                             <div class="col-12 col-md-2">
@@ -92,7 +92,7 @@ function Address(props) {
 
                             <div class=" col-12 col-md-3">
                                 <label for="cep" class="form-label">CEP</label>
-                                <input type="text" id="cep" class="form-input col-12" placeholder="Digite sseu CEP...">
+                                <input type="text" id="cep" class="form-input col-12" placeholder="Digite sseu CEP..."/>
                             </div>
 
                         </div>
@@ -101,7 +101,7 @@ function Address(props) {
 
                     <div class="row justify-content-center">
 
-                        <input type="submit" class="btn-confirmacao mx-5 my-2" value="ALTERAR">
+                        <input type="submit" class="btn-confirmacao mx-5 my-2" value="ALTERAR"/>
 
                     </div>
                 </FormDefault>

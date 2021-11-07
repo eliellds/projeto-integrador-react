@@ -33,9 +33,7 @@ function Dashboard(props) {
 
                     <div class="row d-flex justify-content-center col-md-9 col-12">
 
-                        <FormDefault title="xxx">
-                        </FormDefault>
-
+                
                     </div>
                 </div>
             </main>

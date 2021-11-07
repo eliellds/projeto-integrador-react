@@ -1,10 +1,11 @@
 import React from "react";
 import './Catalog.css';
 import Chas from '../../assets/images/cards/chas-schumacher-glamour.jpg'
+import CardProduct from "../../components/macro/Cards/Products/CardProduct";
 
 export default function Catalog(props) {
 
-    return(
+    return (
         <>
             <div className="row justify-content-center mb-3 p-0 mx-0">
                 <h1 className="categoria_nome mb-2 mx-0 col-12">Cozinha</h1>
@@ -29,8 +30,53 @@ export default function Catalog(props) {
 
                 <ul className="row lista-cards catalogo tamanho mb-3">
 
-                    
-                    <li className="col-11 col-sm-8 col-md-5 col-lg-2 mb-4">
+                    <CardProduct nome="Vintage Máquina De Escrever Portátil Remington silencioso"
+                        ano="1930" precoDe="111,99" precoPor="100,00" vezes={10} parcelas="10,00">
+
+                        <a href="./produto.html" className="">
+                            <img src={Chas} />
+                        </a>
+
+                    </CardProduct>
+
+                    <CardProduct nome="Vintage Máquina De Escrever Portátil Remington silencioso"
+                        ano="1930" precoDe="111,99" precoPor="100,00" vezes={10} parcelas="10,00">
+
+                        <a href="./produto.html" className="">
+                            <img src={Chas} />
+                        </a>
+
+                    </CardProduct>
+
+                    <CardProduct nome="Vintage Máquina De Escrever Portátil Remington silencioso"
+                        ano="1930" precoDe="111,99" precoPor="100,00" vezes={10} parcelas="10,00">
+
+                        <a href="./produto.html" className="">
+                            <img src={Chas} />
+                        </a>
+
+                    </CardProduct>
+
+                    <CardProduct nome="Vintage Máquina De Escrever Portátil Remington silencioso"
+                        ano="1930" precoDe="111,99" precoPor="100,00" vezes={10} parcelas="10,00">
+
+                        <a href="./produto.html" className="">
+                            <img src={Chas} />
+                        </a>
+
+                    </CardProduct>
+
+                    <CardProduct nome="Vintage Máquina De Escrever Portátil Remington silencioso"
+                        ano="1930" precoDe="111,99" precoPor="100,00" vezes={10} parcelas="10,00">
+
+                        <a href="./produto.html" className="">
+                            <img src={Chas} />
+                        </a>
+
+                    </CardProduct>
+
+
+                    {/* <li className="col-11 col-sm-8 col-md-5 col-lg-2 mb-4">
 
                         
                         <div className="caixa-imagem">
@@ -56,10 +102,10 @@ export default function Catalog(props) {
 
                         </div>
 
-                    </li>
-                    
+                    </li> */}
 
-                    <li className="col-12 col-sm-8 col-md-5 col-lg-2 mb-4">
+
+                    {/* <li className="col-12 col-sm-8 col-md-5 col-lg-2 mb-4">
                         <div className="caixa-imagem">
                             <a href="./produto.html" className="">
                                 <img src={Chas}/>
@@ -114,9 +160,9 @@ export default function Catalog(props) {
                                 <a href="./produto.html" className="btn-comprar">COMPRAR</a>
                             </div>
                         </div>
-                    </li>
+                    </li> */}
 
-                    <li className="col-12 col-sm-8 col-md-5 col-lg-2 d-md-none d-lg-block mb-4">
+                    {/* <li className="col-12 col-sm-8 col-md-5 col-lg-2 d-md-none d-lg-block mb-4">
                         <div className="caixa-imagem">
                             <a href="./produto.html" className="">
                                 <img src={Chas}/>
@@ -133,12 +179,12 @@ export default function Catalog(props) {
                                 <a href="./produto.html" className="btn-comprar">COMPRAR</a>
                             </div>
                         </div>
-                    </li>
+                    </li> */}
 
                 </ul>
 
             </div>
-            
+
             <div className="ver-mais row justify-content-center tamanho pb-3">
                 <a href="" className="btn-ver-mais col-6 mb-3">VER MAIS</a>
             </div>

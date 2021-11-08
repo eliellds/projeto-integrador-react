@@ -1,15 +1,23 @@
 import React from 'react'
 import './Success.css'
 <<<<<<< HEAD
+<<<<<<< HEAD
 import CompletedPurchase from '../../components/macro/completedPurchase/CompletedPurchase'
 =======
 import SuccessPage from '../../components/macro/SuccessPage/SuccessPage'
 >>>>>>> 1a6ac873830ade77fb39460b7b057558b6e78aa6
+=======
+import SuccessPage from '../../components/macro/SuccessPage/SuccessPage'
+=======
+import CompletedPurchase from '../../components/macro/completedPurchase/CompletedPurchase'
+>>>>>>> 9622ccea7cc439c443de91d19eb665ed01a10c6a
+>>>>>>> 608b1d2128ef6345c201a85354678e64f62b3449
 
 function Success(props) {
 
     return (
         <>
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
             <CompletedPurchase/>
@@ -107,6 +115,13 @@ function Success(props) {
 =======
             <SuccessPage numPedido={999999} valorTotal="R$ 9999,99" prazo="01/01/2022"/>
 >>>>>>> 1a6ac873830ade77fb39460b7b057558b6e78aa6
+=======
+<<<<<<< HEAD
+            <SuccessPage numPedido={999999} valorTotal="R$ 9999,99" prazo="01/01/2022"/>
+=======
+            <CompletedPurchase/>
+>>>>>>> 9622ccea7cc439c443de91d19eb665ed01a10c6a
+>>>>>>> 608b1d2128ef6345c201a85354678e64f62b3449
         </>
     )
 }

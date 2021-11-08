@@ -4,7 +4,7 @@ import 'react-bootstrap'
 import Button from "../Button/Button"
 import Modal from 'react-bootstrap/Modal'
 
-function ModalComp() {
+function ModalComp(props) {
     const [show, setShow] = useState(false);
 
     function handleClose() {
@@ -15,29 +15,36 @@ function ModalComp() {
         setShow(true);
     }
 
+    function handleClick(e) {
+        e.preventDefault();
+    }
+
     return (
         <>
-            <div className="row justify-content-center pt-3">
-                <Button label="Voltar" navigation route="voltar" class="btn-retorno mx-5" />
-                <Button label="Cadastrar" class="btn-confirmacao mx-5" function={handleShow} />
-            </div>
+            <form onClick={handleClick}>
 
-            <Modal show={show} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Mensagem Enviada!</Modal.Title>
-                </Modal.Header>
+                <div className="row justify-content-center pt-3">
+                    <Button label="Voltar" navigation route="voltar" class="btn-retorno mx-5" />
+                    <Button label="Enviar" class="btn-confirmacao mx-5" function={handleShow} />
+                </div>
 
-                <Modal.Body>
-                    <p>Seu pedido de recuperção de senha foi recebido.</p>
-                    <p>Confira seu e-mail e cheque sua caixa de spam. Qualquer dúvida, entre em contato.</p>
+                <Modal show={show} onHide={handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>{props.msg}</Modal.Title>
+                    </Modal.Header>
 
-                    <p>Obrigado!</p>
-                </Modal.Body>
+                    <Modal.Body>
+                        {props.info}
+                        {props.info1}
+                        {props.info2}
+                    </Modal.Body>
 
-                <Modal.Footer>
-                    <Button label="Fechar" class="btn-voltar" variant="secondary" function={handleClose} />
-                </Modal.Footer>
-            </Modal>
+                    <Modal.Footer>
+                        <Button label="Fechar" class="btn-voltar" variant="secondary" function={handleClose} />
+                    </Modal.Footer>
+                </Modal>
+
+            </form>
         </>
     );
 }

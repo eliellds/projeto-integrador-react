@@ -14,6 +14,7 @@ import NotFound from "./pages/NotFound/NotFound"
 import Catalog from "./pages/Catalog/Catalog"
 import Sales from "./pages/Sales/Sales"
 import Search from "./pages/Search/Search"
+import Contact from "./pages/Contact/Contact"
 
 export const Routes = () => {
     return (
@@ -31,6 +32,8 @@ export const Routes = () => {
             <Route path="/catalog" component={Catalog}/>
             <Route path="/sales" component={Sales}/>
             <Route path="/search" component={Search}/>
+            <Route path="/contact" component={Contact}/>
+
             <Route component={NotFound}/>
         </Switch>
     )

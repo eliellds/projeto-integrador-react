@@ -1,11 +1,16 @@
 import React from 'react'
 import './Success.css'
+<<<<<<< HEAD
 import CompletedPurchase from '../../components/macro/completedPurchase/CompletedPurchase'
+=======
+import SuccessPage from '../../components/macro/SuccessPage/SuccessPage'
+>>>>>>> 1a6ac873830ade77fb39460b7b057558b6e78aa6
 
 function Success(props) {
 
-    return(
+    return (
         <>
+<<<<<<< HEAD
 <<<<<<< HEAD
             <CompletedPurchase/>
 =======
@@ -99,6 +104,9 @@ function Success(props) {
 
 </div>
 >>>>>>> 7370f4c96c36273154f056bb0254c308d5168b5e
+=======
+            <SuccessPage numPedido={999999} valorTotal="R$ 9999,99" prazo="01/01/2022"/>
+>>>>>>> 1a6ac873830ade77fb39460b7b057558b6e78aa6
         </>
     )
 }

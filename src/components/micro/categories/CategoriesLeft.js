@@ -1,6 +1,6 @@
 import React from "react";
 import './Category.css'
-import Quarto from "../../../assets/images/category/quarto.jpg"
+// import Quarto from "../../../assets/images/category/quarto.jpg"
 
 function CategoryLeft(props) {
     return (
@@ -11,14 +11,14 @@ function CategoryLeft(props) {
 
                     <div className="col-md-5 col-12 custom-section-item um ">
 
-                        <img src={Quarto} alt="Quarto antigo"/>
+                        <img src={props.image} alt="Quarto antigo"/>
 
                     </div>
 
                     <div className="col-md-5 col-12 custom-section-item py-md-5 dois">
 
-                        <a href="./catalogo.html"><button className="px-4">Quarto</button></a>
-                        <h6>Encontre armários, penteadeiras <br/>e objetos para decorar seu quarto.</h6>
+                        <a href="/catalog"><button className="px-4">{props.category}</button></a>
+                        <h6>{props.description}</h6>
 
                     </div>
 

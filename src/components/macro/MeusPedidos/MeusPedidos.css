@@ -1,0 +1,66 @@
+*{
+    box-sizing: border-box;
+}
+
+.accordion-button{
+    font-family: 'Baskervville', serif;
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-bottom: 1px solid #d47c61 ;
+    list-style-type: none;
+    height: 45px;
+}
+
+.accordion-button:focus{
+    font-family: 'Baskervville', serif;
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-bottom: 2px solid #BC4C2A ;
+    list-style-type: none;
+    box-shadow: 0 0 0 0.25rem #d47c61 ;
+}
+
+.accordion-button:not(.collapsed) {
+    color: #252525;
+}
+
+.accordion-button:hover {
+    background-color: #d47c61;
+}
+
+.cabecalho-pedido li {
+    list-style-type: none;
+}
+
+.cabecalho-pedido-item {
+    font-family: 'Baskervville', serif;
+    text-transform: uppercase;
+    padding: 10px;
+    border-bottom: 1px solid #666 ;
+    list-style-type: none;
+}
+
+.pedido-item{
+    list-style-type: none;
+}
+
+.numero-pedido a{
+    font-family: 'Times New Roman', Times, serif;
+    color: #252525;
+}
+
+.numero-pedido a:hover{
+    color: #252525;
+    font-weight: bold;
+}
+
+.custom-container {
+    background-color: #F6F3EF;
+}
+
+@media (max-width: 450px) {
+    .data {
+       display: none;
+    }
+
+}

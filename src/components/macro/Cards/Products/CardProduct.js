@@ -44,7 +44,7 @@ export default function CardProduct(props) {
                             {preco(props)}
                         </div>
 
-                        <Button route={`/product/${props.id}`} class="btn-comprar btn-expand" label="COMPRAR"/>
+                        <Button navigation route={`/product/${props.id}`} class="btn-comprar btn-expand" label="COMPRAR"/>
 
                     </div>
 

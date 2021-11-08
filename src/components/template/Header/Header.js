@@ -20,7 +20,7 @@ function Header(props) {
                         </a>
                     </div>
                     <div className="titulo col-lg-3 col-md-8 col-sm-7 col-4 justify-content-center">
-                        <a href="./index.html" className="logo-marca" title="Velho Luxo">
+                        <a href="./" className="logo-marca" title="Velho Luxo">
                         <img className="logo d-sm-block d-none" alt="Velho Luxo"
                             src={Logo}/>
                         <img className="logo-2 d-block d-sm-none" alt="Velho Luxo"
@@ -68,8 +68,8 @@ function Header(props) {
                     <div className="col-12">
                         <nav id="menu">
                             <ul className="align-content-center justify-content-center px-5 d-none d-sm-flex">
-                                <li><a href="./index.html">Home</a></li>
-                                <li><a href="./categorias.html">Catálogo</a></li>
+                                <li><a href="./home">Home</a></li>
+                                <li><a href="./category">Catálogo</a></li>
                                 <li><a href="./promocoes.html">Promoções</a></li>
                                 <li><a href="./contato.html">Contato</a></li>
                             </ul>

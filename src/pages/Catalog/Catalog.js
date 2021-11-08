@@ -2,6 +2,7 @@ import React from "react";
 import './Catalog.css';
 import Chas from '../../assets/images/cards/chas-schumacher-glamour.jpg'
 import CardProduct from "../../components/macro/Cards/Products/CardProduct";
+import Button from "../../components/micro/Button/Button";
 
 export default function Catalog(props) {
 
@@ -75,118 +76,57 @@ export default function Catalog(props) {
 
                     </CardProduct>
 
+                    <CardProduct nome="Vintage Máquina De Escrever Portátil Remington silencioso"
+                        ano="1930" precoDe="111,99" precoPor="100,00" vezes={10} parcelas="10,00">
 
-                    {/* <li className="col-11 col-sm-8 col-md-5 col-lg-2 mb-4">
+                        <a href="./produto.html" className="">
+                            <img src={Chas} />
+                        </a>
 
-                        
-                        <div className="caixa-imagem">
-                            <a href="./produto.html" className="">
-                                <img src={Chas}/>
-                            </a>
-                        </div>
+                    </CardProduct>
 
-                        
-                        <div className="corpo-card">
-                            <a href="./produto.html" className="descricao">Jogo de chá<br />(1889)</a>
-                            <div className="pagamento">
-                                <div className="preco">
-                                    <div className="preco-de">R$999,59</div>
-                                    <div className="preco-por">R$ 850,59</div>
-                                    <div class="parcelas">À vista, ou em <em>10x</em> de <em>R$100,00</em> no cartão</div>
-                                </div>
+                    <CardProduct nome="Vintage Máquina De Escrever Portátil Remington silencioso"
+                        ano="1930" precoDe="111,99" precoPor="100,00" vezes={10} parcelas="10,00">
 
-                                
-                                <a href="./produto.html" className="btn-comprar">COMPRAR</a>
+                        <a href="./produto.html" className="">
+                            <img src={Chas} />
+                        </a>
 
-                            </div>
+                    </CardProduct>
 
-                        </div>
+                    <CardProduct nome="Vintage Máquina De Escrever Portátil Remington silencioso"
+                        ano="1930" precoDe="111,99" precoPor="100,00" vezes={10} parcelas="10,00">
 
-                    </li> */}
+                        <a href="./produto.html" className="">
+                            <img src={Chas} />
+                        </a>
 
+                    </CardProduct>
 
-                    {/* <li className="col-12 col-sm-8 col-md-5 col-lg-2 mb-4">
-                        <div className="caixa-imagem">
-                            <a href="./produto.html" className="">
-                                <img src={Chas}/>
-                            </a>
-                        </div>
-                        <div className="corpo-card">
-                            <a href="./produto.html" className="descricao">Jogo de chá<br />(1889)</a>
-                            <div className="pagamento">
-                                <div className="preco">
-                                    <div className="preco-de">R$999,59</div>
-                                    <div className="preco-por">R$ 850,59</div>
-                                    <div class="parcelas">À vista, ou em <em>10x</em> de <em>R$100,00</em> no cartão</div>
-                                </div>
-                                <a href="./produto.html" className="btn-comprar">COMPRAR</a>
-                            </div>
-                        </div>
-                    </li>
+                    <CardProduct nome="Vintage Máquina De Escrever Portátil Remington silencioso"
+                        ano="1930" precoDe="111,99" precoPor="100,00" vezes={10} parcelas="10,00">
 
-                    <li className="col-12 col-sm-8 col-md-5 col-lg-2 mb-4">
-                        <div className="caixa-imagem">
-                            <a href="./produto.html" className="">
-                                <img src={Chas}/>
-                            </a>
-                        </div>
-                        <div className="corpo-card">
-                            <a href="./produto.html" className="descricao">Jogo de chá<br />(1889)</a>
-                            <div className="pagamento">
-                                <div className="preco">
-                                    <div className="preco-de">R$999,59</div>
-                                    <div className="preco-por">R$ 850,59</div>
-                                    <div class="parcelas">À vista, ou em <em>10x</em> de <em>R$100,00</em> no cartão</div>
-                                </div>
-                                <a href="./produto.html" className="btn-comprar">COMPRAR</a>
-                            </div>
-                        </div>
-                    </li>
+                        <a href="./produto.html" className="">
+                            <img src={Chas} />
+                        </a>
 
-                    <li className="col-12 col-sm-8 col-md-5 col-lg-2 mb-4">
-                        <div className="caixa-imagem">
-                            <a href="./produto.html" className="">
-                                <img src={Chas}/>
-                            </a>
-                        </div>
-                        <div className="corpo-card">
-                            <a href="./produto.html" className="descricao">Jogo de chá<br />(1889)</a>
-                            <div className="pagamento">
-                                <div className="preco">
-                                    <div className="preco-de">R$999,59</div>
-                                    <div className="preco-por">R$ 850,59</div>
-                                    <div class="parcelas">À vista, ou em <em>10x</em> de <em>R$100,00</em> no cartão</div>
-                                </div>
-                                <a href="./produto.html" className="btn-comprar">COMPRAR</a>
-                            </div>
-                        </div>
-                    </li> */}
+                    </CardProduct>
 
-                    {/* <li className="col-12 col-sm-8 col-md-5 col-lg-2 d-md-none d-lg-block mb-4">
-                        <div className="caixa-imagem">
-                            <a href="./produto.html" className="">
-                                <img src={Chas}/>
-                            </a>
-                        </div>
-                        <div className="corpo-card">
-                            <a href="./produto.html" className="descricao">Jogo de chá<br />(1889)</a>
-                            <div className="pagamento">
-                                <div className="preco">
-                                    <div className="preco-de">R$999,59</div>
-                                    <div className="preco-por">R$ 850,59</div>
-                                    <div class="parcelas">À vista, ou em <em>10x</em> de <em>R$100,00</em> no cartão</div>
-                                </div>
-                                <a href="./produto.html" className="btn-comprar">COMPRAR</a>
-                            </div>
-                        </div>
-                    </li> */}
+                    <CardProduct nome="Vintage Máquina De Escrever Portátil Remington silencioso"
+                        ano="1930" precoDe="111,99" precoPor="100,00" vezes={10} parcelas="10,00">
+
+                        <a href="./produto.html" className="">
+                            <img src={Chas} />
+                        </a>
+
+                    </CardProduct>
 
                 </ul>
 
             </div>
 
             <div className="ver-mais row justify-content-center tamanho pb-3">
-                <a href="" className="btn-ver-mais col-6 mb-3">VER MAIS</a>
+                <Button route="" class="btn-ver-mais" label="VER MAIS"/>
             </div>
         </>
     )

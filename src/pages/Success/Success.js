@@ -6,9 +6,6 @@ function Success(props) {
 
     return(
         <>
-<<<<<<< HEAD
-            <CompletedPurchase/>
-=======
               <div class="container-fluid container-principal">
 
 <div class="row linha-geral justify-content-between">
@@ -98,7 +95,6 @@ function Success(props) {
 </form>
 
 </div>
->>>>>>> 7370f4c96c36273154f056bb0254c308d5168b5e
         </>
     )
 }

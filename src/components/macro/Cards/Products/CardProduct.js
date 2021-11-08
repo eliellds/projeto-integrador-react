@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./CardProduct.css"
+import Button from "../../../micro/Button/Button"
 
 export default function CardProduct(props) {
 
@@ -26,7 +27,7 @@ export default function CardProduct(props) {
 
     return (
         <>
-            <li className="col-11 col-sm-8 col-md-5 col-lg-2 mb-4">
+            <li className="card col-11 col-sm-8 col-md-5 col-lg-2 mb-4">
 
 
                 <div className="caixa-imagem">
@@ -43,8 +44,7 @@ export default function CardProduct(props) {
                             {preco(props)}
                         </div>
 
-
-                        <a href="./produto.html" className="btn-comprar">COMPRAR</a>
+                        <Button route={`/product/${props.id}`} class="btn-comprar btn-expand" label="COMPRAR"/>
 
                     </div>
 

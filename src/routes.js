@@ -16,6 +16,7 @@ import Sales from "./pages/Sales/Sales"
 import Search from "./pages/Search/Search"
 import About from "./pages/About/About"
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword"
+import Contact from "./pages/Contact/Contact"
 
 export const Routes = () => {
     return (
@@ -35,6 +36,8 @@ export const Routes = () => {
             <Route path="/search" component={Search}/>
             <Route path="/about" component={About}/>
             <Route path="/forgotpassword" component={ForgotPassword}/>
+            <Route path="/contact" component={Contact}/>
+
             <Route component={NotFound}/>
         </Switch>
     )

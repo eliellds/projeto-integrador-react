@@ -13,7 +13,7 @@ export default function Catalog(props) {
                 <div className="col-9 linha-divisoria "></div>
             </div>
 
-            <form action="" className="row justify-content-md-end justify-content-center mb-3">
+            <form action="" className="form-filter row justify-content-md-end justify-content-center mb-3">
                 <label for="filtro" className="col-md-2 p-0 m-0  col-8">Ordenar por: </label>
                 <select name="filtro" className="col-md-2 col-8" id="filtro">
                     <option value="default">Selecione o filtro</option>

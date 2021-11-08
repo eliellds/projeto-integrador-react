@@ -1,12 +1,13 @@
 import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Title from "../../components/micro/Title/Title";
 
 function About(props) {
     return (
         <>
-            <h1>Sobre</h1>
-
             <main className="container-fluid mb-4 py-2 pb-3">
+
+                <Title className="title" title={<h1>Sobre</h1>}></Title>
 
                 <h2 className="pt-2" id="historia">História</h2>
 
@@ -18,12 +19,12 @@ function About(props) {
 
                 <p>Encontre no Antiquário Velho Luxo, peças únicas, às quais acrescentarão charme e elegância na sua decoração.</p>
 
-                <h2 className="pt-2"id="missao">Missão</h2>
+                <h2 className="pt-2" id="missao">Missão</h2>
                 <p>Ter o maior acervo de peças no cenário  nacional para atender os apreciadores de artes, antiguidades e afins.</p>
 
-                <h2 className="pt-2"id="visao">Visão</h2>
+                <h2 className="pt-2" id="visao">Visão</h2>
                 <p>Ser um antiquário de referência com reconhecimento nacional.</p>
-                
+
             </main>
 
         </>

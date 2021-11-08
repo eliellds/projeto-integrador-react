@@ -7,11 +7,14 @@ function FormRegister(props) {
         <>
             <div className="row justify-content-center">
                 <div className="row custom-form">
-                    <div className="nome col-12 col-md-6">
+                    <div className="nome col-12 col-md-4">
                         <Input label="Nome" type="text" type="text" id="nome" className="form-input col-12" placeholder="Ex.: Francisca" />
                     </div>
-                    <div className="sobrenome col-12 col-md-6">
+                    <div className="sobrenome col-12 col-md-5">
                         <Input label="Sobrenome" type="text" id="sobrenome" className="form-input col-12" placeholder="Ex.: dos Santos" />
+                    </div>
+                    <div className="nascimento col-12 col-md-3">
+                        <Input label="Data Nascimento" type="date" id="nascimento" className="form-input col-12"/>
                     </div>
                 </div>
 

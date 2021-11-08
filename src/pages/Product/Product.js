@@ -2,7 +2,7 @@ import React from 'react'
 import './Product.css'
 import caixaRegistradora from '../../../src/assets/images/produto/caixaRegistradora.png'
 import lupa from '../../../src/assets/images/produto/lupa.png'
-
+import Button from '../../components/micro/Button/Button'
 
 function Product(props) {
 
@@ -44,7 +44,7 @@ function Product(props) {
                     </div>
                     <div className="row my-3">
                         <div className="container d-flex flex-column">
-                            <a href="./carrinho.html" className="btn-carrinho text-uppercase">Adicionar ao Carrinho</a>
+                            <Button route= "/cart" class="btn-carrinho text-uppercase" label= "Adicionar ao Carrinho"/>
                             <h5 className="frete mt-3 mb-0 col-12">Consultar prazo e valor do frete</h5>
 
 
@@ -62,7 +62,7 @@ function Product(props) {
                             </form>
                             <form className="form-cep align-self-end d-flex align-items-end col-12">
                                 <div className="pesquisa-btn mx-0 col-7 col-sm-5 col-md-7">
-                             <a href="./carrinho.html" className="btn-carrinho text-uppercase ">Comprar</a>
+                             <Button route= "/" class="btn-carrinho text-uppercase" label= "Comprar"/>
                                 </div>   
                             </form>
                         </div>

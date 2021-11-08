@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-bootstrap'
 import "./FormForgotPassword.css"
 import Input from "../../../micro/Forms/Input/Input";
 import FormDefault from "../FormDefault/FormDefault";
@@ -23,7 +24,9 @@ function FormForgotPassword(props) {
 
                     </div>
 
-                    <ModalComp/>
+                    <ModalComp 
+                        msg={<p>Mensagem Enviada!</p>} info={<p>Seu pedido de recuperção de senha foi recebido.</p>} info1={ <p>Confira seu e-mail e cheque sua caixa de spam. Qualquer dúvida, entre em contato.</p>} info2={<p>Obrigado!</p>}>
+                    </ModalComp>        
 
                 </FormDefault>
 

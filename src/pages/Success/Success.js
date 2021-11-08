@@ -2,21 +2,28 @@ import React from 'react'
 import './Success.css'
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import CompletedPurchase from '../../components/macro/completedPurchase/CompletedPurchase'
 =======
 import SuccessPage from '../../components/macro/SuccessPage/SuccessPage'
 >>>>>>> 1a6ac873830ade77fb39460b7b057558b6e78aa6
 =======
-import SuccessPage from '../../components/macro/SuccessPage/SuccessPage'
 =======
+>>>>>>> 2da0a141fcdf42d2e8dd808c3ddabed4b5371528
+import SuccessPage from '../../components/macro/SuccessPage/SuccessPage'
 import CompletedPurchase from '../../components/macro/completedPurchase/CompletedPurchase'
+<<<<<<< HEAD
 >>>>>>> 9622ccea7cc439c443de91d19eb665ed01a10c6a
 >>>>>>> 608b1d2128ef6345c201a85354678e64f62b3449
+=======
+
+>>>>>>> 2da0a141fcdf42d2e8dd808c3ddabed4b5371528
 
 function Success(props) {
 
     return (
         <>
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -122,6 +129,9 @@ function Success(props) {
             <CompletedPurchase/>
 >>>>>>> 9622ccea7cc439c443de91d19eb665ed01a10c6a
 >>>>>>> 608b1d2128ef6345c201a85354678e64f62b3449
+=======
+            <SuccessPage numPedido={999999} valorTotal="R$ 9999,99" prazo="01/01/2025"/>
+>>>>>>> 2da0a141fcdf42d2e8dd808c3ddabed4b5371528
         </>
     )
 }

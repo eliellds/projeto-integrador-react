@@ -10,7 +10,7 @@ function FormUser(props) {
         <>
             <FormDefault title="Meus Dados">
 
-                <div class="row forms-block ">
+                <div class="row forms-block">
 
                     <div class="row custom-form d-flex justify-content-center">
                         <div class=" col-12 col-md-5">
@@ -50,8 +50,8 @@ function FormUser(props) {
                     </div>
                 </div>
 
-                <div class="row justify-content-center pt-3">
-                    <Button label="Alterar" onclick="null" class="btn-confirmacao" />
+                <div class="row justify-content-center">
+                    <Button label="Alterar" onclick="null" class="btn-confirmacao" navigation route="./cadastro" />
                 </div>
 
             </FormDefault>

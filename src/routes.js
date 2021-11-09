@@ -17,6 +17,9 @@ import Search from "./pages/Search/Search"
 import About from "./pages/About/About"
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword"
 import Contact from "./pages/Contact/Contact"
+import Address from "./components/macro/Forms/Address/AddressForm"
+import FormUser from "./components/macro/Forms/FormUser/FormUser"
+import MeusPedidos from "./components/macro/MeusPedidos/MeusPedidos"
 
 export const Routes = () => {
     return (
@@ -37,6 +40,10 @@ export const Routes = () => {
             <Route path="/about" component={About}/>
             <Route path="/forgotpassword" component={ForgotPassword}/>
             <Route path="/contact" component={Contact}/>
+            <Route path="/addressform" component={Address}/>
+            <Route path="/formuser" component={FormUser}/>
+            <Route path="/myorder" component={MeusPedidos}/>
+            
 
             <Route component={NotFound}/>
         </Switch>

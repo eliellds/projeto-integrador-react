@@ -1,11 +1,14 @@
 import React from 'react'
 import './NotFound.css'
+import errorImage from "../../assets/images/notFound/errorImage.png"
 
 function NotFound(props) {
 
     return(
         <>
-        <div>404</div>
+        <div>
+            <img src={errorImage} alt="404ERRORNOTFOUND"/>
+        </div>
         </>
     )
 }

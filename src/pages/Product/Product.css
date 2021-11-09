@@ -1,91 +1,57 @@
-.container-fluid{
+.container-fluid-section{
     background-color: #F6F3EF;
-}
+} 
 
-.titulo {
+.h1-section {
     color: #BC4C2A;
-    font-size: 35px;
+    font-size: 28px;
     font-family: 'Baskervville', serif;
-    align-self: flex-end;
+    text-align: center;
     margin: 0;
-    
+    padding: 8px;
 }
 
-.logo {
-    height: 70px;
+.imagem-caixa-registradora {
+    display: flex;
+    justify-content: center;
+    background-color: #F6F3EF;
+    margin: 0;
+}
+
+.Caixa-Registradora {
+    height: 100%;
     width: auto;
-    margin: 10px 0 0 40px;
+    border:  2px solid #BC4C2A;
 }
 
-.logo-2 {
-    display: none;
-    height: 50px;
-    width: auto;
-    margin: 10px 0 0 40px;
+.valor {
+    font-family: 'Times New Roman', Times, serif;
+    color:#BC4C2A;
+    font-weight: bold;
+    padding-top: 30px;
 }
 
-
-.antiquario {
+.formas-pagamento {
     font-family: 'Baskervville', serif;
     font-size: 18px;
-}
-
-.perfil-link {
-    padding: 0;
-    font-family: 'Baskervville', serif; 
-    font-size: 16px;
-    align-self: flex-end;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-}
-
-.perfil-link a {
-    display: flex;
-}
-
-.perfil-link b {
-    margin-right: 5px;
-    font-weight: normal;
-}
-
-.perfil-link a::after {
-    content: "";
-    height: 20px;
-    width: 20px;
-    background-repeat: no-repeat;
-    background-size: 20px;
-    background-image: url('../../assets/images/headers/user.png');
-    align-self: center;
-    margin-right: -20px;
-}
-
-.login {
-    padding: 0;
-    font-family: 'Baskervville', serif; 
-    font-size: 16px;
-    align-self: flex-end;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-}
-
-.login a, .perfil-link a {
-    color: black;
     text-decoration: none;
-    padding: 5px;
-}
-.sacola {
-    height: 30px;
-    width: auto;
+    color: black;
 }
 
-.button-sacola{
-    align-self: flex-end;
-    padding: 5px;
+.formas-pagamento em {
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: bold;
+    font-style: normal;
 }
 
-.pesquisa {
+.frete {
+    font-family: 'Baskervville', serif;
+    font-size: 15px;
+    text-decoration: none;
+    color: black;
+}
+
+.cep {
     width: 100%;
     height: 35px;
     margin: 0;
@@ -94,13 +60,17 @@
     padding: 10px;
 }
 
-.form-pesquisa {
-    display: flex;
-    align-content: flex-end;
-    align-self: flex-end;
+.form-cep {
+    display:inline-block;
+    align-items:center;
+    align-self:center;
 }
 
-.button-submit {
+.form-cep :focus {
+    outline: none; 
+}
+
+.button-submit-cep {
     display: flex;
     border: none;
     background-color: white;
@@ -110,109 +80,71 @@
     border-bottom: #BC4C2A solid 2px;
     justify-content: center;
     align-items: center;
+    align-self: flex-end;
 }
-
 .pesquisa-btn {
     display: flex;
     padding: 0;
     align-self: flex-end;
-    margin-top: 20px;
 }
 
-.lupa {
-    height: 17px;
-    width: auto;
+.container-fluid-informações {
+    background-color: #fff;
 }
 
-.hamburguer {
-    display: flex;
-    align-items: flex-end;
-    align-self: flex-end;
-    padding: 0 0 0 30px;
-}
-.menu-hamburguer {
-    height: 30px;
-    width: auto;
-    align-self: flex-end;
-    display: flex;
-    margin-left: 10px;
-}
-
-#menu ul {
-    background-color:#F6F3EF;
-    list-style:none;
-    display: flex;
-    flex-direction: row;
-    padding: 0;
-    margin: 0;
-}
-
-#menu ul li { 
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-}
-
-#menu ul li a {
-    display: flex;
-    flex-direction: row;
-    background-color:#F6F3EF;
-    color: black;
-    font-weight: 600;
-    text-decoration: none;
-    border-bottom:2px solid #F6F3EF;
+.h1-informações {
+    color: #BC4C2A;
+    font-size: 28px;
     font-family: 'Baskervville', serif;
-    font-size: 18px;
-    width: 100px;
-    padding: 10px 100px;
-    justify-content: center;
+    text-align: center;
+    margin: 0;
+    padding: 8px;  
 }
 
-#menu ul li a:hover {
-    border-bottom:2px solid #BC4C2A;
+.h1-informações-texto {
+    font-size: 20px;
+    font-family: 'Baskervville', serif;
+    text-align: center;
+    padding-top: 8px;
 }
 
-.pesquisa:focus {
-    outline: none;
+.container-fluid-caracteristicas {
+    background-color: #fff;
 }
 
-@media (max-width:800px) {
-    #menu ul li a {
-        padding: 10px 80px;
-    }
+.h1-caracteristicas {
+    color: #BC4C2A;
+    font-size: 28px;
+    font-family: 'Baskervville', serif;
+    text-align: center;
+    margin: 0;
+    padding: 8px; 
 }
 
-@media (max-width: 750px) {
-    .perfil-link a::after {
-        display: none;
-    }
+.h1-caracteristicas-texto {
+    font-size: 20px;
+    font-family: 'Baskervville', serif;
+    text-align: center;
+    padding-top: 8px;
 }
 
-@media (max-width:645px) {
-    #menu ul li a {
-        padding: 10px 60px;
-    }
+.container-fluid-pagamento{
+    background-color: #fff;
+
 }
 
-@media (max-width:576px) {
-    .pesquisa-btn {
-        margin-bottom: 15px;
-    }
-
-    .titulo {
-        justify-content: center;
-        display: flex;
-    }
+.h1-pagamento {
+    color: #BC4C2A;
+    font-size: 28px;
+    font-family: 'Baskervville', serif;
+    text-align: center;
+    margin: 0;
+    padding: 8px;  
 }
 
-@media (max-width: 420px) {
-
-    .logo {
-        display: none;
-    }
-
-    .logo-2 {
-        display: block;
-    }
-
+.h1-pagamento-texto {
+    font-size: 22px;
+    font-family: 'Baskervville', serif;
+    text-align: center;
+    padding-top: 8px;
 }

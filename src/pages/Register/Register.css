@@ -1,0 +1,10 @@
+.container-form {
+    background-color: #F6F3EF;
+    padding-bottom: 30px !important;
+    margin-bottom: 30px;
+}
+
+.custom-container {
+    border-bottom: 1px solid #666666;
+    margin: 0 0 10px 0;
+}

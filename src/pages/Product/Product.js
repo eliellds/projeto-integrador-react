@@ -2,6 +2,7 @@ import React from 'react'
 import './Product.css'
 import caixaRegistradora from '../../../src/assets/images/produto/caixaRegistradora.png'
 import lupa from '../../../src/assets/images/produto/lupa.png'
+import Button from '../../components/micro/Button/Button'
 
 
 function Product(props) {
@@ -28,10 +29,8 @@ function Product(props) {
                         </div>
                     </div>
                     <div className="row formas-pagamento justify-content-center">
-                    
-                        <label for="forma-pagamento" className="form-label px-3">Formas de Pagamento</label>
                         <select className="form-input col-11 ">
-                            <option id="forma-pagamento" selected>Selecione a forma de pagamento</option>
+                            <option id="forma-pagamento" selected>Consultar formas de pagamento</option>
                             <option value="boleto">2.394,00 - Boleto à vista</option>
                             <option value="debito">2.500,00 - Débito à vista</option>
                             <option value="credito">2.520,00 - Crédito à vista</option>
@@ -40,31 +39,24 @@ function Product(props) {
                             <option value="5x">5x sem juros - 504,00 (total = 2.520,00) </option>
                             <option value="2x">2x sem juros - 1.260,00 (total = 2.520,00)</option>
                         </select>
-
                     </div>
                     <div className="row my-3">
                         <div className="container d-flex flex-column">
-                            <a href="./carrinho.html" className="btn-carrinho text-uppercase">Adicionar ao Carrinho</a>
-                            <h5 className="frete mt-3 mb-0 col-12">Consultar prazo e valor do frete</h5>
-                            <form className="form-cep align-self-end d-flex align-items-end col-12">
-                                <div className="pesquisa-btn mx-0 col-7 col-sm-5 col-md-7">
-
-                             <a href="./carrinho.html" className="btn-carrinho text-uppercase ">Comprar</a>
-                                </div>
-                                
-                            </form>
-
+                            <h5 className="frete mt-3 mb-0 col-12">Consultar prazo e valor do frete:</h5> 
                             <form className="form-cep align-self-end col-12">
-                                <h5 className="frete mt-3 col-12">Consultar o frete: </h5>
                                 <div className="pesquisa-btn mb-3 mx-0 col-7 col-sm-5 col-md-7">
-
                                     <input type="text" className="cep" placeholder="Digite o seu CEP"/>
-                                </div>
-
-                                <div className="cep-btn mx-0 col-1">
+                                    <div className="cep-btn mx-0 col-1">
                                     <button className="button-submit-cep" type="submit">
                                         <img className="lupa" src={lupa}/>
                                     </button>
+                                </div>
+                                </div>  
+                            </form>
+
+                            <form className="form-cep d-flex col-12 flex-column justify-content-space-around">
+                                <div className="pesquisa-btn mx-3 col-7 col-sm-5 col-md-7">
+                             <Button label="Comprar" onclick="null" class="btn-comprar" navigation route="/cart"/>
                                 </div>
                             </form>
                         </div>

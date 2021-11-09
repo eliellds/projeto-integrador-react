@@ -1,0 +1,12 @@
+.titulo{
+    background-color: #fff;
+}
+.forma-pagamento{
+    text-decoration: none;
+}
+.boleto{
+    opacity: 30%;
+}
+.cartao{
+    cursor:default;
+}

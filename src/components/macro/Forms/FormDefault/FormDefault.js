@@ -1,16 +1,16 @@
 import React from 'react'
 import './FormDefault.css'
-import Input from '../../../micro/Forms/Input/Input'
+
 function FormDefault(props) {
 
     return(
         <>
-        <div className="container-form">
-            <h2>{props.title}</h2>
-            <form className="form">
-                {props.children}
-            </form>
-        </div>
+            <div classNameName="container-form" className={props.class}>
+                <h1 className="custom-title">{props.title}</h1>
+                <form classNameName="form-input">
+                    {props.children}
+                </form>
+            </div>
         </>
     )
 }

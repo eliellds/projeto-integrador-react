@@ -1,24 +1,21 @@
 import React from 'react'
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './Register.css'
 import FormDefault from '../../components/macro/Forms/FormDefault/FormDefault'
-import Input from '../../components/micro/Forms/Input/Input'
-import Button from '../../components/micro/Button/Button'
+import FormRegister from '../../components/macro/Forms/FormRegister.js/FormRegister';
 
 function Register(props) {
 
-    return(
+    return (
         <>
-            <FormDefault title="Faça seu Cadastro">
-            <Input label="Nome" type="text"/>
-            <Input label="Sobrenome" type="text"/>
-            <Input label="E-mail" type="text"/>
-            <Input label="Endereço" type="text"/>
-            <Input label="Telefone" type="tel"/>
-            <Input label="Senha" type="password"/>
-            <Input label="Confirmar Senha" type="password"/>
-            <Button label="Voltar" navigation route="login" class="apoio"/>
-            <Button label="Cadastrar" onclick="null" class="conversao"/>
-        </FormDefault>
+            <section className="container-fluid px-sm-5 py-3 custom-container">
+                
+                <FormDefault title="Faça seu Cadastro" action="./login.html" className="custom-form-box mx-3 mx-sm-1 mx-lg-4 px-5 px-sm-1 px-lg-4">
+                
+                    <FormRegister/>
+
+                </FormDefault>
+            </section>
         </>
     )
 }

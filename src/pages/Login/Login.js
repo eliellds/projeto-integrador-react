@@ -1,22 +1,21 @@
 import React from 'react'
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './Login.css'
 import FormDefault from '../../components/macro/Forms/FormDefault/FormDefault'
-import Input from '../../components/micro/Forms/Input/Input'
-import Button from '../../components/micro/Button/Button'
+import FormLogin from '../../components/macro/Forms/FormLogin/FormLogin';
 
 function Login(props) {
 
     return(
         <>
-        <FormDefault title="Faça seu Login">
-            <Input label="E-mail" type="text"/>
-            <Input label="Senha" type="password"/>
-            <Button label="Fazer Login" onclick="null" class="conversao"/>
-            <Button label="Cadastrar" onclick="null" class="conversao" navigation route="register"/>
-            <Button label="Esqueci minha senha" onclick="null" class="apoio"/>
-        </FormDefault>
+            <main className="conatiner-fluid custom-container-login py-4">
+                <FormDefault title="Faça seu Login" action="./carrinho-2.html" className="custom-form-box mx-3 mx-sm-1 mx-lg-4 px-5 px-sm-1 px-lg-4">
+
+                   <FormLogin/>
+
+                </FormDefault>
+            </main>
         </>
     )
 }
-
 export default Login

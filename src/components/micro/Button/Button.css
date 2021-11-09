@@ -1,25 +1,149 @@
 .btn-custom-default {
-    font-weight: bold;
-    padding: 10px 20px;
-    margin-top:10px;
-    margin-right: 10px;
-    text-transform: uppercase;
-    border:none;
+    font-family: Baskervville;
+    text-align: center;
+    padding: 10px;
+    max-width: 150px;
+    font-size: 20px;
     text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    box-shadow: #00000036 0 2px 4px 2px;
+    transition: 0.3s;
+    text-transform: uppercase;
     display: inline-block
 }
 
 .btn-custom-default:hover {
     opacity: 0.8;
-    color: #fff
+    box-shadow: #00000062 0 2px 4px 2px;
 }
 
-.conversao {
-    background-color: green;
+.btn-comprar {
+    background-color: #3f79cf;
     color: #fff;
 }
 
-.apoio {
-    background-color: #333;
+.btn-comprar:hover {
+    color: #fff;
+    background-color: #5a90e0;
+}
+
+.btn-confirmacao {
+    background-color: #BC4C2A;
+    color: #fff;  
+}
+
+.btn-confirmacao:hover {
+    color: #fff;
+    background-color: #d47c61;
+    
+}
+
+.btn-retorno {
+    background-color: #a3a3a3;
     color: #fff;
 }
+
+.btn-retorno:hover {
+    color: #fff;
+    background-color: #bebebe;
+}
+
+.btn-categoria {
+    background-color: #fff;
+    border: 2px solid #BC4C2A;
+    padding: 0 15px;
+    text-transform: uppercase;
+    transition: 0.3s;
+}
+
+.btn-categoria:hover {
+    background-color: #BC4C2A;
+    color: #fff;
+} 
+
+.btn-categoria a {
+    color: #000;
+    text-decoration: none;
+}
+
+.btn-categoria a:hover {
+    color: #fff;
+    text-decoration: none;
+}
+
+/* 
+@media (max-width: 420px) {
+    .custom-form-box {
+        padding: 0 10px !important;
+        margin: 0 !important;
+    }
+}
+
+@media (max-width: 450px) {
+    .btn-confirmacao {
+        padding: 8px;
+        width: 120px;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 450px) {
+
+    .btn-retorno {
+        padding: 8px;
+        width: 120px;
+        font-size: 16px;
+    }
+
+    .btn-confirmacao {
+        padding: 8px;
+        width: 120px;
+        font-size: 16px;
+    }
+
+    .btn-finalizar {
+        width: 180px !important;
+    }
+
+    .retorno-resumo {
+        padding: 8px 0 !important;
+        width: 90px;
+    }
+    
+} */
+
+/* 
+@media (max-width: 420px) {
+
+    .custom-form-box {
+        padding: 0 10px !important;
+        margin: 0 !important;
+    }
+
+}
+
+@media (max-width: 450px) {
+
+    .btn-retorno {
+        padding: 8px;
+        width: 120px;
+        font-size: 16px;
+    }
+
+    .btn-confirmacao {
+        padding: 8px;
+        width: 120px;
+        font-size: 16px;
+    }
+
+    .btn-finalizar {
+        width: 180px !important;
+    }
+
+    .retorno-resumo {
+        padding: 8px 0 !important;
+        width: 90px;
+    }
+    
+} */

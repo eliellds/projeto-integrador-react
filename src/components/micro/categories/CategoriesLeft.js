@@ -1,5 +1,6 @@
 import React from "react";
 import './Category.css'
+import Button from "../Button/Button"
 // import Quarto from "../../../assets/images/category/quarto.jpg"
 
 function CategoryLeft(props) {
@@ -17,7 +18,7 @@ function CategoryLeft(props) {
 
                     <div className="col-md-5 col-12 custom-section-item py-md-5 dois">
 
-                        <a href="/catalog"><button className="px-4">{props.category}</button></a>
+                        <Button label="Quarto" onclick="null" class="btn-categoria" navigation route="./cadastro" />
                         <h6>{props.description}</h6>
 
                     </div>

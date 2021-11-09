@@ -189,8 +189,8 @@
     border-bottom:2px solid #F6F3EF;
     font-family: 'Baskervville', serif;
     font-size: 18px;
-    width: 100px;
-    padding: 10px 100px;
+    width: 95px;
+    padding: 10px 95px;
     justify-content: center;
 }
 
@@ -204,13 +204,7 @@
 
 @media (max-width:800px) {
     #menu ul li a {
-        padding: 10px 80px;
-    }
-}
-
-@media (max-width: 750px) {
-    .perfil-link a::after {
-        display: none;
+        padding: 10px 75px;
     }
 }
 

@@ -22,23 +22,10 @@ function Home(props) {
             <h2 className="home-titles">Promoções</h2>
 
             {/* <!-- Inicio lista cards produtos promocoes--> */}
-            {/* <div className="container container-cards"> */}
+
                
             <ListProducts/>
-                {/* <ListProduct>
-                <img src={Imagem}/>
-                </ListProduct>
-                <ListProduct><img src={Imagem}/></ListProduct>
-                <ListProduct><img src={Imagem}/></ListProduct>
-                <ListProduct><img src={Imagem}/></ListProduct>
-                <ListProduct><img src={Imagem}/></ListProduct> */}
-                {/* <ListProduct><img src={Imagem}/></ListProduct> */}
-
-      
-             
-             
-
-            {/* </div> */}
+     
             {/* <!-- Fim lista cards produtos promocoes --> */}
 
 

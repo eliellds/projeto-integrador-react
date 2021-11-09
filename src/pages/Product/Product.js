@@ -10,7 +10,6 @@ function Product(props) {
     return(
         <>
         <h1 className="h1-section">Caixa Registradora (1932)</h1>
-
 <section className="mb-4">
     <div className="container-fluid container-fluid-section">
 
@@ -22,7 +21,7 @@ function Product(props) {
                     </div>
                 </div>
                 <div
-                    className="container Valores px-0 px-md-3 px-lg-0 col-12 col-md-5 col-lg-4 d-flex flex-column justify-content-between">
+                    className="container Valores px-0 px-md-3 px-lg-0 mb-5 col-12 col-md-5 col-lg-4 d-flex flex-column justify-content-between">
                     <div className="row ">
                         <div className="container">
                             <h4 className="valor text-center">R$2.520,00</h4>
@@ -44,7 +43,7 @@ function Product(props) {
                         <div className="container d-flex flex-column">
                             <h5 className="frete mt-3 mb-0 col-12">Consultar prazo e valor do frete:</h5> 
                             <form className="form-cep align-self-end col-12">
-                                <div className="pesquisa-btn mb-3 mx-0 col-7 col-sm-5 col-md-7">
+                                <div className="pesquisa-btn mx-0 col-7 col-sm-12 col-md-12">
                                     <input type="text" className="cep" placeholder="Digite o seu CEP"/>
                                     <div className="cep-btn mx-0 col-1">
                                     <button className="button-submit-cep" type="submit">
@@ -55,7 +54,7 @@ function Product(props) {
                             </form>
 
                             <form className="form-cep d-flex col-12 flex-column justify-content-space-around">
-                                <div className="pesquisa-btn mx-3 col-7 col-sm-5 col-md-7">
+                                <div className="pesquisa-btn mx-3 col-3 col-sm-7 col-md-7">
                              <Button label="Comprar" onclick="null" class="btn-comprar" navigation route="/cart"/>
                                 </div>
                             </form>

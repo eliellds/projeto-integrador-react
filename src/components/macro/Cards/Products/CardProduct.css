@@ -9,7 +9,7 @@
     border-radius: 5px;
     box-shadow: #0000003f 0 3px 7px 2px;
     transition: 0.3s;
-    min-width: 180px !important;
+    min-width: 200px !important;
     max-width: 290px;
     margin: 30px 15px !important;
 }

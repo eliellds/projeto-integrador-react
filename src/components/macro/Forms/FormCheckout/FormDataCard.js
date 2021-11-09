@@ -27,25 +27,30 @@ function FormDataCard(props) {
                             <Input label="Nome do Titular" className="form-input col-12 form-label" type="text" name="name" placeholder="Nome como está no cartão" />
                         </div>
 
+                        <div class=" col-6 col-md-4">
+                            <Input label="CPF-Titular" className="form-input col-12 form-label" type="text" name="CPF" placeholder="999-999-999-99" />
+                        </div>
+
+                        <div class=" col-6 col-md-3">
+                            <Input label="Data Nascimento Titular" className="form-input col-12 form-label" type="date" name="birthDate" placeholder="Ex.: Dia/Mês/Ano." />
+                        </div>
+
                         <div class=" col-12 col-md-5">
                             <Input label="Numero do Cartão" className="form-input col-12 form-label" type="text" name="cardNumber" placeholder="Ex.: 0000 1111 2222 3333." />
                         </div>
 
-                        <div class=" col-6 col-md-2">
+                        <div class=" col-6 col-md-3">
                             <Input label="CVV" className="form-input col-12 form-label" type="text" name="cvv" placeholder="Ex.: 000." />
                         </div>
 
-                        <div class=" col-6 col-md-4">
-                            <Input label="Data de Vencimento" className="form-input col-12 form-label" type="date" name="date" placeholder="Ex.: Dia/Mês/Ano." />
+                        <div class=" col-6 col-md-2">
+                            <Input label="Mês de vencimento" className="form-input col-12 form-label" type="text" name="dia" placeholder="mm" />
                         </div>
 
-                        <div class=" col-6 col-md-4">
-                            <Input label="Data Nascimento Titular" className="form-input col-12 form-label" type="date" name="birthDate" placeholder="Ex.: Dia/Mês/Ano." />
+                        <div class=" col-6 col-md-2">
+                            <Input label="Ano de vencimento" className="form-input col-12 form-label" type="text" name="mes" placeholder="aaaa" />
                         </div>
 
-                        <div class=" col-6 col-md-4">
-                            <Input label="CPF-Titular" className="form-input col-12 form-label" type="text" name="CPF" placeholder="999-999-999-99" />
-                        </div>
                     </div>
                 </div>
 

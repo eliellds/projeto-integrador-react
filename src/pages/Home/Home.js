@@ -1,11 +1,19 @@
-import React from 'react'
+import React, { useState, useEffect} from 'react'
 import './Home.css'
+import ListProducts from '../../components/macro/listProducts/ListProducts'
 import Banners from '../../components/macro/Banners/Banner'
 import ListProduct from '../../components/macro/Cards/Products/CardProduct'
 import Imagem from '../../assets/images/products/BandeijaTurca.webp'
 import Loucas from "../../assets/images/products/loucasPortuguesas.jpg"
 import Caixa from "../../assets/images/products/caixaRegistradora.png"
+import { CarouselProvider, Slider, Slide } from 'pure-react-carousel';
+import 'pure-react-carousel/dist/react-carousel.es.css';
 function Home(props) {
+
+    
+
+ 
+
 
     return (
         <>
@@ -14,25 +22,10 @@ function Home(props) {
             <h2 className="home-titles">Promoções</h2>
 
             {/* <!-- Inicio lista cards produtos promocoes--> */}
-            <div className="container container-cards">
-                <ul className="row justify-content-md-between justify-content-sm-center "> 
-                
-                <ListProduct>
-                <img src={Imagem}/>
-                </ListProduct>
-                <ListProduct><img src={Imagem}/></ListProduct>
-                <ListProduct><img src={Imagem}/></ListProduct>
-                <ListProduct><img src={Imagem}/></ListProduct>
-                <ListProduct><img src={Imagem}/></ListProduct>
-                {/* <ListProduct><img src={Imagem}/></ListProduct> */}
 
-      
-                </ul>
-
-             
-             
-
-            </div>
+               
+            <ListProducts/>
+     
             {/* <!-- Fim lista cards produtos promocoes --> */}
 
 
@@ -82,17 +75,8 @@ function Home(props) {
 
             {/* <!-- Inicio lista cards produtos novidades --> */}
             <div className="container container-cards">
-
-                <ul className="row row justify-content-md-between justify-content-sm-center mb-5">
-
-                <ListProduct>
-                <img src={Imagem}/>
-                </ListProduct>
-                <ListProduct><img src={Imagem}/></ListProduct>
-                <ListProduct><img src={Imagem}/></ListProduct>
-                <ListProduct><img src={Imagem}/></ListProduct>
-                <ListProduct><img src={Imagem}/></ListProduct>
-                </ul>
+                <ListProducts/>
+          
 
             </div>
         </>

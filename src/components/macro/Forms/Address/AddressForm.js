@@ -76,7 +76,7 @@ function Address(props) {
                     </div>
                 </div>
 
-                <div class="row justify-content-center pt-3">
+                <div class="row justify-content-center pt-5">
                     <Button label="Alterar" onclick="null" class="btn-confirmacao" />
                 </div>
 

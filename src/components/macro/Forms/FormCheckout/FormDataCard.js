@@ -11,7 +11,7 @@ function FormDataCard(props) {
     const [displayNoneC, setDisplayNoneC] = useState("")
     const [buttons, setButtons] = useState(
         <>
-            <Button function={nothing} class="col-4 cartao forma-pagamento selected-button" label={<H2 h2="Cartão"/>}></Button>
+            <Button function={nothing} class="col-4 cartao forma-pagamento selected-button" label={<H2 h2="Cartão" />}></Button>
             <Button function={changeComponent} class="col-4 forma-pagamento boleto disabled-button" label={<H2 h2="Boleto" />}></Button>
         </>
     )
@@ -45,7 +45,7 @@ function FormDataCard(props) {
             setDisplayNoneB("d-none")
             setDisplayNoneC("")
             console.log("noneC")
-            console.log("change")
+            console.log(change)
         } else {
             setButtons(
                 <>
@@ -57,7 +57,7 @@ function FormDataCard(props) {
             setDisplayNoneB("")
             setDisplayNoneC("d-none")
             console.log("noneB")
-            console.log("change")
+            console.log(change)
         }
     }
 
@@ -70,12 +70,13 @@ function FormDataCard(props) {
 
             </div>
 
-            <FormDefault title="Dados de Pagamento" className="mt-5" action="">
+            <FormDefault id="card" title="Dados de Pagamento" className="mt-5" action="/order">
 
 
                 <div className={`row pagamento justify-content-center ${displayNoneB}`}>
                     <div className="col-8 justify-content-center text-center ">
-                        Numero do boleto: 00000000000000000000000000000000000000000000000000000000000000000
+                        <input type="text" readonly className="form-control-plaintext justifi-content-center text-center" id="staticEmail"
+                            value="Número do boleto: 000000 000000 000000 000000 000000" />
                     </div>
                 </div>
 
@@ -111,11 +112,6 @@ function FormDataCard(props) {
                         </div>
 
                     </div>
-                </div>
-
-                <div className="row justify-content-around py-4">
-                    <Button label="Voltar" navigation route="/cart" class="btn-retorno" onclick="null" />
-                    <Button label="Finalizar" onclick="null" class="btn-confirmacao" type="submit" />
                 </div>
 
             </FormDefault>

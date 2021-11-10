@@ -18,7 +18,7 @@ function CategoryLeft(props) {
 
                     <div className="col-md-5 col-12 custom-section-item py-md-5 dois">
 
-                        <Button label="Quarto" onclick="null" class="btn-categoria" navigation route="./cadastro" />
+                        <Button label="Quarto" onclick="null" class="btn-categoria" navigation route="/catalog" />
                         <h6>{props.description}</h6>
 
                     </div>

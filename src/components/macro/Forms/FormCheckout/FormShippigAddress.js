@@ -4,9 +4,10 @@ import FormDefault from "../FormDefault/FormDefault"
 import Button from "../../../micro/Button/Button";
 
 function FormShippigAddress(props) {
+
     return (
         <>
-            <FormDefault title="Dados de entrega" action="" >
+            <FormDefault id="address" title="Dados de entrega" action="/order">
 
                 <div class="row  justify-content-center">
 
@@ -54,12 +55,6 @@ function FormShippigAddress(props) {
                     </div>
 
                 </div>
-
-                <div class="row  justify-content-center mt-4">
-                    <Button label="Confirmar" onClick="null" class="btn-confirmacao" type="submit" />
-                </div>
-
-
 
             </FormDefault>
         </>

@@ -23,7 +23,7 @@ function FormLogin(props) {
                 <div className="row justify-content-center">
                     <Button label="Entrar" onclick="null" class="btn-confirmacao" type="submit" />
 
-                    <p className="mt-3 mb-1">Ainda não tem cadastro?</p>
+                    <p className="mt-3 mb-1 text-center">Ainda não tem cadastro?</p>
                     <Button label="Cadastrar" onclick="null" class="btn-confirmacao" navigation route="./cadastro" />
                 </div>
             </div>

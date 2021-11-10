@@ -1,47 +1,86 @@
-import React from "react";
+import React, { useState} from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import FormDefault from '../FormDefault/FormDefault';
 import Input from "../../../micro/Forms/Input/Input";
 import Button from "../../../micro/Button/Button";
 
 function Address(props) {
+    const [show, setShow] = useState(true);
 
+    function disableForm() {
+        setShow(true);
+        changeButton()
+    }
+
+    function ableForm() {
+        setShow(false);
+        changeButton()
+    }
+
+    function click(e) {
+        e.preventDefault();
+    }
+
+    const [buttons, setButtons] = useState(
+        <>
+            <Button function={ableForm} label="Alterar" class="btn-confirmacao" />
+        </>
+    )
+    let change = false
+
+    function changeButton() {
+        if (change == false) {
+            setButtons(
+                <>
+                    <Button function={ableForm} label="Alterar" class="btn-confirmacao" />
+                </>
+            )
+            change=true
+        } else {
+            setButtons(
+                <>
+                    <Button function={disableForm} label="Salvar" class="btn-confirmacao" />
+                </>
+            )
+            change=false
+        }
+    }
     return (
         <>
-            <FormDefault title="Endereços" class="container custom-form-box mx-3 mx-sm-1 mx-lg-4 px-5 px-sm-1 px-lg-4">
+            <FormDefault click={click} title="Endereços" class="container custom-form-box mx-3 mx-sm-1 mx-lg-4 px-5 px-sm-1 px-lg-4">
 
                 <div class="row custom-form d-flex justify-content-center">
                     <div class=" col-12 col-md-5">
-                        <Input label="rua" type="text" id="rua" class="form-input col-12" placeholder="Digite a rua como número..." />
+                        <Input disabled={show} label="rua" type="text" id="rua" class="form-input col-12" placeholder="Digite a rua como número..." />
                     </div>
                     
                     <div class=" col-12 col-md-2">
-                        <Input label="Número" type="text" id="rua" class="form-input col-12" placeholder="Digite a rua como número..." />
+                        <Input disabled={show} label="Número" type="text" id="rua" class="form-input col-12" placeholder="Digite a rua como número..." />
                     </div>
 
                     <div class="col-12 col-md-4">
-                        <Input label="Complemento" type="text" id="complemento" class="form-input col-12" placeholder="Digite o complemento..." />
+                        <Input disabled={show} label="Complemento" type="text" id="complemento" class="form-input col-12" placeholder="Digite o complemento..." />
                     </div>
                 </div>
 
                 <div class="row custom-form d-flex justify-content-center">
                     <div class="col-12 col-md-6">
-                        <Input label="bairro" type="text" id="bairro" class="form-input col-12" placeholder="Digite sua senha..." />
+                        <Input disabled={show} label="bairro" type="text" id="bairro" class="form-input col-12" placeholder="Digite sua senha..." />
                     </div>
 
                     <div class="col-12 col-md-5">
-                        <Input label="Ponto de referência" type="text" id="ponto-referencia" class="form-input col-12" placeholder="Digite um ponto de referência..." />
+                        <Input disabled={show} label="Ponto de referência" type="text" id="ponto-referencia" class="form-input col-12" placeholder="Digite um ponto de referência..." />
                     </div>
                 </div>
 
                 <div class="row custom-form d-flex justify-content-center">
                     <div class="col-12 col-md-5">
-                        <Input label="Cidade" type="text" id="cidade" class="form-input col-12" placeholder="Digite sua cidade" />
+                        <Input disabled={show} label="Cidade" type="text" id="cidade" class="form-input col-12" placeholder="Digite sua cidade" />
                     </div>
 
                     <div class="col-12 col-md-2">
-                        <label for="estado" >Estado</label>
-                        <select class="form-input col-12">
+                        <label  for="estado" >Estado</label>
+                        <select disabled={show} class="form-input col-12">
                             <option id="estado" selected>Estado</option>
                             <option value="AC" disabled="disabled">Acre</option>
                             <option value="AL" disabled="disabled">Alagoas</option>
@@ -72,12 +111,12 @@ function Address(props) {
                     </div>
 
                     <div class=" col-12 col-md-4">
-                        <Input label="CEP" type="text" id="cep" class="form-input col-12" placeholder="Digite sseu CEP..." />
+                        <Input disabled={show} label="CEP" type="text" id="cep" class="form-input col-12" placeholder="Digite sseu CEP..." />
                     </div>
                 </div>
 
                 <div class="row justify-content-center pt-5">
-                    <Button label="Alterar" onclick="null" class="btn-confirmacao" />
+                   {buttons}
                 </div>
 
             </FormDefault>

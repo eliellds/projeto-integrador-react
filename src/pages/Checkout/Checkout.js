@@ -8,6 +8,12 @@ import Button from '../../components/micro/Button/Button';
 
 function Checkout(props) {
 
+    function envio() {
+        for( var index = 0; index < document.forms.length; index++ ) {
+            document.forms[index].submit();
+        };
+    }
+
     return (
         <>
             <main class="container-fluid mb-4">
@@ -15,6 +21,11 @@ function Checkout(props) {
                 <FormShippigAddress />
 
                 <FormDataCard />
+
+                <div className="row justify-content-around py-4">
+                    <Button label="Voltar" navigation route="/cart" class="btn-retorno" onclick="null" />
+                    <Button function={envio} label="Finalizar" onclick="null" class="btn-confirmacao" type="submit" />
+                </div>
 
             </main>
         </>

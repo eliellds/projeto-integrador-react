@@ -3,6 +3,7 @@ import Input from '../../../micro/Forms/Input/Input';
 import Select from '../../../micro/Forms/Select/Select';
 import ModalComp from '../../../micro/Modal/Modal';
 import FormDefault from '../FormDefault/FormDefault';
+import "./FormContact.css"
 
 function FormContact(props){
     return<>
@@ -36,13 +37,13 @@ function FormContact(props){
 
                 <div className="row justify-content-around">
 
-                
-
                     <ModalComp
-                        msg={<p>Sua mensagem foi enviada.</p>} info={<p>Responderemos o mais breve possível. O prazo máximo é de 24h para o retonno de nossa equipe.</p>} info1={ <p>Confira seu e-mail e cheque sua caixa de spam.</p>} info2={<p>Obrigado!</p>}>
+                        msg={<p className="modal-text">Sua mensagem foi enviada.</p>}
+                        info={<p className="modal-text">Responderemos o mais breve possível. O prazo máximo é de 24h para o retorno de nossa equipe.</p>} 
+                        info1={<p className="modal-text">Confira seu e-mail e cheque sua caixa de spam.</p>} 
+                        info2={<p className="modal-text">Obrigado!</p>}>
                     </ModalComp>        
 
-            
                 </div>
 
             </FormDefault>

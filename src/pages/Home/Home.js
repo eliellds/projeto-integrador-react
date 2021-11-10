@@ -1,17 +1,17 @@
 import React, { useState, useEffect} from 'react'
 import './Home.css'
-import ListProducts from '../../components/macro/listProducts/ListProducts'
+import ListProducts from '../../components/macro/listProducts/ListProductsCarroussel'
 import Banners from '../../components/macro/Banners/Banner'
-import ListProduct from '../../components/macro/Cards/Products/CardProduct'
-import Imagem from '../../assets/images/products/BandeijaTurca.webp'
 import Loucas from "../../assets/images/products/loucasPortuguesas.jpg"
 import Caixa from "../../assets/images/products/caixaRegistradora.png"
-import { CarouselProvider, Slider, Slide } from 'pure-react-carousel';
-import 'pure-react-carousel/dist/react-carousel.es.css';
+
 function Home(props) {
-
-    
-
+  
+    function image(){   
+        var imgSrc = require("../../assets/images/products/caixaRegistradora.png");
+        console.log(imgSrc)
+        return <img src={`${imgSrc.default}`} />
+    }
  
 
 
@@ -39,7 +39,7 @@ function Home(props) {
 
                     <div className="col-md-5 col-12 custom-section-item">
 
-                        <img src={Caixa} alt="Caixa Registradora" />
+                      {image()}
 
                     </div>
 

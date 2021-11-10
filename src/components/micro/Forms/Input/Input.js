@@ -7,7 +7,7 @@ function Input(props) {
         <>
         <div className="input-container">
             <label>{props.label}:</label>
-            <input className="form-input" name={props.name} placeholder={props.placeholder} type={props.type}/>
+            <input disabled={props.disabled} className="form-input" name={props.name} placeholder={props.placeholder} type={props.type}/>
         </div>
         </>
     )

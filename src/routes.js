@@ -36,7 +36,7 @@ export const Routes = () => {
             <Route path="/product/:id" component={Product}/>
             <Route path="/register" component={Register}/>
             <Route path="/success" component={Success}/>
-            <Route path="/catalog" component={Catalog}/>
+            <Route path="/catalog/:category" component={Catalog}/>
             <Route path="/sales" component={Sales}/>
             <Route path="/search" component={Search}/>
             <Route path="/about" component={About}/>

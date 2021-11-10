@@ -1,16 +1,16 @@
 import React from "react";
 import './Catalog.css';
-import Imagens from '../../assets/images/cards/chas-schumacher-glamour.jpg';
-import CardProduct from "../../components/macro/Cards/Products/CardProduct";
+import ListProductsCatalogy from "../../components/macro/listProducts/ListProductsCatalogy";
 import Button from "../../components/micro/Button/Button";
 import Select from "../../components/micro/Forms/Select/Select";
 import H1 from "../../components/micro/Title/H1";
 
 export default function Catalog(props) {
 
-    const category = "Cozinha"
+    const category = props.match.params.category;
+    console.log(props);
 
-    const products = [
+    const products = [       
         {
             id: 1, imagem: "chas-schumacher-glamour.jpg", nome: "Vintage Máquina De Escrever Portátil Remington silencioso", ano: "1930",
             precoDe: "111,99", precoPor: "100,00", vezes: 10, parcelas: "10,00"
@@ -54,31 +54,21 @@ export default function Catalog(props) {
 
     ]
 
-    const imagesPath = '../../assets/images/cards/';
 
-    function getProducts() {
-        return products.map(function (product) {
-            return (
-                <CardProduct id={product.id} imagem={Imagens}
-                    nome={product.nome} ano={product.ano}
-                    precoDe={product.precoDe} precoPor={product.precoPor}
-                    vezes={product.vezes} parcelas={product.parcelas} />
-            )
-        })
-    }
+    
 
     const filter = [
-        { imagem: 1, subjectDescription: "Menor Valor" },
-        { imagem: 2, subjectDescription: "Maior Valor" },
-        { imagem: 3, subjectDescription: "Maior Desconto" },
-        { imagem: 4, subjectDescription: "Mais Antigo" },
-        { imagem: 5, subjectDescription: "Mais Novo" },
+        { id: 1, subjectDescription: "Menor Valor" },
+        { id: 2, subjectDescription: "Maior Valor" },
+        { id: 3, subjectDescription: "Maior Desconto" },
+        { id: 4, subjectDescription: "Mais Antigo" },
+        { id: 5, subjectDescription: "Mais Novo" },
     ]
 
     return (
         <>
             <div className="row justify-content-center mb-3 p-0 mx-0">
-                <H1 h1={category} />
+                <H1 h1={`${category}`} />
                 <div className="col-9 linha-divisoria "></div>
             </div>
 
@@ -94,7 +84,7 @@ export default function Catalog(props) {
 
               
 
-                    {getProducts()}
+                    <ListProductsCatalogy products={products}/>
 
                 
 

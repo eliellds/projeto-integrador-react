@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import './Header.css'
 import Lupa from '../../../assets/images/headers/lupa.png'
 import Sacola from '../../../assets/images/headers/sacola.png'
@@ -41,7 +42,7 @@ function Header(props) {
                         <div className="login-button-header col-2 col-sm-1">
                             <a href="/login" className="perfil-bloco">
                                 <img className="login-imagem" src={Login} />
-                                <div className="perfil-nome">Sair</div>
+                                <div className="perfil-nome">Entrar</div>
                             </a>
                         </div>
 
@@ -87,7 +88,7 @@ function Header(props) {
                     </div>
                 </div>
 
-                <DropdownMenu class="d-block d-sm-none"/>
+                <DropdownMenu class="d-block d-sm-none" />
 
             </header>
         </>

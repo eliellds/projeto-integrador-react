@@ -31,6 +31,11 @@ export default function Search(props) {
                         <CardProduct imagem={Chas} nome="Estátua antiga" />
                         <CardProduct imagem={Chas} nome="Estátua antiga" />
                         <CardProduct imagem={Chas} nome="Estátua antiga" />
+                        <CardProduct imagem={Chas} nome="Estátua antiga" />
+                        <CardProduct imagem={Chas} nome="Estátua antiga" />
+                        <CardProduct imagem={Chas} nome="Estátua antiga" />
+                        <CardProduct imagem={Chas} nome="Estátua antiga" />
+                        <CardProduct imagem={Chas} nome="Estátua antiga" />
 
 
                     </ul>

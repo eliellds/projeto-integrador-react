@@ -11,6 +11,7 @@ function ListProducts(props) {
     const products = props.products || []
     const [width, setWidth] = useState()
     const [visibleSlide, setVisibleSlide] = useState(5)
+    const prod = require("../../../assets/images/products/BandeijaTurca.webp")
 
     function windowSize() {
         var widthNow = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
@@ -59,41 +60,42 @@ function ListProducts(props) {
     function listarProdutos() {
         return (<>
          <Slide index={0}  >
-                    <div className="row justify-content-center">
-                        <ListProduct><img src={Imagem} /></ListProduct>
+             
+                    <div className="row lista-cards  tamanho  mb-3 justify-content-center">
+                    <ListProduct imagem={Imagem}></ListProduct>
                     </div>
                 </Slide>
                 <Slide index={1} >
-                    <div className="row justify-content-center">
-                        <ListProduct><img src={Imagem} /></ListProduct>
+                    <div className="row lista-cards  tamanho  mb-3 justify-content-center">
+                        <ListProduct imagem={prod.default}></ListProduct>
                     </div>                        </Slide>
                 <Slide index={2} >
-                    <div className="row justify-content-center">
-                        <ListProduct><img src={Imagem} /></ListProduct>
+                    <div className="row lista-cards  tamanho  mb-3 justify-content-center">
+                        <ListProduct imagem={Imagem}></ListProduct>
                     </div>                        </Slide>
                 <Slide index={3}>
-                    <div className="row justify-content-center">
-                        <ListProduct><img src={Imagem} /></ListProduct>
+                    <div className="row lista-cards  tamanho  mb-3 justify-content-center">
+                    <ListProduct imagem={Imagem}></ListProduct>
                     </div>                        </Slide>
                 <Slide index={4}>
-                    <div className="row justify-content-center">
-                        <ListProduct><img src={Imagem} /></ListProduct>
+                    <div className="row lista-cards  tamanho  mb-3 justify-content-center">
+                    <ListProduct imagem={Imagem}></ListProduct>
                     </div>                        </Slide>
                 <Slide index={5}>
-                    <div className="row justify-content-center">
-                        <ListProduct><img src={Imagem} /></ListProduct>
+                    <div className="row lista-cards  tamanho  mb-3 justify-content-center">
+                    <ListProduct imagem={Imagem}></ListProduct>
                     </div>                        </Slide>
                 <Slide index={6}>
-                    <div className="row justify-content-center">
-                        <ListProduct><img src={Imagem} /></ListProduct>
+                    <div className="row lista-cards  tamanho  mb-3 justify-content-center">
+                    <ListProduct imagem={Imagem}></ListProduct>
                     </div>                        </Slide>
                 <Slide index={7}>
-                    <div className="row justify-content-center">
-                        <ListProduct><img src={Imagem} /></ListProduct>
+                    <div className="row lista-cards  tamanho  mb-3 justify-content-center">
+                    <ListProduct imagem={Imagem}></ListProduct>
                     </div>                        </Slide>
                 <Slide index={8}>
-                    <div className="row justify-content-center">
-                        <ListProduct><img src={Imagem} /></ListProduct>
+                    <div className="row lista-cards  tamanho  mb-3 justify-content-center">
+                    <ListProduct imagem={Imagem}></ListProduct>
                     </div>
                 </Slide>
 

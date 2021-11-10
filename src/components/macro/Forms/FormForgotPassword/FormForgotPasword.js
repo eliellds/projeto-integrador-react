@@ -5,6 +5,7 @@ import "./FormForgotPassword.css"
 import Input from "../../../micro/Forms/Input/Input";
 import FormDefault from "../FormDefault/FormDefault";
 import ModalComp from "../../../micro/Modal/Modal";
+import { Link } from "react-router-dom";
 
 
 function FormForgotPassword(props) {
@@ -20,12 +21,15 @@ function FormForgotPassword(props) {
                         <div className=" col-12 col-md-6">
                             <Input label="E-mail" classNameName="form-input col-12 form-label" placeholder="Digite seu e-mail..." type="email" id="email" />
                         </div>
-                        <small className="text-center">Não lembra seu e-mail? <a href="./contato.html" className="recuperar">Entrar em contato</a></small>
+                        <small className="text-center">Não lembra seu e-mail? <Link to="/contact" className="recuperar">Entrar em contato</Link></small>
 
                     </div>
 
                     <ModalComp 
-                        msg={<p>Mensagem Enviada!</p>} info={<p>Seu pedido de recuperção de senha foi recebido.</p>} info1={ <p>Confira seu e-mail e cheque sua caixa de spam. Qualquer dúvida, entre em contato.</p>} info2={<p>Obrigado!</p>}>
+                        msg={<p className="modal-text">Mensagem Enviada!</p>} 
+                        info={<p className="modal-text">Seu pedido de recuperção de senha foi recebido.</p>} 
+                        info1={ <p className="modal-text">Confira seu e-mail e cheque sua caixa de spam. Qualquer dúvida, entre em contato.</p>} 
+                        info2={<p className="modal-text">Obrigado!</p>}>
                     </ModalComp>        
 
                 </FormDefault>

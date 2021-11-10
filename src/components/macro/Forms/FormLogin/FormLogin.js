@@ -1,6 +1,7 @@
 import React from "react";
 import Input from "../../../micro/Forms/Input/Input";
 import Button from "../../../micro/Button/Button"
+import { Link } from "react-router-dom";
 
 function FormLogin(props) {
     return (
@@ -17,7 +18,7 @@ function FormLogin(props) {
                     <div className="col-12 col-md-7">
                         <Input label="Senha" type="password" className="form-label form-input col-12 " id="senha" placeholder="Digite sua senha..." />
                     </div>
-                    <small className="text-center my-0 mb-2">Esqueceu a senha?<a href="./recuperar-senha.html">Recuperar</a></small>
+                    <small className="text-center my-0 mb-2">Esqueceu a senha?<Link to="/forgotpassword">Recuperar</Link></small>
                 </div>
 
                 <div className="row justify-content-center">

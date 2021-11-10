@@ -1,5 +1,4 @@
 import React from 'react'
-import './NotFound.css'
 import errorImage from "../../assets/images/notFound/errorImage.png"
 
 function NotFound(props) {

@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import FormDefault from '../FormDefault/FormDefault';
 import Input from "../../../micro/Forms/Input/Input";
 import Button from "../../../micro/Button/Button";
+import Select from "../../../micro/Forms/Select/Select";
 
 function Address(props) {
     const [show, setShow] = useState(true);
@@ -79,7 +80,8 @@ function Address(props) {
                     </div>
 
                     <div class="col-12 col-md-2">
-                        <label  for="estado" >Estado</label>
+                    <Select disabled={show} label="Estado:" default="estado"/>
+                        {/* <label  for="estado" >Estado</label>
                         <select disabled={show} class="form-input col-12">
                             <option id="estado" selected>Estado</option>
                             <option value="AC" disabled="disabled">Acre</option>
@@ -107,7 +109,7 @@ function Address(props) {
                             <option value="SE" disabled="disabled">Sergipe</option>
                             <option value="TO" disabled="disabled">Tocantins</option>
                             <option value="DF" disabled="disabled">Distrito Federal</option>
-                        </select>
+                        </select> */}
                     </div>
 
                     <div class=" col-12 col-md-4">

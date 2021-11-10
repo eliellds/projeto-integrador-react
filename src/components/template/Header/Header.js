@@ -6,6 +6,7 @@ import Menu from '../../../assets/images/headers/Menu-de-Tres-Linhas.png'
 import Logotipo from '../../micro/Logo/Logo'
 import Perfil from '../../../assets/images/headers/user.png'
 import Login from '../../../assets/images/headers/login-icone.png'
+import DropdownMenu from '../../macro/DropdownMenu/DropdownMenu'
 
 function Header(props) {
 
@@ -15,14 +16,7 @@ function Header(props) {
         <>
             <header>
                 <div className="container-fluid">
-                    <div className="row">
-
-                        <div className="hamburguer d-block d-sm-none col-2 align-content-end">
-                            <a href="#">
-                                <img className="menu-hamburguer"
-                                    src={Menu} />
-                            </a>
-                        </div>
+                    <div className="row justify-content-around">
 
                         <div className="titulo-header col-lg-3 col-md-8 col-sm-7 col-4 justify-content-center">
                             <Logotipo home={location} />
@@ -92,6 +86,9 @@ function Header(props) {
                         </div>
                     </div>
                 </div>
+
+                <DropdownMenu class="d-block d-sm-none"/>
+
             </header>
         </>
     )

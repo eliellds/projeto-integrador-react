@@ -1,5 +1,4 @@
 import React from 'react'
-import './Select.css'
 
 function Select(props) {
     const options = props.options || []
@@ -17,7 +16,7 @@ function Select(props) {
     return(
         <div className="input-container">
             <label>{props.label}</label>
-            <select className="form-input col-12">
+            <select disabled={props.disabled} className="form-input col-12">
                 <option key="default" id="default" selected>{props.default}</option>
                 {getOptions()}
             </select>

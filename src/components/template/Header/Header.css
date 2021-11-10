@@ -8,22 +8,8 @@
     font-family: 'Baskervville', serif;
     align-self: flex-end;
     margin: 0;
-    
+    background-color: #F6F3EF;
 }
-
-.logo {
-    height: 70px;
-    width: auto;
-    margin: 10px 0 0 40px;
-}
-
-.logo-2 {
-    display: none;
-    height: 50px;
-    width: auto;
-    margin: 10px 0 0 40px;
-}
-
 
 .antiquario {
     font-family: 'Baskervville', serif;
@@ -37,11 +23,16 @@
     align-self: flex-end;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: center;
 }
 
-.perfil-link a {
+.perfil-nome {
     display: flex;
+    width: 50px;
+}
+
+.perfil-bloco:hover {
+    color: #BC4C2A;
 }
 
 .perfil-link b {
@@ -49,40 +40,73 @@
     font-weight: normal;
 }
 
-.perfil-link a::after {
-    content: "";
-    height: 20px;
-    width: 20px;
-    background-repeat: no-repeat;
-    background-size: 20px;
-    background-image: url('../../../assets/images/headers/user.png');
-    align-self: center;
-    margin-right: -20px;
+.perfil-bloco {
+    margin-top: 10px;
+    margin-bottom: 7px;
+    width: 40px;
+    padding: 0 !important;
 }
 
-.login {
+.perfil-imagem {
+    height: 20px;
+    margin-left: 10px;
+    margin-right: 0 !important;
+    width: auto;
+    background-repeat: no-repeat;
+    align-self: center;
+}
+
+.login-imagem {
+    height: 20px;
+    margin-left: 3px;
+    margin-right: 0 !important;
+    width: auto;
+    background-repeat: no-repeat;
+    align-self: center;
+}
+
+.login-button-header {
     padding: 0;
     font-family: 'Baskervville', serif; 
     font-size: 16px;
     align-self: flex-end;
     display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-.login a, .perfil-link a {
+.login-button-header a, .perfil-link a {
     color: black;
     text-decoration: none;
     padding: 5px;
 }
-.sacola {
-    height: 30px;
-    width: auto;
+
+.sacola-bloco {
+    margin-top: 10px;
+    width: 40px;
+    padding: 0 !important;
 }
 
 .button-sacola{
+    padding: 0;
+    font-family: 'Baskervville', serif; 
+    font-size: 16px;
     align-self: flex-end;
-    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.sacola {
+    align-items: flex-start;
+    padding: 0 20px 0 0 !important;
+}
+
+.sacola-imagem {
+    height: 23px !important;
+    margin-left: 13px;
 }
 
 .pesquisa {
@@ -94,10 +118,11 @@
     padding: 10px;
 }
 
-.form-pesquisa {
+.form-pesquisa-header {
     display: flex;
     align-content: flex-end;
     align-self: flex-end;
+    margin-bottom: 10px !important;
 }
 
 .button-submit {
@@ -110,11 +135,12 @@
     border-bottom: #BC4C2A solid 2px;
     justify-content: center;
     align-items: center;
+    padding: 0 !important; 
 }
 
 .pesquisa-btn {
     display: flex;
-    padding: 0;
+    padding: 0 !important;
     align-self: flex-end;
     margin-top: 20px;
 }
@@ -163,8 +189,8 @@
     border-bottom:2px solid #F6F3EF;
     font-family: 'Baskervville', serif;
     font-size: 18px;
-    width: 100px;
-    padding: 10px 100px;
+    width: 95px;
+    padding: 10px 95px;
     justify-content: center;
 }
 
@@ -178,13 +204,7 @@
 
 @media (max-width:800px) {
     #menu ul li a {
-        padding: 10px 80px;
-    }
-}
-
-@media (max-width: 750px) {
-    .perfil-link a::after {
-        display: none;
+        padding: 10px 75px;
     }
 }
 
@@ -203,16 +223,4 @@
         justify-content: center;
         display: flex;
     }
-}
-
-@media (max-width: 420px) {
-
-    .logo {
-        display: none;
-    }
-
-    .logo-2 {
-        display: block;
-    }
-
 }

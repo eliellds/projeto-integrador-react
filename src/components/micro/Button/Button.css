@@ -1,3 +1,4 @@
+/* DEFAULT */
 .btn-custom-default {
     font-family: Baskervville;
     text-align: center;
@@ -18,6 +19,7 @@
     box-shadow: #00000062 0 2px 4px 2px;
 }
 
+/* COMPRAR */
 .btn-comprar {
     background-color: #3f79cf;
     color: #fff;
@@ -28,6 +30,7 @@
     background-color: #5a90e0;
 }
 
+/* CONFIRMAÇÃO */
 .btn-confirmacao {
     background-color: #BC4C2A;
     color: #fff;  
@@ -38,7 +41,7 @@
     background-color: #d47c61;
     
 }
-
+/* RETORNO */
 .btn-retorno {
     background-color: #a3a3a3;
     color: #fff;
@@ -49,12 +52,15 @@
     background-color: #bebebe;
 }
 
+/* CATEGORIA */
 .btn-categoria {
+    border-radius: 0;
     background-color: #fff;
+    width: 200px;
     border: 2px solid #BC4C2A;
-    padding: 0 15px;
     text-transform: uppercase;
     transition: 0.3s;
+    color: #000;
 }
 
 .btn-categoria:hover {

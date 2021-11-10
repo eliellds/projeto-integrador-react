@@ -27,7 +27,7 @@ export default function CardProduct(props) {
 
     return (
         <>
-            <li className="card col-11 col-sm-8 col-md-5 col-lg-2 mb-4">
+            <li className="card col-11 col-sm-8 col-md-4 col-lg-2 mb-4 ">
 
 
                 <div className="caixa-imagem">
@@ -37,7 +37,7 @@ export default function CardProduct(props) {
 
                 <div className="corpo-card">
 
-                    <a href="./produto.html" className="descricao">{props.nome}<br />({props.ano})</a>
+                    <a href={`/product/${props.id}`} className="descricao">{props.nome}<br />({props.ano})</a>
 
                     <div className="pagamento">
                         <div className="preco">

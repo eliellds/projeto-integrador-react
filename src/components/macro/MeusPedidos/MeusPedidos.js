@@ -4,6 +4,7 @@ import 'react-bootstrap'
 import Accordion from 'react-bootstrap/Accordion'
 import "./MeusPedidos.css"
 import FormDefault from "../Forms/FormDefault/FormDefault";
+import { Link } from "react-router-dom";
 
 function MeusPedidos(props) {
 
@@ -13,7 +14,7 @@ function MeusPedidos(props) {
                 <div className="container">
                     <Accordion className="acordeon" defaultActiveKey="0">
                         <Accordion.Item eventKey="0">
-                            <Accordion.Header className="cabecalho-pedido"><strong>Número do Pedido: </strong><li className="col-3 numero-pedido"><a href=""> 12585</a></li> </Accordion.Header>
+                            <Accordion.Header className="cabecalho-pedido"><strong>Número do Pedido:</strong><li className="col-3 numero-pedido"></li><a>35441</a></Accordion.Header>
                             <Accordion.Body>
                                 <ul className="row cabecalho-pedido-item text-center">
                                     <li className="col-5 "><strong>Detalhes do Pedido</strong></li>
@@ -65,8 +66,7 @@ function MeusPedidos(props) {
                                     <li className="col-3 data"><strong>Data</strong></li>
                                     <li className="col-3"><strong>Status</strong></li>
                                 </ul>
-                                <ul className="row">
-
+                                <ul className="row pedido-item">
                                     <li className="col-6">Caixa em Madeira de lei (1932)</li>
                                     <li className="col-3 data">02/06/2021</li>
                                     <li className="col-3">Entregue</li>

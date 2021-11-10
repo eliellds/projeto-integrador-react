@@ -3,7 +3,8 @@
 }
 
 .form-filter {
-    width: 100%;
+    justify-content: flex-end;
+    padding-left: 20px;
 }
 
 .ver-mais {
@@ -43,11 +44,24 @@
     padding: 0;
 }
 
-.lista-cards {
+.catalogo {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: flex-start !important;
-    padding: 0 40px !important;
+    padding: 0 100px !important;
     list-style: none;
+}
+
+.catalogo li {
+    margin-right: 30px !important;
+}
+
+@media(max-width: 990px) {
+    
+    .catalogo {
+        justify-content: space-between !important;
+        margin: auto;
+    }
+
 }

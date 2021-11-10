@@ -8,7 +8,7 @@ function Login(props) {
 
     return(
         <>
-            <main className="conatiner-fluid custom-container py-4">
+            <main className="conatiner-fluid custom-container-login py-4">
                 <FormDefault title="Faça seu Login" action="./carrinho-2.html" className="custom-form-box mx-3 mx-sm-1 mx-lg-4 px-5 px-sm-1 px-lg-4">
 
                    <FormLogin/>

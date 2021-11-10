@@ -92,11 +92,11 @@ export default function Catalog(props) {
 
             <div className="container container-cards my-4">
 
-                <ul className="row lista-cards catalogo tamanho mb-3">
+              
 
                     {getProducts()}
 
-                </ul>
+                
 
             </div>
 

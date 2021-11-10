@@ -1,20 +1,29 @@
 import React from 'react';
 import CardProduct from '../Cards/Products/CardProduct';
-import Images from '../../../assets/images/products/'
 function ListProductsCatalogy(props){
     const products = props.products || []
+    
     function image(image) {
-        {
-            var imgSrc = require(`../../assets/images/products/${image}`);
+        
+            var imgSrc = require(`../../../assets/images/products/${image}`);
             
-            return  <img src={`${imgSrc.default}`} />
-            } 
+            return  imgSrc.default
+            
     }
 
     function listProducts(){
         return products.map(product =>{
             return <>
+            <CardProduct
+            id={product.id}
+            imagem={`${image(product.imagem)}`}
+            nome={product.nome}
+            ano={product.ano}
+            precoDe={product.precoDe}
+            vezes={product.vezes}
+            parcelas={product.parcelas}
             
+            />
            
            
             </>
@@ -22,9 +31,12 @@ function ListProductsCatalogy(props){
     }
 
     return<>
-
-    
-    
+        <ul className="row lista-cards  tamanho  mb-3 justify-content-around">
+        
+            {listProducts()}
+       
+  
+        </ul>
     
     </>
 

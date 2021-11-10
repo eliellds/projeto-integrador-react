@@ -17,6 +17,8 @@ import Search from "./pages/Search/Search"
 import About from "./pages/About/About"
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword"
 import Contact from "./pages/Contact/Contact"
+import ProductNotFound from "./pages/ProductNotFound/ProductNotFound"
+import OrderSummary from "./pages/OrderSummary/OrderSummary"
 
 export const Routes = () => {
     return (
@@ -37,6 +39,8 @@ export const Routes = () => {
             <Route path="/about" component={About}/>
             <Route path="/forgotpassword" component={ForgotPassword}/>
             <Route path="/contact" component={Contact}/>
+            <Route path="/productnotfound" component={ProductNotFound}/>
+            <Route path="/order" component={OrderSummary}/>
 
             <Route component={NotFound}/>
         </Switch>

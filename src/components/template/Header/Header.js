@@ -1,7 +1,7 @@
 import React from 'react'
 import './Header.css'
-import Sacola from '../../../assets/images/headers/sacola.png'
-import Menu from '../../../assets/images/headers/Menu-de-Tres-Linhas.png'
+import Bag from '../../micro/Bag/Bag'
+// import Menu from '../../../assets/images/headers/Menu-de-Tres-Linhas.png'
 import Logotipo from '../../micro/Logo/Logo'
 import Perfil from '../../../assets/images/headers/user.png'
 import Login from '../../../assets/images/headers/login-icone.png'
@@ -41,12 +41,7 @@ function Header(props) {
                             </a>
                         </div>
 
-                        <div className="login-button-header sacola col-2 col-sm-1">
-                            <a href="/cart" className="perfil-bloco">
-                                <img className="login-imagem sacola-imagem" src={Sacola} />
-                                <div className="perfil-nome">Sacola</div>
-                            </a>
-                        </div>
+                        <Bag/>
 
                         <div className="container form-pesquisa col-10 d-lg-none d-block">
                             <FormSearch/>

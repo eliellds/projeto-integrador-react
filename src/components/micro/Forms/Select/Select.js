@@ -17,7 +17,7 @@ function Select(props) {
         <div className="input-container">
             <label>{props.label}</label>
             <select className="form-input col-12">
-                <option id="default" selected>Selecione o {props.default}</option>
+                <option key="default" id="default" selected>Selecione o {props.default}</option>
                 {getOptions()}
             </select>
         </div>

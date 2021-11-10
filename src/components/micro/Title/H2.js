@@ -5,7 +5,7 @@ function H2(props) {
 
     return(
         <>
-            <h2>{props.h2}</h2>
+            <h2 className={props.class}>{props.h2}</h2>
         </>
     )
 }

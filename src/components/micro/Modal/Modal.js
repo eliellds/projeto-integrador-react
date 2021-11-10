@@ -24,7 +24,7 @@ function ModalComp(props) {
             <form onClick={handleClick}>
 
                 <div className="row justify-content-center pt-3">
-                    <Button label="Voltar" navigation route="voltar" class="btn-retorno mx-5" />
+                    <Button label="Voltar" navigation route="home" class="btn-retorno mx-5" />
                     <Button label="Enviar" class="btn-confirmacao mx-5" function={handleShow} />
                 </div>
 

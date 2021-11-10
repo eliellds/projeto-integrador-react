@@ -10,11 +10,11 @@ import { Routes } from './routes'
 function App() {
   return (
     <>
-      <Header/>
       <Router>
+      <Header/>
         <Routes/>
-      </Router>
       <Footer/>
+      </Router>
     </>
   );
 }

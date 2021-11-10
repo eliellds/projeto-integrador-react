@@ -29,9 +29,9 @@ function Product(props) {
                     </div>
                     <div className="row formas-pagamento justify-content-center">
                     
-                        <label for="forma-pagamento" className="form-label px-3">Formas de Pagamento</label>
+                        <label for="forma-pagamento" className="form-label px-3"></label>
                         <select className="form-input col-11 ">
-                            <option id="forma-pagamento" selected>Selecione a forma de pagamento</option>
+                            <option id="forma-pagamento" selected>Formas de pagamento disponíveis</option>
                             <option value="boleto">2.394,00 - Boleto à vista</option>
                             <option value="debito">2.500,00 - Débito à vista</option>
                             <option value="credito">2.520,00 - Crédito à vista</option>
@@ -43,8 +43,8 @@ function Product(props) {
 
                     </div>
                     <div className="row my-3">
-                        <div className="container d-flex flex-column">
-                            <Button route= "/cart" class="btn-carrinho text-uppercase" label= "Adicionar ao Carrinho"/>
+                        <div className="container d-flex flex-column">  
+                            <Button label= "Adicionar ao Carrinho" onclick="null" class="btn-carrinho text-uppercase"  navigation route="/cart"/>  
                             <h5 className="frete mt-3 mb-0 col-12">Consultar prazo e valor do frete</h5>
 
 
@@ -62,7 +62,7 @@ function Product(props) {
                             </form>
                             <form className="form-cep align-self-end d-flex align-items-end col-12">
                                 <div className="pesquisa-btn mx-0 col-7 col-sm-5 col-md-7">
-                             <Button route= "/" class="btn-carrinho text-uppercase" label= "Comprar"/>
+                             <Button label= "Comprar" onclick="null" class="btn-comprar"  navigation route="/checkout"/>  
                                 </div>   
                             </form>
                         </div>

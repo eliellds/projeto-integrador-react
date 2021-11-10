@@ -1,30 +1,44 @@
 import React from "react";
+import { Navigation } from "react-minimal-side-navigation";
+import { useHistory, useLocation } from "react-router-dom";
+import 'react-minimal-side-navigation/lib/ReactMinimalSideNavigation.css';
 
-function AsideMenu(props) {
+function AsideMenu() {
+    const history = useHistory();
+
     return (
         <>
             <div class="d-flex flex-column flex-shrink-0 p-3 bg-light col-md-3 col-12">
-                <ul class="nav nav-pills flex-column mb-auto">
-                    <li class="nav-item">
-                        <a href="./meus-dados.html" class="nav-link">Meus Dados</a>
-                    </li>
+                <Navigation
+                    activeItemId="/dashboard"
+                    onSelect={({ itemId }) => {
+                    history.push(itemId);
+                }}
+                items={[
+                    {
+                        title: 'Meus Dados',
+                        itemId: "/dashboard/formuser"
+                    },
+                    {
+                        title: 'Meus Endereços',
+                        itemId: "/dashboard/address"
 
-                    <li>
-                        <a href="./enderecos.html" class="nav-link">Meus Endereços</a>
-                    </li>
+                    },
+                    {
+                        title: 'Meus Pedidos',
+                        itemId: "/dashboard/myorder"
 
-                    <li>
-                        <a href="./meus-pedidos.html" class="nav-link"> Meus Pedidos</a>
-                    </li>
+                    },
+                    {
+                        title: 'Ajuda',
+                        itemId: '/contact',
 
-                    <li>
-                        <a href="./contato.html" class="nav-link">Ajuda</a>
-                    </li>
-                </ul>
+                    },
+
+                ]}
+                />
             </div>
-
         </>
-    )
+    );
 }
-
 export default AsideMenu

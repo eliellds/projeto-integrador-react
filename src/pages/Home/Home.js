@@ -1,8 +1,19 @@
-import React from 'react'
+import React, { useState, useEffect} from 'react'
 import './Home.css'
+import ListProducts from '../../components/macro/listProducts/ListProducts'
 import Banners from '../../components/macro/Banners/Banner'
 import ListProduct from '../../components/macro/Cards/Products/CardProduct'
+import Imagem from '../../assets/images/products/BandeijaTurca.webp'
+import Loucas from "../../assets/images/products/loucasPortuguesas.jpg"
+import Caixa from "../../assets/images/products/caixaRegistradora.png"
+import { CarouselProvider, Slider, Slide } from 'pure-react-carousel';
+import 'pure-react-carousel/dist/react-carousel.es.css';
 function Home(props) {
+
+    
+
+ 
+
 
     return (
         <>
@@ -11,21 +22,10 @@ function Home(props) {
             <h2 className="home-titles">Promoções</h2>
 
             {/* <!-- Inicio lista cards produtos promocoes--> */}
-            <div className="container container-cards">
-                <div className="row justify-content-center"> 
-                
-                <ListProduct/>
-                <ListProduct/>
-                <ListProduct/>
-                <ListProduct/>
-                <ListProduct/>
-                <ListProduct/>
-                </div>
 
-             
-             
-
-            </div>
+               
+            <ListProducts/>
+     
             {/* <!-- Fim lista cards produtos promocoes --> */}
 
 
@@ -39,7 +39,7 @@ function Home(props) {
 
                     <div className="col-md-5 col-12 custom-section-item">
 
-                        <img src="./natalia/imgs/caixaRegistradora.png" alt="Caixa Registradora" />
+                        <img src={Caixa} alt="Caixa Registradora" />
 
                     </div>
 
@@ -61,7 +61,7 @@ function Home(props) {
 
                     <div className="col-md-5 col-12 custom-section-item">
 
-                        <img src="./natalia/imgs/loucasPortuguesas.jpg" alt="Louças Portuguesas" />
+                        <img src={Loucas}alt="Louças Portuguesas" />
 
                     </div>
 
@@ -75,90 +75,8 @@ function Home(props) {
 
             {/* <!-- Inicio lista cards produtos novidades --> */}
             <div className="container container-cards">
-
-                <ul className="row lista-cards novidades tamanho mb-5">
-
-                    <li className="col-12 col-sm-8 col-md-5 col-lg-2 mb-4">
-                        <div className="caixa-imagem">
-                            <a href="./produto.html" className="imagem-produto card-1"></a>
-                        </div>
-                        <div className="corpo-card">
-                            <a href="./produto.html" className="descricao">Jogo de chá<br />(1889)</a>
-                            <div className="pagamento">
-                                <div className="preco">
-                                    <div className="preco-de">R$999,59</div>
-                                    <div className="preco-por">R$ 850,59</div>
-                                </div>
-                                <a href="./produto.html" className="btn-comprar">COMPRAR</a>
-                            </div>
-                        </div>
-                    </li>
-
-                    <li className="col-12 col-sm-8 col-md-5 col-lg-2 mb-4">
-                        <div className="caixa-imagem">
-                            <a href="./produto.html" className="imagem-produto card-1"></a>
-                        </div>
-                        <div className="corpo-card">
-                            <a href="./produto.html" className="descricao">Jogo de chá<br />(1889)</a>
-                            <div className="pagamento">
-                                <div className="preco">
-                                    <div className="preco-de">R$999,59</div>
-                                    <div className="preco-por">R$ 850,59</div>
-                                </div>
-                                <a href="./produto.html" className="btn-comprar">COMPRAR</a>
-                            </div>
-                        </div>
-                    </li>
-
-                    <li className="col-12 col-sm-8 col-md-5 col-lg-2 mb-4">
-                        <div className="caixa-imagem">
-                            <a href="./produto.html" className="imagem-produto card-1"></a>
-                        </div>
-                        <div className="corpo-card">
-                            <a href="./produto.html" className="descricao">Jogo de chá<br />(1889)</a>
-                            <div className="pagamento">
-                                <div className="preco">
-                                    <div className="preco-de">R$999,59</div>
-                                    <div className="preco-por">R$ 850,59</div>
-                                </div>
-                                <a href="./produto.html" className="btn-comprar">COMPRAR</a>
-                            </div>
-                        </div>
-                    </li>
-
-                    <li className="col-12 col-sm-8 col-md-5 col-lg-2 mb-4">
-                        <div className="caixa-imagem">
-                            <a href="./produto.html" className="imagem-produto card-1"></a>
-                        </div>
-                        <div className="corpo-card">
-                            <a href="./produto.html" className="descricao">Jogo de chá<br />(1889)</a>
-                            <div className="pagamento">
-                                <div className="preco">
-                                    <div className="preco-de">R$999,59</div>
-                                    <div className="preco-por">R$ 850,59</div>
-                                </div>
-                                <a href="./produto.html" className="btn-comprar">COMPRAR</a>
-                            </div>
-                        </div>
-                    </li>
-
-                    <li className="col-12 col-sm-8 col-md-5 col-lg-2 d-md-none d-lg-block mb-4">
-                        <div className="caixa-imagem">
-                            <a href="./produto.html" className="imagem-produto card-1"></a>
-                        </div>
-                        <div className="corpo-card">
-                            <a href="./produto.html" className="descricao">Jogo de chá<br />(1889)</a>
-                            <div className="pagamento">
-                                <div className="preco">
-                                    <div className="preco-de">R$999,59</div>
-                                    <div className="preco-por">R$ 850,59</div>
-                                </div>
-                                <a href="./produto.html" className="btn-comprar">COMPRAR</a>
-                            </div>
-                        </div>
-                    </li>
-
-                </ul>
+                <ListProducts/>
+          
 
             </div>
         </>

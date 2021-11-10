@@ -1,35 +1,5 @@
-
-h1, h2 {
-    color: #BC4C2A;
-    font-family: 'Baskervville', serif;
-    font-weight: bold;
-    text-align: center;
-    text-transform: uppercase;
-    
-    text-shadow: 2px 2px 5px #cacaca;
-}
-.separador{
-    background-color: white;
-    height: 60px;
-    align-items: center;
-  
-}
-.form-label {
-    font-family: Baskervville;
-    font-weight: 600;
-}
-
-.forms-block {
-    margin-bottom: 50px;
-}
-
-.form-input {
-    margin-bottom: 10px;
-    border: none;
-    border-bottom: solid 2px #BC4C2A;
-    color: #000;
-    height: 35px;
-    padding: 0 10px;
+.titulo{
+    background-color: #fff;
 }
 .forma-pagamento{
     text-decoration: none;

@@ -88,7 +88,7 @@
 
 .btn-carrinho {
     font-family: 'Baskervville', serif;
-    text-align: center;
+    text-align:center;
     background-color: #3f79cf;
     padding: 10px;
     width: 100%;
@@ -96,9 +96,11 @@
     text-decoration: none;
     color: #fff;
     border: none;
+    text-transform: uppercase;
     border-radius: 5px;
     box-shadow: #00000036 0 2px 4px 2px;
     transition: 0.3s;
+    
 }
 .btn-carrinho:hover {
     color: #fff;

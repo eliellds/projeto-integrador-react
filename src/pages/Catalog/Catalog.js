@@ -59,16 +59,10 @@ export default function Catalog(props) {
     function getProducts() {
         return products.map(function (product) {
             return (
-                <CardProduct id={product.id}
+                <CardProduct id={product.id} imagem={Imagens}
                     nome={product.nome} ano={product.ano}
                     precoDe={product.precoDe} precoPor={product.precoPor}
-                    vezes={product.vezes} parcelas={product.parcelas}>
-
-                    <a href={`/product/${product.id}`} className="">
-                        <img src={Imagens} alt={product.nome}/>
-                    </a>
-
-                </CardProduct>
+                    vezes={product.vezes} parcelas={product.parcelas} />
             )
         })
     }

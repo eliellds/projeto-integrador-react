@@ -1,6 +1,7 @@
 import React from "react"
 import Input from "../../../micro/Forms/Input/Input"
 import FormDefault from "../FormDefault/FormDefault"
+import Button from "../../../micro/Button/Button";
 
 function FormShippigAddress(props) {
     return (
@@ -53,6 +54,12 @@ function FormShippigAddress(props) {
                     </div>
 
                 </div>
+
+                <div class="row  justify-content-center mt-4">
+                    <Button label="Confirmar" onClick="null" class="btn-confirmacao" type="submit" />
+                </div>
+
+
 
             </FormDefault>
         </>

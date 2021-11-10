@@ -5,9 +5,9 @@ function FormDefault(props) {
 
     return(
         <>
-            <div classNameName="container-form" className={props.class}>
+            <div className={props.class}>
                 <h1 className="custom-title">{props.title}</h1>
-                <form classNameName="form-input">
+                <form className={props.formClass} action={props.action} method={props.method}>
                     {props.children}
                 </form>
             </div>

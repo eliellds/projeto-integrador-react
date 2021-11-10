@@ -28,11 +28,11 @@
     background-color: #d47c61;
 }
 
-.cabecalho-pedido li {
-    list-style-type: none;
+.teste{
+    background-color: #252525;
 }
-
-.cabecalho-pedido-item {
+.cabecalho-meu-pedido-item {
+    list-style-type: none;
     font-family: 'Baskervville', serif;
     text-transform: uppercase;
     padding: 10px;
@@ -40,18 +40,9 @@
     list-style-type: none;
 }
 
-.pedido-item{
+.meu-pedido-item{
     list-style-type: none;
-}
-
-.numero-pedido a{
-    font-family: 'Times New Roman', Times, serif;
-    color: #252525;
-}
-
-.numero-pedido a:hover{
-    color: #252525;
-    font-weight: bold;
+    font-size: 1rem;
 }
 
 .custom-container {

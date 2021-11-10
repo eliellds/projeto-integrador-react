@@ -1,5 +1,4 @@
 import React from 'react'
-import './Category.css'
 import CategoryLeft from "../../components/micro/categories/CategoriesLeft"
 import CategoryRight from '../../components/micro/categories/CategoriesRight'
 import Quarto from "../../assets/images/category/quarto.jpg"

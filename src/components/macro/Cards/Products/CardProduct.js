@@ -3,6 +3,7 @@ import "./CardProduct.css"
 import Button from "../../../micro/Button/Button"
 
 export default function CardProduct(props) {
+    
 
     const precoDe = (props) => {
 
@@ -27,7 +28,7 @@ export default function CardProduct(props) {
 
     return (
         <>
-            <li className="card col-11 col-sm-8 col-md-3 col-lg-2 mb-4 ">
+            <li className="card-product col-11 col-sm-8 col-md-3 col-lg-2 mb-4 ">
 
 
                 <div className="caixa-imagem">

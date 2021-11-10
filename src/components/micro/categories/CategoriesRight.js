@@ -11,7 +11,7 @@ function CategoryRight(props) {
                 <div className="row custom-section justify-content-center">
 
                     <div class="col-md-5 col-12 custom-section-item tres">
-                        <Button label="Quarto" onclick="null" class="btn-categoria" navigation route="./cadastro" />
+                    <Button label={props.category} onclick="null" class="btn-categoria" navigation route={"/catalog/"+props.category} />
                         <h6>{props.description}</h6>
 
                     </div>

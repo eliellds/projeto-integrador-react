@@ -1,57 +1,121 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import FormDefault from "../FormDefault/FormDefault";
 import Input from "../../../micro/Forms/Input/Input";
+import H2 from "../../../micro/Title/H2";
+import Button from "../../../micro/Button/Button";
 
 function FormDataCard(props) {
+
+    const [displayNoneB, setDisplayNoneB] = useState("d-none")
+    const [displayNoneC, setDisplayNoneC] = useState("")
+    const [buttons, setButtons] = useState(
+        <>
+            <Button function={nothing} class="col-4 cartao forma-pagamento selected-button" label={<H2 h2="Cartão"/>}></Button>
+            <Button function={changeComponent} class="col-4 forma-pagamento boleto disabled-button" label={<H2 h2="Boleto" />}></Button>
+        </>
+    )
+    let change = false
+
+    // useEffect(() => {
+    //     setButtons(
+    //         <>
+    //             <Button function={changeComponent} class="col-4 cartao forma-pagamento selected-button" label={<H2 h2="Cartão" />}></Button>
+    //             <Button function={changeComponent} class="col-4 forma-pagamento boleto disabled-button" label={<H2 h2="Boleto" />}></Button>
+    //         </>
+    //     )
+    //     setDisplayNoneB("d-none")
+    //     setDisplayNoneC("")
+    //     setChange(false)
+    // }, [])
+
+    function nothing() {
+        return
+    }
+
+    function changeComponent() {
+        if (change) {
+            setButtons(
+                <>
+                    <Button function={nothing} class="col-4 cartao forma-pagamento selected-button" label={<H2 h2="Cartão" />}></Button>
+                    <Button function={changeComponent} class="col-4 forma-pagamento boleto disabled-button" label={<H2 h2="Boleto" />}></Button>
+                </>
+            )
+            change = false
+            setDisplayNoneB("d-none")
+            setDisplayNoneC("")
+            console.log("noneC")
+            console.log("change")
+        } else {
+            setButtons(
+                <>
+                    <Button function={changeComponent} class="col-4 cartao forma-pagamento disabled-button" label={<H2 h2="Cartão" />}></Button>
+                    <Button function={nothing} class="col-4 forma-pagamento boleto selected-button" label={<H2 h2="Boleto" />}></Button>
+                </>
+            )
+            change = true
+            setDisplayNoneB("")
+            setDisplayNoneC("d-none")
+            console.log("noneB")
+            console.log("change")
+        }
+    }
+
     return (
         <>
-            <FormDefault title="Dados de Pagamento" class="mt-5" action="./resumo-pedido.html">
-                <div class="escolha row justify-content-around mb-4 ">
 
-                    <a href="#" class=" col-4 cartao forma-pagamento"><h2>Cartão</h2></a>
-                    <a href="#" class="col-4 forma-pagamento boleto"><h2>Boleto</h2></a>
+            <div className="escolha row justify-content-around mt-4 ">
 
-                </div>
+                {buttons}
 
-                <div className=" row pagamento justify-content-center d-none">
+            </div>
+
+            <FormDefault title="Dados de Pagamento" className="mt-5" action="">
+
+
+                <div className={`row pagamento justify-content-center ${displayNoneB}`}>
                     <div className="col-8 justify-content-center text-center ">
                         Numero do boleto: 00000000000000000000000000000000000000000000000000000000000000000
                     </div>
                 </div>
 
-                <div class="row  justify-content-center">
-                    <div class="row custom-form ">
+                <div className={"row justify-content-center"}>
+                    <div className={`row custom-form ${displayNoneC}`}>
 
-                        <div class=" col-12 col-md-5">
+                        <div className=" col-12 col-md-5">
                             <Input label="Nome do Titular" className="form-input col-12 form-label" type="text" name="name" placeholder="Nome como está no cartão" />
                         </div>
 
-                        <div class=" col-6 col-md-4">
+                        <div className=" col-6 col-md-4">
                             <Input label="CPF-Titular" className="form-input col-12 form-label" type="text" name="CPF" placeholder="999-999-999-99" />
                         </div>
 
-                        <div class=" col-6 col-md-3">
+                        <div className=" col-6 col-md-3">
                             <Input label="Data Nascimento Titular" className="form-input col-12 form-label" type="date" name="birthDate" placeholder="Ex.: Dia/Mês/Ano." />
                         </div>
 
-                        <div class=" col-12 col-md-5">
+                        <div className=" col-12 col-md-5">
                             <Input label="Numero do Cartão" className="form-input col-12 form-label" type="text" name="cardNumber" placeholder="Ex.: 0000 1111 2222 3333." />
                         </div>
 
-                        <div class=" col-6 col-md-3">
+                        <div className=" col-6 col-md-3">
                             <Input label="CVV" className="form-input col-12 form-label" type="text" name="cvv" placeholder="Ex.: 000." />
                         </div>
 
-                        <div class=" col-6 col-md-2">
+                        <div className=" col-6 col-md-2">
                             <Input label="Mês de vencimento" className="form-input col-12 form-label" type="text" name="dia" placeholder="mm" />
                         </div>
 
-                        <div class=" col-6 col-md-2">
+                        <div className=" col-6 col-md-2">
                             <Input label="Ano de vencimento" className="form-input col-12 form-label" type="text" name="mes" placeholder="aaaa" />
                         </div>
 
                     </div>
+                </div>
+
+                <div className="row justify-content-around py-4">
+                    <Button label="Voltar" navigation route="/cart" class="btn-retorno" onclick="null" />
+                    <Button label="Finalizar" onclick="null" class="btn-confirmacao" type="submit" />
                 </div>
 
             </FormDefault>

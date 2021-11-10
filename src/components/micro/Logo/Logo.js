@@ -11,9 +11,9 @@ export default function Logotipo(props) {
                 <>
                     <h1 className="title-logo">
                         <a href="/" className="logo-marca" title="Velho Luxo">
-                            <img className="logo d-sm-block d-none" alt="Velho Luxo"
+                            <img className="logo d-sm-flex d-none" alt="Velho Luxo"
                                 src={Logo} />
-                            <img className="logo-2 d-block d-sm-none" alt="Velho Luxo"
+                            <img className="logo-2 d-flex d-sm-none" alt="Velho Luxo"
                                 src={Logo2} />
                         </a>
                     </h1>

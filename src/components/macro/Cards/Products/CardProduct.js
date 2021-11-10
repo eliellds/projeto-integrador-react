@@ -31,7 +31,9 @@ export default function CardProduct(props) {
 
 
                 <div className="caixa-imagem">
-                    {props.children}
+                    <a href={`/product/${props.id}`}>
+                        <img src={props.imagem} alt={props.nome}/>
+                    </a>
                 </div>
 
 

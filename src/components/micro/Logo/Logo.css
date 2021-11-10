@@ -28,7 +28,7 @@
     }
 
     .logo-2 {
-        display: block;
+        display: flex;
     }
 
 }

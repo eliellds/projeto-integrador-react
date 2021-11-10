@@ -1,12 +1,12 @@
 import React from 'react'
 import './Header.css'
-import Bag from '../../micro/Bag/Bag'
-// import Menu from '../../../assets/images/headers/Menu-de-Tres-Linhas.png'
+import Menu from '../../../assets/images/headers/Menu-de-Tres-Linhas.png'
 import Logotipo from '../../micro/Logo/Logo'
-import Perfil from '../../../assets/images/headers/user.png'
 import Login from '../../../assets/images/headers/login-icone.png'
 import DropdownMenu from '../../macro/DropdownMenu/DropdownMenu'
 import FormSearch from '../../macro/Forms/FormSearch/FormSearch'
+import Profile from '../../micro/Profile/Profile'
+import Bag from "../../micro/Bag/Bag"
 
 function Header(props) {
 
@@ -34,13 +34,8 @@ function Header(props) {
                             </a>
                         </div>
 
-                        <div className="perfil-link col-2 col-lg-1">
-                            <a href="/dashboard" className="perfil-bloco">
-                                <img className="perfil-imagem" src={Perfil} />
-                                <div href="/dashboard" className="perfil-nome"><b>Perfil</b></div>
-                            </a>
-                        </div>
-
+                        <Profile/>
+        
                         <Bag/>
 
                         <div className="container form-pesquisa col-10 d-lg-none d-block">

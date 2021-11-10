@@ -1,7 +1,7 @@
 import React from 'react'
 import './Success.css'
 import SuccessPage from '../../components/macro/SuccessPage/SuccessPage'
-import CompletedPurchase from '../../components/macro/completedPurchase/CompletedPurchase'
+
 
 
 function Success(props) {

@@ -1,5 +1,6 @@
 import React from 'react'
 import './Footer.css'
+import { Link } from "react-router-dom";
 
 function Footer(props) {
 
@@ -13,9 +14,9 @@ function Footer(props) {
                             contato
                         </h3>
                         <ul>
-                            <li><a href="./contato.html">Dúvidas</a></li>
-                            <li><a href="./contato.html">Informações</a></li>
-                            <li><a href="./contato.html">Sugestões</a></li>
+                            <li><Link to={"/Contact/"}>Dúvidas</Link></li>
+                            <li><Link to={"/Contact/"}>Informações</Link></li>
+                            <li><Link to={"/Contact/"}>Sugestões</Link></li>
                         </ul>
                     </div>
                     <div className=" col-7 col-xs-6 col-sm-6 col-md-3 produtos px-2">
@@ -23,9 +24,9 @@ function Footer(props) {
                             produtos
                         </h3>
                         <ul>
-                            <li><a href="./categorias.html">Comprar</a></li>
-                            <li><a href="./contato.html">Vender</a></li>
-                            <li><a href="">Promoções</a></li>
+                            <li><Link to={"/Category/"}>Comprar</Link></li>
+                            <li><Link to={"/Contact/"}>Vender</Link></li>
+                            <li><Link to={"/Sales/"}>Promoções</Link></li>
                         </ul>
                     </div>
                     <div className=" col-5 col-xs-6 col-sm-6 col-md-3 sobre px-2">
@@ -33,9 +34,9 @@ function Footer(props) {
                             sobre
                         </h3>
                         <ul>
-                            <li><a href="./sobre.html">Visão</a></li>
-                            <li><a href="./sobre.html">Missão</a></li>
-                            <li><a href="./sobre.html">História</a></li>
+                            <li><Link to={"/About/"}>Visão</Link></li>
+                            <li><Link to={"/About/"}>Missão</Link></li>
+                            <li><Link to={"/About/"}>História</Link></li>
                         </ul>
                     </div>
                     <div className="col-7 col-xs-6 col-sm-6 col-md-3 redes px-2">

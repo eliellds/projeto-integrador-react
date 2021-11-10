@@ -1,0 +1,15 @@
+p {
+    text-align: left;
+    font-size: 30px;
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
+
+.space {
+    margin-top: 75px;    
+}
+
+li {
+    margin-left: 15px;
+    font-size: 20px;
+}

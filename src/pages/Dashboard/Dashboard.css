@@ -1,17 +1,21 @@
 *{
     box-sizing: border-box;
 }
+.side-navigation-panel .side-navigation-panel-select .side-navigation-panel-select-wrap .side-navigation-panel-select-option-selected {
+    background-color: rgba(188,76,42,var(--tw-bg-opacity));
+    border-color: #252525!important;
+    background-color: #d47c61 !important;
+}
 
-.nav-pills .nav-link{
+.side-navigation-panel * {
     color: #252525;
     font-family: 'Baskervville', serif;
 }
 
-.nav-pills .nav-link:hover{
+.side-navigation-panel:hover *{
     font-weight: bold;
     color: #252525;
 }
-
-.nav-pills .nav-link.active{
-    background-color:  #BC4C2A;
+.side-navigation-panel-select-option-selected{
+    background-color: #252525;
 }

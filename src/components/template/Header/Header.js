@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import './Header.css'
-import Lupa from '../../../assets/images/headers/lupa.png'
-import Sacola from '../../../assets/images/headers/sacola.png'
 import Menu from '../../../assets/images/headers/Menu-de-Tres-Linhas.png'
 import Logotipo from '../../micro/Logo/Logo'
-import Perfil from '../../../assets/images/headers/user.png'
 import Login from '../../../assets/images/headers/login-icone.png'
 import DropdownMenu from '../../macro/DropdownMenu/DropdownMenu'
+import FormSearch from '../../macro/Forms/FormSearch/FormSearch'
+import Profile from '../../micro/Profile/Profile'
+import Bag from "../../micro/Bag/Bag"
 
 function Header(props) {
 
@@ -23,21 +23,10 @@ function Header(props) {
                             <Logotipo home={location} />
                         </div>
 
-                        <form action="/search" className="form-pesquisa-header col-lg-6 d-lg-block d-none">
-                            <div className="container">
-                                <div className="row">
-                                    <div className="pesquisa-btn mx-0 col-11">
-                                        <input type="text" className="pesquisa" placeholder="O que deseja colecionar?" />
-                                    </div>
-                                    <div className="pesquisa-btn mx-0 col-1">
-                                        <button className="button-submit" type="submit">
-                                            <img className="lupa"
-                                                src={Lupa} />
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
+                        <div className="form-pesquisa-header col-lg-6 d-lg-block d-none">
+                            <FormSearch/>
+                        </div>
+
 
                         <div className="login-button-header col-2 col-sm-1">
                             <a href="/login" className="perfil-bloco">
@@ -46,33 +35,14 @@ function Header(props) {
                             </a>
                         </div>
 
-                        <div className="perfil-link col-2 col-lg-1">
-                            <a href="/dashboard" className="perfil-bloco">
-                                <img className="perfil-imagem" src={Perfil} />
-                                <div href="/dashboard" className="perfil-nome"><b>Perfil</b></div>
-                            </a>
+                        <Profile/>
+        
+                        <Bag/>
+
+                        <div className="container form-pesquisa col-10 d-lg-none d-block">
+                            <FormSearch/>
                         </div>
 
-                        <div className="login-button-header sacola col-2 col-sm-1">
-                            <a href="/cart" className="perfil-bloco">
-                                <img className="login-imagem sacola-imagem" src={Sacola} />
-                                <div className="perfil-nome">Sacola</div>
-                            </a>
-                        </div>
-
-                        <form action="/search" className="container form-pesquisa col-10 d-lg-none d-block">
-                            <div className="row">
-                                <div className="pesquisa-btn mx-0 col-11">
-                                    <input type="text" className="pesquisa" placeholder="O que deseja colecionar?" />
-                                </div>
-                                <div className="pesquisa-btn mx-0 col-1">
-                                    <button className="button-submit" type="submit">
-                                        <img className="lupa"
-                                            src={Lupa} />
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
                     </div>
                     <div className="row">
                         <div className="col-12">

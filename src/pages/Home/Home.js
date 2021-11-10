@@ -4,16 +4,10 @@ import ListProducts from '../../components/macro/listProducts/ListProductsCarrou
 import Banners from '../../components/macro/Banners/Banner'
 import Loucas from "../../assets/images/products/loucasPortuguesas.jpg"
 import Caixa from "../../assets/images/products/caixaRegistradora.png"
-
+import Emphasis from '../../components/macro/Cards/Products/CardProductEmphasis'
 function Home(props) {
   
-    function image(){   
-        var imgSrc = require("../../assets/images/products/caixaRegistradora.png");
-        console.log(imgSrc)
-        return <img src={`${imgSrc.default}`} />
-    }
  
-
 
     return (
         <>
@@ -36,35 +30,9 @@ function Home(props) {
             <section className="container-fluid">
 
                 <div className="row custom-section mb-5 justify-content-center">
-
-                    <div className="col-md-5 col-12 custom-section-item">
-
-                      {image()}
-
-                    </div>
-
-                    <div className="col-md-5 col-12 custom-section-item">
-
-                        <h6>Caixa registradora <br /> (1932)</h6>
-                        <p>R$ 8520,00</p>
-                        <button> Comprar</button>
-
-                    </div>
-
-                    <div className="col-md-5 col-12 custom-section-item">
-
-                        <h6>Louças Portuguesas <br />(1889)</h6>
-                        <p>R$ 2520,00</p>
-                        <button>Comprar</button>
-
-                    </div>
-
-                    <div className="col-md-5 col-12 custom-section-item">
-
-                        <img src={Loucas}alt="Louças Portuguesas" />
-
-                    </div>
-
+                    <Emphasis variable image="caixaRegistradora.png" price="2520,00" name="Caixa Registradora" year="1962" id={1}/>
+                    <Emphasis  image="loucasPortuguesas.jpg" price="25120,00" name="Louças Portuguesas" year="1889" id={2}/> 
+              
                 </div>
 
             </section>

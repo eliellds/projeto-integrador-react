@@ -3,7 +3,7 @@ import Input from '../../../micro/Forms/Input/Input';
 import Select from '../../../micro/Forms/Select/Select';
 import ModalComp from '../../../micro/Modal/Modal';
 import FormDefault from '../FormDefault/FormDefault';
-import "./FormContact.css"
+
 
 function FormContact(props){
     return<>

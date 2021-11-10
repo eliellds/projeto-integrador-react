@@ -20,6 +20,7 @@ function ListProductsCatalogy(props){
             nome={product.nome}
             ano={product.ano}
             precoDe={product.precoDe}
+            precoPor={product.precoPor}
             vezes={product.vezes}
             parcelas={product.parcelas}
             

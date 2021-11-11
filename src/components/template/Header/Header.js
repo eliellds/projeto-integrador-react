@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
 import './Header.css'
-import Menu from '../../../assets/images/headers/Menu-de-Tres-Linhas.png'
 import Logotipo from '../../micro/Logo/Logo'
-import Login from '../../../assets/images/headers/login-icone.png'
+// import Login from '../../../assets/images/headers/login-icone.png'
 import DropdownMenu from '../../macro/DropdownMenu/DropdownMenu'
 import FormSearch from '../../macro/Forms/FormSearch/FormSearch'
 import Profile from '../../micro/Profile/Profile'
 import Bag from "../../micro/Bag/Bag"
+import LoginButton from '../../micro/LoginButton/LoginButton'
 
 function Header(props) {
 
@@ -28,12 +27,7 @@ function Header(props) {
                         </div>
 
 
-                        <div className="login-button-header col-2 col-sm-1">
-                            <a href="/login" className="perfil-bloco">
-                                <img className="login-imagem" src={Login} />
-                                <div className="perfil-nome">Entrar</div>
-                            </a>
-                        </div>
+                        <LoginButton/>
 
                         <Profile/>
         

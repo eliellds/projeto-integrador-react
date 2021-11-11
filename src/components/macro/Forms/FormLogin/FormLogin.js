@@ -4,6 +4,8 @@ import Button from "../../../micro/Button/Button"
 import { Link } from "react-router-dom";
 
 function FormLogin(props) {
+    
+    
     return (
         <>
             <div className="container mb-3 custom-form-div py-2">
@@ -22,10 +24,10 @@ function FormLogin(props) {
                 </div>
 
                 <div className="row justify-content-center">
-                    <Button label="Entrar" onclick="null" class="btn-confirmacao" type="submit" />
+                    <Button label="Entrar"  class="btn-confirmacao" type="submit" />
 
                     <p className="mt-3 mb-1 text-center">Ainda não tem cadastro?</p>
-                    <Button label="Cadastrar" onclick="null" class="btn-confirmacao" navigation route="./cadastro" />
+                    <Button label="Cadastrar"  class="btn-confirmacao" navigation route="./register" />
                 </div>
             </div>
         </>

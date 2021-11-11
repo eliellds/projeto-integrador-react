@@ -3,7 +3,13 @@ import './Button.css'
 import { Link } from 'react-router-dom'
 
 function Button(props) {
-
+   function clickDvent(e) {
+        e.preventDefault();
+        if(props.onclick){
+            props.onclick()
+        }
+       
+      }
     const typeButton = () => {
         if (props.navigation) {
             return (
@@ -13,7 +19,7 @@ function Button(props) {
                 )
         } else {
             return (
-                <button type={props.type} onClick={() => props.function()} className={"btn-custom-default " + props.class}>
+                <button type={props.type} onClick={e => clickDvent(e)} className={"btn-custom-default " + props.class}>
                     {props.label}
                 </button>
             )

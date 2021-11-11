@@ -21,13 +21,11 @@ function FormUser(props) {
         changeButton(bool)
     }
 
-    function click(e) {
-        e.preventDefault();
-    }
+  
 
     const [buttons, setButtons] = useState(
         <>
-            <Button function={ableForm} label="Alterar" class="btn-confirmacao" />
+            <Button onclick={ableForm} label="Alterar" class="btn-confirmacao" />
         </>
     )
 
@@ -35,13 +33,13 @@ function FormUser(props) {
         if (change) {
             setButtons(
                 <>
-                    <Button function={ableForm} label="Alterar" class="btn-confirmacao" />
+                    <Button onclick={ableForm} label="Alterar" class="btn-confirmacao" />
                 </>
             )
         } else {
             setButtons(
                 <>
-                    <Button function={disableForm} label="Salvar" class="btn-confirmacao" />
+                    <Button onclick={disableForm} label="Salvar" class="btn-confirmacao" />
                 </>
             )
         }
@@ -49,7 +47,7 @@ function FormUser(props) {
 
     return (
         <>
-            <FormDefault click={click} title="Meus Dados">
+            <FormDefault  title="Meus Dados">
 
                 <div className="row forms-block">
 
@@ -82,13 +80,13 @@ function FormUser(props) {
 
                     </div>
                 </div>
-
+                <div className="row justify-content-center">
+                    {buttons}
+                </div>
                 
 
             </FormDefault>
-            <div className="row justify-content-center">
-                    {buttons}
-                </div>
+         
         </>
     )
 }

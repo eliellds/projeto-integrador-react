@@ -8,7 +8,7 @@ function AsideMenu() {
 
     return (
         <>
-            <div class="d-flex flex-column flex-shrink-0 p-3 bg-light col-md-3 col-12">
+            <div className="d-flex flex-column flex-shrink-0 p-3 bg-light col-md-3 col-12">
                 <Navigation
                     activeItemId="/dashboard"
                     onSelect={({ itemId }) => {

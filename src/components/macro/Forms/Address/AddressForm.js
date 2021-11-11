@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useState, useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import FormDefault from '../FormDefault/FormDefault';
 import Input from "../../../micro/Forms/Input/Input";
@@ -6,21 +6,31 @@ import Button from "../../../micro/Button/Button";
 import Select from "../../../micro/Forms/Select/Select";
 
 function Address(props) {
-    const [show, setShow] = useState(true);
-
+    let bool = true
+    const [show, setShow] = useState(bool);
+    
+ 
+    
     function disableForm() {
-        setShow(true);
-        changeButton()
+        bool = true
+        
+        setShow(bool);
+
+        changeButton(bool)
+        
+     
+
     }
 
     function ableForm() {
-        setShow(false);
-        changeButton()
+        bool = false
+        setShow(bool);
+        changeButton(bool)
+        
     }
-
-    function click(e) {
-        e.preventDefault();
-    }
+    // function click(e) {
+    //     e.preventDefault();
+    // }
 
     const [buttons, setButtons] = useState(
         <>
@@ -29,60 +39,61 @@ function Address(props) {
     )
     let change = false
 
-    function changeButton() {
-        if (change == false) {
+    function changeButton(change) {
+        if (change) {
             setButtons(
                 <>
                     <Button function={ableForm} label="Alterar" class="btn-confirmacao" />
                 </>
             )
-            change=true
+ 
+            
         } else {
             setButtons(
                 <>
                     <Button function={disableForm} label="Salvar" class="btn-confirmacao" />
                 </>
             )
-            change=false
+     
         }
     }
     return (
         <>
-            <FormDefault click={click} title="Endereços" class="container custom-form-box mx-3 mx-sm-1 mx-lg-4 px-5 px-sm-1 px-lg-4">
+            <FormDefault title="Endereços" className="container custom-form-box mx-3 mx-sm-1 mx-lg-4 px-5 px-sm-1 px-lg-4">
 
-                <div class="row custom-form d-flex justify-content-center">
-                    <div class=" col-12 col-md-5">
-                        <Input disabled={show} label="rua" type="text" id="rua" class="form-input col-12" placeholder="Digite a rua como número..." />
+                <div className="row custom-form d-flex justify-content-center">
+                    <div className=" col-12 col-md-5">
+                        <Input disabled={show} label="rua" type="text" id="rua" className="form-input col-12" placeholder="Digite a rua como número..." />
                     </div>
                     
-                    <div class=" col-12 col-md-2">
-                        <Input disabled={show} label="Número" type="text" id="rua" class="form-input col-12" placeholder="Digite a rua como número..." />
+                    <div className=" col-12 col-md-2">
+                        <Input disabled={show} label="Número" type="text" id="rua" className="form-input col-12" placeholder="Digite a rua como número..." />
                     </div>
 
-                    <div class="col-12 col-md-4">
-                        <Input disabled={show} label="Complemento" type="text" id="complemento" class="form-input col-12" placeholder="Digite o complemento..." />
-                    </div>
-                </div>
-
-                <div class="row custom-form d-flex justify-content-center">
-                    <div class="col-12 col-md-6">
-                        <Input disabled={show} label="bairro" type="text" id="bairro" class="form-input col-12" placeholder="Digite sua senha..." />
-                    </div>
-
-                    <div class="col-12 col-md-5">
-                        <Input disabled={show} label="Ponto de referência" type="text" id="ponto-referencia" class="form-input col-12" placeholder="Digite um ponto de referência..." />
+                    <div className="col-12 col-md-4">
+                        <Input disabled={show} label="Complemento" type="text" id="complemento" className="form-input col-12" placeholder="Digite o complemento..." />
                     </div>
                 </div>
 
-                <div class="row custom-form d-flex justify-content-center">
-                    <div class="col-12 col-md-5">
-                        <Input disabled={show} label="Cidade" type="text" id="cidade" class="form-input col-12" placeholder="Digite sua cidade" />
+                <div className="row custom-form d-flex justify-content-center">
+                    <div className="col-12 col-md-6">
+                        <Input disabled={show} label="bairro" type="text" id="bairro" className="form-input col-12" placeholder="Digite sua senha..." />
                     </div>
 
-                    <div class="col-12 col-md-2">
+                    <div className="col-12 col-md-5">
+                        <Input disabled={show} label="Ponto de referência" type="text" id="ponto-referencia" className="form-input col-12" placeholder="Digite um ponto de referência..." />
+                    </div>
+                </div>
+
+                <div className="row custom-form d-flex justify-content-center">
+                    <div className="col-12 col-md-5">
+                        <Input disabled={show} label="Cidade" type="text" id="cidade" className="form-input col-12" placeholder="Digite sua cidade" />
+                    </div>
+
+                    <div className="col-12 col-md-2">
                     <Select disabled={show} label="Estado:" default="estado"/>
                         {/* <label  for="estado" >Estado</label>
-                        <select disabled={show} class="form-input col-12">
+                        <select disabled={show} className="form-input col-12">
                             <option id="estado" selected>Estado</option>
                             <option value="AC" disabled="disabled">Acre</option>
                             <option value="AL" disabled="disabled">Alagoas</option>
@@ -112,16 +123,18 @@ function Address(props) {
                         </select> */}
                     </div>
 
-                    <div class=" col-12 col-md-4">
-                        <Input disabled={show} label="CEP" type="text" id="cep" class="form-input col-12" placeholder="Digite sseu CEP..." />
+                    <div className=" col-12 col-md-4">
+                        <Input disabled={show} label="CEP" type="text" id="cep" className="form-input col-12" placeholder="Digite sseu CEP..." />
                     </div>
                 </div>
 
-                <div class="row justify-content-center pt-5">
-                   {buttons}
-                </div>
+                
 
             </FormDefault>
+            <div className="row justify-content-center pt-5">
+                   {buttons}
+                </div>
+         
         </>
     )
 }

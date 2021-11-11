@@ -6,16 +6,13 @@ import Button from "../../micro/Button/Button"
 import { useHistory } from "react-router"
 
 function CartItemsComp(props) {
-<<<<<<< HEAD
     const history = useHistory()
-=======
     const[qtyCart, setQty]  = useState(JSON.parse(localStorage.getItem('qtyCart')))
 
     function setQtyCart() {
         return qtyCart
     }
 
->>>>>>> 8c1c29191d0441382e1db536e03ad9b460b8f5d7
     return (
         <>
             <div className="container mt-5">

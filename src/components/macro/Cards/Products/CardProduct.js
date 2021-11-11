@@ -4,6 +4,24 @@ import Button from '../../../micro/Button/Button'
 
 export default function CardProduct(props) {
 
+    const addToCart = () => {
+        const product = {
+            id:props.id,
+            precoDe:props.precoDe,
+            preco:props.precoPor,
+            nome:props.nome,
+            ano:props.ano
+        }
+        let cartList = localStorage.getItem("cart") 
+            ? JSON.parse(localStorage.getItem("cart")) 
+            : []
+        cartList.push(product)
+        let cartString = JSON.stringify(cartList)
+        localStorage.setItem("cart", cartString)  
+        // localStorage.setItem('qtyCart', JSON.stringify(cartList.length))
+        // props.setQtyCart(cartList.length)
+    }
+
     const precoDe = (props) => {
 
         if (props.precoDe) {
@@ -46,7 +64,7 @@ export default function CardProduct(props) {
                             {preco(props)}
                         </div>
 
-                        <Button navigation route={`/cart/`} class="btn-comprar btn-expand" label="COMPRAR"/>
+                        <Button onclick={addToCart} class="btn-comprar btn-expand" label="COMPRAR"/>
 
                     </div>
 

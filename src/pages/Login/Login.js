@@ -7,8 +7,6 @@ import { useHistory } from 'react-router';
 
 function Login(props) {
 
-    const history = useHistory()
-
     return(
         <>
             <main className="conatiner-fluid custom-container-login py-4">

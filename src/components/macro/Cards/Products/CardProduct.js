@@ -19,7 +19,7 @@ export default function CardProduct(props) {
             <>
                 {precoDe(props)}
                 <div className="preco-por">R$ {props.precoPor}</div>
-                <div class="parcelas">À vista, ou em <em>{props.vezes}x</em> de <em>R$ {props.parcelas}</em> no cartão</div>
+                <div className="parcelas">À vista, ou em <em>{props.vezes}x</em> de <em>R$ {props.parcelas}</em> no cartão</div>
             </>
         )
 

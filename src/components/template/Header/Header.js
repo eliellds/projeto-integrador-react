@@ -16,7 +16,7 @@ function Header(props) {
         <>
             <header>
                 <div className="container-fluid">
-                    <div className="row justify-content-around">
+                    <div className="row header-row-ajust">
 
                         <div className="titulo-header col-lg-3 col-md-8 col-sm-7 col-4 justify-content-center">
                             <Logotipo home={location} />
@@ -29,7 +29,7 @@ function Header(props) {
 
                         <LoginButton/>
 
-                        <Profile/>
+                        { localStorage.getItem("user")?<Profile/> : <></>}
         
                         <Bag/>
 

@@ -3,10 +3,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-bootstrap'
 import Button from "../Button/Button"
 import Modal from 'react-bootstrap/Modal'
-
+import { useHistory } from "react-router"
 function ModalComp(props) {
     const [show, setShow] = useState(false);
-
+    const history = useHistory()
     function handleClose() {
         setShow(false);
     }
@@ -24,8 +24,8 @@ function ModalComp(props) {
             <form onClick={handleClick}>
 
                 <div className="row justify-content-center pt-3">
-                    <Button label="Voltar" navigation route="home" class="btn-retorno mx-5" />
-                    <Button label="Enviar" class="btn-confirmacao mx-5" function={handleShow} />
+                    <Button label="Voltar" onclick={history.goBack} class="btn-retorno mx-5" />
+                    <Button label="Enviar" class="btn-confirmacao mx-5" onclick={handleShow} />
                 </div>
 
                 <Modal show={show} onHide={handleClose}>
@@ -40,7 +40,7 @@ function ModalComp(props) {
                     </Modal.Body>
 
                     <Modal.Footer>
-                        <Button label="Fechar" class="btn-voltar" variant="secondary" function={handleClose} />
+                        <Button label="Fechar" class="btn-voltar" variant="secondary" onclick={handleClose} />
                     </Modal.Footer>
                 </Modal>
 

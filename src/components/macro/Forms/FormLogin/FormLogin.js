@@ -2,7 +2,6 @@ import React from "react";
 import Input from "../../../micro/Forms/Input/Input";
 import Button from "../../../micro/Button/Button"
 import { Link } from "react-router-dom";
-import LoginButton from "../../../micro/LoginButton/LoginButton";
 import { useHistory } from "react-router-dom";
 
 function FormLogin(props) {
@@ -16,6 +15,8 @@ function FormLogin(props) {
         history.goBack()
     }
 
+    
+    
     return (
         <>
             <div className="container mb-3 custom-form-div py-2">
@@ -37,7 +38,7 @@ function FormLogin(props) {
                     <Button label="Entrar" onclick={logar} class="btn-confirmacao" type="submit" />
 
                     <p className="mt-3 mb-1 text-center">Ainda não tem cadastro?</p>
-                    <Button label="Cadastrar" onclick="null" class="btn-confirmacao" navigation route="./cadastro" />
+                    <Button label="Cadastrar"  class="btn-confirmacao" navigation route="./register" />
                 </div>
             </div>
         </>

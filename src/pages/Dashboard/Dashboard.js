@@ -31,12 +31,12 @@ function Dashboard(props) {
 
     return (
         <>
-            <main class="conatiner-fluid custom-container py-5">
+            <main className="conatiner-fluid custom-container py-5">
 
-                <div class="row row-correction">
+                <div className="row row-correction">
                     <AsideMenu />
 
-                    <div class="row d-flex justify-content-center col-md-9 col-12">
+                    <div className="row d-flex justify-content-center col-md-9 col-12">
                         {setLocation()}
                     </div>
                 </div>

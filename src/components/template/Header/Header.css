@@ -209,6 +209,12 @@
     }
 }
 
+@media (max-width:991px) {
+    .header-row-ajust {
+        justify-content: space-around !important;
+    }
+}
+
 @media (max-width:645px) {
     #menu ul li a {
         padding: 10px 60px;

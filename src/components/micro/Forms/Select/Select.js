@@ -17,7 +17,7 @@ function Select(props) {
         <div className="input-container">
             <label>{props.label}</label>
             <select disabled={props.disabled} className="form-input col-12">
-                <option key="default" id="default" selected>{props.default}</option>
+                <option key="default" id="default" defaultValue>{props.default}</option>
                 {getOptions()}
             </select>
         </div>

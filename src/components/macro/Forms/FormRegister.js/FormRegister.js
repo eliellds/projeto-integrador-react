@@ -1,8 +1,12 @@
 import React from "react"
 import Input from "../../../micro/Forms/Input/Input"
 import Button from "../../../micro/Button/Button"
+import { useHistory } from "react-router"
 
 function FormRegister(props) {
+
+    const history = useHistory()
+    console.log(history.goBack)
     return (
         <>
             <div className="row justify-content-center">
@@ -48,8 +52,8 @@ function FormRegister(props) {
             </div>
 
             <div className="row justify-content-around py-4">
-                <Button label="Voltar" navigation route="login" class="btn-retorno" />
-                <Button label="Cadastrar" onclick="null" class="btn-confirmacao" />
+                <Button label="Voltar" onclick={history.goBack} class="btn-retorno" />
+                <Button label="Cadastrar"  class="btn-confirmacao" />
             </div>
         </>
     )

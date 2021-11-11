@@ -77,17 +77,11 @@ export default function Catalog(props) {
                     <Select label="Ordenar por: " default="Selecione o Filtro" options={filter} />
                 </div>
           
-
-              
             </div>
 
             <div className="container container-cards my-4">
 
-              
-
                     <ListProductsCatalogy products={products}/>
-
-                
 
             </div>
 

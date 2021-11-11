@@ -10,7 +10,7 @@ import { Routes } from './routes'
 function App() {
   return (
     <>
-      <Router>
+      <Router >
       <Header/>
         <Routes/>
       <Footer/>

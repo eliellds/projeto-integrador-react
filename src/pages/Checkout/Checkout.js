@@ -23,8 +23,8 @@ function Checkout(props) {
                 <FormDataCard />
 
                 <div className="row justify-content-around py-4">
-                    <Button label="Voltar" navigation route="/cart" class="btn-retorno" onclick="null" />
-                    <Button function={envio} label="Finalizar" onclick="null" class="btn-confirmacao" type="submit" />
+                    <Button label="Voltar" navigation route="/cart" class="btn-retorno"  />
+                    <Button onclick={envio} label="Finalizar"  class="btn-confirmacao" type="submit" />
                 </div>
 
             </main>

@@ -2,8 +2,7 @@ import React, { useState, useEffect} from 'react'
 import './Home.css'
 import ListProducts from '../../components/macro/listProducts/ListProductsCarroussel'
 import Banners from '../../components/macro/Banners/Banner'
-import Loucas from "../../assets/images/products/loucasPortuguesas.jpg"
-import Caixa from "../../assets/images/products/caixaRegistradora.png"
+
 import Emphasis from '../../components/macro/Cards/Products/CardProductEmphasis'
 function Home(props) {
   

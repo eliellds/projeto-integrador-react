@@ -34,7 +34,7 @@ function Address(props) {
 
     const [buttons, setButtons] = useState(
         <>
-            <Button function={ableForm} label="Alterar" class="btn-confirmacao" />
+            <Button onclick={ableForm} label="Alterar" class="btn-confirmacao" />
         </>
     )
     let change = false
@@ -43,7 +43,7 @@ function Address(props) {
         if (change) {
             setButtons(
                 <>
-                    <Button function={ableForm} label="Alterar" class="btn-confirmacao" />
+                    <Button onclick={ableForm} label="Alterar" class="btn-confirmacao" />
                 </>
             )
  
@@ -51,7 +51,7 @@ function Address(props) {
         } else {
             setButtons(
                 <>
-                    <Button function={disableForm} label="Salvar" class="btn-confirmacao" />
+                    <Button onclick={disableForm} label="Salvar" class="btn-confirmacao" />
                 </>
             )
      
@@ -127,13 +127,13 @@ function Address(props) {
                         <Input disabled={show} label="CEP" type="text" id="cep" className="form-input col-12" placeholder="Digite sseu CEP..." />
                     </div>
                 </div>
-
+                <div className="row justify-content-center pt-5">
+                   {buttons}
+                </div>
                 
 
             </FormDefault>
-            <div className="row justify-content-center pt-5">
-                   {buttons}
-                </div>
+        
          
         </>
     )

@@ -9,7 +9,7 @@ function CartItems(props) {
     function listCartItem() {
         return productItems.map(product => {
             { console.log(product) }
-            <>
+           return  <>
                 <div className="row carrinho-card mt-1 mb-2 mx-0 align-items-center justify-content-between">
                     <div className="col-2 col-md-2  p-0">
                         <a href="#"> <img src={Produto} className="card-image" /></a>

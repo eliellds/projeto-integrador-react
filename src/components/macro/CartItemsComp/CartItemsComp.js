@@ -1,5 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React from 'react'
+import React, {useState} from 'react'
 import '../../../pages/Cart/Cart.css'
 import CartItems from '../../micro/CartItems/CartItems';
 import Button from "../../micro/Button/Button"
@@ -7,6 +7,12 @@ import { useHistory } from "react-router"
 
 function CartItemsComp(props) {
     const history = useHistory()
+    const[qtyCart, setQty]  = useState(JSON.parse(localStorage.getItem('qtyCart')))
+
+    function setQtyCart() {
+        return qtyCart
+    }
+
     return (
         <>
             <div className="container mt-5">
@@ -37,9 +43,8 @@ function CartItemsComp(props) {
                     <div className="col-5 mb-3 mt-3 text-start">
                         <h4 className="texto-total">Frete fixo: R$<span className="numero total">150,00</span></h4>
                     </div>
-
                     <div className="col-5 mb-3 mt-3">
-                        <h4 className="texto-total">Total:R$ <span className="numero total">{props.finalprice}</span></h4>
+                        <h4 className="texto-total">Quantidade: <span className="numero total">{qtyCart} </span> - Total:R$ <span className="numero total">{props.finalprice}</span></h4>
                     </div>
 
                 </div>

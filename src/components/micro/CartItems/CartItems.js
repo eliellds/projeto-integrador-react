@@ -42,7 +42,6 @@ function CartItems(props) {
     return (
         <>        
             {listCartItem()}
-            <p>Quantidade: {setQtyCart()}</p>
         </>
     )
 }

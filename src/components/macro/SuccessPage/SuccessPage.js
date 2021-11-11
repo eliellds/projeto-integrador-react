@@ -33,7 +33,7 @@ function SuccessPage(props) {
 
                 </div>
                 <div class="texto-prazo">Prazo estimado para entrega: <b>{props.prazo}</b></div>
-                <Button navigation route="/dashboard" class="btn-retorno" label="PEDIDOS"/>
+                <Button navigation route="/dashboard/myorder" class="btn-retorno" label="Pedidos"/>
 
 
             </div>

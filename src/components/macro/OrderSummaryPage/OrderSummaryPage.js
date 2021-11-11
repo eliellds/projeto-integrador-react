@@ -31,8 +31,8 @@ function OrderSummaryPage(props) {
                 </div>
 
             <div className="d-flex justify-content-between">
-                <Button navigation route="/checkout" class="btn-retorno" label="voltar"/>
-                <Button navigation route="/success" class="btn-comprar" label="comprar"/>
+                <Button navigation route="/checkout" class="btn-retorno align-self-center" label="voltar"/>
+                <Button navigation route="/success" class="btn-comprar" label="Finalizar"/>
             </div>
 
 

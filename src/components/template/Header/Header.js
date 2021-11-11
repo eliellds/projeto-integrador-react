@@ -34,7 +34,7 @@ function Header(props) {
                             </a>
                         </div>
 
-                        <Profile/>
+                        { localStorage.getItem("user")?<Profile/> : <></>}
         
                         <Bag/>
 

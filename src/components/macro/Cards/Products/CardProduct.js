@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import "./CardProduct.css"
 import Button from '../../../micro/Button/Button'
 export default function CardProduct(props) {
+    
+    
+    
     const addToCart = () => {
         const product = {
             id:props.id,
@@ -22,10 +25,7 @@ export default function CardProduct(props) {
 
        
     }
-    function redirect(){
-
-    }
-
+   
     const precoDe = (props) => {
 
         if (props.precoDe) {

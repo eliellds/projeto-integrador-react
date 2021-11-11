@@ -25,7 +25,7 @@ export default function CardProduct(props) {
     }
 
        
-    }
+    
    
     const precoDe = (props) => {
 
@@ -79,4 +79,4 @@ export default function CardProduct(props) {
         </>
     )
 
-}
+    }

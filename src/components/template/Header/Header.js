@@ -22,15 +22,23 @@ function Header(props) {
         if (login) {
             if (localStorage.getItem("user")) {
                 setLogin(false);
+                // window.localStorage.href="/"
             }
         } else {
             removeUser();
             setLogin(true);
+            // window.localStorage.href="/"
         }
+        compProfile();
     }
 
-    function compProfile() {
-        return localStorage.getItem("user") ? <Profile /> : <></>
+    // function compProfile() {
+    //     return localStorage.getItem("user") ? <Profile /> : <></>
+    // }
+    const [perfil,setPerfil]= useState(localStorage.getItem("user")?<Profile/> : <></>)
+
+    function compProfile(){
+        setPerfil(localStorage.getItem("user")?<Profile/> : <></>)
     }
 
     console.log(login);
@@ -52,7 +60,7 @@ function Header(props) {
 
                         <LoginButton click={changeState} logged={login} />
 
-                        {compProfile()}
+                        {perfil}
 
                         <Bag />
 

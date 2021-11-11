@@ -17,12 +17,11 @@ function FormLogin(props) {
 
     const addUser = () => {
         localStorage.setItem("user", userString);
+        test();
     }
 
     function logar() {
         addUser();
-        setTimeout( function() {
-            test()},3000);
     }
     
     return (

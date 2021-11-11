@@ -3,9 +3,10 @@ import React from 'react'
 import '../../../pages/Cart/Cart.css'
 import CartItems from '../../micro/CartItems/CartItems';
 import Button from "../../micro/Button/Button"
+import { useHistory } from "react-router"
 
 function CartItemsComp(props) {
-
+    const history = useHistory()
     return (
         <>
             <div className="container mt-5">
@@ -48,7 +49,7 @@ function CartItemsComp(props) {
                 </div>
 
                 <div className="d-flex justify-content-between mb-5">
-                    <Button navigation route="/category" class="btn-retorno" label="Continuar Compra"/>
+                    <Button  onclick={history.goBack} class="btn-retorno" label="Continuar Compra"/>
                     <Button navigation route="/checkout" class="btn-comprar align-self-center" label="finalizar"/>
                 </div>
 

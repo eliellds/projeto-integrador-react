@@ -4,12 +4,18 @@ import Produto from '../../../assets/images/cart/caixaRegistradora.png'
 
 function CartItems(props) {
     const productItems = JSON.parse(localStorage.getItem("cart")) || []
-    console.log(productItems)
+    const qtyCart = JSON.parse(localStorage.getItem('qtyCart'))
+
+    function setQtyCart() {
+        return qtyCart
+    }
 
     function listCartItem() {
+
         return productItems.map(product => {
-            { console.log(product) }
-           return  <>
+
+            return <>
+            
                 <div className="row carrinho-card mt-1 mb-2 mx-0 align-items-center justify-content-between">
                     <div className="col-2 col-md-2  p-0">
                         <a href="#"> <img src={Produto} className="card-image" /></a>
@@ -34,8 +40,9 @@ function CartItems(props) {
     }
 
     return (
-        <>
+        <>        
             {listCartItem()}
+            <p>Quantidade: {setQtyCart()}</p>
         </>
     )
 }

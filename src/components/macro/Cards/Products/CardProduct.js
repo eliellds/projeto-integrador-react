@@ -19,9 +19,10 @@ export default function CardProduct(props) {
         cartList.push(product)
         let cartString = JSON.stringify(cartList)
         localStorage.setItem("cart", cartString)
-        // localStorage.setItem('qtyCart', JSON.stringify(cartList.length))
-        // props.setQtyCart(cartList.length)
+        localStorage.setItem('qtyCart', JSON.stringify(cartList.length))
+        
         window.location.href = "/cart";
+    }
 
        
     }

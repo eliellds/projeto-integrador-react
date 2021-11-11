@@ -11,10 +11,10 @@ import Bag from "../../micro/Bag/Bag"
 function Header(props) {
 
     const location = window.location.pathname
-    
+    const [perfil,setPerfil]= useState(localStorage.getItem("user")?<Profile/> : <></>)
 
     function compProfile(){
-        return localStorage.getItem("user")?<Profile/> : <></>
+        setPerfil(localStorage.getItem("user")?<Profile/> : <></>)
     }
     return (
         <>
@@ -38,7 +38,7 @@ function Header(props) {
                             </a>
                         </div>
 
-                        {compProfile()}
+                        {perfil}
         
                         <Bag/>
 

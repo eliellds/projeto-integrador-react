@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Input from "../../../micro/Forms/Input/Input";
 import Button from "../../../micro/Button/Button"
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
+import Header from "../../../template/Header/Header";
 
 function FormLogin(props) {
 
@@ -10,12 +11,19 @@ function FormLogin(props) {
     let userString = JSON.stringify(user)
     const history = useHistory()
 
-    function logar() {
-        localStorage.setItem("user", userString)
-        history.goBack()
+    function test() {
+        return history.goBack();
     }
 
-    
+    const addUser = () => {
+        localStorage.setItem("user", userString);
+    }
+
+    function logar() {
+        addUser();
+        setTimeout( function() {
+            test()},3000);
+    }
     
     return (
         <>

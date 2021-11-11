@@ -1,6 +1,8 @@
 import React from 'react';
 import CardProduct from '../Cards/Products/CardProduct';
+
 function ListProductsCatalogy(props){
+    
     const products = props.products || []
     
     function image(image) {

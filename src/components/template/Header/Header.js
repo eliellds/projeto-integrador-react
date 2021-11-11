@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import './Header.css'
 import Logotipo from '../../micro/Logo/Logo'
 // import Login from '../../../assets/images/headers/login-icone.png'
@@ -12,6 +12,29 @@ function Header(props) {
 
     const location = window.location.pathname
 
+    const [login, setLogin] = useState(!localStorage.getItem("user"));
+
+    const removeUser = () => {
+        localStorage.removeItem("user");
+    }
+
+    const changeState = () => {
+        if (login) {
+            if (localStorage.getItem("user")) {
+                setLogin(false);
+            }
+        } else {
+            removeUser();
+            setLogin(true);
+        }
+    }
+
+    function compProfile() {
+        return localStorage.getItem("user") ? <Profile /> : <></>
+    }
+
+    console.log(login);
+
     return (
         <>
             <header>
@@ -23,18 +46,18 @@ function Header(props) {
                         </div>
 
                         <div className="form-pesquisa-header col-lg-6 d-lg-block d-none">
-                            <FormSearch/>
+                            <FormSearch />
                         </div>
 
 
-                        <LoginButton/>
+                        <LoginButton click={changeState} logged={login} />
 
-                        { localStorage.getItem("user")?<Profile/> : <></>}
-        
-                        <Bag/>
+                        {compProfile()}
+
+                        <Bag />
 
                         <div className="container form-pesquisa col-10 d-lg-none d-block">
-                            <FormSearch/>
+                            <FormSearch />
                         </div>
 
                     </div>

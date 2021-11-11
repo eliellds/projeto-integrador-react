@@ -1,13 +1,8 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react'
-
-
-
-
 import '../../../pages/Cart/Cart.css'
 import CartItems from '../../micro/CartItems/CartItems';
 import Button from "../../micro/Button/Button"
-
 
 function CartItemsComp(props) {
 
@@ -23,7 +18,6 @@ function CartItemsComp(props) {
 
             <div className=" container personalizado-carrinho-desc p-0 pl-md-1 pr-md-1  ">
 
-
                 <div className="row container-descricao justify-content-between align-items-center">
                     <div className="col-2"></div>
                     <h2 className=" texto-desc col-4  col-md-4">DESCRIÇÃO PRODUTOS</h2>
@@ -36,9 +30,7 @@ function CartItemsComp(props) {
 
             <div className=" container personalizado-carrinho p-0 pl-md-1 pr-md-1  ">
 
-                <CartItems description="Caixa registradora fabricada em 1932 feita aço inoxidavel Criada por James Ritty." price=" 2,500" />
-                <CartItems description="Caixa registradora fabricada em 1932 feita aço inoxidavel Criada por James Ritty." price=" 2,500" />
-
+                <CartItems/>
 
                 <div className="row tamanho  ">
                     <div className="col-5 mb-3 mt-3 text-start">
@@ -49,14 +41,15 @@ function CartItemsComp(props) {
                         <h4 className="texto-total">Total:R$ <span className="numero total">{props.finalprice}</span></h4>
                     </div>
 
-
                 </div>
+
                 <div className="row justify-content-center tamanho mb-4">
                     <div className="col-9 linha-divisoria-apoio justify-self-center "></div>
                 </div>
+
                 <div className="d-flex justify-content-between mb-5">
-                    <Button navigation route="/" class="btn-retorno" label="voltar"/>
-                    <Button navigation route="/checkout" class="btn-comprar" label="finalizar"/>
+                    <Button navigation route="/category" class="btn-retorno" label="Continuar Compra"/>
+                    <Button navigation route="/checkout" class="btn-comprar align-self-center" label="finalizar"/>
                 </div>
 
             </div>

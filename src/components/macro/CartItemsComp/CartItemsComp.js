@@ -1,13 +1,8 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react'
-
-
-
-
 import '../../../pages/Cart/Cart.css'
 import CartItems from '../../micro/CartItems/CartItems';
 import Button from "../../micro/Button/Button"
-
 
 function CartItemsComp(props) {
 
@@ -22,7 +17,6 @@ function CartItemsComp(props) {
             </div>
 
             <div className=" container personalizado-carrinho-desc p-0 pl-md-1 pr-md-1  ">
-
 
                 <div className="row container-descricao justify-content-between align-items-center">
                     <div className="col-2"></div>
@@ -55,8 +49,8 @@ function CartItemsComp(props) {
                     <div className="col-9 linha-divisoria-apoio justify-self-center "></div>
                 </div>
                 <div className="d-flex justify-content-between mb-5">
-                    <Button navigation route="/" class="btn-retorno" label="voltar"/>
-                    <Button navigation route="/checkout" class="btn-comprar" label="finalizar"/>
+                    <Button navigation route="/" class="btn-retorno" label="Continuar Compra"/>
+                    <Button navigation route="/checkout" class="btn-comprar align-self-center" label="finalizar"/>
                 </div>
 
             </div>

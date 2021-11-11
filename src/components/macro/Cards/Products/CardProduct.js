@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import "./CardProduct.css"
 import Button from '../../../micro/Button/Button'
+
 export default function CardProduct(props) {
-    
 
     const precoDe = (props) => {
 
@@ -46,7 +46,7 @@ export default function CardProduct(props) {
                             {preco(props)}
                         </div>
 
-                        <Button navigation route={`/product/${props.id}`} class="btn-comprar btn-expand" label="COMPRAR"/>
+                        <Button navigation route={`/cart/`} class="btn-comprar btn-expand" label="COMPRAR"/>
 
                     </div>
 

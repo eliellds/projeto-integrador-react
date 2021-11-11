@@ -11,7 +11,6 @@ import Bag from "../../micro/Bag/Bag"
 function Header(props) {
 
     const location = window.location.pathname
-    
 
     function compProfile(){
         return localStorage.getItem("user")?<Profile/> : <></>

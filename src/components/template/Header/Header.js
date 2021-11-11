@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState} from 'react'
 import './Header.css'
 import Menu from '../../../assets/images/headers/Menu-de-Tres-Linhas.png'
 import Logotipo from '../../micro/Logo/Logo'
@@ -11,7 +11,11 @@ import Bag from "../../micro/Bag/Bag"
 function Header(props) {
 
     const location = window.location.pathname
+    
 
+    function compProfile(){
+        return localStorage.getItem("user")?<Profile/> : <></>
+    }
     return (
         <>
             <header>
@@ -34,7 +38,7 @@ function Header(props) {
                             </a>
                         </div>
 
-                        { localStorage.getItem("user")?<Profile/> : <></>}
+                        {compProfile()}
         
                         <Bag/>
 

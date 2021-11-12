@@ -7,6 +7,10 @@ import SearchInfo from "../../components/micro/SearchInfo/SearchInfo";
 
 export default function Search(props) {
 
+    const precoDe = "2000"
+    const precoPor = "1800"
+    const ano = "1788"
+
     return (
         <>
             <section>
@@ -26,16 +30,16 @@ export default function Search(props) {
 
                     <ul className="row lista-cards catalogo tamanho mb-3">
 
-                        <CardProduct imagem={Chas} nome="Estátua antiga" />
-                        <CardProduct imagem={Chas} nome="Estátua antiga" />
-                        <CardProduct imagem={Chas} nome="Estátua antiga" />
-                        <CardProduct imagem={Chas} nome="Estátua antiga" />
-                        <CardProduct imagem={Chas} nome="Estátua antiga" />
-                        <CardProduct imagem={Chas} nome="Estátua antiga" />
-                        <CardProduct imagem={Chas} nome="Estátua antiga" />
-                        <CardProduct imagem={Chas} nome="Estátua antiga" />
-                        <CardProduct imagem={Chas} nome="Estátua antiga" />
-                        <CardProduct imagem={Chas} nome="Estátua antiga" />
+                        <CardProduct imagem={Chas} nome="Estátua antiga" precoDe={precoDe} precoPor={precoPor} ano={ano} />
+                        <CardProduct imagem={Chas} nome="Estátua antiga" precoDe={precoDe} precoPor={precoPor} ano={ano} />
+                        <CardProduct imagem={Chas} nome="Estátua antiga" precoDe={precoDe} precoPor={precoPor} ano={ano} />
+                        <CardProduct imagem={Chas} nome="Estátua antiga" precoDe={precoDe} precoPor={precoPor} ano={ano} />
+                        <CardProduct imagem={Chas} nome="Estátua antiga" precoDe={precoDe} precoPor={precoPor} ano={ano} />
+                        <CardProduct imagem={Chas} nome="Estátua antiga" precoDe={precoDe} precoPor={precoPor} ano={ano} />
+                        <CardProduct imagem={Chas} nome="Estátua antiga" precoDe={precoDe} precoPor={precoPor} ano={ano} />
+                        <CardProduct imagem={Chas} nome="Estátua antiga" precoDe={precoDe} precoPor={precoPor} ano={ano} />
+                        <CardProduct imagem={Chas} nome="Estátua antiga" precoDe={precoDe} precoPor={precoPor} ano={ano} />
+                        <CardProduct imagem={Chas} nome="Estátua antiga" precoDe={precoDe} precoPor={precoPor} ano={ano} />
 
 
                     </ul>

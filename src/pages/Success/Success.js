@@ -7,7 +7,7 @@ function Success(props) {
 
     return (
         <>
-            <SuccessPage numPedido={999999} valorTotal="R$ 9999,99" prazo="01/01/2022"/>
+            <SuccessPage   prazo="01/01/2022" frete={150.00}/>
         </>
     )
 }

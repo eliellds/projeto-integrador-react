@@ -17,9 +17,9 @@ function OrderSummaryPage(props) {
                 
                     <ul className="container col-12 col-lg-6 mx-0 d-flex flex-column">
                     <h4>Itens</h4>
-                        <ProductSuccess produto="Penteadeira de madeira nobre" valorUni="R$ 9999,99" qtd="01"/>
-                        <ProductSuccess produto="Penteadeira de madeira branca" valorUni="R$5999,99" qtd="01"/>
-                        <div className="valor-total">Total:&nbsp;<b>{props.valorTotal}</b></div>
+                        
+                        <ProductSuccess frete={150}/>
+                   
 
                     </ul>
 

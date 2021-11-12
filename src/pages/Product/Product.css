@@ -148,3 +148,8 @@
     text-align: center;
     padding-top: 8px;
 }
+.frete-fixo-produto{
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 1.5rem;
+    color: #666;
+}

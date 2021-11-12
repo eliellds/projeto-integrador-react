@@ -82,7 +82,7 @@ function Header(props) {
                             <nav id="menu">
                                 <ul className="align-content-center justify-content-center px-5 d-none d-sm-flex">
                                     <li><a href="/home">Home</a></li>
-                                    <li><a href="/category">Catálogo</a></li>
+                                    <li><a href="/category">Categorias</a></li>
                                     <li><a href="/sales">Promoções</a></li>
                                     <li><a href="/contact">Contato</a></li>
                                 </ul>

@@ -14,7 +14,7 @@ function SuccessPage(props){
                 Seu pedido foi <em>concluído com sucesso</em> e os dados da compra foram enviados para seu e-mail.
             </p>
             <div class="container-fluid container-principal">
-                <h2 class="numero-pedido col-12">NÚMERO DO PEDIDO:<b>&nbsp;{props.numPedido}</b></h2>
+                <h2 class="numero-pedido col-12">NÚMERO DO PEDIDO:<b>&nbsp;{props.numPedido}12345</b></h2>
 
                 <div class="row linha-geral justify-content-between">
                 

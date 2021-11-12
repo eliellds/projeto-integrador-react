@@ -14,7 +14,6 @@ function ProductNotFoundComp(props) {
 
                     </ul>
             </div>
-            <div className="space"> <hr/> </div>
         </>
     );
 }

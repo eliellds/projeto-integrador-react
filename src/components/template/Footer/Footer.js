@@ -7,8 +7,8 @@ function Footer(props) {
     return(
         <>
         <footer>
-            <div className="container-fluid ">
-                <div className="row justify-content-between first-footer  px-0">
+            <div className="container-fluid pt-1">
+                <div className="row justify-content-between first-footer pt-3 px-0">
                     <div className="col-5 col-xs-6 col-sm-2 col-md-3 contato px-2">
                         <h3>
                             contato

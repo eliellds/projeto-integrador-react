@@ -53,7 +53,7 @@ function FormRegister(props) {
 
             <div className="row justify-content-around py-4">
                 <Button label="Voltar" onclick={history.goBack} class="btn-retorno" />
-                <Button label="Cadastrar"  class="btn-confirmacao" />
+                <Button onclick={history.goBack} label="Cadastrar"  class="btn-confirmacao" />
             </div>
         </>
     )

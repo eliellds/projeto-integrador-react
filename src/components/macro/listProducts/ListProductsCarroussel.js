@@ -12,6 +12,10 @@ function ListProducts(props) {
     const [width, setWidth] = useState()
     const [visibleSlide, setVisibleSlide] = useState(5)
     const prod = require("../../../assets/images/products/BandeijaTurca.webp")
+    const nome = "Nome do produto"
+    const ano = "1800"
+    const precoDe = "2000,00"
+    const precoPor = "1800,00"
 
     function windowSize() {
         var widthNow = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
@@ -62,7 +66,7 @@ function ListProducts(props) {
          <Slide index={0}  >
              
                     <div className="row lista-cards  tamanho  mb-3 justify-content-center">
-                    <ListProduct imagem={Imagem}></ListProduct>
+                    <ListProduct id={1} imagem={Imagem} ano={ano} nome={nome} precoDe={precoDe} precoPor={precoPor}></ListProduct>
                     </div>
                 </Slide>
                 <Slide index={1} >

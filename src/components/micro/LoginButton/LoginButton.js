@@ -6,13 +6,22 @@ import { Link } from "react-router-dom";
 
 export default function LoginButton(props) {
 
+    function preventDefault(e) {
+        e.preventDefault()
+        props.click()
+        window.location.href = props.logged ? "/login" : "/";
+
+    }
+
     function buttonsRend() {
+
+        
+
         return (
             <>
                 <div className="login-button-header col-2 col-sm-1">
                     <Link
-                        onClick={() => props.click()}
-                        to={props.logged ? "/login" : "/"}
+                        onClick={(e) => preventDefault(e)}
                         className="perfil-bloco"
                     >
 

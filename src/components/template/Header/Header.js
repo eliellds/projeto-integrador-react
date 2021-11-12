@@ -41,6 +41,14 @@ function Header(props) {
         setPerfil(localStorage.getItem("user")?<Profile/> : <></>)
     }
 
+    function getPerfil() {
+        return perfil
+    }
+
+    useEffect(() => {
+        getPerfil()
+    }, [])
+
     console.log(login);
 
     return (

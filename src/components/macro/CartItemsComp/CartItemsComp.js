@@ -55,7 +55,7 @@ function CartItemsComp(props) {
 
                 <div className="d-flex justify-content-between mb-5">
                     <Button  onclick={history.goBack} class="btn-retorno" label="Continuar Compra"/>
-                    <Button navigation route="/checkout" class="btn-comprar align-self-center" label="finalizar"/>
+                    <Button navigation route={localStorage.getItem("user") ? "/checkout" : "/login"} class="btn-comprar align-self-center" label="finalizar"/>
                 </div>
 
             </div>

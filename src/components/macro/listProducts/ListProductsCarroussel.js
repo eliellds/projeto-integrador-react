@@ -71,35 +71,35 @@ function ListProducts(props) {
                 </Slide>
                 <Slide index={1} >
                     <div className="row lista-cards  tamanho  mb-3 justify-content-center">
-                        <ListProduct imagem={prod.default}></ListProduct>
+                        <ListProduct id={2} ano={ano} nome={nome} precoDe={precoDe} precoPor={precoPor} imagem={prod.default}></ListProduct>
                     </div>                        </Slide>
                 <Slide index={2} >
                     <div className="row lista-cards  tamanho  mb-3 justify-content-center">
-                        <ListProduct imagem={Imagem}></ListProduct>
+                        <ListProduct id={3} imagem={Imagem} ano={ano} nome={nome} precoDe={precoDe} precoPor={precoPor}></ListProduct>
                     </div>                        </Slide>
                 <Slide index={3}>
                     <div className="row lista-cards  tamanho  mb-3 justify-content-center">
-                    <ListProduct imagem={Imagem}></ListProduct>
+                    <ListProduct id={4} imagem={Imagem} ano={ano} nome={nome} precoDe={precoDe} precoPor={precoPor}></ListProduct>
                     </div>                        </Slide>
                 <Slide index={4}>
                     <div className="row lista-cards  tamanho  mb-3 justify-content-center">
-                    <ListProduct imagem={Imagem}></ListProduct>
+                    <ListProduct id={5} imagem={Imagem} ano={ano} nome={nome} precoDe={precoDe} precoPor={precoPor}></ListProduct>
                     </div>                        </Slide>
                 <Slide index={5}>
                     <div className="row lista-cards  tamanho  mb-3 justify-content-center">
-                    <ListProduct imagem={Imagem}></ListProduct>
+                    <ListProduct id={6} imagem={Imagem} ano={ano} nome={nome} precoDe={precoDe} precoPor={precoPor}></ListProduct>
                     </div>                        </Slide>
                 <Slide index={6}>
                     <div className="row lista-cards  tamanho  mb-3 justify-content-center">
-                    <ListProduct imagem={Imagem}></ListProduct>
+                    <ListProduct id={7} imagem={Imagem} ano={ano} nome={nome} precoDe={precoDe} precoPor={precoPor}></ListProduct>
                     </div>                        </Slide>
                 <Slide index={7}>
                     <div className="row lista-cards  tamanho  mb-3 justify-content-center">
-                    <ListProduct imagem={Imagem}></ListProduct>
+                    <ListProduct id={8} imagem={Imagem} ano={ano} nome={nome} precoDe={precoDe} precoPor={precoPor}></ListProduct>
                     </div>                        </Slide>
                 <Slide index={8}>
                     <div className="row lista-cards  tamanho  mb-3 justify-content-center">
-                    <ListProduct imagem={Imagem}></ListProduct>
+                    <ListProduct id={9} imagem={Imagem} ano={ano} nome={nome} precoDe={precoDe} precoPor={precoPor}></ListProduct>
                     </div>
                 </Slide>
 

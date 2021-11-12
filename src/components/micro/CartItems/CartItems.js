@@ -10,10 +10,15 @@ function CartItems(props) {
         return qtyCart
     }
 
+    // function remover(id){
+
+    //     for(var i = )
+    // }
+
     function listCartItem() {
 
         return productItems.map(product => {
-
+            console.log(product)
             return <>
             
                 <div className="row carrinho-card mt-1 mb-2 mx-0 align-items-center justify-content-between">

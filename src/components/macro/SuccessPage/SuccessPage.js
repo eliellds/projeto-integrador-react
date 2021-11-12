@@ -2,9 +2,11 @@ import React from "react";
 import ProductSuccess from "../../micro/productsSucess/productsSucess";
 import OrderInfo from '../../micro/productsSucess/orderInfo'
 import Button from "../../micro/Button/Button"
+import { useHistory } from 'react-router';
 
+function SuccessPage(props){
+    const history = useHistory()
 
-function SuccessPage(props) {
     return (
         <>
             <h1>OBRIGADO!</h1>
@@ -17,13 +19,13 @@ function SuccessPage(props) {
 
                 <div class="row linha-geral justify-content-between">
                 
-                    <ul class="container col-12 col-lg-6 mx-0 d-flex flex-column">
-                    <h4>Itens</h4>
-                        <ProductSuccess produto="Penteadeira de madeira nobre" valorUni="R$ 9999,99" qtd="01"/>
-                        <ProductSuccess produto="Penteadeira de madeira branca" valorUni="R$5999,99" qtd="01"/>
-                        <div class="valor-total">Total:&nbsp;<b>{props.valorTotal}</b></div>
+                     <ul class="container col-12 col-lg-6 mx-0 d-flex flex-column">
+                        <h4>Itens</h4>
+                        <ProductSuccess frete={150}/> 
+                        
+                        
 
-                    </ul>
+                    </ul> 
 
                     <div class="container col-12 col-lg-5 mx-0">
                         <OrderInfo titulo="Pagamento" primeiraLinha="Mastercard Crédito" segundaLinha="0000-0000-0000-0000" terceiraLinha="À vista"/>
@@ -33,7 +35,7 @@ function SuccessPage(props) {
 
                 </div>
                 <div class="texto-prazo">Prazo estimado para entrega: <b>{props.prazo}</b></div>
-                <Button navigation route="/dashboard/myorder" class="btn-retorno" label="Pedidos"/>
+                <Button onclick={history.goBack} class="btn-retorno" label="Pedidos"/>
 
 
             </div>

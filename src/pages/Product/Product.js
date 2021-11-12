@@ -55,15 +55,15 @@ function Product(props) {
                         <div className="row row-correction">
                             <div className="container container-imagem mx-0 col-12 col-md-7 col-lg-8 mt-3">
                                 <div className="row p-0 imagem-caixa-registradora">
-                                    {/* <img className="Caixa-Registradora p-0" src={props.imagem} alt={props.nome} /> */}
-                                    <img className="Caixa-Registradora p-0" src={caixaRegistradora} alt={props.nome} />
+                                    <img className="caixa-Registradora p-0" src={props.imagem} alt={props.nome} />
+                                    {/* <img className="Caixa-Registradora p-0" src={caixaRegistradora} alt={props.nome} /> */}
                                 </div>
                             </div>
                             <div className="container Valores px-0 px-md-3 px-lg-0 mb-5 col-12 col-md-5 col-lg-4 d-flex flex-column justify-content-center">
-                                {/* <h4 className="valor text-center">{preco(props)}</h4> */}
-                                <h4 className="valor text-center">De: <del>R$3.520,00</del><br />Por: R$2.520,00</h4>
+                                <h4 className="valor text-center">{preco(props)}</h4>
+                                {/* <h4 className="valor text-center">De: <del>R$3.520,00</del><br />Por: R$2.520,00</h4> */}
 
-                                <select className="form-input col-11 align-self-center  ">
+                                {/* <select className="form-input col-11 align-self-center  ">
                                     <option id="forma-pagamento" selected>Consultar formas de pagamento</option>
                                     <option value="boleto">2.394,00 - Boleto à vista</option>
                                     <option value="debito">2.500,00 - Débito à vista</option>
@@ -72,7 +72,7 @@ function Product(props) {
                                     <option value="10x">10x sem juros - 252,00 (total = 2.520,00) </option>
                                     <option value="5x">5x sem juros - 504,00 (total = 2.520,00) </option>
                                     <option value="2x">2x sem juros - 1.260,00 (total = 2.520,00)</option>
-                                </select>
+                                </select> */}
 
                                 <Button onclick={addToCart} class="btn-comprar align-self-center " label="comprar" />
                                 <h4 className="frete-fixo-produto text-center pt-4">Frete fixo R$150,00</h4>

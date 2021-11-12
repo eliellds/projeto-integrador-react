@@ -11,8 +11,8 @@ function FormDataCard(props) {
     const [displayNoneC, setDisplayNoneC] = useState("")
     const [buttons, setButtons] = useState(
         <>
-            <Button function={nothing} class="col-4 cartao forma-pagamento selected-button" label={<H2 h2="Cartão" />}></Button>
-            <Button function={changeComponent} class="col-4 forma-pagamento boleto disabled-button" label={<H2 h2="Boleto" />}></Button>
+            <Button onclick={nothing} class="col-4 cartao forma-pagamento selected-button" label={<H2 h2="Cartão" />}></Button>
+            <Button onclick={changeComponent} class="col-4 forma-pagamento boleto disabled-button" label={<H2 h2="Boleto" />}></Button>
         </>
     )
     let change = false
@@ -37,8 +37,8 @@ function FormDataCard(props) {
         if (change) {
             setButtons(
                 <>
-                    <Button function={nothing} class="col-4 cartao forma-pagamento selected-button" label={<H2 h2="Cartão" />}></Button>
-                    <Button function={changeComponent} class="col-4 forma-pagamento boleto disabled-button" label={<H2 h2="Boleto" />}></Button>
+                    <Button onclick={nothing} class="col-4 cartao forma-pagamento selected-button" label={<H2 h2="Cartão" />}></Button>
+                    <Button onclick={changeComponent} class="col-4 forma-pagamento boleto disabled-button" label={<H2 h2="Boleto" />}></Button>
                 </>
             )
             change = false
@@ -49,8 +49,8 @@ function FormDataCard(props) {
         } else {
             setButtons(
                 <>
-                    <Button function={changeComponent} class="col-4 cartao forma-pagamento disabled-button" label={<H2 h2="Cartão" />}></Button>
-                    <Button function={nothing} class="col-4 forma-pagamento boleto selected-button" label={<H2 h2="Boleto" />}></Button>
+                    <Button onclick={changeComponent} class="col-4 cartao forma-pagamento disabled-button" label={<H2 h2="Cartão" />}></Button>
+                    <Button onclick={nothing} class="col-4 forma-pagamento boleto selected-button" label={<H2 h2="Boleto" />}></Button>
                 </>
             )
             change = true

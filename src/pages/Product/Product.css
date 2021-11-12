@@ -15,14 +15,13 @@
     display: flex;
     justify-content: center;
     background-color: #F6F3EF;
-    margin: 0;  
+    margin: 0;
 }
 
 .Caixa-Registradora {
+    height: 100%;
+    width: auto;
     border:  2px solid #BC4C2A;
-    width: 400px;
-    height: 350px;
-    object-fit: cover;
 }
 
 .valor {
@@ -59,7 +58,6 @@
     border: none;
     border-bottom: #BC4C2A solid 2px;
     padding: 10px;
-    
 }
 
 .form-cep {

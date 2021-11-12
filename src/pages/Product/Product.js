@@ -1,26 +1,55 @@
 import React from 'react'
 import './Product.css'
-import caixaRegistradora from '../../../src/assets/images/produto/caixaRegistradora.png'
-import lupa from '../../../src/assets/images/produto/lupa.png'
+import caixaRegistradora from '../../../src/assets/images/product/caixaRegistradora.png'
+import lupa from '../../../src/assets/images/product/lupa.png'
 import Button from '../../components/micro/Button/Button'
-import Input from '../../components/micro/Forms/Input/Input'
-import Select from '../../components/micro/Forms/Select/Select'
 
-const filter = [
-    { id:"boleto", subjectDescription: "2.394,00 - Boleto à vista" },
-    { id:"debito", subjectDescription: "2.500,00 - Débito à vista" },
-    { id:"credito", subjectDescription: "2.520,00 - Crédito à vista" },
-    { id:"2x", subjectDescription: "2x sem juros - 1.260,00 (total = 2.520,00)" },
-    { id:"5x", subjectDescription: "5x sem juros - 504,00 (total = 2.520,00)" },
-    { id:"10x", subjectDescription: "10x sem juros - 252,00 (total = 2.520,00)" },
-    { id:"12x", subjectDescription: "12x com juros - 220,50 (total = 2.646,00)" },
-]
 
 function Product(props) {
-  
-    return(
+
+    const addToCart = () => {
+        const product = {
+            id: props.id,
+            precoDe: props.precoDe,
+            preco: props.precoPor,
+            nome: props.nome,
+            ano: props.ano
+        }
+        let cartList = localStorage.getItem("cart")
+            ? JSON.parse(localStorage.getItem("cart"))
+            : []
+        cartList.push(product)
+        let cartString = JSON.stringify(cartList)
+        localStorage.setItem("cart", cartString)
+        localStorage.setItem('qtyCart', JSON.stringify(cartList.length))
+
+        window.location.href = "/cart";
+    }
+
+    const precoDe = (props) => {
+
+        if (props.precoDe) {
+            return <div className="preco-de">R$ {props.precoDe}</div>
+        }
+        return
+
+    }
+
+    const preco = (props) => {
+
+        return (
+            <>
+                {precoDe(props)}
+                <div className="preco-por">R$ {props.precoPor}</div>
+                <div className="parcelas">À vista, ou em <em>{props.vezes}x</em> de <em>R$ {props.parcelas}</em> no cartão</div>
+            </>
+        )
+    }
+
+    return (
         <>
         <h1 className="h1-section">Caixa Registradora (1932)</h1>
+
 <section className="mb-4">
     <div className="container-fluid container-fluid-section">
 
@@ -32,21 +61,31 @@ function Product(props) {
                     </div>
                 </div>
                 <div
-                    className="container Valores px-0 px-md-3 px-lg-0 mb-5 col-12 col-md-5 col-lg-4 d-flex flex-column justify-content-between">
+                    className="container Valores px-0 px-md-3 px-lg-0 col-12 col-md-5 col-lg-4 d-flex flex-column justify-content-between">
                     <div className="row ">
                         <div className="container">
                             <h4 className="valor text-center">R$2.520,00</h4>
                         </div>
                     </div>
                     <div className="row formas-pagamento justify-content-center">
-                        <Select default="Consultar formas de Pagamento" options={filter} />
+                        <select className="form-input col-11 ">
+                            <option id="forma-pagamento" selected>Consultar formas de pagamento</option>
+                            <option value="boleto">2.394,00 - Boleto à vista</option>
+                            <option value="debito">2.500,00 - Débito à vista</option>
+                            <option value="credito">2.520,00 - Crédito à vista</option>
+                            <option value="12x">12x com juros - 220,50 (total = 2.646,00) </option>
+                            <option value="10x">10x sem juros - 252,00 (total = 2.520,00) </option>
+                            <option value="5x">5x sem juros - 504,00 (total = 2.520,00) </option>
+                            <option value="2x">2x sem juros - 1.260,00 (total = 2.520,00)</option>
+                        </select>
                     </div>
-                    <div className="row my-1">
-                        <div className="container mb-1 d-flex flex-column">
+                    <div className="row my-3">
+                        <div className="container d-flex flex-column">
+                            <h5 className="frete mt-3 mb-0 col-12">Consultar prazo e valor do frete:</h5> 
                             <form className="form-cep align-self-end col-12">
-                                <div className="pesquisa-btn mx-0 mt-1 col-7 col-sm-12 col-md-12">
-                                <Input label = "Consultar prazo e valor do frete" className="cep" placeholder="Digite o seu CEP" type="text"/>
-                                    <div className="cep-btn mx-0 col-1 mt-4">
+                                <div className="pesquisa-btn mb-3 mx-0 col-7 col-sm-5 col-md-7">
+                                    <input type="text" className="cep" placeholder="Digite o seu CEP"/>
+                                    <div className="cep-btn mx-0 col-1">
                                     <button className="button-submit-cep" type="submit">
                                         <img className="lupa" src={lupa}/>
                                     </button>
@@ -55,7 +94,7 @@ function Product(props) {
                             </form>
 
                             <form className="form-cep d-flex col-12 flex-column justify-content-space-around">
-                                <div className="pesquisa-btn mx-3 col-3 col-sm-7 col-md-7">
+                                <div className="pesquisa-btn mx-3 col-7 col-sm-5 col-md-7">
                              <Button label="Comprar" onclick="null" class="btn-comprar" navigation route="/cart"/>
                                 </div>
                             </form>

@@ -41,7 +41,7 @@ function ProductSuccess(props) {
         <>
         {listProducts()} 
           {console.log(total)}
-          {}
+          
           
         
          <div class="valor-total">Frete: R$:&nbsp;<b>{props.frete}</b></div>

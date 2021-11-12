@@ -11,7 +11,7 @@ function FormDataCard(props) {
     const [displayNoneC, setDisplayNoneC] = useState("")
     const [buttons, setButtons] = useState(
         <>
-            <Button onclick={nothing} class="col-4 cartao forma-pagamento selected-button" label={<H2 h2="Cartão" />}></Button>
+            <Button class="col-4 cartao forma-pagamento selected-button" label={<H2 h2="Cartão" />}></Button>
             <Button onclick={changeComponent} class="col-4 forma-pagamento boleto disabled-button" label={<H2 h2="Boleto" />}></Button>
         </>
     )
@@ -37,7 +37,7 @@ function FormDataCard(props) {
         if (change) {
             setButtons(
                 <>
-                    <Button onclick={nothing} class="col-4 cartao forma-pagamento selected-button" label={<H2 h2="Cartão" />}></Button>
+                    <Button class="col-4 cartao forma-pagamento selected-button" label={<H2 h2="Cartão" />}></Button>
                     <Button onclick={changeComponent} class="col-4 forma-pagamento boleto disabled-button" label={<H2 h2="Boleto" />}></Button>
                 </>
             )
@@ -50,7 +50,7 @@ function FormDataCard(props) {
             setButtons(
                 <>
                     <Button onclick={changeComponent} class="col-4 cartao forma-pagamento disabled-button" label={<H2 h2="Cartão" />}></Button>
-                    <Button onclick={nothing} class="col-4 forma-pagamento boleto selected-button" label={<H2 h2="Boleto" />}></Button>
+                    <Button  class="col-4 forma-pagamento boleto selected-button" label={<H2 h2="Boleto" />}></Button>
                 </>
             )
             change = true

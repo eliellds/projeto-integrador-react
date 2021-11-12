@@ -48,7 +48,33 @@ function Product(props) {
 
     return (
         <>
+<<<<<<< HEAD
         <h1 className="h1-section">Caixa Registradora (1932)</h1>
+=======
+            <h1 className="h1-section">Caixa Registradora (1932)</h1>
+            <section className="mb-4">
+                <div className="container-fluid container-fluid-section">
+
+                    <div className="container mb-4">
+                        <div className="row row-correction">
+                            <div className="container container-imagem mx-0 col-12 col-md-7 col-lg-8 mt-3">
+                                <div className="row p-0 imagem-caixa-registradora">
+                                    {/* <img className="Caixa-Registradora p-0" src={props.imagem} alt={props.nome} /> */}
+                                    <img className="Caixa-Registradora p-0" src={caixaRegistradora} alt={props.nome} />
+
+                                </div>
+                            </div>
+                            <div
+                                className="container Valores px-0 px-md-3 px-lg-0 mb-5 col-12 col-md-5 col-lg-4 d-flex flex-column justify-content-between">
+                                <div className="row preco pt-5">
+                                    {/* {preco(props)} */}
+                                    <h4 className="valor text-center">De: <del>R$3.520,00</del><br />Por: R$2.520,00</h4>
+                                    <Select default="Consultar formas de Pagamento" options={filter} />
+
+                                </div>
+
+                                <div className="container mb-1 d-flex flex-column">
+>>>>>>> d15add6ca09ade7a3b774e5e9022ab77e8e131dc
 
 <section className="mb-4">
     <div className="container-fluid container-fluid-section">

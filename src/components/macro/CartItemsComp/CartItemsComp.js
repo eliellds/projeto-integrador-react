@@ -35,7 +35,7 @@ function CartItemsComp(props) {
 
                 <div className="row container-descricao justify-content-between align-items-center">
                     <div className="col-2"></div>
-                    <h2 className=" texto-desc col-4  col-md-4">DESCRIÇÃO PRODUTOS</h2>
+                    <h2 className=" texto-desc col-4 text-start  col-md-4">DESCRIÇÃO PRODUTOS</h2>
                     <h2 className="texto-desc col-1  "><abbr title="Quantidade unitaria">QTD UN.</abbr></h2>
                     <h2 className="texto-desc col-2 ">PREÇO </h2>
                     <h2 className="texto-desc col-2"><abbr title="Remover do carrinho">REM</abbr></h2>

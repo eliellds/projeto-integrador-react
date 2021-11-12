@@ -4,6 +4,7 @@ import '../../../pages/Cart/Cart.css'
 import CartItems from '../../micro/CartItems/CartItems';
 import Button from "../../micro/Button/Button"
 import { useHistory } from "react-router"
+import { Link } from 'react-router-dom';
 
 function CartItemsComp(props) {
     const history = useHistory()
@@ -11,6 +12,13 @@ function CartItemsComp(props) {
 
     function setQtyCart() {
         return qtyCart
+    }
+
+    function preventDefault(e) {
+        e.preventDefault()
+        props.click()
+        window.location.href = props.logged ? "/login" : "/checkout";
+
     }
 
     return (
@@ -55,7 +63,9 @@ function CartItemsComp(props) {
 
                 <div className="d-flex justify-content-between mb-5">
                     <Button  onclick={history.goBack} class="btn-retorno" label="Continuar Compra"/>
-                    <Button navigation route={localStorage.getItem("user") ? "/checkout" : "/login"} class="btn-comprar align-self-center" label="finalizar"/>
+                    <Link onClick={(e) => preventDefault(e)} class="btn-custom-default btn-comprar align-self-center" label="">
+                        FINALIZAR  
+                    </Link>
                 </div>
 
             </div>

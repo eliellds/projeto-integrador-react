@@ -4,6 +4,7 @@ import FormDefault from "../FormDefault/FormDefault";
 import Input from "../../../micro/Forms/Input/Input";
 import H2 from "../../../micro/Title/H2";
 import Button from "../../../micro/Button/Button";
+import Select from "../../../micro/Forms/Select/Select"
 
 function FormDataCard(props) {
 
@@ -95,11 +96,11 @@ function FormDataCard(props) {
                             <Input label="Data Nascimento Titular" className="form-input col-12 form-label" type="date" name="birthDate" placeholder="Ex.: Dia/Mês/Ano." />
                         </div>
 
-                        <div className=" col-12 col-md-5">
+                        <div className=" col-12 col-md-4">
                             <Input label="Numero do Cartão" className="form-input col-12 form-label" type="text" name="cardNumber" placeholder="Ex.: 0000 1111 2222 3333." />
                         </div>
 
-                        <div className=" col-6 col-md-3">
+                        <div className=" col-6 col-md-1">
                             <Input label="CVV" className="form-input col-12 form-label" type="text" name="cvv" placeholder="Ex.: 000." />
                         </div>
 
@@ -109,6 +110,11 @@ function FormDataCard(props) {
 
                         <div className=" col-6 col-md-2">
                             <Input label="Ano de vencimento" className="form-input col-12 form-label" type="text" name="mes" placeholder="aaaa" />
+                        </div>
+
+                        <div className=" col-6 col-md-3">
+                            <Select label="Forma de Pagamento:" default="Parcelas"/>
+                            {/* <Input label="Forma de Pagamento:" className="form-input col-12 form-label" type="text" name="mes" placeholder="aaaa" /> */}
                         </div>
 
                     </div>

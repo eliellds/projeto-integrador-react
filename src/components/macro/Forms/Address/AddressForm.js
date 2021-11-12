@@ -63,11 +63,11 @@ function Address(props) {
 
                 <div className="row custom-form d-flex justify-content-center">
                     <div className=" col-12 col-md-5">
-                        <Input disabled={show} label="rua" type="text" id="rua" className="form-input col-12" placeholder="Digite a rua como número..." />
+                        <Input disabled={show} label="Logradouro" type="text" id="rua" className="form-input col-12" placeholder="Digite o logradouro..." />
                     </div>
                     
                     <div className=" col-12 col-md-2">
-                        <Input disabled={show} label="Número" type="text" id="rua" className="form-input col-12" placeholder="Digite a rua como número..." />
+                        <Input disabled={show} label="Número" type="text" id="rua" className="form-input col-12" placeholder="Digite o número..." />
                     </div>
 
                     <div className="col-12 col-md-4">
@@ -77,7 +77,7 @@ function Address(props) {
 
                 <div className="row custom-form d-flex justify-content-center">
                     <div className="col-12 col-md-6">
-                        <Input disabled={show} label="bairro" type="text" id="bairro" className="form-input col-12" placeholder="Digite sua senha..." />
+                        <Input disabled={show} label="Bairro" type="text" id="bairro" className="form-input col-12" placeholder="Digite seu bairro..." />
                     </div>
 
                     <div className="col-12 col-md-5">
@@ -87,11 +87,11 @@ function Address(props) {
 
                 <div className="row custom-form d-flex justify-content-center">
                     <div className="col-12 col-md-5">
-                        <Input disabled={show} label="Cidade" type="text" id="cidade" className="form-input col-12" placeholder="Digite sua cidade" />
+                        <Input disabled={show} label="Cidade" type="text" id="cidade" className="form-input col-12" placeholder="Digite sua cidade..." />
                     </div>
 
                     <div className="col-12 col-md-2">
-                    <Select disabled={show} label="Estado:" default="estado"/>
+                    <Select disabled={show} label="Estado:" default="Estado"/>
                         {/* <label  for="estado" >Estado</label>
                         <select disabled={show} className="form-input col-12">
                             <option id="estado" selected>Estado</option>
@@ -124,7 +124,7 @@ function Address(props) {
                     </div>
 
                     <div className=" col-12 col-md-4">
-                        <Input disabled={show} label="CEP" type="text" id="cep" className="form-input col-12" placeholder="Digite sseu CEP..." />
+                        <Input disabled={show} label="CEP" type="text" id="cep" className="form-input col-12" placeholder="Digite seu CEP..." />
                     </div>
                 </div>
                 <div className="row justify-content-center pt-5">

@@ -5,7 +5,6 @@ import Button from "../../micro/Button/Button"
 import { useHistory } from 'react-router';
 
 function SuccessPage(props){
-    const history = useHistory()
 
     return (
         <>
@@ -35,7 +34,7 @@ function SuccessPage(props){
 
                 </div>
                 <div class="texto-prazo">Prazo estimado para entrega: <b>{props.prazo}</b></div>
-                <Button onclick={history.goBack} class="btn-retorno" label="Pedidos"/>
+                <Button navigation route="/dashboard/myorder"class="btn-retorno" label="Pedidos"/>
 
 
             </div>

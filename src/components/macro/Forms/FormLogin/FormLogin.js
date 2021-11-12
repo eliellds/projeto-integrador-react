@@ -26,7 +26,7 @@ function FormLogin(props) {
     
     return (
         <>
-            <div className="container mb-3 custom-form-div py-2">
+            <div className="container custom-form-div py-2">
 
                 <div className="row custom-form d-flex justify-content-center">
                     <div className="col-12 col-md-7">
@@ -38,7 +38,7 @@ function FormLogin(props) {
                     <div className="col-12 col-md-7">
                         <Input label="Senha" type="password" className="form-label form-input col-12 " id="senha" placeholder="Digite sua senha..." />
                     </div>
-                    <small className="text-center my-0 mb-2">Esqueceu a senha?<Link to="/forgotpassword">Recuperar</Link></small>
+                    <small className="text-center my-0 mb-2">Esqueceu a senha? <Link to="/forgotpassword">  Recuperar</Link></small>
                 </div>
 
                 <div className="row justify-content-center">

@@ -6,6 +6,7 @@ import Button from "../../micro/Button/Button"
 import { useHistory } from "react-router"
 import { Link } from 'react-router-dom';
 
+
 function CartItemsComp(props) {
     const history = useHistory()
     const[qtyCart, setQty]  = useState(JSON.parse(localStorage.getItem('qtyCart')))
@@ -26,7 +27,7 @@ function CartItemsComp(props) {
             <div className="container mt-5">
 
                 <div className="row justify-content-center mt-2 mb-2">
-                    <h2 className="titulo col-12 mb-3">Carrinho</h2>
+                    <h2 className="titulo col-12 mb-3">Sacola</h2>
                     <div className="col-9 linha-divisoria mb-3"></div>
                 </div>
             </div>

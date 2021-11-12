@@ -8,7 +8,7 @@ import Text from "../../components/micro/Text/Text";
 function About(props) {
     return (
         <>
-            <main className="container-fluid mb-4 py-2 pb-3">
+            <main className="container-fluid py-2 pb-3">
 
                 <H1 h1="Sobre"/>
 

@@ -38,7 +38,7 @@ function Home(props) {
 
             {/* <!-- FINAL  DESTAQUES --> */}
 
-            <h2>Novidades</h2>
+            <h2 id="novidades">Novidades</h2>
 
             {/* <!-- Inicio lista cards produtos novidades --> */}
             <div className="container container-cards">

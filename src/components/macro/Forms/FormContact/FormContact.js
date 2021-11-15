@@ -11,26 +11,26 @@ function FormContact(props){
                 <div className="row forms-block justify-content-center">
                     <div className="row custom-form justify-content-center">
                         <div className="col-12 col-md-6">
-                            <Input label="Nome" type="text" id="name" className="form-input col-12" placeholder="Maria da Gloria"/>
+                            <Input label="Nome" type="text" id="name" className="form-input col-12" placeholder="Maria da Gloria" contact={props.name}/>
                         </div>
                         <div className="col-12 col-md-5">
-                            <Select label="Assunto:" default="assunto" options={props.options}/>
+                            <Select required label="Assunto:" default options={props.options} contact={props.subject}/>
                         </div>
                     </div>
                     <div className="row custom-form justify-content-center">
                         <div className="col-12 col-sm-6 col-md-6">
-                           <Input label="Email" type="email" id="email" className="form-input col-12" placeholder="Maria@Email.com"/>
+                           <Input  label="E-mail" type="email" id="email" className="form-input col-12" placeholder="Maria@Email.com" contact={props.email}/>
                         </div>
                         <div className="col-12 col-sm-6 col-md-5">
-                            <Input label="Telefone" type="text" id="telephone" className="form-input col-12" placeholder="(00) 00000-0000"/>
+                            <Input label="Telefone" type="text" id="telephone" className="form-input col-12" placeholder="(00) 00000-0000" contact={props.phoneNumber}/>
                         </div>
 
                     </div>
                     <div className="row justify-content-center">
                         <div className="col-12 col-md-11">
                             <label for="textarea" className="form-label col-12">Deixe sua mensagem</label>
-                            <textarea className="textarea col-12" id="textarea" rows="5"
-                                placeholder=" Escreva sua mensagem..."></textarea>
+                            <textarea required className="textarea col-12" id="textarea" rows="5"
+                                placeholder=" Escreva sua mensagem..." contact={ props.content}></textarea>
                         </div>
                     </div>
                 </div>

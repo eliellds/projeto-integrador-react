@@ -15,7 +15,7 @@ export default function Catalog(props) {
 
     useEffect(() => {
         api
-            .get("/products/category/cozinha")
+            .get("/products/category/" + category)
             .then((response) => setProducts(response.data))
             .catch((err) => {
                 console.error("Erro ao consumir api de products" + err);
@@ -47,7 +47,6 @@ export default function Catalog(props) {
             <div className="container container-cards my-4">
 
                 <ListProductsCatalogy products={products} />
-
 
             </div>
 

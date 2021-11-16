@@ -13,11 +13,27 @@ function FormLogin(props) {
     let userString = JSON.stringify(user)
     const history = useHistory()
 
+    useEffect(() => {
+        const config = {
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem("token")
+            }
+        }
+    }) 
+
     function test() {
         return history.goBack();
     }
 
     const addUser = () => {
+        const config = {
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem("token")
+            }
+        }
+
+        api.get()
+
         localStorage.setItem("user", userString);
         test();
     }
@@ -33,6 +49,8 @@ function FormLogin(props) {
         api.post("/login", data)
         .then(res => {
             console.log(res)
+            localStorage.setItem("token", res.data.jwt)
+            localStorage.setItem("username", res.data.email)
         })
         .catch(err => {
             console.log(err)

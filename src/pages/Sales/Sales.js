@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import './Sales.css';
 import Chas from '../../assets/images/cards/chas-schumacher-glamour.jpg'
 import Select from "../../components/micro/Forms/Select/Select";
 import ListProductsCatalogy from "../../components/macro/listProducts/ListProductsCatalogy";
 import H1 from "../../components/micro/Title/H1";
+import api from "../../services/api";
+
 export default function Sales(props) {
     const filter = [
         {
@@ -33,49 +35,16 @@ export default function Sales(props) {
         },
     ]
 
-    const products = [
-        {
-            id: 1, imagem: "chas-schumacher-glamour.jpg", nome: "Vintage Máquina De Escrever Portátil Remington silencioso", ano: "1930",
-            precoDe: "111,99", precoPor: "100,00", vezes: 10, parcelas: "10,00"
-        },
-        {
-            id: 2, imagem: "chas-schumacher-glamour.jpg", nome: "Vintage Máquina De Escrever Portátil Remington silencioso", ano: "1930",
-            precoDe: "111,99", precoPor: "100,00", vezes: 10, parcelas: "10,00"
-        },
-        {
-            id: 3, imagem: "chas-schumacher-glamour.jpg", nome: "Vintage Máquina De Escrever Portátil Remington silencioso", ano: "1930",
-            precoDe: "111,99", precoPor: "100,00", vezes: 10, parcelas: "10,00"
-        },
-        {
-            id: 4, imagem: "chas-schumacher-glamour.jpg", nome: "Vintage Máquina De Escrever Portátil Remington silencioso", ano: "1930",
-            precoDe: "111,99", precoPor: "100,00", vezes: 10, parcelas: "10,00"
-        },
-        {
-            id: 5, imagem: "chas-schumacher-glamour.jpg", nome: "Vintage Máquina De Escrever Portátil Remington silencioso", ano: "1930",
-            precoDe: "111,99", precoPor: "100,00", vezes: 10, parcelas: "10,00"
-        },
-        {
-            id: 6, imagem: "chas-schumacher-glamour.jpg", nome: "Vintage Máquina De Escrever Portátil Remington silencioso", ano: "1930",
-            precoDe: "111,99", precoPor: "100,00", vezes: 10, parcelas: "10,00"
-        },
-        {
-            id: 7, imagem: "chas-schumacher-glamour.jpg", nome: "Vintage Máquina De Escrever Portátil Remington silencioso", ano: "1930",
-            precoDe: "111,99", precoPor: "100,00", vezes: 10, parcelas: "10,00"
-        },
-        {
-            id: 8, imagem: "chas-schumacher-glamour.jpg", nome: "Vintage Máquina De Escrever Portátil Remington silencioso", ano: "1930",
-            precoDe: "111,99", precoPor: "100,00", vezes: 10, parcelas: "10,00"
-        },
-        {
-            id: 9, imagem: "chas-schumacher-glamour.jpg", nome: "Vintage Máquina De Escrever Portátil Remington silencioso", ano: "1930",
-            precoDe: "111,99", precoPor: "100,00", vezes: 10, parcelas: "10,00"
-        },
-        {
-            id: 10, imagem: "chas-schumacher-glamour.jpg", nome: "Vintage Máquina De Escrever Portátil Remington silencioso", ano: "1930",
-            precoDe: "111,99", precoPor: "100,00", vezes: 10, parcelas: "10,00"
-        },
+    const [products, setProducts] = useState()
 
-    ]
+    useEffect(() => {
+        api.get("/sales").then((response) => setProducts(response.data)).catch((err) => {
+            console.error("Erro ao consumir api de subjects" + err)
+        })
+    }, [])
+
+    console.log(products)
+
     return (
         <>
 

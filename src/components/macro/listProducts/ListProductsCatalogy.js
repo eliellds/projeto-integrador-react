@@ -19,11 +19,11 @@ function ListProductsCatalogy(props){
             return <>
             <CardProduct
             id={product.product.id}
-            // imagem={`${image(product.product.image)}`}
+            imagem={`${image(product.product.image)}`}
             nome={product.product.product}
             ano={product.product.year}
-            precoDe={product.price}
-            precoPor={product.salePrice}
+            precoDe={(product.price).toFixed(2)}
+            precoPor={(product.salePrice).toFixed(2)}
             vezes={10}
             parcelas={(product.salePrice / 10).toFixed(2)}
             

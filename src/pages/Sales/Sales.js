@@ -74,9 +74,9 @@ export default function Sales(props) {
            
         </div>
 
-        <div className="ver-mais row justify-content-center tamanho pb-3">
+        {/* <div className="ver-mais row justify-content-center tamanho pb-3">
             <a href="" className="btn-ver-mais col-6 mb-3">VER MAIS</a>
-        </div>
+        </div> */}
 
 
 

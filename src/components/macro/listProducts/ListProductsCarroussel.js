@@ -3,7 +3,6 @@ import ListProduct from '../Cards/Products/CardProduct'
 import React, { useState, useEffect } from 'react'
 import { CarouselProvider, Slider, Slide } from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
-import Imagem from '../../../assets/images/products/BandeijaTurca.webp'
 
 
 
@@ -58,74 +57,53 @@ function ListProducts(props) {
 
     }
 
+ 
 
+    let index=0
 
     //consome e faz o map do array
     function listarProdutos() {
-        return (<>
-         <Slide index={0}  >
-             
-                    <div className="row lista-cards  tamanho  mb-3 justify-content-center">
-                    <ListProduct id={1} imagem={Imagem} ano={ano} nome={nome} precoDe={precoDe} precoPor={precoPor}></ListProduct>
-                    </div>
-                </Slide>
-                <Slide index={1} >
-                    <div className="row lista-cards  tamanho  mb-3 justify-content-center">
-                        <ListProduct id={2} ano={ano} nome={nome} precoDe={precoDe} precoPor={precoPor} imagem={prod.default}></ListProduct>
-                    </div>                        </Slide>
-                <Slide index={2} >
-                    <div className="row lista-cards  tamanho  mb-3 justify-content-center">
-                        <ListProduct id={3} imagem={Imagem} ano={ano} nome={nome} precoDe={precoDe} precoPor={precoPor}></ListProduct>
-                    </div>                        </Slide>
-                <Slide index={3}>
-                    <div className="row lista-cards  tamanho  mb-3 justify-content-center">
-                    <ListProduct id={4} imagem={Imagem} ano={ano} nome={nome} precoDe={precoDe} precoPor={precoPor}></ListProduct>
-                    </div>                        </Slide>
-                <Slide index={4}>
-                    <div className="row lista-cards  tamanho  mb-3 justify-content-center">
-                    <ListProduct id={5} imagem={Imagem} ano={ano} nome={nome} precoDe={precoDe} precoPor={precoPor}></ListProduct>
-                    </div>                        </Slide>
-                <Slide index={5}>
-                    <div className="row lista-cards  tamanho  mb-3 justify-content-center">
-                    <ListProduct id={6} imagem={Imagem} ano={ano} nome={nome} precoDe={precoDe} precoPor={precoPor}></ListProduct>
-                    </div>                        </Slide>
-                <Slide index={6}>
-                    <div className="row lista-cards  tamanho  mb-3 justify-content-center">
-                    <ListProduct id={7} imagem={Imagem} ano={ano} nome={nome} precoDe={precoDe} precoPor={precoPor}></ListProduct>
-                    </div>                        </Slide>
-                <Slide index={7}>
-                    <div className="row lista-cards  tamanho  mb-3 justify-content-center">
-                    <ListProduct id={8} imagem={Imagem} ano={ano} nome={nome} precoDe={precoDe} precoPor={precoPor}></ListProduct>
-                    </div>                        </Slide>
-                <Slide index={8}>
-                    <div className="row lista-cards  tamanho  mb-3 justify-content-center">
-                    <ListProduct id={9} imagem={Imagem} ano={ano} nome={nome} precoDe={precoDe} precoPor={precoPor}></ListProduct>
-                    </div>
-                </Slide>
 
-        </>
+
+        return products.map(
+            function (product) {
+                console.log(product)
+
+                return (<>
+                    <Slide index={index = index++}  >
+
+                        <div className="row lista-cards  tamanho  mb-3 justify-content-center">
+                            <ListProduct id={product.product.id} image={product.product.image} year={product.product.year} product={product.product.product} price={product.price} salePrice={product.salePrice}></ListProduct>
+                        </div>
+                    </Slide>
+                    
+                   
+                </>
+                )
+            }
         )
-
     }
 
-    return <>
 
-        <CarouselProvider
-            naturalSlideWidth={100}
-            naturalSlideHeight={100}
-            totalSlides={9}
-            infinite={true}
-            isIntrinsicHeight={true}
-            visibleSlides={visibleSlide}
-            className=" container container-cards"
-        >
-            <Slider >
+
+return <>
+
+    <CarouselProvider
+        naturalSlideWidth={100}
+        naturalSlideHeight={100}
+        totalSlides={products.length}
+        infinite={true}
+        isIntrinsicHeight={true}
+        visibleSlides={visibleSlide}
+        className=" container container-cards"
+    >
+        <Slider >
             {listarProdutos()}
-               
-            </Slider>
 
-        </CarouselProvider>
-    </>
+        </Slider>
+
+    </CarouselProvider>
+</>
 
 }
 

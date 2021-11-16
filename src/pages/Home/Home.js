@@ -3,9 +3,16 @@ import './Home.css'
 import ListProducts from '../../components/macro/listProducts/ListProductsCarroussel'
 import Banners from '../../components/macro/Banners/Banner'
 import Emphasis from '../../components/macro/Cards/Products/CardProductEmphasis'
+import api from '../../services/api'
 
 function Home(props) {
- 
+    const[offers, setOffers] = useState()
+    useEffect(() => {
+        api.get("/products/offers").then((response) => {setOffers(response.data)
+        console.log(response.data)
+        }).catch((error) => console.log("Erro ao carregar api de offers"+error))
+    },[])
+    
     return (
         <>
 
@@ -15,7 +22,7 @@ function Home(props) {
             {/* <!-- Inicio lista cards produtos promocoes--> */}
 
                
-            <ListProducts/>
+            <ListProducts products ={offers}/>
      
             {/* <!-- Fim lista cards produtos promocoes --> */}
 

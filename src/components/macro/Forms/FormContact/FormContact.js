@@ -1,4 +1,6 @@
 import React from 'react';
+import { useEffect, useState } from 'react';
+import api from '../../../../services/api';
 import Input from '../../../micro/Forms/Input/Input';
 import Select from '../../../micro/Forms/Select/Select';
 import ModalComp from '../../../micro/Modal/Modal';
@@ -6,15 +8,41 @@ import FormDefault from '../FormDefault/FormDefault';
 
 
 function FormContact(props){
+
+    const [contact, setContact] = useState();
+    const [name, setName] = useState();
+    const [content, setContent] = useState();
+    const [email, setEmail] = useState();
+    const [phoneNumber, setPhoneNumber] = useState();
+    const [subject, setSubject] = useState();
+
+    useEffect(() => {
+        api.post("/contacts", {
+            subject: {
+                id: subject
+            },
+            name: name,
+            phoneNumber: phoneNumber,
+            email: email,
+            content : content
+
+        })
+        
+            .then((response) => setContact(response.data))
+            .catch((err) => {
+                console.error("Erro ao realizar Post de contato" + err)
+            });
+    }, []);
+   
     return<>
          <FormDefault title="Contato" className="custom-form-box mx-3 mx-sm-1 mx-lg-4 px-5 px-sm-1 px-lg-4" >
                 <div className="row forms-block justify-content-center">
                     <div className="row custom-form justify-content-center">
                         <div className="col-12 col-md-6">
-                            <Input label="Nome" type="text" id="name" className="form-input col-12" placeholder="Maria da Gloria" contact={props.name}/>
+                            <Input label="Nome" type="text" id="name" className="form-input col-12" placeholder="Maria da Gloria" change />
                         </div>
                         <div className="col-12 col-md-5">
-                            <Select required label="Assunto:" default options={props.options} contact={props.subject}/>
+                            <Select required label="Assunto:" default="Selecione" options={props.options}  />
                         </div>
                     </div>
                     <div className="row custom-form justify-content-center">

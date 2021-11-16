@@ -1,61 +1,56 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import './Catalog.css';
 import ListProductsCatalogy from "../../components/macro/listProducts/ListProductsCatalogy";
 import Button from "../../components/micro/Button/Button";
 import Select from "../../components/micro/Forms/Select/Select";
 import H1 from "../../components/micro/Title/H1";
+import api from "../../services/api";
 
 export default function Catalog(props) {
 
     const category = props.match.params.category;
     console.log(props);
 
-    const products = [       
-        {
-            id: 1, imagem: "chas-schumacher-glamour.jpg", nome: "Vintage Máquina De Escrever Portátil Remington silencioso", ano: "1930",
-            precoDe: "111,99", precoPor: "100,00", vezes: 10, parcelas: "10,00"
-        },
-        {
-            id: 2, imagem: "chas-schumacher-glamour.jpg", nome: "Vintage Máquina De Escrever Portátil Remington silencioso", ano: "1930",
-            precoDe: "111,99", precoPor: "100,00", vezes: 10, parcelas: "10,00"
-        },
-        {
-            id: 3, imagem: "chas-schumacher-glamour.jpg", nome: "Vintage Máquina De Escrever Portátil Remington silencioso", ano: "1930",
-            precoDe: "111,99", precoPor: "100,00", vezes: 10, parcelas: "10,00"
-        },
-        {
-            id: 4, imagem: "chas-schumacher-glamour.jpg", nome: "Vintage Máquina De Escrever Portátil Remington silencioso", ano: "1930",
-            precoDe: "111,99", precoPor: "100,00", vezes: 10, parcelas: "10,00"
-        },
-        {
-            id: 5, imagem: "chas-schumacher-glamour.jpg", nome: "Vintage Máquina De Escrever Portátil Remington silencioso", ano: "1930",
-            precoDe: "111,99", precoPor: "100,00", vezes: 10, parcelas: "10,00"
-        },
-        {
-            id: 6, imagem: "chas-schumacher-glamour.jpg", nome: "Vintage Máquina De Escrever Portátil Remington silencioso", ano: "1930",
-            precoDe: "111,99", precoPor: "100,00", vezes: 10, parcelas: "10,00"
-        },
-        {
-            id: 7, imagem: "chas-schumacher-glamour.jpg", nome: "Vintage Máquina De Escrever Portátil Remington silencioso", ano: "1930",
-            precoDe: "111,99", precoPor: "100,00", vezes: 10, parcelas: "10,00"
-        },
-        {
-            id: 8, imagem: "chas-schumacher-glamour.jpg", nome: "Vintage Máquina De Escrever Portátil Remington silencioso", ano: "1930",
-            precoDe: "111,99", precoPor: "100,00", vezes: 10, parcelas: "10,00"
-        },
-        {
-            id: 9, imagem: "chas-schumacher-glamour.jpg", nome: "Vintage Máquina De Escrever Portátil Remington silencioso", ano: "1930",
-            precoDe: "111,99", precoPor: "100,00", vezes: 10, parcelas: "10,00"
-        },
-        {
-            id: 10, imagem: "chas-schumacher-glamour.jpg", nome: "Vintage Máquina De Escrever Portátil Remington silencioso", ano: "1930",
-            precoDe: "111,99", precoPor: "100,00", vezes: 10, parcelas: "10,00"
-        },
+    const [products, setProducts] = useState()
 
-    ]
+    // const categoryId =
 
-
+    // function setCategory() {
+    //     switch (newLocation) {
+    //         case "1":
+    //             return (
+    //             )
+    //             break;
+    //         case "2":
+    //             return (
+                    
+    //             )
+    //             break;
+    //         case "3":
+    //             return (
+                    
+    //             )
+    //             break;
+    //         case "4":
+    //             return (
+                    
+    //             )
+    //             break;
+    //         default:
+    //             return (
+                    
+    //             )
+    //     }
+    // }
     
+    useEffect(() => {
+        api
+            .get("/catalog/Quarto")
+            .then((response) => setProducts(response.data))
+            .catch((err) => {
+                console.error("Erro ao consumir api de products" + err);
+            });
+    }, []);
 
     const filter = [
         { id: 1, subjectDescription: "Menor Valor" },
@@ -73,20 +68,21 @@ export default function Catalog(props) {
             </div>
 
             <div className="row row-correction form-filter">
-                <div className="col-md-3 col-6 m-4" >                
+                <div className="col-md-3 col-6 m-4" >
                     <Select label="Ordenar por: " default="Selecione o Filtro" options={filter} />
                 </div>
-          
+
             </div>
 
             <div className="container container-cards my-4">
 
-                    <ListProductsCatalogy products={products}/>
+                <ListProductsCatalogy products={products} />
+
 
             </div>
 
             <div className="ver-mais row justify-content-center tamanho pb-3">
-                <Button route="" class="btn-ver-mais" label="VER MAIS" />
+                {/* <Button route="" class="btn-ver-mais" label="VER MAIS" /> */}
             </div>
         </>
     )

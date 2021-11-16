@@ -16,8 +16,7 @@ function Select(props) {
     return(
         <div className="input-container">
             <label>{props.label}</label>
-            <select disabled={props.disabled} className="form-input col-12">
-                <option key="default" id="default" defaultValue>{props.default}</option>
+            <select onChange={e => props.change(e)} disabled={props.disabled} className="form-input col-12">
                 {getOptions()}
             </select>
         </div>

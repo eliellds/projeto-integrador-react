@@ -2,17 +2,15 @@ import React, { useState, useEffect} from 'react'
 import './Home.css'
 import ListProducts from '../../components/macro/listProducts/ListProductsCarroussel'
 import Banners from '../../components/macro/Banners/Banner'
-
 import Emphasis from '../../components/macro/Cards/Products/CardProductEmphasis'
-function Home(props) {
-  
- 
 
+function Home(props) {
+ 
     return (
         <>
 
             <Banners />
-            <h2 className="home-titles">Promoções</h2>
+            <h2 className="home-titles mt-4">Promoções</h2>
 
             {/* <!-- Inicio lista cards produtos promocoes--> */}
 
@@ -24,14 +22,13 @@ function Home(props) {
 
             {/* <!-- INÍCIO DESTAQUES --> */}
 
-            <h2 className="mt-3 home-titles">Destaques</h2>
+            <h2 className="mt-3 home-titles mb-4">Destaques</h2>
 
             <section className="container-fluid">
 
                 <div className="row custom-section mb-5 justify-content-center">
                     <Emphasis variable image="caixaRegistradora.png" price="2520,00" name="Caixa Registradora" year="1962" id={1}/>
                     <Emphasis  image="loucasPortuguesas.jpg" price="25120,00" name="Louças Portuguesas" year="1889" id={2}/> 
-              
                 </div>
 
             </section>

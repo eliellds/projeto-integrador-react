@@ -11,7 +11,7 @@
     box-shadow: #00000036 0 2px 4px 2px;
     transition: 0.3s;
     text-transform: uppercase;
-    display: inline-block
+    display: inline-block;
 }
 
 .btn-custom-default:hover {

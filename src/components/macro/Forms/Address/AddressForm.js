@@ -8,25 +8,17 @@ import Select from "../../../micro/Forms/Select/Select";
 function Address(props) {
     let bool = true
     const [show, setShow] = useState(bool);
-    
- 
-    
+
     function disableForm() {
         bool = true
-        
         setShow(bool);
-
         changeButton(bool)
-        
-     
-
     }
 
     function ableForm() {
         bool = false
         setShow(bool);
         changeButton(bool)
-        
     }
     // function click(e) {
     //     e.preventDefault();
@@ -46,15 +38,15 @@ function Address(props) {
                     <Button onclick={ableForm} label="Alterar" class="btn-confirmacao" />
                 </>
             )
- 
-            
+
+
         } else {
             setButtons(
                 <>
                     <Button onclick={disableForm} label="Salvar" class="btn-confirmacao" />
                 </>
             )
-     
+
         }
     }
     return (
@@ -62,36 +54,41 @@ function Address(props) {
             <FormDefault title="Endereços" className="container custom-form-box mx-3 mx-sm-1 mx-lg-4 px-5 px-sm-1 px-lg-4">
 
                 <div className="row custom-form d-flex justify-content-center">
-                    <div className=" col-12 col-md-5">
+                    <div className=" col-12 col-md-3">
+                        <Input disabled={show} label="CEP" type="text" id="cep" className="form-input col-12" placeholder="Digite seu CEP..." />
+                    </div>
+
+                    <div className=" col-12 col-md-6">
                         <Input disabled={show} label="Logradouro" type="text" id="rua" className="form-input col-12" placeholder="Digite o logradouro..." />
                     </div>
-                    
+
                     <div className=" col-12 col-md-2">
                         <Input disabled={show} label="Número" type="text" id="rua" className="form-input col-12" placeholder="Digite o número..." />
                     </div>
 
-                    <div className="col-12 col-md-4">
-                        <Input disabled={show} label="Complemento" type="text" id="complemento" className="form-input col-12" placeholder="Digite o complemento..." />
-                    </div>
                 </div>
 
                 <div className="row custom-form d-flex justify-content-center">
+
+                    <div className="col-12 col-md-5">
+                        <Input disabled={show} label="Complemento" type="text" id="complemento" className="form-input col-12" placeholder="Digite o complemento..." />
+                    </div>
                     <div className="col-12 col-md-6">
                         <Input disabled={show} label="Bairro" type="text" id="bairro" className="form-input col-12" placeholder="Digite seu bairro..." />
                     </div>
 
-                    <div className="col-12 col-md-5">
-                        <Input disabled={show} label="Ponto de referência" type="text" id="ponto-referencia" className="form-input col-12" placeholder="Digite um ponto de referência..." />
-                    </div>
                 </div>
 
                 <div className="row custom-form d-flex justify-content-center">
+                    <div className="col-12 col-md-4">
+                        <Input disabled={show} label="Ponto de referência" type="text" id="ponto-referencia" className="form-input col-12" placeholder="Digite um ponto de referência..." />
+                    </div>
                     <div className="col-12 col-md-5">
                         <Input disabled={show} label="Cidade" type="text" id="cidade" className="form-input col-12" placeholder="Digite sua cidade..." />
                     </div>
 
                     <div className="col-12 col-md-2">
-                    <Select disabled={show} label="Estado:" default="Estado"/>
+                        <Select disabled={show} label="Estado:" default="Estado" />
                         {/* <label  for="estado" >Estado</label>
                         <select disabled={show} className="form-input col-12">
                             <option id="estado" selected>Estado</option>
@@ -123,18 +120,15 @@ function Address(props) {
                         </select> */}
                     </div>
 
-                    <div className=" col-12 col-md-4">
-                        <Input disabled={show} label="CEP" type="text" id="cep" className="form-input col-12" placeholder="Digite seu CEP..." />
-                    </div>
                 </div>
                 <div className="row justify-content-center pt-5">
-                   {buttons}
+                    {buttons}
                 </div>
-                
+
 
             </FormDefault>
-        
-         
+
+
         </>
     )
 }

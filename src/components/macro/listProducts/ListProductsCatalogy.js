@@ -26,8 +26,6 @@ function ListProductsCatalogy(props){
             salePrice={(product.salePrice)}
             
             />
-           
-           
             </>
         })
     }

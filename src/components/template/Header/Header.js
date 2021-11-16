@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './Header.css'
 import Logotipo from '../../micro/Logo/Logo'
-// import Login from '../../../assets/images/headers/login-icone.png'
 import DropdownMenu from '../../macro/DropdownMenu/DropdownMenu'
 import FormSearch from '../../macro/Forms/FormSearch/FormSearch'
 import Profile from '../../micro/Profile/Profile'

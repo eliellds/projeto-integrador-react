@@ -3,17 +3,31 @@ import './FormDefault.css'
 
 function FormDefault(props) {
 
-    return(
-        <>
-            <div className={props.class}>
-                <h1 className="custom-title">{props.title}</h1>
-
-                <form className={props.formClass} action={props.action} method={props.method}>
-                    {props.children}
-                </form>
-            </div>
-        </>
-    )
+    if (props.submit) {
+        return(
+            <>
+                <div className={props.class}>
+                    <h1 className="custom-title">{props.title}</h1>
+    
+                    <form onSubmit={e => props.submit(e)} className={props.formClass} action={props.action}>
+                        {props.children}
+                    </form>
+                </div>
+            </>
+        )
+    } else {
+        return(
+            <>
+                <div className={props.class}>
+                    <h1 className="custom-title">{props.title}</h1>
+    
+                    <form className={props.formClass} action={props.action}>
+                        {props.children}
+                    </form>
+                </div>
+            </>
+        )
+    }
 }
 
 export default FormDefault

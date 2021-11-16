@@ -5,7 +5,6 @@ import FormContact from '../../components/macro/Forms/FormContact/FormContact';
 
 function Contact(props) {
     const [options, setOptions] = useState()
-    const [contact, setContact] = useState();
 
     useEffect(() => {
         api.get("/subjects").then((response) => setOptions(response.data)).catch((err) => {
@@ -13,25 +12,10 @@ function Contact(props) {
         })
     }, [])
 
-    useEffect(() => {
-        api.post("/contact", {
-            name:props.name,
-            subject: props.subject,
-            phoneNumber: props.phoneNumber,
-            email: props.email,
-            content: props.content,
-        })
-            .then((response) => setContact(response.data))
-            .catch((err) => {
-                console.error("Erro ao realizar Post de contato" + err)
-            });
-    }, []);
-
     return <>
 
         <section className="container-fluid container-form px-sm-5 my-3 py-3">
-
-            <FormContact options={options} contact={contact} />
+            <FormContact options={options}/>
         </section>
 
     </>

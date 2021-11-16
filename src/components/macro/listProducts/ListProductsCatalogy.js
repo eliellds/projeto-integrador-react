@@ -15,14 +15,16 @@ function ListProductsCatalogy(props){
 
     function listProducts(){
         return products.map(product =>{
+            console.log(products)
             return <>
             <CardProduct
-             id={product.product.id} 
-             image={product.product.image} 
-             year={product.product.year} 
-             product={product.product.product} 
-             price={product.price} 
-             salePrice={product.salePrice}
+            id={product.product.id}
+            image={product.product.image}
+            product={product.product.product}
+            year={product.product.year}
+            price={(product.price).toFixed(2)}
+            salePrice={(product.salePrice).toFixed(2)}
+            
             />
             </>
         })

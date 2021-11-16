@@ -48,7 +48,7 @@ function CardProduct(props) {
             <>
                 {precoDe()}
                 <div className="preco-por">R$ {props.salePrice}</div>
-                <div className="parcelas">À vista, ou em <em>{10}x</em> de <em>R$ {props.salePrice?(props.salePrice/10):(props.price/10)}</em> no cartão</div>
+                <div className="parcelas">À vista, ou em <em>{10}x</em> de <em>R$ {props.salePrice?(props.salePrice/10).toFixed(2):(props.price/10).toFixed(2)}</em> no cartão</div>
             </>
         )
 

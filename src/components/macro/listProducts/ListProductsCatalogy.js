@@ -22,8 +22,8 @@ function ListProductsCatalogy(props){
             image={product.product.image}
             product={product.product.product}
             year={product.product.year}
-            price={(product.price).toFixed(2)}
-            salePrice={(product.salePrice).toFixed(2)}
+            price={(product.price)}
+            salePrice={(product.salePrice)}
             
             />
            

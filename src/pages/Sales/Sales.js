@@ -38,7 +38,7 @@ export default function Sales(props) {
     const [products, setProducts] = useState()
 
     useEffect(() => {
-        api.get("/sales").then((response) => setProducts(response.data)).catch((err) => {
+        api.get("/products/offers").then((response) => setProducts(response.data)).catch((err) => {
             console.error("Erro ao consumir api de subjects" + err)
         })
     }, [])

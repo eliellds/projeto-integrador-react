@@ -15,16 +15,17 @@ function ListProductsCatalogy(props){
 
     function listProducts(){
         return products.map(product =>{
+            console.log(products)
             return <>
             <CardProduct
-            id={product.id}
-            imagem={`${image(product.imagem)}`}
-            nome={product.nome}
-            ano={product.ano}
-            precoDe={product.precoDe}
-            precoPor={product.precoPor}
-            vezes={product.vezes}
-            parcelas={product.parcelas}
+            id={product.product.id}
+            // imagem={`${image(product.product.image)}`}
+            nome={product.product.product}
+            ano={product.product.year}
+            precoDe={product.price}
+            precoPor={product.salePrice}
+            vezes={10}
+            parcelas={(product.salePrice / 10).toFixed(2)}
             
             />
            

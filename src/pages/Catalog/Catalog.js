@@ -13,39 +13,9 @@ export default function Catalog(props) {
 
     const [products, setProducts] = useState()
 
-    // const categoryId =
-
-    // function setCategory() {
-    //     switch (newLocation) {
-    //         case "1":
-    //             return (
-    //             )
-    //             break;
-    //         case "2":
-    //             return (
-                    
-    //             )
-    //             break;
-    //         case "3":
-    //             return (
-                    
-    //             )
-    //             break;
-    //         case "4":
-    //             return (
-                    
-    //             )
-    //             break;
-    //         default:
-    //             return (
-                    
-    //             )
-    //     }
-    // }
-    
     useEffect(() => {
         api
-            .get("/catalog/Quarto")
+            .get("/products/category/cozinha")
             .then((response) => setProducts(response.data))
             .catch((err) => {
                 console.error("Erro ao consumir api de products" + err);

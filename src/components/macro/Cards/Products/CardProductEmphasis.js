@@ -8,10 +8,10 @@ function Emphasis(props) {
     const addToCart = () => {
         const product = {
             id: props.id,
-            precoDe: props.precoDe,
-            preco: props.precoPor,
-            nome: props.nome,
-            ano: props.ano
+            salePrice: props.salePrice,
+            price: props.price,
+            product: props.product,
+            year:props.year
         }
         let cartList = localStorage.getItem("cart")
             ? JSON.parse(localStorage.getItem("cart"))

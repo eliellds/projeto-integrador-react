@@ -5,9 +5,21 @@ import Input from "../../../micro/Forms/Input/Input";
 import Button from "../../../micro/Button/Button";
 import Select from "../../../micro/Forms/Select/Select";
 import api from "../../../../services/api";
+const initial = {
+    cep: "",
+    street: "",
+    number: 0,
+    complement: "",
+    district: "",
+    reference:"",
+    city: "",
+    state: ""
+}
 
 function Address(props) {
     let bool = true
+    
+    const [address, setAddress] = useState(initial);
     const [show, setShow] = useState(bool);
 
     const [cep, setCep] = useState("");
@@ -30,39 +42,19 @@ function Address(props) {
         { id: 25, subjectDescription: "SP" }, { id: 26, subjectDescription: "SE" }, { id: 27, subjectDescription: "TO" }
     ]);
 
-    function sendAddress() {
-        api.post("/address",{
-            cep: cep,
-            street:logradouro,
-            number: parseInt(numero),
-            complement: complemento,
-            district: bairro,
-            reference: referencia,
-            city: cidade,
-            state: estado       
-        })
-        .then((response) => {
+    useEffect(() => {})
+    console.log(address)
+    
+    function postAddress() {
+        api.post("/address", address)
+            .then((response) => {
                 console.log(response)
                 alert("Seu endereço foi alterado com sucesso!")
             })
             .catch((err) => {
                 console.error("Erro ao realizar Post de endereço" + err)
+                alert("Erro ao cadastrar endereço!")
             })
-    }
-
-    function postAddress() {
-        // const address = ({
-        //     cep: cep,
-        //     street:logradouro,
-        //     number: parseInt(numero),
-        //     complement: complemento,
-        //     district: bairro,
-        //     reference: referencia,
-        //     city: cidade,
-        //     state: estado       
-        // })
-
-        sendAddress()
     }
 
     const user = JSON.parse(localStorage.getItem("user"));
@@ -95,8 +87,6 @@ function Address(props) {
         getUfs();
 
     }, []);
-
-    const [options, setOptions] = useState()
 
     function disableForm() {
         bool = true
@@ -146,15 +136,15 @@ function Address(props) {
 
                 <div className="row custom-form d-flex justify-content-center">
                     <div className=" col-12 col-md-3">
-                        <Input input value={cep} disabled={show} label="CEP" type="text" id="cep" className="form-input col-12" placeholder="Digite seu CEP..." change={e => setCep(e.target.value)}/>
+                        <Input input value={cep} disabled={show} label="CEP" type="text" id="cep" className="form-input col-12" placeholder="Digite seu CEP..." change={e => setAddress({...address, cep: e.target.value})}/>
                     </div>
 
                     <div className=" col-12 col-md-6">
-                        <Input input value={logradouro} disabled={show} label="Logradouro" type="text" id="rua" className="form-input col-12" placeholder="Digite o logradouro..." change={e => setLogradouro(e.target.value)}/>
+                        <Input input value={logradouro} disabled={show} label="Logradouro" type="text" id="rua" className="form-input col-12" placeholder="Digite o logradouro..." change={e => setAddress({...address, street: e.target.value})}/>
                     </div>
 
                     <div className=" col-12 col-md-2">
-                        <Input input value={numero} disabled={show} label="Número" type="text" id="rua" className="form-input col-12" placeholder="Digite o número..." change={e => setNumero(e.target.value)} />
+                        <Input input value={numero} disabled={show} label="Número" type="text" id="rua" className="form-input col-12" placeholder="Digite o número..." change={e => setAddress({...address, number: e.target.value})} />
                     </div>
 
                 </div>
@@ -162,53 +152,24 @@ function Address(props) {
                 <div className="row custom-form d-flex justify-content-center">
 
                     <div className="col-12 col-md-5">
-                        <Input input value={complemento} disabled={show} label="Complemento" type="text" id="complemento" className="form-input col-12" placeholder="Digite o complemento..." change={e => setComplemento(e.target.value)}/>
+                        <Input input value={complemento} disabled={show} label="Complemento" type="text" id="complemento" className="form-input col-12" placeholder="Digite o complemento..." change={e => setAddress({...address, complement: e.target.value})} />
                     </div>
                     <div className="col-12 col-md-6">
-                        <Input input value={bairro} disabled={show} label="Bairro" type="text" id="bairro" className="form-input col-12" placeholder="Digite seu bairro..." change={e => setBairro(e.target.value)} />
+                        <Input input value={bairro} disabled={show} label="Bairro" type="text" id="bairro" className="form-input col-12" placeholder="Digite seu bairro..." change={e => setAddress({...address, district: e.target.value})} />
                     </div>
 
                 </div>
 
                 <div className="row custom-form d-flex justify-content-center">
                     <div className="col-12 col-md-4">
-                        <Input input value={referencia} disabled={show} label="Ponto de referência" type="text" id="ponto-referencia" className="form-input col-12" placeholder="Digite um ponto de referência..." change={e => setReferencia(e.target.value)} />
+                        <Input input value={referencia} disabled={show} label="Ponto de referência" type="text" id="ponto-referencia" className="form-input col-12" placeholder="Digite um ponto de referência..." change={e => setAddress({...address, reference: e.target.value})} />
                     </div>
                     <div className="col-12 col-md-5">
-                        <Input input value={cidade} disabled={show} label="Cidade" type="text" id="cidade" className="form-input col-12" placeholder="Digite sua cidade..." change={e => setCidade(e.target.value)} />
+                        <Input input value={cidade} disabled={show} label="Cidade" type="text" id="cidade" className="form-input col-12" placeholder="Digite sua cidade..." change={e => setAddress({...address, city: e.target.value})} />
                     </div>
 
                     <div className="col-12 col-md-2">
-                        <Select disabled={show} label="Estado:" options={ufs} selected={estado} change={e => e.target.value} default="Estado"/>
-                        {/* <label  for="estado" >Estado</label>
-                        <select disabled={show} className="form-input col-12">
-                            <option id="estado" selected>Estado</option>
-                            <option value="AC" disabled="disabled">Acre</option>
-                            <option value="AL" disabled="disabled">Alagoas</option>
-                            <option value="AP" disabled="disabled">Amapá</option>
-                            <option value="AM" disabled="disabled">Amazonas</option>
-                            <option value="BA" disabled="disabled">Bahia</option>
-                            <option value="ES">Espírito Santo</option>
-                            <option value="MA" disabled="disabled">Maranhão</option>
-                            <option value="MT" disabled="disabled">Mato Grosso</option>
-                            <option value="MS" disabled="disabled">Mato Grosso do Sul</option>
-                            <option value="MG">Minas Gerais</option>
-                            <option value="PA" disabled="disabled">Pará</option>
-                            <option value="PB" disabled="disabled">Paraíba</option>
-                            <option value="PR">Paraná</option>
-                            <option value="PE" disabled="disabled">Pernambuco</option>
-                            <option value="PI" disabled="disabled">Piauí</option>
-                            <option value="RJ">Rio de Janeiro</option>
-                            <option value="RN" disabled="disabled">Rio Grande do Norte</option>
-                            <option value="RS">Rio Grande do Sul</option>
-                            <option value="RO" disabled="disabled">Rondônia</option>
-                            <option value="RR" disabled="disabled">Roraima</option>
-                            <option value="SC">Santa Catarina</option>
-                            <option value="SP">São Paulo</option>
-                            <option value="SE" disabled="disabled">Sergipe</option>
-                            <option value="TO" disabled="disabled">Tocantins</option>
-                            <option value="DF" disabled="disabled">Distrito Federal</option>
-                        </select> */}
+                        <Select disabled={show} label="Estado:" options={ufs} selected={estado} change={e => setAddress({...address, state: e.target.value})} default="Estado" />
                     </div>
 
                 </div>

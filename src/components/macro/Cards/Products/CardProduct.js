@@ -36,7 +36,7 @@ function CardProduct(props) {
     const precoDe = () => {
 
         if (props.price) {
-            return <div className="preco-de">R$ {props.price}</div>
+            return <div className="preco-de">R$ {(props.price).toFixed(2)}</div>
         }
         return
 
@@ -47,7 +47,7 @@ function CardProduct(props) {
         return (
             <>
                 {precoDe()}
-                <div className="preco-por">R$ {props.salePrice}</div>
+                <div className="preco-por">R$ {props.salePrice?(props.salePrice).toFixed(2):null}</div>
                 <div className="parcelas">À vista, ou em <em>{10}x</em> de <em>R$ {props.salePrice?(props.salePrice/10).toFixed(2):(props.price/10).toFixed(2)}</em> no cartão</div>
             </>
         )

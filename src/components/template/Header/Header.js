@@ -15,7 +15,9 @@ function Header(props) {
     const [login, setLogin] = useState(!localStorage.getItem("user"));
 
     const removeUser = () => {
+        localStorage.removeItem("token");
         localStorage.removeItem("user");
+        localStorage.removeItem("username");
     }
 
     const changeState = () => {

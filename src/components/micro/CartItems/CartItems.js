@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Remove from '../../../assets/images/cart/remover.png'
 import Produto from '../../../assets/images/cart/caixaRegistradora.png'
+import { Link } from 'react-router-dom'
 
 
 function CartItems(props) {
@@ -50,7 +51,7 @@ function CartItems(props) {
                     </div>
 
                     <div className="col-2 texto-carrinho  text-center">
-                        R$<span className="numero">{valor(product)}</span>
+                        R$<span className="numero">{product.salePrice?product.salePrice:product.price}</span>
                     </div>
                     
                     <div className="col-2 ">

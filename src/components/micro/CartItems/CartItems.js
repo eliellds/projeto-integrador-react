@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Remove from '../../../assets/images/cart/remover.png'
 import Produto from '../../../assets/images/cart/caixaRegistradora.png'
+import { Link } from 'react-router-dom'
 
 function CartItems(props) {
     const productItems = JSON.parse(localStorage.getItem("cart")) || []
@@ -23,7 +24,7 @@ function CartItems(props) {
             
                 <div className="row carrinho-card mt-1 mb-2 mx-0 align-items-center justify-content-between">
                     <div className="col-2 col-md-2  p-0">
-                        <a href="#"> <img src={Produto} className="card-image" /></a>
+                        <Link to={Produto}><img src={Produto} className="card-image" /></Link>
                     </div>
                     <a href="#paginaProduto" className="col-4 col-md-4 pe-0  texto-carrinho">
                         {product.nome}

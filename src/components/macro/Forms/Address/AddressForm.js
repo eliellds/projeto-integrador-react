@@ -18,6 +18,9 @@ function Address(props) {
     const [referencia, setReferencia] = useState();
     const [cidade, setCidade] = useState();
     const [estado, setEstado] = useState();
+    const [ufs, setUfs] = useState([
+        
+    ]);
     
 
     const user = JSON.parse(localStorage.getItem("user"));
@@ -42,6 +45,14 @@ function Address(props) {
         getAddress();
 
     }, []);
+
+    const [options, setOptions] = useState()
+
+    useEffect(() => {
+        api.get("/subjects").then((response) => setOptions(response.data)).catch((err) => {
+            console.error("Erro ao consumir api de subjects" + err)
+        })
+    }, [])
 
     function disableForm() {
         bool = true

@@ -1,12 +1,25 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './Product.css'
 import caixaRegistradora from '../../../src/assets/images/product/caixaRegistradora.png'
 import Button from '../../components/micro/Button/Button'
 import H1 from '../../components/micro/Title/H1'
 import H2 from '../../components/micro/Title/H2'
+import api from '../../services/api'
+
 
 
 function Product(props) {
+
+    const id = props.match.params.id;
+    console.log(props);
+
+    const [products, setProducts] = useState();
+
+    useEffect(() => {
+        api.get("/products/" + id).then((response) => {setProducts(response.data)
+        console.log(response.data)}) ;
+    
+    }, []);
 
     const addToCart = () => {
         const product = {
@@ -27,10 +40,10 @@ function Product(props) {
         window.location.href = "/cart";
     }
 
-    const precoDe = (props) => {
+    const precoDe = () => {
 
-        if (props.precoDe) {
-            return <div className="preco-de">R$ {props.precoDe}</div>
+        if (products.salePrice != null) {
+            return <div className="preco-de">R$ {products.price}</div>
         }
         return
     }
@@ -39,16 +52,16 @@ function Product(props) {
 
         return (
             <>
-                {precoDe(props)}
-                <div className="preco-por">R$ {props.precoPor}</div>
-                <div className="parcelas">À vista, ou em <em>{props.vezes}x</em> de <em>R$ {props.parcelas}</em> no cartão</div>
+                {precoDe()}
+                <div className="preco-por">R$ {products.salePrice}</div>
+                <div className="parcelas">À vista, ou em <em>10x</em> de <em>R$ {props.parcelas}</em> no cartão</div>
             </>
         )
     }
 
     return (
         <>
-            <H1 h1="Caixa Registradora (1932)"></H1>
+            <H1 ></H1>
             <section className="mb-4">
                 <div className="container-fluid container-fluid-section">
                     <div className="container mb-4">
@@ -61,18 +74,6 @@ function Product(props) {
                             </div>
                             <div className="container Valores px-0 px-md-3 px-lg-0 mb-5 col-12 col-md-5 col-lg-4 d-flex flex-column justify-content-center">
                                 <h4 className="valor text-center">{preco(props)}</h4>
-                                {/* <h4 className="valor text-center">De: <del>R$3.520,00</del><br />Por: R$2.520,00</h4> */}
-
-                                {/* <select className="form-input col-11 align-self-center  ">
-                                    <option id="forma-pagamento" selected>Consultar formas de pagamento</option>
-                                    <option value="boleto">2.394,00 - Boleto à vista</option>
-                                    <option value="debito">2.500,00 - Débito à vista</option>
-                                    <option value="credito">2.520,00 - Crédito à vista</option>
-                                    <option value="12x">12x com juros - 220,50 (total = 2.646,00) </option>
-                                    <option value="10x">10x sem juros - 252,00 (total = 2.520,00) </option>
-                                    <option value="5x">5x sem juros - 504,00 (total = 2.520,00) </option>
-                                    <option value="2x">2x sem juros - 1.260,00 (total = 2.520,00)</option>
-                                </select> */}
 
                                 <Button onclick={addToCart} class="btn-comprar align-self-center " label="comprar" />
                                 <h4 className="frete-fixo-produto text-center pt-4">Frete fixo R$150,00</h4>
@@ -89,10 +90,7 @@ function Product(props) {
                     <div className="container container-fluid-informações-texto p-5">
                         <div className="row">
                             <p className="h1-informações-texto">
-                                Caixa Registradora (1932) criada por James Ritty, responsável por inventar a primeira delas no
-                                ano de 1879, sua inspiração para a criação da peça surgiu ao observar uma ferramenta que contava
-                                as rotações da hélice deum navio a vapor. Com a ajuda de John Ritty, seu irmão o primeiro modelo
-                                foi patenteado no ano de 1883.</p>
+                              4549 </p>
                         </div>
                     </div>
                     <div className="container-fluid container-fluid-caracteristicas">
@@ -103,9 +101,7 @@ function Product(props) {
                     <div className="container container-fluid-caracteristicas-texto p-5">
                         <div className="row">
                             <p className="h1-caracteristicas-texto">
-                                Produzida em aço inoxidável , a Caixa Registradora possui alta resistência a quedas e
-                                deformações, além de possuir partes de madeira de carvalho que resiste muito bem a umidade. Suas
-                                dimensões são de 30 x 30 x 30 cm</p>
+                               165165 </p>
                         </div>
                     </div>
                 </div>

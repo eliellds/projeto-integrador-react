@@ -4,10 +4,44 @@ import FormDefault from '../FormDefault/FormDefault';
 import Input from "../../../micro/Forms/Input/Input";
 import Button from "../../../micro/Button/Button";
 import Select from "../../../micro/Forms/Select/Select";
+import api from "../../../../services/api";
 
 function Address(props) {
     let bool = true
     const [show, setShow] = useState(bool);
+
+    const [cep, setCep] = useState();
+    const [logradouro, setLogradouro] = useState();
+    const [numero, setNumero] = useState();
+    const [complemento, setComplemento] = useState();
+    const [bairro, setBairro] = useState();
+    const [referencia, setReferencia] = useState();
+    const [cidade, setCidade] = useState();
+    const [estado, setEstado] = useState();
+    
+
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    const getAddress = () => {
+        api.get(`/userAddress/myAddress/${user.id}`).then(
+            res => {
+                setCep(res.data[0].address.cep)
+                setLogradouro(res.data[0].address.street)
+                setNumero(res.data[0].address.number)
+                setComplemento(res.data[0].address.complement)
+                setBairro(res.data[0].address.district)
+                setReferencia(res.data[0].address.reference)
+                setCidade(res.data[0].address.city)
+                setEstado(res.data[0].address.state)
+                console.log(res.data[0].address)
+            });
+    }
+
+    useEffect(() => {
+
+        getAddress();
+
+    }, []);
 
     function disableForm() {
         bool = true
@@ -55,15 +89,15 @@ function Address(props) {
 
                 <div className="row custom-form d-flex justify-content-center">
                     <div className=" col-12 col-md-3">
-                        <Input disabled={show} label="CEP" type="text" id="cep" className="form-input col-12" placeholder="Digite seu CEP..." />
+                        <Input input value={cep} disabled={show} label="CEP" type="text" id="cep" className="form-input col-12" placeholder="Digite seu CEP..." />
                     </div>
 
                     <div className=" col-12 col-md-6">
-                        <Input disabled={show} label="Logradouro" type="text" id="rua" className="form-input col-12" placeholder="Digite o logradouro..." />
+                        <Input input value={logradouro} disabled={show} label="Logradouro" type="text" id="rua" className="form-input col-12" placeholder="Digite o logradouro..." />
                     </div>
 
                     <div className=" col-12 col-md-2">
-                        <Input disabled={show} label="Número" type="text" id="rua" className="form-input col-12" placeholder="Digite o número..." />
+                        <Input input value={numero} disabled={show} label="Número" type="text" id="rua" className="form-input col-12" placeholder="Digite o número..." />
                     </div>
 
                 </div>
@@ -71,20 +105,20 @@ function Address(props) {
                 <div className="row custom-form d-flex justify-content-center">
 
                     <div className="col-12 col-md-5">
-                        <Input disabled={show} label="Complemento" type="text" id="complemento" className="form-input col-12" placeholder="Digite o complemento..." />
+                        <Input input value={complemento} disabled={show} label="Complemento" type="text" id="complemento" className="form-input col-12" placeholder="Digite o complemento..." />
                     </div>
                     <div className="col-12 col-md-6">
-                        <Input disabled={show} label="Bairro" type="text" id="bairro" className="form-input col-12" placeholder="Digite seu bairro..." />
+                        <Input input value={bairro} disabled={show} label="Bairro" type="text" id="bairro" className="form-input col-12" placeholder="Digite seu bairro..." />
                     </div>
 
                 </div>
 
                 <div className="row custom-form d-flex justify-content-center">
                     <div className="col-12 col-md-4">
-                        <Input disabled={show} label="Ponto de referência" type="text" id="ponto-referencia" className="form-input col-12" placeholder="Digite um ponto de referência..." />
+                        <Input input value={referencia} disabled={show} label="Ponto de referência" type="text" id="ponto-referencia" className="form-input col-12" placeholder="Digite um ponto de referência..." />
                     </div>
                     <div className="col-12 col-md-5">
-                        <Input disabled={show} label="Cidade" type="text" id="cidade" className="form-input col-12" placeholder="Digite sua cidade..." />
+                        <Input input value={cidade} disabled={show} label="Cidade" type="text" id="cidade" className="form-input col-12" placeholder="Digite sua cidade..." />
                     </div>
 
                     <div className="col-12 col-md-2">

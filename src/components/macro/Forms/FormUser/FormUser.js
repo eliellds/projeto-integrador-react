@@ -27,6 +27,17 @@ function FormUser(props) {
 
     }, []);
 
+    const getUser = () => {
+        api.get(`/user/${user.id}`).then(
+            res => {
+                setName(res.data.firstName);
+                setLastname(res.data.lastName);
+                setTel(res.data.telephone.number);
+                setCpf(res.data.cpf);
+                setEmail(res.data.email);
+            });
+    }
+
     let userDataUpdate = {
         id: user.id,
         firstName: name,
@@ -92,17 +103,6 @@ function FormUser(props) {
         }
     }
 
-    const getUser = () => {
-        api.get(`/user/${user.id}`).then(
-            res => {
-                setName(res.data.firstName);
-                setLastname(res.data.lastName);
-                setTel(res.data.telephone.number);
-                setCpf(res.data.cpf);
-                setEmail(res.data.email);
-            });
-    }
-
     // function handleName(e) {
     //     setName(e.target.value)
     // }
@@ -121,11 +121,11 @@ function FormUser(props) {
 
                     <div className="row custom-form d-flex justify-content-center">
                         <div className=" col-12 col-md-5">
-                            <Input  change={e => setName(e.target.value)} value={name} disabled={show} label="Nome" type="text" id="nome" className="form-input col-12" placeholder="Nome" />
+                            <Input input change={e => setName(e.target.value)} value={name} disabled={show} label="Nome" type="text" id="nome" className="form-input col-12" placeholder="Nome" />
                         </div>
 
                         <div className="col-12 col-md-6">
-                            <Input  change={e => setLastname(e.target.value)} value={lastname} disabled={show} label="Sobrenome" type="text" id="sobrenome" className="form-input col-12"
+                            <Input input change={e => setLastname(e.target.value)} value={lastname} disabled={show} label="Sobrenome" type="text" id="sobrenome" className="form-input col-12"
                                 placeholder="Sobrenome" />
                         </div>
                     </div>
@@ -142,7 +142,7 @@ function FormUser(props) {
                         </div>
 
                         <div className="col-12 col-md-4">
-                            <Input  change={e => setTel(e.target.value)} value={tel} disabled={show} label="Telefone" type="text" id="telefone" className="form-input col-12"
+                            <Input input change={e => setTel(e.target.value)} value={tel} disabled={show} label="Telefone" type="text" id="telefone" className="form-input col-12"
                                 placeholder="Telefone" />
                         </div>
 

@@ -27,13 +27,13 @@ function CartItems(props) {
                         <Link to={Produto}><img src={Produto} className="card-image" /></Link>
                     </div>
                     <a href="#paginaProduto" className="col-4 col-md-4 pe-0  texto-carrinho">
-                        {product.nome}
+                        {product.product}
                     </a>
                     <div className=" col-1 numero quantidade align-content-center text-center">
                         <a href="#" className="controle positivo">+</a> 1 <a href="" className="controle negativo">-</a>
                     </div>
                     <div className="col-2 texto-carrinho  text-center">
-                        R$<span className="numero">{product.preco}</span>
+                        R$<span className="numero">{product.salePrice?product.salePrice:product.price}</span>
                     </div>
                     <div className="col-2 ">
                         <a href="#" className="removerCarrinho row justify-content-center">

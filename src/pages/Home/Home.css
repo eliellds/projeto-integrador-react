@@ -23,3 +23,9 @@
     margin: 0 !important;
     padding: 0 !important;
 }
+.image-emphasis{
+    display: block;
+    justify-content: center;
+    height: 320px;
+    object-fit: cover;
+}

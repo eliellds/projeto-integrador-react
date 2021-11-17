@@ -4,7 +4,8 @@ import FormDefault from "../FormDefault/FormDefault";
 import Input from "../../../micro/Forms/Input/Input";
 import H2 from "../../../micro/Title/H2";
 import Button from "../../../micro/Button/Button";
-import Select from "../../../micro/Forms/Select/Select"
+import SelectCard from "../../../micro/Forms/Select/SelectCard";
+import api from "../../../../services/api";
 
 function FormDataCard(props) {
 
@@ -62,6 +63,20 @@ function FormDataCard(props) {
         }
     }
 
+    const [paymentMethod, setPaymentMethod] = useState("")
+    const [selectedMethod, setSelected] = useState("")
+
+    useEffect(() => {
+        api
+            .get("/payments")
+            .then((response) => setPaymentMethod(response.data))
+            .catch((err) => {
+            console.error("Erro ao consumir api de payments" + err)
+        })
+    }, [])
+
+    // console.log(paymentMethod)
+
     return (
         <>
 
@@ -113,8 +128,7 @@ function FormDataCard(props) {
                         </div>
 
                         <div className=" col-6 col-md-3">
-                            <Select label="Forma de Pagamento:" default="Parcelas"/>
-                            {/* <Input label="Forma de Pagamento:" className="form-input col-12 form-label" type="text" name="mes" placeholder="aaaa" /> */}
+                            <SelectCard required label="Forma de Pagamento:" paymentMethod={paymentMethod} change={e => setSelected(e.target.value)} />
                         </div>
 
                     </div>

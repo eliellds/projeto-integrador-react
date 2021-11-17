@@ -35,7 +35,6 @@ function ListProductsCatalogy(props){
         
             {listProducts()}
        
-  
         </ul>
     
     </>

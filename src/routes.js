@@ -38,7 +38,7 @@ export const Routes = () => {
             <Route path="/success" component={Success}/>
             <Route path="/catalog/:category" component={Catalog}/>
             <Route path="/sales" component={Sales}/>
-            <Route path="/search" component={Search}/>
+            <Route path="/search/:text" component={Search}/>
             <Route path="/about" component={About}/>
             <Route path="/forgotpassword" component={ForgotPassword}/>
             <Route path="/contact" component={Contact}/>
@@ -47,8 +47,6 @@ export const Routes = () => {
             <Route path="/addressform" component={Address}/>
             <Route path="/formuser" component={FormUser}/>
             <Route path="/myorder" component={MeusPedidos}/>
-            
-
             <Route component={NotFound}/>
         </Switch>
     )

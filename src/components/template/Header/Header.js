@@ -6,6 +6,7 @@ import FormSearch from '../../macro/Forms/FormSearch/FormSearch'
 import Profile from '../../micro/Profile/Profile'
 import Bag from "../../micro/Bag/Bag"
 import LoginButton from '../../micro/LoginButton/LoginButton'
+import api from '../../../services/api'
 
 function Header(props) {
 
@@ -14,26 +15,23 @@ function Header(props) {
     const [login, setLogin] = useState(!localStorage.getItem("user"));
 
     const removeUser = () => {
+        localStorage.removeItem("token");
         localStorage.removeItem("user");
+        localStorage.removeItem("username");
     }
 
     const changeState = () => {
         if (login) {
             if (localStorage.getItem("user")) {
                 setLogin(false);
-                // window.localStorage.href="/"
             }
         } else {
             removeUser();
             setLogin(true);
-            // window.localStorage.href="/"
         }
         compProfile();
     }
 
-    // function compProfile() {
-    //     return localStorage.getItem("user") ? <Profile /> : <></>
-    // }
     const [perfil,setPerfil]= useState(localStorage.getItem("user")?<Profile/> : <></>)
 
     function compProfile(){

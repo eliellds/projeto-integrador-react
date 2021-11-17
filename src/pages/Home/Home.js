@@ -3,9 +3,32 @@ import './Home.css'
 import ListProducts from '../../components/macro/listProducts/ListProductsCarroussel'
 import Banners from '../../components/macro/Banners/Banner'
 import Emphasis from '../../components/macro/Cards/Products/CardProductEmphasis'
+import api from '../../services/api'
+import CarrousselEmphasis from '../../components/macro/Cards/Products/EmphasisCarroussel'
 
 function Home(props) {
- 
+    const[offers, setOffers] = useState()
+    const[news,setNews] = useState()
+    const[emphasis,setEmphasis] = useState()
+
+    function emphasisRender(){
+        api.get("/products/emphasis").then((response) => {setEmphasis(response.data)}).catch((error) => console.log("Erro ao carregar newer "+ error))
+    }
+    
+    function offersData(){
+        api.get("/products/offers").then((response) => {setOffers(response.data)
+            console.log(response.data)
+            }).catch((error) => console.log("Erro ao carregar api de offers"+error))
+    }
+    function newlestData(){
+        api.get("/products/recentlyAdd").then((response) => {setNews(response.data)}).catch((error) => console.log("Erro ao carregar newer "+ error))
+    }
+    useEffect(() => {
+        offersData()
+        newlestData()
+        emphasisRender()
+    },[])
+
     return (
         <>
 
@@ -15,7 +38,7 @@ function Home(props) {
             {/* <!-- Inicio lista cards produtos promocoes--> */}
 
                
-            <ListProducts/>
+            <ListProducts products ={offers}/>
      
             {/* <!-- Fim lista cards produtos promocoes --> */}
 
@@ -23,15 +46,8 @@ function Home(props) {
             {/* <!-- INÍCIO DESTAQUES --> */}
 
             <h2 className="mt-3 home-titles mb-4">Destaques</h2>
-
-            <section className="container-fluid">
-
-                <div className="row custom-section mb-5 justify-content-center">
-                    <Emphasis variable image="caixaRegistradora.png" price="2520,00" name="Caixa Registradora" year="1962" id={1}/>
-                    <Emphasis  image="loucasPortuguesas.jpg" price="25120,00" name="Louças Portuguesas" year="1889" id={2}/> 
-                </div>
-
-            </section>
+            <CarrousselEmphasis products={emphasis}/>
+      
 
             {/* <!-- FINAL  DESTAQUES --> */}
 
@@ -39,7 +55,7 @@ function Home(props) {
 
             {/* <!-- Inicio lista cards produtos novidades --> */}
             <div className="container container-cards">
-                <ListProducts/>
+                <ListProducts products={news}/>
           
 
             </div>

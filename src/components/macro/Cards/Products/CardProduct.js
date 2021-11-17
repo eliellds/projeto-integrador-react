@@ -1,48 +1,54 @@
 import React, { useState } from "react";
 import "./CardProduct.css"
 import Button from '../../../micro/Button/Button'
-export default function CardProduct(props) {
-    
-    
+
+function CardProduct(props) {
+    function imageRender() {
+        var imgSrc = require(`../../../../assets/images/products/${props.image}`);
+        console.log(imgSrc)
+        return <img src={`${imgSrc.default}`} />
+    }
+
     
     const addToCart = () => {
         const product = {
-            id:props.id,
-            precoDe:props.precoDe,
-            preco:props.precoPor,
-            nome:props.nome,
-            ano:props.ano
+            id: props.id,
+            precoDe: props.price,
+            preco: props.salePrice,
+            nome: props.product,
+            ano: props.year,
+            qty: props.qty
         }
-        let cartList = localStorage.getItem("cart") 
-            ? JSON.parse(localStorage.getItem("cart")) 
+        let cartList = localStorage.getItem("cart")
+            ? JSON.parse(localStorage.getItem("cart"))
             : []
         cartList.push(product)
         let cartString = JSON.stringify(cartList)
         localStorage.setItem("cart", cartString)
         localStorage.setItem('qtyCart', JSON.stringify(cartList.length))
-        
+
         window.location.href = "/cart";
     }
 
-       
-    
-   
-    const precoDe = (props) => {
 
-        if (props.precoDe) {
-            return <div className="preco-de">R$ {props.precoDe}</div>
+
+
+    const precoDe = () => {
+
+        if (props.price) {
+            return <div className="preco-de">R$ {(props.price).toFixed(2)}</div>
         }
         return
 
     }
 
-    const preco = (props) => {
+    const preco = () => {
 
         return (
             <>
-                {precoDe(props)}
-                <div className="preco-por">R$ {props.precoPor}</div>
-                <div className="parcelas">À vista, ou em <em>{props.vezes}x</em> de <em>R$ {props.parcelas}</em> no cartão</div>
+                {precoDe()}
+                <div className="preco-por">R$ {props.salePrice?(props.salePrice).toFixed(2):null}</div>
+                <div className="parcelas">À vista, ou em <em>{10}x</em> de <em>R$ {props.salePrice?(props.salePrice/10).toFixed(2):(props.price/10).toFixed(2)}</em> no cartão</div>
             </>
         )
 
@@ -55,21 +61,21 @@ export default function CardProduct(props) {
 
                 <div className="caixa-imagem">
                     <a href={`/product/${props.id}`}>
-                        <img src={props.imagem} alt={props.nome}/>
+                    {imageRender()}
                     </a>
                 </div>
 
 
                 <div className="corpo-card">
 
-                    <a href={`/product/${props.id}`} className="descricao">{props.nome}<br />({props.ano})</a>
+                    <a href={`/product/${props.id}`} className="descricao">{props.product}<br />({props.year})</a>
 
                     <div className="pagamento">
                         <div className="preco">
-                            {preco(props)}
+                            {preco()}
                         </div>
 
-                        <Button onclick={addToCart} class="btn-comprar btn-expand" label="COMPRAR"/>
+                        <Button onclick={addToCart} class="btn-comprar btn-expand" label="COMPRAR" />
 
                     </div>
 
@@ -78,5 +84,7 @@ export default function CardProduct(props) {
             </li>
         </>
     )
+}
 
-    }
+
+export default CardProduct

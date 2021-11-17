@@ -9,21 +9,37 @@ import api from "../../../../services/api";
 
 function FormLogin(props) {
 
-    let user = { id: 1, nome: "Eliel", idade: 26 }
-    let userString = JSON.stringify(user)
+    // let user = { id: 1, nome: "Eliel", idade: 26 }
+    // let userString = JSON.stringify(user)
     const history = useHistory()
 
     function test() {
         return history.goBack();
     }
 
-    const addUser = () => {
-        localStorage.setItem("user", userString);
-        test();
+    const addUser = (userMail) => {
+        const config = {
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem("token")
+            }
+        }
+
+        api.get(`/user/email/${userMail}`, config)
+        .then(
+            res => {
+                localStorage.setItem("user", JSON.stringify(res.data));
+                test();
+            },
+            err => {
+                console.log(err);
+            }
+            
+        )
+        
     }
 
-    function logar() {
-        addUser();
+    function logar(userMail) {
+        addUser(userMail);
     }
 
     const [email, setEmail] = useState("")
@@ -32,7 +48,8 @@ function FormLogin(props) {
     function postApi(data) {
         api.post("/login", data)
         .then(res => {
-            console.log(res)
+            localStorage.setItem("token", res.data.jwt)
+            logar(res.data.email)
         })
         .catch(err => {
             console.log(err)
@@ -41,15 +58,10 @@ function FormLogin(props) {
 
     const handleSubmit = () => {
 
-        console.log(email);
-        console.log(password1)
-
         const data = ({
             username: email,
             password: password1
         })
-
-        console.log(data)
 
         postApi(data)
     }

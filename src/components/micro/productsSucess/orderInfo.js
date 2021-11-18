@@ -10,7 +10,7 @@ function orderInfo(props) {
 
                     <li class="row pagamento-lista">
                         <div class="atributos tipo-pagamento">{props.primeiraLinha}</div>
-                        <div class="atributos numero-cartao">{props.segundaLinha}</div>
+                        <div class="atributos numero-cartao">{props.segundaLinha}{props.prazo}</div>
                         <div class="atributos tipo-pagamento">{props.terceiraLinha}</div>
                     </li>
                 </ul>

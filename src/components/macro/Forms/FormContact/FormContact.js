@@ -59,7 +59,7 @@ function FormContact(props) {
                         <Input change={e => setName(e.target.value)} label="Nome" type="text" id="name" className="form-input col-12" placeholder="Digite seu nome" />
                     </div>
                     <div className="col-12 col-md-5">
-                        <Select required label="Assunto:" default="Selecione" options={props.options} change={e => setSubject(e.target.value)} />
+                        <Select required label="Assunto:"  options={props.options} change={e => setSubject(e.target.value)} />
                     </div>
                 </div>
                 <div className="row custom-form justify-content-center">

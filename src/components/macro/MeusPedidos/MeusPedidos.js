@@ -56,13 +56,17 @@ function MeusPedidos(props) {
                             <Accordion.Body>
                                 <ul className="row cabecalho-meu-pedido-item text-center">
                                     <li className="col-7 "><strong>Detalhes do Pedido</strong></li>
-                                    <li className="col-2 data"><strong>Data</strong></li>
+                                    <li className="col-2 data justify-self-start"><strong>Data</strong></li>
                                     <li className="col-2 me-3"><strong>Status</strong></li>
                                 </ul>
                                 <ul className="row">
+                                    <div className="container col-7 align-self-start d-flex flex-column m-0">
                                     <OrderProducts options={item.productList} />
-                                    <li className="col-2 meu-pedido-item data me-3">{dateD}</li>
-                                    <li className="col-2 meu-pedido-item">{item.status}</li>
+                                    </div>
+                                    <div className="container col-5 d-flex">
+                                    <li className="col-5 meu-pedido-item data me-3">{dateD}</li>
+                                    <li className="col-7 meu-pedido-item">{item.status}</li>
+                                    </div>
                                 </ul>
                             </Accordion.Body>
                         </>

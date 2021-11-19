@@ -65,6 +65,7 @@ function SuccessPage(props) {
     const dataFormatada = data.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
 
     const amountFormated = order.amount.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    const deliveryFormated = order.deliveryValue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
     useEffect(() => {
         api
@@ -86,14 +87,17 @@ function SuccessPage(props) {
             </p>
 
             <div class="container-fluid container-principal">
-                <h2 class="numero-pedido col-12">NÚMERO DO PEDIDO:<b>&nbsp;{props.numPedido}12345</b></h2>
+
+                <h2 class="numero-pedido col-12">Número do Pedido:<b>&nbsp;{props.numPedido}xxxx</b></h2>
 
                 <div class="row linha-geral justify-content-between">
 
                     <ul class="container col-12 col-lg-6 mx-0 d-flex flex-column">
                         <h4>Itens</h4>
+
                         <ProductSuccess
-                            frete={dataFormatada} />
+                            frete={deliveryFormated}
+                            finalPrice={amountFormated} />
 
                     </ul>
 
@@ -117,7 +121,9 @@ function SuccessPage(props) {
                     </div>
 
                 </div>
+
                 <div class="texto-prazo">Prazo estimado para entrega: <b>{dataFormatada}</b></div>
+
                 <Button navigation route="/dashboard/myorder" class="btn-retorno" label="Pedidos" />
 
             </div>

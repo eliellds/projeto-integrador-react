@@ -68,8 +68,7 @@ function SuccessPage(props) {
 
     const amountFormated = order.amount.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
     const deliveryFormated = order.deliveryValue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
- 
-    number.toLocaleString('en-IN', {style: 'currency',currency: 'INR', minimumFractionDigits: 2})
+
 
     function getOrder() {
         api

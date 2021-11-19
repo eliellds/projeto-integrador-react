@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function ProductSuccess(props) {
+function ProductSuccessOrder(props) {
     const products = JSON.parse(localStorage.getItem('cart')) || []
     let total = 0;
     const [PrecoTotal, setPrecoTotal] = useState(total)
@@ -62,5 +62,4 @@ function ProductSuccess(props) {
         </>
     )
 }
-
-export default ProductSuccess;
+export default ProductSuccessOrder;

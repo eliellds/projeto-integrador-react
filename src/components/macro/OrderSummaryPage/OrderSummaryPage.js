@@ -1,12 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ProductSuccess from "../../micro/productsSucess/productsSucess";
 import OrderInfo from '../../micro/productsSucess/orderInfo'
 import Button from "../../micro/Button/Button"
 import "./OrderSummaryPage.css"
+import api from "../../../services/api";
 
 
 function OrderSummaryPage(props) {
-    return (
+
+    const[order, setOrder] = useState()
+    useEffect(() =>{
+        setOrder(JSON.parse(localStorage.getItem('order')))
+        console.log(order)
+    },[])
+
+
+     return (
         <>
             <h1>RESUMO DO PEDIDO</h1>
 

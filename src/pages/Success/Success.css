@@ -37,7 +37,6 @@
 
 .container-principal ul li {
     padding: 5px 5px 5px 0;
-    padding-left: 80px;
     margin-bottom: 10px;
     border: 1px solid #C99668;
     transition: 0.2s;
@@ -49,20 +48,6 @@
     transition: 0.2s;
 }
 
-.bloco-produto::before {
-    content: "";
-    position: absolute;
-    height: 85px;
-    width: 75px;
-    background-repeat: no-repeat;
-    background-size: cover;
-    margin-left: -70px;
-    margin-top: 1px;
-}
-
-.item-1::before {
-    background-image: url("../../assets/images/success/penteadeira-madeira-nobre.jpg");
-}
 
 
 .atributo-valor, .atributo-qtd {
@@ -114,16 +99,9 @@
 
 @media (max-width: 610px) {
 
-    .bloco-produto::before {
-        height: 65px;
-        width: 45px;
-        margin-left: -40px;
-        margin-top: 4px;
-    }
+    
 
-    .container-principal ul li {
-        padding: 5px 5px 5px 50px;
-    }
+  
 
     .atributos {
         font-size: 13px;
@@ -133,8 +111,9 @@
 
 @media (max-width: 500px) {
 
-    .container-principal {
-        padding: 20px 10px;
-    }
-
+}
+.imageSuccess{
+    object-fit: cover;
+    width: 100px;
+    height: 150px;
 }

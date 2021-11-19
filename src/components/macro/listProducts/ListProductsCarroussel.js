@@ -10,11 +10,7 @@ function ListProducts(props) {
     const products = props.products || []
     const [width, setWidth] = useState()
     const [visibleSlide, setVisibleSlide] = useState(5)
-    const prod = require("../../../assets/images/products/BandeijaTurca.webp")
-    const nome = "Nome do produto"
-    const ano = "1800"
-    const precoDe = "2000,00"
-    const precoPor = "1800,00"
+
 
     function windowSize() {
         var widthNow = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;

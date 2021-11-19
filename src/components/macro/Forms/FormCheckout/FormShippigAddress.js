@@ -47,11 +47,9 @@ const initial ={
            
         },
     
-        qtyTotal : 0,
+      
         deliveryValue : 150,
-        totalDiscounts : 0,
-        amount :0
-    
+
 }
 
 function FormShippigAddress(props) {
@@ -67,6 +65,7 @@ function FormShippigAddress(props) {
 
         window.location.href="/order"
     }
+    
 
     const [displayNoneB, setDisplayNoneB] = useState("d-none")
     const [displayNoneC, setDisplayNoneC] = useState("")

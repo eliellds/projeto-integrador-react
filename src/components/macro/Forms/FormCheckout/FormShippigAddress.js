@@ -48,7 +48,7 @@ const initial ={
         },
     
         qtyTotal : 0,
-        deliveryValue : 0.0,
+        deliveryValue : 150,
         totalDiscounts : 0,
         amount :0
     
@@ -57,16 +57,20 @@ const initial ={
 function FormShippigAddress(props) {
 
     const [order,setOrder] = useState(initial)
-    const [flag,setFlag] = useState([])
+    const [flags,setFlag] = useState([])
     console.log(order)
     function postOrder(){
+        setOrder({...order, card : {...order.card, dueDate:dueDate+"-01" }})
         let orderJson = JSON.stringify(order)
         
         localStorage.setItem('order',orderJson)
+
+        window.location.href="/order"
     }
 
     const [displayNoneB, setDisplayNoneB] = useState("d-none")
     const [displayNoneC, setDisplayNoneC] = useState("")
+    const [dueDate, setDueDate] = useState("")
     const [buttons, setButtons] = useState(
         <>
             <Button class="col-4 cartao forma-pagamento selected-button" label={<H2 h2="Cartão" />}></Button>
@@ -125,6 +129,9 @@ function FormShippigAddress(props) {
         })
 
     }
+    function getOrderLocal(){
+        setOrder()
+    }
 
     useEffect(() => {
        
@@ -144,42 +151,42 @@ function FormShippigAddress(props) {
 
                     <div class="row ">
                         <div class=" col-6  col-sm-6 col-md-3">
-                            <Input change={e => setOrder({...order, telephone:{number:e.target.value}})} label="Telefone" className="form-input col-12 form-label" type="tel" name="telephone" placeholder="(99)9999-9999" />
+                            <Input change={e => setOrder({...order, telephone:{...order.telephone, number:e.target.value}})} label="Telefone" className="form-input col-12 form-label" type="tel" name="telephone" placeholder="(99)9999-9999" />
 
                         </div>
 
                         <div class=" col-6 col-sm-6 col-md-3">
-                            <Input change={e => setOrder({...order, address:{cep:e.target.value}})} label="CEP" className="form-input col-12 form-label" type="text" name="cep" placeholder="12345-000" />
+                            <Input change={e => setOrder({...order, address:{...order.address, cep:e.target.value}})} label="CEP" className="form-input col-12 form-label" type="text" name="cep" placeholder="12345-000" />
                         </div>
 
                         <div class=" col-6 col-sm-6 col-md-3">
-                            <Input change={e => setOrder({...order, address:{state:e.target.value}})} label="Estado" className="form-input col-12 form-label" type="text" name="state" placeholder="Ex.:São Paulo" />
+                            <Input change={e => setOrder({...order, address:{...order.address, state:e.target.value}})} label="Estado" className="form-input col-12 form-label" type="text" name="state" placeholder="Ex.:São Paulo" />
                         </div>
 
                         <div class=" col-6 col-sm-6 col-md-3">
-                            <Input change={e => setOrder({...order, address:{city:e.target.value}})} label="Cidade" className="form-input col-12 form-label" type="text" name="city" placeholder="Ex.:São Paulo" />
+                            <Input change={e => setOrder({...order, address:{...order.address, city:e.target.value}})} label="Cidade" className="form-input col-12 form-label" type="text" name="city" placeholder="Ex.:São Paulo" />
                         </div>
 
                         <div class=" col-9 col-md-8">
-                            <Input change={e => setOrder({...order, address:{street:e.target.value}})} label="Logradouro" className="form-input col-12 form-label" type="text" name="street" placeholder="Ex.:Rua Dos Velhos Tempos" />
+                            <Input change={e => setOrder({...order, address:{...order.address, street:e.target.value}})} label="Logradouro" className="form-input col-12 form-label" type="text" name="street" placeholder="Ex.:Rua Dos Velhos Tempos" />
 
                         </div>
 
                         <div class=" col-3  col-md-4">
-                            <Input change={e => setOrder({...order, address:{number:e.target.value}})} label="Numero" className="form-input col-12 form-label" type="text" name="number" placeholder="Ex.:232" />
+                            <Input change={e => setOrder({...order, address:{...order.address, number:e.target.value}})} label="Numero" className="form-input col-12 form-label" type="text" name="number" placeholder="Ex.:232" />
                         </div>
 
                         <div class=" col-6 col-md-4">
-                            <Input change={e => setOrder({...order, address:{district:e.target.value}})} label="Bairro" className="form-input col-12 form-label" type="text" name="district" placeholder="Ex.Butantã" />
+                            <Input change={e => setOrder({...order, address:{...order.address, district:e.target.value}})} label="Bairro" className="form-input col-12 form-label" type="text" name="district" placeholder="Ex.Butantã" />
 
                         </div>
 
                         <div class=" col-6  col-md-4">
-                            <Input change={e => setOrder({...order, address:{complement:e.target.value}})} label="Complemento" className="form-input col-12 form-label" type="text" name="complement" placeholder="Ex.: ap: 15" />
+                            <Input change={e => setOrder({...order, address:{...order.address, complement:e.target.value}})} label="Complemento" className="form-input col-12 form-label" type="text" name="complement" placeholder="Ex.: ap: 15" />
                         </div>
 
                         <div class=" col-6 col-md-4">
-                            <Input change={e => setOrder({...order, address:{reference:e.target.value}})} label="Referencia" className="form-input col-12 form-label" type="text" name="reference" placeholder="Ex.: Proximo ao posto..." />
+                            <Input change={e => setOrder({...order, address:{...order.address, reference:e.target.value}})} label="Referencia" className="form-input col-12 form-label" type="text" name="reference" placeholder="Ex.: Proximo ao posto..." />
 
                         </div>
 
@@ -208,35 +215,37 @@ function FormShippigAddress(props) {
                     <div className={`row custom-form ${displayNoneC}`}>
 
                         <div className=" col-12 col-md-5">
-                            <Input change={e => setOrder({...order, card:{name:e.target.value}})} label="Nome do Titular" className="form-input col-12 form-label" type="text" name="name" placeholder="Nome como está no cartão" />
+                            <Input change={e => setOrder({...order, card:{...order.card,name:e.target.value}})} label="Nome do Titular" className="form-input col-12 form-label" type="text" name="name" placeholder="Nome como está no cartão" />
                         </div>
 
                         <div className=" col-6 col-md-4">
-                            <Input change={e => setOrder({...order, card:{cpf:e.target.value}})} label="CPF-Titular" className="form-input col-12 form-label" type="text" name="CPF" placeholder="999-999-999-99" />
+                            <Input change={e => setOrder({...order, card:{...order.card,cpf:e.target.value}})} label="CPF-Titular" className="form-input col-12 form-label" type="text" name="CPF" placeholder="999-999-999-99" />
                         </div>
 
                         <div className=" col-6 col-md-3">
-                            <Input change={e => setOrder({...order, card:{birthDate:e.target.value}})} label="Data Nascimento Titular" className="form-input col-12 form-label" type="date" name="birthDate" placeholder="Ex.: Dia/Mês/Ano." />
+                            <Input change={e => setOrder({...order, card:{...order.card, birthDate:e.target.value}})} label="Data Nascimento Titular" className="form-input col-12 form-label" type="date" name="birthDate" placeholder="Ex.: Dia/Mês/Ano." />
                         </div>
 
                         <div className=" col-12 col-md-4">
-                            <Input change={e => setOrder({...order, card:{cardNumber:e.target.value}})} label="Numero do Cartão" className="form-input col-12 form-label" type="text" name="cardNumber" placeholder="Ex.: 0000 1111 2222 3333." />
+                            <Input change={e => setOrder({...order, card:{...order.card, cardNumber:e.target.value}})} label="Numero do Cartão" className="form-input col-12 form-label" type="text" name="cardNumber" placeholder="Ex.: 0000 1111 2222 3333." />
                         </div>
 
                         <div className=" col-6 col-md-1">
                             <Input /*change={e => validarCvv(e)}*/ label="CVV" className="form-input col-12 form-label" type="text" name="cvv" placeholder="Ex.: 000." />
                         </div>
                         <div className=" col-6 col-md-2">
-                            <SelectedFlag required label="Bandeira" Flags={flag}  change={e => setOrder({...order, card:{flag:{id:e.target.value}}})} />
+                            <SelectedFlag required label="Bandeira" Flags={flags}  change={e => setOrder({...order, card:{...order.card,flag:{...order.card.flag,id:e.target.value}}})} />
                         </div>
 
 
                         <div className=" col-6 col-md-2">
-                            <Input change={e => setOrder({...order, card:{dueDate:e.target.value}})} label="Vencimento" className="form-input col-12 form-label" type="text" name="dia" placeholder="Mes-Ano" />
+               
+                            <Input change={e => setDueDate(e.target.value)} label="Vencimento" className="form-input col-12 form-label" type="text" name="dia" placeholder="Mes-Ano" />
+                        
                         </div>       
 
                         <div className=" col-6 col-md-3">
-                            <SelectCard required label="Forma de Pagamento:" paymentMethod={paymentMethod} change={e => setOrder({...order, payment:e.target.value})} />
+                            <SelectCard required label="Forma de Pagamento:" paymentMethod={paymentMethod} change={e => setOrder({...order, payment:{id:e.target.value}})} />
                         </div>
 
                         

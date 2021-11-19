@@ -2,7 +2,7 @@ import React from 'react';
 import {useState } from 'react';
 import api from '../../../../services/api';
 import Input from '../../../micro/Forms/Input/Input';
-import Select from '../../../micro/Forms/Select/Select';
+import SelectOptions from '../../../micro/Forms/Select/SelectOption';
 import ModalComp from '../../../micro/Modal/Modal';
 import FormDefault from '../FormDefault/FormDefault';
 import Button from "../../../micro/Button/Button"
@@ -59,7 +59,7 @@ function FormContact(props) {
                         <Input change={e => setName(e.target.value)} label="Nome" type="text" id="name" className="form-input col-12" placeholder="Digite seu nome" />
                     </div>
                     <div className="col-12 col-md-5">
-                        <Select required label="Assunto:"  options={props.options} change={e => setSubject(e.target.value)} />
+                        <SelectOptions required label="Assunto:"  options={props.options} change={e => setSubject(e.target.value)} />
                     </div>
                 </div>
                 <div className="row custom-form justify-content-center">

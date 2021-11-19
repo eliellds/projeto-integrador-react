@@ -49,7 +49,7 @@ function Address(props) {
                 alert("Seu endereço foi alterado com sucesso!")
             })
             .catch((err) => {
-                console.error("Erro ao realizar Post de endereço" + err)
+                console.error("Erro ao realizar atualização de endereço" + err)
                 alert("Erro ao cadastrar endereço!")
             })
     }
@@ -72,7 +72,6 @@ function Address(props) {
     }
 
     useEffect(() => {
-
         getAddress();
         getUfs();
 
@@ -82,56 +81,54 @@ function Address(props) {
         bool = true
         setShow(bool);
         putAddress()
-        changeButton(bool)
     }
 
     function ableForm() {
         bool = false
         setShow(bool);
-        changeButton(bool)
     }
+    let change = false
+
     // function click(e) {
     //     e.preventDefault();
     // }
 
-    const [buttons, setButtons] = useState(
-        <>
-            <Button onclick={ableForm} label="Alterar" class="btn-confirmacao" />
-        </>
-    )
-    let change = false
+    // const [buttons, setButtons] = useState(
+    //     <>
+    //         <Button onclick={ableForm} label="Alterar" class="btn-confirmacao" />
+    //     </>
+    // )
 
-    function changeButton(change) {
-        if (change) {
-            setButtons(
-                <>
-                    <Button onclick={ableForm} label="Alterar" class="btn-confirmacao" />
-                </>
-            )
+    // function changeButton(change) {
+    //     if (change) {
+    //         setButtons(
+    //             <>
+    //                 <Button onclick={ableForm} label="Alterar" class="btn-confirmacao" />
+    //             </>
+    //         )
 
+    //     } else {
+    //         setButtons(
+    //             <>
+    //                 <Button onclick={disableForm} label="Salvar" class="btn-confirmacao" />
+    //             </>
+    //         )
 
-        } else {
-            setButtons(
-                <>
-                    <Button onclick={disableForm} label="Salvar" class="btn-confirmacao" />
-                </>
-            )
-
-        }
-    }
+    //     }
+    // }
 
     /////////////////// INICIO FUNCOES DE BUSCA E VALIDACAO DE CEP /////////////////////
 
     function limpa_formulário_cep() {
         //Limpa valores do formulário de cep.
-        setAddress({street: "", district: "", city: "", state: "", number:"", complement: "", reference: ""});
+        setAddress({...address,  street: "", district: "", city: "", state: "", number:"", complement: "", reference: ""});
     }
 
     function meu_callback(conteudo) {
         console.log(conteudo)
         if (!("erro" in conteudo)) {
             //Atualiza os campos com os valores.
-            setAddress({street: conteudo.logradouro, district: conteudo.bairro, city: conteudo.localidade, state: conteudo.uf})
+            setAddress({...address, street: conteudo.logradouro, district: conteudo.bairro, city: conteudo.localidade, state: conteudo.uf})
         } //end if.
         else {
             //CEP não Encontrado.
@@ -157,7 +154,7 @@ function Address(props) {
             if (validacep.test(cep)) {
 
                 //Preenche os campos com "..." enquanto consulta webservice.
-                setAddress({street: "...", district: "...", city: "...", state: "...", number:"", complement: "", reference: ""});
+                setAddress({...address, street: "...", district: "...", city: "...", state: "...", number:"", complement: "", reference: ""});
                 
                 fetch(`https://viacep.com.br/ws/${cep}/json/`)
                     .then(res => res.json())
@@ -182,11 +179,11 @@ function Address(props) {
             <FormDefault title="Endereços" className="container custom-form-box mx-3 mx-sm-1 mx-lg-4 px-5 px-sm-1 px-lg-4">
 
                 <div className="row custom-form d-flex justify-content-center">
-                    <div className=" col-12 col-md-3">
+                    <div className=" col-12 col-md-3" value={address.id}>
                         {/* INPUT PARA BUSCA DE CEP AO CLICAR FORA DO FORMULARIO. 
                         LENGTH == LIMITE DE CARACTERES NO INPUT 
                         (POR ENQUANTO 9 PENSANDO NA MÁSCARA QUE INSERE "-") */}
-                        <InputCep length="9" blur={pesquisacep} value={address.cep} disabled={show} label="CEP" type="text" id="cep" className="form-input col-12" placeholder="Digite seu CEP..." change={e => setAddress({ ...address, cep: e.target.value, id: id })} />
+                        <InputCep length="9" blur={pesquisacep} value={address.cep} disabled={show} label="CEP" type="text" id="cep" className="form-input col-12" placeholder="Digite seu CEP..." change={e => setAddress({ ...address, cep: e.target.value})} />
                     </div>
 
                     <div className=" col-12 col-md-6">
@@ -224,7 +221,8 @@ function Address(props) {
 
                 </div>
                 <div className="row justify-content-center pt-5">
-                    {buttons}
+                    <Button onclick={ableForm} label="Alterar" class="btn-confirmacao" />
+                    <Button onclick={disableForm} label="Salvar" class="btn-confirmacao" />
                 </div>
 
             </FormDefault>

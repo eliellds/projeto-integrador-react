@@ -9,7 +9,7 @@ import api from "../../services/api";
 export default function Catalog(props) {
 
     const category = props.match.params.category;
-    console.log(props);
+    // console.log(category);
 
     const [products, setProducts] = useState()
 

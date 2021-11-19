@@ -58,6 +58,7 @@ function FormLogin(props) {
             logar(res.data.email)
         })
         .catch(err => {
+            alert("Senha ou e-mail incorreto, tente novamente.")
             console.log(err)
         })
     }

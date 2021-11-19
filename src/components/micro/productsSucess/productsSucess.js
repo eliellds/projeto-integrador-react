@@ -25,15 +25,15 @@ function ProductSuccess(props) {
 
                 <li key={product.id} className="row bloco-produto justify-content-center item-1">
                     <div className="col-md-3 col-4 ">
-                        {imageRender(product.image)}
+                        {imageRender(product.productsDTO.image)}
                     </div>
                     <div className="col-md-9 col-9">
                         <div className="row ">
-                            <div className="atributos tipo-atributo col-3  d-sm-flex">Desc.:</div>
-                            <div className="atributos atributo-descricao col-9 col-sm-9">{product.totalPrice}</div>
+                            <div className="atributos tipo-atributo col-3  d-sm-flex">Produto:</div>
+                            <div className="atributos atributo-descricao col-9 col-sm-9">{product.productsDTO.product}</div>
 
                             <div className="atributos tipo-atributo col-3  d-sm-flex">Valor:</div>
-                            <div className="atributos atributo-valor col-9 col-sm-9">{product.totalDiscount}</div>
+                            <div className="atributos atributo-valor col-9 col-sm-9">{product.totalPrice}</div>
 
 
 

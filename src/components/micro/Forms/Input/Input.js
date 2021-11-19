@@ -8,16 +8,16 @@ function Input(props) {
             <>
             <div className="input-container">
                 <label>{props.label}:</label>
-                <input onChange={e => props.change(e)} disabled={props.disabled} className="form-input" name={props.name} placeholder={props.placeholder} type={props.type}/>
+                <input value={props.value} onChange={e => props.change(e)} disabled={props.disabled} className="form-input" name={props.name} placeholder={props.placeholder} type={props.type}/>
             </div>
             </>
         )
-    } else if (props.input || props.value) {
+    } else if (props.keydown || props.value) {
         return (
             <>
             <div className="input-container">
                 <label>{props.label}:</label>
-                <input value={props.value} onChange={e => props.change(e)} disabled={props.disabled} className="form-input" name={props.name} placeholder={props.placeholder} type={props.type}/>
+                <input value={props.value} onChange={e => props.keydown(e)} disabled={props.disabled} className="form-input" name={props.name} placeholder={props.placeholder} type={props.type}/>
             </div>
             </>
         )

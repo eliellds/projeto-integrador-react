@@ -60,7 +60,7 @@ function ListProducts(props) {
  
 
     let index=0
-
+    
     //consome e faz o map do array
     function listarProdutos() {
 

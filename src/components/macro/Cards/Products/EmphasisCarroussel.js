@@ -3,6 +3,8 @@ import Emphasis from './CardProductEmphasis'
 function CarrousselEmphasis(props) {
     const products = props.products || []
     
+    // const price = products.product.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    // const salePrice = products.product.salePrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
    
     function renderEmphasis(){
         let indexEmphasis=0

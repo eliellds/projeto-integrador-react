@@ -6,6 +6,7 @@ import Button from "../../../micro/Button/Button";
 import Select from "../../../micro/Forms/Select/Select";
 import api from "../../../../services/api";
 const initial = {
+    id:0,
     cep: "",
     street: "",
     number: 0,
@@ -22,6 +23,7 @@ function Address(props) {
     const [address, setAddress] = useState(initial);
     const [show, setShow] = useState(bool);
 
+    const [id, setId] = useState("");
     const [cep, setCep] = useState("");
     const [logradouro, setLogradouro] = useState("");
     const [numero, setNumero] = useState("");
@@ -45,8 +47,8 @@ function Address(props) {
     useEffect(() => {})
     console.log(address)
     
-    function postAddress() {
-        api.post("/address", address)
+    function putAddress() {
+        api.put("/address", address)
             .then((response) => {
                 console.log(response)
                 alert("Seu endereço foi alterado com sucesso!")
@@ -60,8 +62,9 @@ function Address(props) {
     const user = JSON.parse(localStorage.getItem("user"));
 
     const getAddress = () => {
-        api.get(`/userAddress/myAddress/${user.id}`).then(
+        api.get(`/userAddress/myAddress/${user.value.id}`).then(
             res => {
+                setId(res.data[0].address.id)
                 setCep(res.data[0].address.cep)
                 setLogradouro(res.data[0].address.street)
                 setNumero(res.data[0].address.number)
@@ -91,8 +94,8 @@ function Address(props) {
     function disableForm() {
         bool = true
         setShow(bool);
+        putAddress()
         changeButton(bool)
-        postAddress()
     }
 
     function ableForm() {
@@ -136,7 +139,7 @@ function Address(props) {
 
                 <div className="row custom-form d-flex justify-content-center">
                     <div className=" col-12 col-md-3">
-                        <Input input value={cep} disabled={show} label="CEP" type="text" id="cep" className="form-input col-12" placeholder="Digite seu CEP..." change={e => setAddress({...address, cep: e.target.value})}/>
+                        <Input input value={cep} disabled={show} label="CEP" type="text" id="cep" className="form-input col-12" placeholder="Digite seu CEP..." change={e => setAddress({...address, cep: e.target.value, id:id})}/>
                     </div>
 
                     <div className=" col-12 col-md-6">

@@ -28,7 +28,7 @@ function FormUser(props) {
     }, []);
 
     const getUser = () => {
-        api.get(`/user/${user.id}`).then(
+        api.get(`/user/${user.value.id}`).then(
             res => {
                 setName(res.data.firstName);
                 setLastname(res.data.lastName);
@@ -39,7 +39,7 @@ function FormUser(props) {
     }
 
     let userDataUpdate = {
-        id: user.id,
+        id: user.value.id,
         firstName: name,
         lastName: lastname,
         telephone: {

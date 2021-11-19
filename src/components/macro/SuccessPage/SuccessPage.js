@@ -68,7 +68,7 @@ function SuccessPage(props) {
 
     useEffect(() => {
         api
-            .get(`/orders/${user.id}`)
+            .get(`/orders/${user.value.id}`)
             .then((response) => setOrder(response.data))
             .catch((err) => {
                 console.error("ops! ocorreu um erro" + err);

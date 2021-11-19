@@ -62,7 +62,7 @@ function Address(props) {
     const user = JSON.parse(localStorage.getItem("user"));
 
     const getAddress = () => {
-        api.get(`/userAddress/myAddress/${user.id}`).then(
+        api.get(`/userAddress/myAddress/${user.value.id}`).then(
             res => {
                 setId(res.data[0].address.id)
                 setCep(res.data[0].address.cep)

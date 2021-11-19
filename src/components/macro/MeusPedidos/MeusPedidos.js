@@ -11,6 +11,8 @@ import "./MeusPedidos.css";
 
 const initial = [{
     orderNumber: 0,
+    price: 0,
+    date: "0000-00-00",
     productList: []
 }]
 
@@ -21,7 +23,7 @@ function MeusPedidos(props) {
     const [pedido, setPedido] = useState([...initial])
 
     function getOrder() {
-        api.get(`/itemsOrder/user/${user.id}`).then(res => {
+        api.get(`/itemsOrder/user/${user.value.id}`).then(res => {
             setPedido(res.data)
         })
     }
@@ -32,23 +34,15 @@ function MeusPedidos(props) {
 
     }, []);
 
-    function dataAtualFormatada(data) {
-        var data = new Date(data),
-            dia = data.getDate().toString(),
-            diaF = (dia.length == 1) ? '0' + dia : dia,
-            mes = (data.getMonth() + 1).toString(), //+1 pois no getMonth Janeiro começa com zero.
-            mesF = (mes.length == 1) ? '0' + mes : mes,
-            anoF = data.getFullYear();
-        return diaF + "/" + mesF + "/" + anoF;
-    }
-
     function accordions(orderNumber) {
 
         return pedido.map(
             function (item) {
                 console.log(item)
 
-                const dateD = dataAtualFormatada(`${item.date}`)
+                const data = new Date(item.date)
+                const dataFormatada = data.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
+                const amountFormated = item.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
                 if (orderNumber == item.orderNumber) {
                     return (
@@ -67,11 +61,11 @@ function MeusPedidos(props) {
                                     <div className="container m-0 col-5 d-flex">
                                         <div className="row row-correction">
                                             <div className="container d-flex m-0 p-0">
-                                                <li className="col-5 meu-pedido-item data me-3">{dateD}</li>
+                                                <li className="col-5 meu-pedido-item data me-3">{dataFormatada}</li>
                                                 <li className="col-7 meu-pedido-item">{item.status}</li>
                                             </div>
                                             <div className="container justify-content-end align-items-end d-flex m-0 p-0">
-                                                <div>Total: R${item.price}</div>
+                                                <div>Total: {amountFormated}</div>
                                             </div>
                                         </div>
                                     </div>

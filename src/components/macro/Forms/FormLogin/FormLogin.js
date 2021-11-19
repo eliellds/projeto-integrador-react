@@ -27,7 +27,13 @@ function FormLogin(props) {
         api.get(`/user/email/${userMail}`, config)
         .then(
             res => {
-                localStorage.setItem("user", JSON.stringify(res.data));
+                const now = new Date()
+
+                const item = {
+                    value: res.data,
+                    expiry: now.getTime() + (1000 * 60 * 60 * 10)
+                }
+                localStorage.setItem("user", JSON.stringify(item));
                 test();
             },
             err => {

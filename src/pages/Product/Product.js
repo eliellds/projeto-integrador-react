@@ -1,25 +1,66 @@
 import React, { useEffect, useState } from 'react'
 import './Product.css'
-import caixaRegistradora from '../../../src/assets/images/product/caixaRegistradora.png'
 import Button from '../../components/micro/Button/Button'
 import H1 from '../../components/micro/Title/H1'
 import H2 from '../../components/micro/Title/H2'
 import api from '../../services/api'
+ 
 
-
+const initial = {
+    product: {
+    id: 0,
+    product: "",
+    conservationStat: {
+        id: 4,
+        description: ""
+    },
+    description: "",
+    feature: "",
+    year: "",
+    categoryDTO: {
+        id: 2,
+        category: "",
+        description: ""
+    },
+    quantity: 1,
+    image: "padrao.png"
+},
+price: 0,
+salePrice:0,
+qty: 0}
 
 function Product(props) {
+
+    function imageRender() {
+        var imgSrc = require(`../../assets/images/products/${produto.product.image}`);
+        console.log(imgSrc)
+        return <img src={`${imgSrc.default}`} className="image-product-api" />
+    }
 
     const id = props.match.params.id;
     console.log(props);
 
-    const [products, setProducts] = useState();
+    const [produto, setProduto] = useState(initial);
 
     useEffect(() => {
-        api.get("/products/" + id).then((response) => {setProducts(response.data)
-        console.log(response.data)}) ;
-    
+        api.get("/products/" + id).then((response) => setProduto({ ...response.data })).catch((err) => {
+            console.error("Erro ao consumir API" + err);
+
+        });
+        api.get("/products/" + id).then((response) => setItem(response.data.product)).catch((err) => {
+            console.error("Erro ao consumir API" + err);
+
+        });
+
     }, []);
+
+    const [item, setItem] = useState();
+
+
+
+
+
+    const product = produto || [];
 
     const addToCart = () => {
         const product = {
@@ -42,8 +83,8 @@ function Product(props) {
 
     const precoDe = () => {
 
-        if (products.salePrice != null) {
-            return <div className="preco-de">R$ {products.price}</div>
+        if (produto.salePrice != null) {
+            return <div className="preco-de">R$ {produto.price}</div>
         }
         return
     }
@@ -53,27 +94,30 @@ function Product(props) {
         return (
             <>
                 {precoDe()}
-                <div className="preco-por">R$ {products.salePrice}</div>
+                <div className="preco-por">R$ {produto.salePrice}</div>
                 <div className="parcelas">À vista, ou em <em>10x</em> de <em>R$ {props.parcelas}</em> no cartão</div>
             </>
         )
     }
 
+    console.log(produto);
+    console.log(item);
+    // console.log(produto.product);
+
     return (
         <>
-            <H1 ></H1>
+            <H1 h1= {produto.product.product}></H1>
             <section className="mb-4">
                 <div className="container-fluid container-fluid-section">
                     <div className="container mb-4">
                         <div className="row row-correction">
                             <div className="container container-imagem mx-0 col-12 col-md-7 col-lg-8 mt-3">
                                 <div className="row p-0 imagem-caixa-registradora">
-                                    <img className="caixa-Registradora p-0" src={props.imagem} alt={props.nome} />
-                                    {/* <img className="Caixa-Registradora p-0" src={caixaRegistradora} alt={props.nome} /> */}
+                                    {imageRender()}                         
                                 </div>
                             </div>
                             <div className="container Valores px-0 px-md-3 px-lg-0 mb-5 col-12 col-md-5 col-lg-4 d-flex flex-column justify-content-center">
-                                <h4 className="valor text-center">{preco(props)}</h4>
+                                <h4 className="valor text-center">R$ {produto.price}</h4>
 
                                 <Button onclick={addToCart} class="btn-comprar align-self-center " label="comprar" />
                                 <h4 className="frete-fixo-produto text-center pt-4">Frete fixo R$150,00</h4>
@@ -90,7 +134,7 @@ function Product(props) {
                     <div className="container container-fluid-informações-texto p-5">
                         <div className="row">
                             <p className="h1-informações-texto">
-                              4549 </p>
+                                {produto.product.description} </p>
                         </div>
                     </div>
                     <div className="container-fluid container-fluid-caracteristicas">
@@ -101,7 +145,7 @@ function Product(props) {
                     <div className="container container-fluid-caracteristicas-texto p-5">
                         <div className="row">
                             <p className="h1-caracteristicas-texto">
-                               165165 </p>
+                                {produto.product.feature} </p>
                         </div>
                     </div>
                 </div>

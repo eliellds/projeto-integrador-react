@@ -12,12 +12,12 @@ function CardProduct(props) {
     
     const addToCart = () => {
         const product = {
-            id: props.id,
-            precoDe: props.price,
-            preco: props.salePrice,
-            nome: props.product,
-            ano: props.year,
-            qty: props.qty
+            id: props.product.id,
+            price: props.price,
+            salePrice: props.salePrice,
+            product: props.product,
+            year: props.year,
+            image: props.image
         }
         let cartList = localStorage.getItem("cart")
             ? JSON.parse(localStorage.getItem("cart"))

@@ -7,7 +7,7 @@ function Success(props) {
 
     return (
         <>
-            <SuccessPage   prazo="01/01/2022" frete={150.00}/>
+            <SuccessPage/>
         </>
     )
 }

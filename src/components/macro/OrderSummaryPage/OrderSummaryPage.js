@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import ProductSuccess from "../../micro/productsSucess/productsSucess";
 import OrderInfo from '../../micro/productsSucess/orderInfo'
 import Button from "../../micro/Button/Button"
 import "./OrderSummaryPage.css"
 import api from "../../../services/api";
+import ProductSuccessOrder from "../../micro/productsSucess/productSuccessOrder";
 
 
 function OrderSummaryPage(props) {
@@ -27,7 +27,7 @@ function OrderSummaryPage(props) {
                     <ul className="container col-12 col-lg-6 mx-0 d-flex flex-column">
                     <h4>Itens</h4>
                         
-                        <ProductSuccess frete={150}/>
+                        <ProductSuccessOrder frete={150}/>
                    
 
                     </ul>

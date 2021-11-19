@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState} from "react";
 
 function ProductSuccess(props) {
-    const products = JSON.parse(localStorage.getItem('cart')) || []
+
+    const productsOrder = props.products || []
     let total = 0;
+
     const [PrecoTotal, setPrecoTotal] = useState(total)
-    console.log(products)
+
     function setTotalPrice() {
         setPrecoTotal(total)
         return PrecoTotal
@@ -16,7 +18,7 @@ function ProductSuccess(props) {
     }
 
     function listProducts() {
-        return products.map((product) => {
+        return productsOrder.map((product) => {
             total += parseInt(product.preco)
             localStorage.setItem('total', total)
             return <>
@@ -28,15 +30,15 @@ function ProductSuccess(props) {
                     <div className="col-md-9 col-9">
                         <div className="row ">
                             <div className="atributos tipo-atributo col-3  d-sm-flex">Desc.:</div>
-                            <div className="atributos atributo-descricao col-9 col-sm-9">{product.product}</div>
+                            <div className="atributos atributo-descricao col-9 col-sm-9">{product.totalPrice}</div>
 
                             <div className="atributos tipo-atributo col-3  d-sm-flex">Valor:</div>
-                            <div className="atributos atributo-valor col-9 col-sm-9">{product.salePrice ? product.salePrice : product.price}</div>
+                            <div className="atributos atributo-valor col-9 col-sm-9">{product.totalDiscount}</div>
 
 
 
                             <div className="atributos tipo-atributo col-3  d-sm-flex">Qtd.:</div>
-                            <div className="atributos atributo-qtd col-9 col-sm-9">{1}</div>
+                            <div className="atributos atributo-qtd col-9 col-sm-9">{product.quantity}</div>
                         </div>
                     </div>
 
@@ -49,16 +51,15 @@ function ProductSuccess(props) {
     }
 
 
+    const finalPrice = parseInt(total + props.frete)
 
     return (
         <>
             {listProducts()}
-            {/* {console.log(total)} */}
+            {console.log(total)}
 
-
-
-            <div className="valor-total">Frete: R$:&nbsp;<b>{props.frete}</b></div>
-            <div className="valor-total">Total: R$:&nbsp;<b> {parseInt(total + props.frete)}</b></div>
+            <div class="valor-total">Frete: &nbsp;<b>{props.frete}</b></div>
+            <div class="valor-total">Total: &nbsp;<b>{props.finalPrice}</b></div>
         </>
     )
 }

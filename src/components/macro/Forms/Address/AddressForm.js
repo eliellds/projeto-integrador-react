@@ -64,16 +64,7 @@ function Address(props) {
     const getAddress = () => {
         api.get(`/userAddress/myAddress/${user.value.id}`).then(
             res => {
-                setId(res.data[0].address.id)
-                setCep(res.data[0].address.cep)
-                setLogradouro(res.data[0].address.street)
-                setNumero(res.data[0].address.number)
-                setComplemento(res.data[0].address.complement)
-                setBairro(res.data[0].address.district)
-                setReferencia(res.data[0].address.reference)
-                setCidade(res.data[0].address.city)
-                setEstado(res.data[0].address.state)
-                console.log(res.data[0].address)
+                setAddress(res.data[0].address)
             })
             .catch((err) => {
                 console.error("Erro ao consumir api de Address" + err)
@@ -139,15 +130,15 @@ function Address(props) {
 
                 <div className="row custom-form d-flex justify-content-center">
                     <div className=" col-12 col-md-3">
-                        <Input input value={cep} disabled={show} label="CEP" type="text" id="cep" className="form-input col-12" placeholder="Digite seu CEP..." change={e => setAddress({...address, cep: e.target.value, id:id})}/>
+                        <Input input value={address.cep} disabled={show} label="CEP" type="text" id="cep" className="form-input col-12" placeholder="Digite seu CEP..." change={e => setAddress({...address, cep: e.target.value, id:id})}/>
                     </div>
 
                     <div className=" col-12 col-md-6">
-                        <Input input value={logradouro} disabled={show} label="Logradouro" type="text" id="rua" className="form-input col-12" placeholder="Digite o logradouro..." change={e => setAddress({...address, street: e.target.value})}/>
+                        <Input input value={address.street} disabled={show} label="Logradouro" type="text" id="rua" className="form-input col-12" placeholder="Digite o logradouro..." change={e => setAddress({...address, street: e.target.value})}/>
                     </div>
 
                     <div className=" col-12 col-md-2">
-                        <Input input value={numero} disabled={show} label="Número" type="text" id="rua" className="form-input col-12" placeholder="Digite o número..." change={e => setAddress({...address, number: e.target.value})} />
+                        <Input input value={address.number} disabled={show} label="Número" type="text" id="rua" className="form-input col-12" placeholder="Digite o número..." change={e => setAddress({...address, number: e.target.value})} />
                     </div>
 
                 </div>
@@ -155,24 +146,24 @@ function Address(props) {
                 <div className="row custom-form d-flex justify-content-center">
 
                     <div className="col-12 col-md-5">
-                        <Input input value={complemento} disabled={show} label="Complemento" type="text" id="complemento" className="form-input col-12" placeholder="Digite o complemento..." change={e => setAddress({...address, complement: e.target.value})} />
+                        <Input input value={address.complement} disabled={show} label="Complemento" type="text" id="complemento" className="form-input col-12" placeholder="Digite o complemento..." change={e => setAddress({...address, complement: e.target.value})} />
                     </div>
                     <div className="col-12 col-md-6">
-                        <Input input value={bairro} disabled={show} label="Bairro" type="text" id="bairro" className="form-input col-12" placeholder="Digite seu bairro..." change={e => setAddress({...address, district: e.target.value})} />
+                        <Input input value={address.district} disabled={show} label="Bairro" type="text" id="bairro" className="form-input col-12" placeholder="Digite seu bairro..." change={e => setAddress({...address, district: e.target.value})} />
                     </div>
 
                 </div>
 
                 <div className="row custom-form d-flex justify-content-center">
                     <div className="col-12 col-md-4">
-                        <Input input value={referencia} disabled={show} label="Ponto de referência" type="text" id="ponto-referencia" className="form-input col-12" placeholder="Digite um ponto de referência..." change={e => setAddress({...address, reference: e.target.value})} />
+                        <Input input value={address.reference} disabled={show} label="Ponto de referência" type="text" id="ponto-referencia" className="form-input col-12" placeholder="Digite um ponto de referência..." change={e => setAddress({...address, reference: e.target.value})} />
                     </div>
                     <div className="col-12 col-md-5">
-                        <Input input value={cidade} disabled={show} label="Cidade" type="text" id="cidade" className="form-input col-12" placeholder="Digite sua cidade..." change={e => setAddress({...address, city: e.target.value})} />
+                        <Input input value={address.city} disabled={show} label="Cidade" type="text" id="cidade" className="form-input col-12" placeholder="Digite sua cidade..." change={e => setAddress({...address, city: e.target.value})} />
                     </div>
 
                     <div className="col-12 col-md-2">
-                        <Select disabled={show} label="Estado:" options={ufs} selected={estado} change={e => setAddress({...address, state: e.target.value})} default="Estado" />
+                        <Select disabled={show} label="Estado:" options={ufs} selected={address.state} change={e => setAddress({...address, state: e.target.value})} default="Estado" />
                     </div>
 
                 </div>

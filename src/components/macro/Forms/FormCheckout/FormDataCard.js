@@ -9,6 +9,7 @@ import api from "../../../../services/api";
 
 function FormDataCard(props) {
 
+
     const [displayNoneB, setDisplayNoneB] = useState("d-none")
     const [displayNoneC, setDisplayNoneC] = useState("")
     const [buttons, setButtons] = useState(
@@ -127,10 +128,7 @@ function FormDataCard(props) {
                             <Input label="Ano de vencimento" className="form-input col-12 form-label" type="text" name="mes" placeholder="aaaa" />
                         </div>
 
-                        <div className=" col-6 col-md-3">
-                            <SelectCard required label="Forma de Pagamento:" paymentMethod={paymentMethod} change={e => setSelected(e.target.value)} />
-                        </div>
-
+                   
                     </div>
                 </div>
 

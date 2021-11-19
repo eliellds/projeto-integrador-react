@@ -32,21 +32,21 @@ function MeusPedidos(props) {
 
     }, []);
 
-    function dataAtualFormatada(data){
+    function dataAtualFormatada(data) {
         var data = new Date(data),
-            dia  = data.getDate().toString(),
-            diaF = (dia.length == 1) ? '0'+dia : dia,
-            mes  = (data.getMonth()+1).toString(), //+1 pois no getMonth Janeiro começa com zero.
-            mesF = (mes.length == 1) ? '0'+mes : mes,
+            dia = data.getDate().toString(),
+            diaF = (dia.length == 1) ? '0' + dia : dia,
+            mes = (data.getMonth() + 1).toString(), //+1 pois no getMonth Janeiro começa com zero.
+            mesF = (mes.length == 1) ? '0' + mes : mes,
             anoF = data.getFullYear();
-        return diaF+"/"+mesF+"/"+anoF;
+        return diaF + "/" + mesF + "/" + anoF;
     }
 
     function accordions(orderNumber) {
 
         return pedido.map(
             function (item) {
-                console.log(item.date)
+                console.log(item)
 
                 const dateD = dataAtualFormatada(`${item.date}`)
 
@@ -57,15 +57,23 @@ function MeusPedidos(props) {
                                 <ul className="row cabecalho-meu-pedido-item text-center">
                                     <li className="col-7 "><strong>Detalhes do Pedido</strong></li>
                                     <li className="col-2 data justify-self-start"><strong>Data</strong></li>
-                                    <li className="col-2 me-3"><strong>Status</strong></li>
+                                    <li className="col-2 text-end me-3"><strong>Status</strong></li>
                                 </ul>
-                                <ul className="row">
+                                <ul className="row ps-1">
                                     <div className="container col-7 align-self-start d-flex flex-column m-0">
-                                    <OrderProducts options={item.productList} />
+                                        <OrderProducts options={item.productList} />
                                     </div>
-                                    <div className="container col-5 d-flex">
-                                    <li className="col-5 meu-pedido-item data me-3">{dateD}</li>
-                                    <li className="col-7 meu-pedido-item">{item.status}</li>
+
+                                    <div className="container m-0 col-5 d-flex">
+                                        <div className="row row-correction">
+                                            <div className="container d-flex m-0 p-0">
+                                                <li className="col-5 meu-pedido-item data me-3">{dateD}</li>
+                                                <li className="col-7 meu-pedido-item">{item.status}</li>
+                                            </div>
+                                            <div className="container justify-content-end align-items-end d-flex m-0 p-0">
+                                                <div>Total: R${item.price}</div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </ul>
                             </Accordion.Body>
@@ -91,9 +99,9 @@ function MeusPedidos(props) {
                             <Accordion className="acordeon" defaultActiveKey="0">
                                 <Accordion.Item eventKey="0">
                                     <Accordion.Header className="cabecalho-pedido"><strong>Número do Pedido: {item.orderNumber}</strong></Accordion.Header>
-    
+
                                     {accordions(item.orderNumber)}
-    
+
                                 </Accordion.Item>
                             </Accordion>
                         </>
@@ -104,9 +112,9 @@ function MeusPedidos(props) {
                             <Accordion className="acordeon" defaultActiveKey="1">
                                 <Accordion.Item eventKey="0">
                                     <Accordion.Header className="cabecalho-pedido"><strong>Número do Pedido: {item.orderNumber}</strong></Accordion.Header>
-    
+
                                     {accordions(item.orderNumber)}
-    
+
                                 </Accordion.Item>
                             </Accordion>
                         </>
@@ -122,7 +130,7 @@ function MeusPedidos(props) {
 
         <>
             <FormDefault title="Meus Pedidos">
-                <div className="container">
+                <div className="container px-0 px-sm-3">
 
                     {modelAccordions()}
 

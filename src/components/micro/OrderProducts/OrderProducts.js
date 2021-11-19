@@ -8,7 +8,7 @@ export default function OrderProducts(props) {
             function(item) {
                 return (
                     <>
-                        <li className="col-12 meu-pedido-item item-pedido-box p-2 mb-3">{item.product}</li>
+                        <li className="col-12 meu-pedido-item item-pedido-box p-2 mb-2">{item.product}</li>
                     </>
                 )
             }

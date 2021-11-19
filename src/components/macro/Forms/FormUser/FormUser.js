@@ -12,14 +12,11 @@ function FormUser(props) {
 
     const user = JSON.parse(localStorage.getItem("user"));
 
-    const [name, setName] = useState()
-    const [lastname, setLastname] = useState()
-    const [tel, setTel] = useState()
-    const [cpf, setCpf] = useState()
-    const [email, setEmail] = useState()
-    // const [userData, setData] = useState({})
-
-    console.log(name)
+    const [name, setName] = useState("")
+    const [lastname, setLastname] = useState("")
+    const [tel, setTel] = useState("")
+    const [cpf, setCpf] = useState("")
+    const [email, setEmail] = useState("")
 
     useEffect(() => {
 
@@ -30,6 +27,7 @@ function FormUser(props) {
     const getUser = () => {
         api.get(`/user/${user.value.id}`).then(
             res => {
+                console.log(res.data)
                 setName(res.data.firstName);
                 setLastname(res.data.lastName);
                 setTel(res.data.telephone.number);
@@ -37,30 +35,27 @@ function FormUser(props) {
                 setEmail(res.data.email);
             });
     }
-
-    let userDataUpdate = {
-        id: user.value.id,
-        firstName: name,
-        lastName: lastname,
-        telephone: {
-            number: tel
-        }
-    }
-
-    console.log(userDataUpdate)
-
+    
     const handleSubmit = () => {
 
-        const teste = {...userDataUpdate}
+        const dados = ({
+            id: user.value.id,
+            firstName: name,
+            lastName: lastname,
+            telephone: {
+                number: tel
+            }
+        })
 
-        updateApi(teste)
+        updateApi(dados)
     }
 
     const updateApi = (data) => {
+
         api.put("/user", data)
             .then(res => {
-                disableForm()
                 getUser()
+                disableForm()
             })
             .catch(err => {
                 console.log(err)
@@ -79,53 +74,51 @@ function FormUser(props) {
         changeButton(bool)
     }
 
-
-
-    const [buttons, setButtons] = useState(
-        <>
-            <Button onclick={ableForm} label="Alterar" class="btn-confirmacao" />
-        </>
-    )
-
     const changeButton = (change) => {
         if (change) {
-            setButtons(
-                <>
-                    <Button onclick={ableForm} label="Alterar" class="btn-confirmacao" />
-                </>
-            )
+            setB({
+                alterar: "",
+                salvar: "d-none"
+            })
         } else {
-            setButtons(
-                <>
-                    <Button onclick={handleSubmit} label="Salvar" class="btn-confirmacao" />
-                </>
-            )
+            setB({
+                alterar: "d-none",
+                salvar: ""
+            })
         }
     }
 
+    const [stateB, setB] = useState({
+        alterar: "",
+        salvar: "d-none"
+    })
+
     function handleName(e) {
-        setName(e.target.value)
+        var newName = e.target.value
+        setName(newName)
     }
     function handleLastname(e) {
-        setLastname(e.target.value)
+        var newLastname = e.target.value
+        setLastname(newLastname)
     }
     function handleTel(e) {
-        setTel(e.target.value)
+        var newTel = e.target.value
+        setTel(newTel)
     }
 
     return (
         <>
-            <FormDefault  title="Meus Dados">
+            <FormDefault title="Meus Dados">
 
                 <div className="row forms-block">
 
                     <div className="row custom-form d-flex justify-content-center">
                         <div className=" col-12 col-md-5">
-                            <Input change={e => setName(e.target.value)} value={name} disabled={show} label="Nome" type="text" id="nome" className="form-input col-12" placeholder="Nome" />
+                            <Input change={handleName} value={name} disabled={show} label="Nome" type="text" id="nome" className="form-input col-12" placeholder="Nome" />
                         </div>
 
                         <div className="col-12 col-md-6">
-                            <Input change={e => setLastname(e.target.value)} value={lastname} disabled={show} label="Sobrenome" type="text" id="sobrenome" className="form-input col-12"
+                            <Input change={handleLastname} value={lastname} disabled={show} label="Sobrenome" type="text" id="sobrenome" className="form-input col-12"
                                 placeholder="Sobrenome" />
                         </div>
                     </div>
@@ -142,14 +135,15 @@ function FormUser(props) {
                         </div>
 
                         <div className="col-12 col-md-4">
-                            <Input change={e => setTel(e.target.value)} value={tel} disabled={show} label="Telefone" type="text" id="telefone" className="form-input col-12"
+                            <Input change={handleTel} value={tel} disabled={show} label="Telefone" type="text" id="telefone" className="form-input col-12"
                                 placeholder="Telefone" />
                         </div>
 
                     </div>
                 </div>
                 <div className="row justify-content-center">
-                    {buttons}
+                    <Button onclick={ableForm} label="Alterar" class={`btn-confirmacao ${stateB.alterar}`} />
+                    <Button onclick={handleSubmit} label="Salvar" class={`btn-confirmacao ${stateB.salvar}`} />
                 </div>
 
 

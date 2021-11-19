@@ -6,9 +6,22 @@ function SelectCard(props) {
 
     function getPaymentMethod() {
         return paymentMethod.map(
-            option =>  { return <option key={option.id} value={option.id}>{option.description} {option.installments}</option>}
-        )
-    }
+            option =>  { 
+                if(option.id>1 && option.id<4){
+                return <option key={option.id} value={option.id}>{option.description} {option.installments}</option>}
+                
+
+                if(option.id>3){
+                    return <option key={option.id} value={option.id}>{option.description} {option.installments +"x s/JUROS"}</option>
+                }
+
+                }
+            
+
+            
+                )
+            }
+    
 
     return (
         <div className="input-container">

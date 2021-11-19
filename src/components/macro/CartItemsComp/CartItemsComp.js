@@ -5,6 +5,8 @@ import CartItems from '../../micro/CartItems/CartItems';
 import Button from "../../micro/Button/Button"
 import { useHistory } from "react-router"
 import { Link } from 'react-router-dom';
+import CardProduct from '../Cards/Products/CardProduct';
+
 
 
 function CartItemsComp(props) {
@@ -21,8 +23,8 @@ function CartItemsComp(props) {
         window.location.href = props.logged ? "/login" : "/checkout";
 
     }
-
-    return (
+    return(
+        
         <>
             <div className="container mt-5">
 

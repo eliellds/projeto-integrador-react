@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import './CartItems.css'
 import Remove from '../../../assets/images/cart/remover.png'
 import Produto from '../../../assets/images/cart/caixaRegistradora.png'
 import { Link } from 'react-router-dom'
@@ -20,16 +21,7 @@ function CartItems(props) {
     function imageRender(image) {
         var imgSrc = require(`../../../assets/images/products/${image}`);
         console.log(imgSrc)
-        return <img src={`${imgSrc.default}`} />
-    }
-
-    function valor(product){
-        if (product.salePrice > 0) {
-          return <span className="numero">{product.salePrice}</span> 
-        }
-            else {
-               return<span className="numero">{product.price}</span>
-            } 
+        return <img className="imagem-carrinho" src={`${imgSrc.default}`} />
     }
 
     function listCartItem() {
@@ -39,8 +31,8 @@ function CartItems(props) {
             return <>
             
                 <div className="row carrinho-card mt-1 mb-2 mx-0 align-items-center justify-content-between">
-                    <div className="col-2 col-md-2  p-0">
-                      <a href="#"> {imageRender(product.image)}</a>
+                    <div className=" col-2 col-md-2  p-0">
+                      <a href="#" > {imageRender(product.image)}</a>
                     </div>
                     <a href="#paginaProduto" className="col-4 col-md-4 pe-0  texto-carrinho">
                         {product.product}
@@ -50,13 +42,13 @@ function CartItems(props) {
                         <a href="#" className="controle positivo">+</a> 1 <a href="" className="controle negativo">-</a>
                     </div>
 
-                    <div className="col-2 texto-carrinho  text-center">
+                    <div className="col-2 texto-carrinho text-center">
                         R$<span className="numero">{product.salePrice?product.salePrice:product.price}</span>
                     </div>
                     
                     <div className="col-2 ">
                         <a href="#" className="removerCarrinho row justify-content-center">
-                            <img className="col-7 col-md-4" src={Remove} alt="" width="20px" />
+                            <img className="remover col-7 col-md-4" src={Remove} alt="" width="20px"/>
                         </a>
                     </div>
                 </div>

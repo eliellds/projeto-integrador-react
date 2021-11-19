@@ -103,15 +103,15 @@ function FormUser(props) {
         }
     }
 
-    // function handleName(e) {
-    //     setName(e.target.value)
-    // }
-    // function handleLastname(e) {
-    //     setLastname(e.target.value)
-    // }
-    // function handleTel(e) {
-    //     setTel(e.target.value)
-    // }
+    function handleName(e) {
+        setName(e.target.value)
+    }
+    function handleLastname(e) {
+        setLastname(e.target.value)
+    }
+    function handleTel(e) {
+        setTel(e.target.value)
+    }
 
     return (
         <>
@@ -121,11 +121,11 @@ function FormUser(props) {
 
                     <div className="row custom-form d-flex justify-content-center">
                         <div className=" col-12 col-md-5">
-                            <Input input change={e => setName(e.target.value)} value={name} disabled={show} label="Nome" type="text" id="nome" className="form-input col-12" placeholder="Nome" />
+                            <Input keydown={e => setName(e.target.value)} value={name} disabled={show} label="Nome" type="text" id="nome" className="form-input col-12" placeholder="Nome" />
                         </div>
 
                         <div className="col-12 col-md-6">
-                            <Input input change={e => setLastname(e.target.value)} value={lastname} disabled={show} label="Sobrenome" type="text" id="sobrenome" className="form-input col-12"
+                            <Input keydown={e => setLastname(e.target.value)} value={lastname} disabled={show} label="Sobrenome" type="text" id="sobrenome" className="form-input col-12"
                                 placeholder="Sobrenome" />
                         </div>
                     </div>
@@ -142,7 +142,7 @@ function FormUser(props) {
                         </div>
 
                         <div className="col-12 col-md-4">
-                            <Input input change={e => setTel(e.target.value)} value={tel} disabled={show} label="Telefone" type="text" id="telefone" className="form-input col-12"
+                            <Input keydown={e => setTel(e.target.value)} value={tel} disabled={show} label="Telefone" type="text" id="telefone" className="form-input col-12"
                                 placeholder="Telefone" />
                         </div>
 

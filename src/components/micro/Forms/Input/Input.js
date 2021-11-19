@@ -12,15 +12,6 @@ function Input(props) {
             </div>
             </>
         )
-    } else if (props.keydown || props.value) {
-        return (
-            <>
-            <div className="input-container">
-                <label>{props.label}:</label>
-                <input value={props.value} onChange={e => props.keydown(e)} disabled={props.disabled} className="form-input" name={props.name} placeholder={props.placeholder} type={props.type}/>
-            </div>
-            </>
-        )
     } else {
         return(
             <>

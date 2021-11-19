@@ -36,7 +36,7 @@ function Dashboard(props) {
                 <div className="row row-correction">
                     <AsideMenu />
 
-                    <div className="row d-flex justify-content-center col-md-9 col-12">
+                    <div className="row d-flex pe-0 justify-content-center col-md-9 col-12">
                         {setLocation()}
                     </div>
                 </div>

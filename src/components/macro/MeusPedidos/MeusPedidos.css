@@ -49,7 +49,12 @@
     background-color: #F6F3EF;
 }
 
-@media (max-width: 450px) {
+.item-pedido-box {
+    box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.103);
+    border-bottom: 1px solid #BC4C2A;
+}
+
+@media (max-width: 500px) {
     .data {
        display: none;
     }

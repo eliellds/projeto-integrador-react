@@ -2,22 +2,21 @@ import React, { useState } from "react";
 
 function ProductSuccessOrder(props) {
     const products = JSON.parse(localStorage.getItem('cart')) || []
-    let total = 0;
-    const [PrecoTotal, setPrecoTotal] = useState(total)
-    console.log(products)
+    const [PrecoTotal, setPrecoTotal] = useState(0)
+    let total = 0
     function setTotalPrice() {
         setPrecoTotal(total)
         return PrecoTotal
     }
     function imageRender(image) {
         var imgSrc = require(`../../../assets/images/products/${image}`);
-        console.log(imgSrc)
+    
         return <img className="imageSuccess" src={`${imgSrc.default}`} />
     }
 
     function listProducts() {
         return products.map((product) => {
-            total += parseInt(product.preco)
+            total += parseInt(product.salePrice?product.salePrice:product.price)
             localStorage.setItem('total', total)
             return <>
 
@@ -27,7 +26,7 @@ function ProductSuccessOrder(props) {
                     </div>
                     <div className="col-md-9 col-9">
                         <div className="row ">
-                            <div className="atributos tipo-atributo col-3  d-sm-flex">Desc.:</div>
+                            <div className="atributos tipo-atributo col-3  d-sm-flex">Produto:</div>
                             <div className="atributos atributo-descricao col-9 col-sm-9">{product.product}</div>
 
                             <div className="atributos tipo-atributo col-3  d-sm-flex">Valor:</div>
@@ -58,7 +57,7 @@ function ProductSuccessOrder(props) {
 
 
             <div className="valor-total">Frete: R$:&nbsp;<b>{props.frete}</b></div>
-            <div className="valor-total">Total: R$:&nbsp;<b> {parseInt(total + props.frete)}</b></div>
+            <div className="valor-total">Total: R$:&nbsp;<b> {total+props.frete}</b></div>
         </>
     )
 }

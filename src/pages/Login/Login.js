@@ -3,9 +3,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './Login.css'
 import FormDefault from '../../components/macro/Forms/FormDefault/FormDefault'
 import FormLogin from '../../components/macro/Forms/FormLogin/FormLogin';
-import { useHistory } from 'react-router';
-import api from '../../services/api';
-import axios from 'axios';
 
 function Login(props) {
 

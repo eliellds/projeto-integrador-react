@@ -3,14 +3,10 @@ import Input from "../../../micro/Forms/Input/Input";
 import Button from "../../../micro/Button/Button"
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
-import Header from "../../../template/Header/Header";
-import axios from "axios";
 import api from "../../../../services/api";
 
 function FormLogin(props) {
 
-    // let user = { id: 1, nome: "Eliel", idade: 26 }
-    // let userString = JSON.stringify(user)
     const history = useHistory()
 
     function test() {
@@ -91,7 +87,7 @@ function FormLogin(props) {
                 </div>
 
                 <div className="row justify-content-center">
-                    <Button label="Entrar" onclick={handleSubmit} class="btn-confirmacao" type="submit" />
+                    <Button label="Entrar" onclick={handleSubmit} navigation="" class="btn-confirmacao" type="submit" />
 
                     <p className="mt-3 mb-1 text-center">Ainda não tem cadastro?</p>
                     <Button label="Cadastrar"  class="btn-confirmacao" navigation route="./register" />

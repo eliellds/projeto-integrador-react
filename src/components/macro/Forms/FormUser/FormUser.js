@@ -27,7 +27,6 @@ function FormUser(props) {
     const getUser = () => {
         api.get(`/user/${user.value.id}`).then(
             res => {
-                console.log(res.data)
                 setName(res.data.firstName);
                 setLastname(res.data.lastName);
                 setTel(res.data.telephone.number);

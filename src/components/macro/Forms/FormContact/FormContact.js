@@ -73,7 +73,7 @@ function FormContact(props) {
                 </div>
                 <div className="row justify-content-center">
                     <div className="col-12 col-md-11">
-                        <label for="textarea" className="form-label col-12">Deixe sua mensagem</label>
+                        <label htmlFor="textarea" className="form-label col-12">Deixe sua mensagem</label>
                         <textarea required className="textarea col-12" id="textarea" rows="5"
                             placeholder=" Escreva sua mensagem..." onKeyDown={e => setContent(e.target.value)}></textarea>
                     </div>
@@ -81,8 +81,8 @@ function FormContact(props) {
             </div>
 
             <div className="row justify-content-center pt-3">
-                <Button label="Voltar" onclick={history.goBack} class="btn-retorno mx-5" />
-                <Button label="Enviar" class="btn-confirmacao mx-5" onclick={postContact}  />
+                <Button label="Voltar" onclick={history.goBack} class="btn-retorno mx-5 my-1" />
+                <Button label="Enviar" class="btn-confirmacao mx-5 my-1" onclick={postContact}  />
             </div>
 
             <div className="row justify-content-around">

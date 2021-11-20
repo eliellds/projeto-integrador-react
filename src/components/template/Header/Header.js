@@ -32,7 +32,7 @@ function Header(props) {
         compProfile();
     }
 
-    const [perfil,setPerfil]= useState(localStorage.getItem("user")?<Profile/> : <></>)
+    const [perfil,setPerfil]= useState(getWithExpiry("user")?<Profile/> : <></>)
 
     function compProfile(){
         setPerfil(localStorage.getItem("user")?<Profile/> : <></>)
@@ -54,6 +54,7 @@ function Header(props) {
             // If the item is expired, delete the item from storage
             // and return null
             localStorage.removeItem(key)
+            localStorage.removeItem("token")
             return null
         }
         return item.value

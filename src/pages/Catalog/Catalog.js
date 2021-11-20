@@ -37,12 +37,12 @@ export default function Catalog(props) {
                 <div className="col-9 linha-divisoria "></div>
             </div>
 
-            <div className="row row-correction form-filter">
-                <div className="col-md-3 col-6 m-4" >
+            <form action="" class="row justify-content-md-end justify-content-center mb-3">
+                <div className="col-md-3 col-6 mx-4" >
                     <Select label="Ordenar por: " default="Selecione o Filtro" options={filter} />
                 </div>
 
-            </div>
+            </form>
 
             <div className="container container-cards my-4">
 

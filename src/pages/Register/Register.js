@@ -6,11 +6,15 @@ import FormRegister from '../../components/macro/Forms/FormRegister.js/FormRegis
 
 function Register(props) {
 
+    const customSubmit = (e) => {
+        e.preventDefault()
+    }
+
     return (
         <>
             <section className="container-fluid px-sm-5 py-3 custom-container">
                 
-                <FormDefault title="Faça seu Cadastro" action="#" className="custom-form-box mx-3 mx-sm-1 mx-lg-4 px-5 px-sm-1 px-lg-4">
+                <FormDefault submit={customSubmit} title="Faça seu Cadastro" action="#" className="custom-form-box mx-3 mx-sm-1 mx-lg-4 px-5 px-sm-1 px-lg-4">
                 
                     <FormRegister/>
 

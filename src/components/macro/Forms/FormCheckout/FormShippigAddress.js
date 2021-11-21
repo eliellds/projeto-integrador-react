@@ -13,7 +13,7 @@ import Select from "../../../micro/Forms/Select/Select";
 const initial = {
 
     myUser: {
-        id: 1
+        id: 0
     },
     payment: {
         id: 1
@@ -52,14 +52,18 @@ const initial = {
 
 }
 
+
 function FormShippigAddress(props) {
+    const user = JSON.parse(localStorage.getItem('user'))
 
     const [order, setOrder] = useState(initial)
     const [flags, setFlag] = useState([])
 
     console.log(order)
     function postOrder() {
-        setOrder({ ...order, card: { ...order.card, dueDate: dueDate + "-01" } })
+        setOrder({ ...order,   myUser: {...user.value
+            
+        }, card: { ...order.card, dueDate: dueDate + "-01" } })
         let orderJson = JSON.stringify(order)
 
         localStorage.setItem('order', orderJson)

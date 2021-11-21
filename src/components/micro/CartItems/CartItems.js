@@ -43,7 +43,7 @@ function CartItems(props) {
                     </div>
 
                     <div className="col-2 texto-carrinho text-center">
-                        R$<span className="numero">{product.salePrice?product.salePrice:product.price}</span>
+                        <span className="numero">{product.salePrice?product.salePrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }):product.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
                     </div>
                     
                     <div className="col-2 ">

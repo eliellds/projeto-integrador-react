@@ -7,65 +7,65 @@ import SelectCard from "../../../micro/Forms/Select/SelectCard";
 import api from "../../../../services/api"
 import { useHistory } from "react-router";
 import SelectedFlag from "../../../micro/Forms/Select/SelectedFlag";
+import InputCep from "../../../micro/Forms/Input/InputCep";
+import Select from "../../../micro/Forms/Select/Select";
 
-const initial ={
-    
-        myUser : {
-            id : 1
-        },
-        payment : {
-            id : 1
-        },
-        address : {
-            cep: "",
-            city: "",
-            state: "",
-            district: "",
-            street: "",
-            number: 0,
-            complement: "",
-            reference: ""
-            
-        },
-        telephone : {
-            number : ""
-        },
-        card : {
-            cardNumber :  "",
-            name : "",
-            cpf: "",
-            birthDate: "",
-            dueDate: "",
-            flag :
-            {
-                id: 0
-          
-            }
-        },
-        delivery : {
-            id : 1
-           
-        },
-    
-      
-        deliveryValue : 150,
+const initial = {
+
+    myUser: {
+        id: 1
+    },
+    payment: {
+        id: 1
+    },
+    address: {
+        cep: "",
+        city: "",
+        state: "",
+        district: "",
+        street: "",
+        number: 0,
+        complement: "",
+        reference: ""
+
+    },
+    telephone: {
+        number: ""
+    },
+    card: {
+        cardNumber: "",
+        name: "",
+        cpf: "",
+        birthDate: "",
+        dueDate: "",
+        flag:
+        {
+            id: 0
+
+        }
+    },
+    delivery: {
+        id: 1
+
+    },
+    deliveryValue: 150,
 
 }
 
 function FormShippigAddress(props) {
 
-    const [order,setOrder] = useState(initial)
-    const [flags,setFlag] = useState([])
-    console.log(order)
-    function postOrder(){
-        setOrder({...order, card : {...order.card, dueDate:dueDate+"-01" }})
-        let orderJson = JSON.stringify(order)
-        
-        localStorage.setItem('order',orderJson)
+    const [order, setOrder] = useState(initial)
+    const [flags, setFlag] = useState([])
 
-        window.location.href="/order"
+    console.log(order)
+    function postOrder() {
+        setOrder({ ...order, card: { ...order.card, dueDate: dueDate + "-01" } })
+        let orderJson = JSON.stringify(order)
+
+        localStorage.setItem('order', orderJson)
+        window.location.href = "/order"
     }
-    
+
 
     const [displayNoneB, setDisplayNoneB] = useState("d-none")
     const [displayNoneC, setDisplayNoneC] = useState("")
@@ -78,7 +78,7 @@ function FormShippigAddress(props) {
     )
     let change = false
     const history = useHistory()
- 
+
 
     function changeComponent() {
         if (change) {
@@ -109,50 +109,65 @@ function FormShippigAddress(props) {
     }
 
     const [paymentMethod, setPaymentMethod] = useState("")
-  
-    function getListPayments(){
+
+    function getListPayments() {
         api
-        .get("/payments")
-        .then((response) => setPaymentMethod(response.data))
-        .catch((err) => {
-            console.error("Erro ao consumir api de payments" + err)
-        })
+            .get("/payments")
+            .then((response) => setPaymentMethod(response.data))
+            .catch((err) => {
+                console.error("Erro ao consumir api de payments" + err)
+            })
 
     }
-    function getListFlags(){
+    function getListFlags() {
         api
-        .get("/flags")
-        .then((response) => setFlag(response.data))
-        .catch((err) => {
-            console.error("Erro ao consumir api de flag" + err)
-        })
+            .get("/flags")
+            .then((response) => setFlag(response.data))
+            .catch((err) => {
+                console.error("Erro ao consumir api de flag" + err)
+            })
 
     }
-    function getOrderLocal(){
+    function getOrderLocal() {
         setOrder()
     }
 
     useEffect(() => {
-       
+
         getListPayments()
         getListFlags()
 
     }, [])
 
     // console.log(paymentMethod)
+    function backToCart(){
+        window.location.href = "/cart"
+    }
+    
+    const [ufs, setUfs] = useState([
+        { id: 1, subjectDescription: "AC" }, { id: 2, subjectDescription: "AL" }, { id: 3, subjectDescription: "AP" },
+        { id: 4, subjectDescription: "AM" }, { id: 5, subjectDescription: "BA" }, { id: 6, subjectDescription: "CE" },
+        { id: 7, subjectDescription: "DF" }, { id: 8, subjectDescription: "ES" }, { id: 9, subjectDescription: "GO" },
+        { id: 10, subjectDescription: "MA" }, { id: 11, subjectDescription: "MS" }, { id: 12, subjectDescription: "MT" },
+        { id: 13, subjectDescription: "MG" }, { id: 14, subjectDescription: "PA" }, { id: 15, subjectDescription: "PB" },
+        { id: 16, subjectDescription: "PR" }, { id: 17, subjectDescription: "PE" }, { id: 18, subjectDescription: "PI" },
+        { id: 19, subjectDescription: "RJ" }, { id: 20, subjectDescription: "RN" }, { id: 21, subjectDescription: "RS" },
+        { id: 22, subjectDescription: "RO" }, { id: 23, subjectDescription: "RR" }, { id: 24, subjectDescription: "SC" },
+        { id: 25, subjectDescription: "SP" }, { id: 26, subjectDescription: "SE" }, { id: 27, subjectDescription: "TO" }
+    ]);
 
-     /////////////////// INICIO FUNCOES DE BUSCA E VALIDACAO DE CEP /////////////////////
+    /////////////////// INICIO FUNCOES DE BUSCA E VALIDACAO DE CEP /////////////////////
 
-     function limpa_formulário_cep() {
+    function limpa_formulário_cep() {
         //Limpa valores do formulário de cep.
-        setOrder({...order,  street: "", district: "", city: "", state: "", number:"", complement: "", reference: ""});
+        setOrder({ ...order, address: { ...order.address, street: "", district: "", city: "", state: "", number: "", complement: "", reference: "" } });
     }
 
     function meu_callback(conteudo) {
         console.log(conteudo)
         if (!("erro" in conteudo)) {
             //Atualiza os campos com os valores.
-            setOrder({...order, street: conteudo.logradouro, district: conteudo.bairro, city: conteudo.localidade, state: conteudo.uf})
+            setOrder({ ...order, address: { ...order.address, street: conteudo.logradouro, district: conteudo.bairro, city: conteudo.localidade, state: conteudo.uf } })
         } //end if.
         else {
             //CEP não Encontrado.
@@ -161,7 +176,7 @@ function FormShippigAddress(props) {
         }
     }
 
-    function pesquisacep(e) {
+    function buscarCep(e) {
 
         const valor = e.target.value
 
@@ -178,8 +193,8 @@ function FormShippigAddress(props) {
             if (validacep.test(cep)) {
 
                 //Preenche os campos com "..." enquanto consulta webservice.
-                setOrder({...order, street: "...", district: "...", city: "...", state: "...", number:"", complement: "", reference: ""});
-                
+                setOrder({ ...order, address: { ...order.address, street: "...", district: "...", city: "...", state: "...", number: "", complement: "", reference: "" } });
+
                 fetch(`https://viacep.com.br/ws/${cep}/json/`)
                     .then(res => res.json())
                     .then(data => meu_callback(data))
@@ -197,52 +212,49 @@ function FormShippigAddress(props) {
         }
     };
     /////////////////// FIM FUNCOES DE BUSCA E VALIDACAO DE CEP /////////////////////
-
+    
 
     return (
         <>
             <FormDefault id="address" title="Dados de entrega" action="/order">
 
-                <div class="row  justify-content-center">
+                <div class="row  justify-content-center mb-3">
 
                     <div class="row ">
                         <div class=" col-6  col-sm-6 col-md-3">
-                            <Input change={e => setOrder({...order, telephone:{...order.telephone, number:e.target.value}})} label="Telefone" className="form-input col-12 form-label" type="tel" name="telephone" placeholder="(99)9999-9999" />
-
+                            <Input change={e => setOrder({ ...order, telephone: { ...order.telephone, number: e.target.value } })} label="Telefone" className="form-input col-12 form-label" type="tel" name="telephone" placeholder="Telefone com DDD" />
                         </div>
 
                         <div class=" col-6 col-sm-6 col-md-3">
-                            <Input change={e => setOrder({...order, address:{...order.address, cep:e.target.value}})} label="CEP" className="form-input col-12 form-label" type="text" name="cep" placeholder="12345-000" />
+                            <InputCep className="form-input col-12 form-label" length="9" blur={buscarCep} value={order.address.cep} label="CEP" type="text" id="cep" className="form-input col-12" placeholder="Digite seu CEP..." change={e => setOrder({ ...order, address: { ...order.address, cep: e.target.value } })} />
                         </div>
 
-                        <div class=" col-6 col-sm-6 col-md-3">
-                            <Input change={e => setOrder({...order, address:{...order.address, state:e.target.value}})} label="Estado" className="form-input col-12 form-label" type="text" name="state" placeholder="Ex.:São Paulo" />
+                        <div class=" col-6 col-sm-6 col-md-4">
+                            <Input value={order.address.city} change={e => setOrder({ ...order, address: { ...order.address, city: e.target.value } })} label="Cidade" className="form-input col-12 form-label" type="text" name="city" placeholder="Digite a cidade..." />
                         </div>
 
-                        <div class=" col-6 col-sm-6 col-md-3">
-                            <Input change={e => setOrder({...order, address:{...order.address, city:e.target.value}})} label="Cidade" className="form-input col-12 form-label" type="text" name="city" placeholder="Ex.:São Paulo" />
+                        <div class=" col-6 col-sm-6 col-md-2">
+                            <Select label="Estado" options={ufs} selected={order.address.state} change={e => setOrder({ ...order, address: { ...order.address, state: e.target.value } })} default="Estado:" />
                         </div>
 
                         <div class=" col-9 col-md-8">
-                            <Input change={e => setOrder({...order, address:{...order.address, street:e.target.value}})} label="Logradouro" className="form-input col-12 form-label" type="text" name="street" placeholder="Ex.:Rua Dos Velhos Tempos" />
-
+                            <Input value={order.address.street} change={e => setOrder({ ...order, address: { ...order.address, street: e.target.value } })} label="Logradouro" className="form-input col-12 form-label" type="text" name="street" placeholder="Digite o logradouro..." />
                         </div>
 
                         <div class=" col-3  col-md-4">
-                            <Input change={e => setOrder({...order, address:{...order.address, number:e.target.value}})} label="Numero" className="form-input col-12 form-label" type="text" name="number" placeholder="Ex.:232" />
+                            <Input change={e => setOrder({ ...order, address: { ...order.address, number: e.target.value } })} label="Numero" className="form-input col-12 form-label" type="text" name="number" placeholder="Digite o número..." />
                         </div>
 
                         <div class=" col-6 col-md-4">
-                            <Input change={e => setOrder({...order, address:{...order.address, district:e.target.value}})} label="Bairro" className="form-input col-12 form-label" type="text" name="district" placeholder="Ex.Butantã" />
-
+                            <Input value={order.address.district} change={e => setOrder({ ...order, address: { ...order.address, district: e.target.value } })} label="Bairro" className="form-input col-12 form-label" type="text" name="district" placeholder="Digite o Bairro..." />
                         </div>
 
                         <div class=" col-6  col-md-4">
-                            <Input change={e => setOrder({...order, address:{...order.address, complement:e.target.value}})} label="Complemento" className="form-input col-12 form-label" type="text" name="complement" placeholder="Ex.: ap: 15" />
+                            <Input change={e => setOrder({ ...order, address: { ...order.address, complement: e.target.value } })} label="Complemento" className="form-input col-12 form-label" type="text" name="complement" placeholder="Digite o complemento..." />
                         </div>
 
                         <div class=" col-6 col-md-4">
-                            <Input change={e => setOrder({...order, address:{...order.address, reference:e.target.value}})} label="Referencia" className="form-input col-12 form-label" type="text" name="reference" placeholder="Ex.: Proximo ao posto..." />
+                            <Input change={e => setOrder({ ...order, address: { ...order.address, reference: e.target.value } })} label="Referencia" className="form-input col-12 form-label" type="text" name="reference" placeholder="Digite um ponto de referência" />
 
                         </div>
 
@@ -251,11 +263,11 @@ function FormShippigAddress(props) {
                 </div>
 
             </FormDefault>
-    
-            <FormDefault id="card" title="Dados de Pagamento" className="mt-5" action="/order">
-            <div className="escolha row justify-content-around mt-4 ">
 
-                {buttons}
+            <FormDefault id="card" title="Dados de Pagamento" className="mt-5" action="/order">
+                <div className="escolha row justify-content-around mt-4 ">
+
+                    {buttons}
 
                 </div>
 
@@ -271,47 +283,44 @@ function FormShippigAddress(props) {
                     <div className={`row custom-form ${displayNoneC}`}>
 
                         <div className=" col-12 col-md-5">
-                            <Input change={e => setOrder({...order, card:{...order.card,name:e.target.value}})} label="Nome do Titular" className="form-input col-12 form-label" type="text" name="name" placeholder="Nome como está no cartão" />
+                            <Input change={e => setOrder({ ...order, card: { ...order.card, name: e.target.value } })} label="Nome do Titular" className="form-input col-12 form-label" type="text" name="name" placeholder="Nome como está no cartão" />
                         </div>
 
                         <div className=" col-6 col-md-4">
-                            <Input change={e => setOrder({...order, card:{...order.card,cpf:e.target.value}})} label="CPF-Titular" className="form-input col-12 form-label" type="text" name="CPF" placeholder="999-999-999-99" />
+                            <Input change={e => setOrder({ ...order, card: { ...order.card, cpf: e.target.value } })} label="CPF-Titular" className="form-input col-12 form-label" type="text" name="CPF" placeholder="999-999-999-99" />
                         </div>
 
                         <div className=" col-6 col-md-3">
-                            <Input change={e => setOrder({...order, card:{...order.card, birthDate:e.target.value}})} label="Data Nascimento Titular" className="form-input col-12 form-label" type="date" name="birthDate" placeholder="Ex.: Dia/Mês/Ano." />
+                            <Input change={e => setOrder({ ...order, card: { ...order.card, birthDate: e.target.value } })} label="Data Nascimento Titular" className="form-input col-12 form-label" type="date" name="birthDate" placeholder="Ex.: Dia/Mês/Ano." />
                         </div>
 
                         <div className=" col-12 col-md-4">
-                            <Input change={e => setOrder({...order, card:{...order.card, cardNumber:e.target.value}})} label="Numero do Cartão" className="form-input col-12 form-label" type="text" name="cardNumber" placeholder="Ex.: 0000 1111 2222 3333." />
+                            <Input change={e => setOrder({ ...order, card: { ...order.card, cardNumber: e.target.value } })} label="Numero do Cartão" className="form-input col-12 form-label" type="text" name="cardNumber" placeholder="Ex.: 0000 1111 2222 3333." />
                         </div>
 
                         <div className=" col-6 col-md-1">
                             <Input /*change={e => validarCvv(e)}*/ label="CVV" className="form-input col-12 form-label" type="text" name="cvv" placeholder="Ex.: 000." />
                         </div>
                         <div className=" col-6 col-md-2">
-                            <SelectedFlag required label="Bandeira" Flags={flags}  change={e => setOrder({...order, card:{...order.card,flag:{...order.card.flag,id:e.target.value}}})} />
+                            <SelectedFlag required label="Bandeira" Flags={flags} change={e => setOrder({ ...order, card: { ...order.card, flag: { ...order.card.flag, id: e.target.value } } })} />
                         </div>
 
 
                         <div className=" col-6 col-md-2">
-               
-                            <Input change={e => setDueDate(e.target.value)} label="Vencimento" className="form-input col-12 form-label" type="text" name="dia" placeholder="Mes-Ano" />
-                        
-                        </div>       
 
-                        <div className=" col-6 col-md-3">
-                            <SelectCard required label="Forma de Pagamento:" paymentMethod={paymentMethod} change={e => setOrder({...order, payment:{id:e.target.value}})} />
+                            <Input change={e => setDueDate(e.target.value)} label="Vencimento" className="form-input col-12 form-label" type="text" name="dia" placeholder="Mes-Ano" />
+
                         </div>
 
-                        
-                       
+                        <div className=" col-6 col-md-3">
+                            <SelectCard required label="Forma de Pagamento:" paymentMethod={paymentMethod} change={e => setOrder({ ...order, payment: { id: e.target.value } })} />
+                        </div>
 
                     </div>
                 </div>
 
                 <div className="row justify-content-around py-4">
-                    <Button label="Voltar" onclick={history.goBack} class="btn-retorno" />
+                    <Button label="Voltar" onclick={backToCart} class="btn-retorno" />
                     <Button onclick={postOrder} label="Finalizar" class="btn-confirmacao" type="submit" />
                 </div>
 

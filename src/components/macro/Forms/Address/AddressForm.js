@@ -214,7 +214,7 @@ function Address(props) {
 
                 </div>
                 <div className="row justify-content-center pt-5">
-                <Button onclick={ableForm} label="Alterar" class={`btn-confirmacao ${stateB.alterar}`} />
+                    <Button onclick={ableForm} label="Alterar" class={`btn-confirmacao ${stateB.alterar}`} />
                     <Button onclick={disableForm} label="Salvar" class={`btn-confirmacao ${stateB.salvar}`} />
                 </div>
 

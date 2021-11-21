@@ -11,6 +11,13 @@ export default function Search(props) {
     console.log(props)
 
     const [search, setSearch] = useState()
+    const [filter, setFilter] = useState([
+        { id: 1, subjectDescription: "Menor Valor" },
+        { id: 2, subjectDescription: "Maior Valor" },
+        { id: 3, subjectDescription: "Maior Desconto" },
+        // { id: 4, subjectDescription: "Mais Antigo" },
+        // { id: 5, subjectDescription: "Mais Novo" },
+    ])
 
     useEffect(() => {
         api
@@ -25,14 +32,6 @@ export default function Search(props) {
     }, []);
 
     // console.log(search)
-
-    const filter = [
-        { id: 1, subjectDescription: "Menor Valor" },
-        { id: 2, subjectDescription: "Maior Valor" },
-        { id: 3, subjectDescription: "Maior Desconto" },
-        { id: 4, subjectDescription: "Mais Antigo" },
-        { id: 5, subjectDescription: "Mais Novo" },
-    ]
 
     function setTag() {
         if (search != 0) {
@@ -57,9 +56,9 @@ export default function Search(props) {
                         <SearchInfo product={text} />
                         <div className="row row-correction form-filter">
                             <form action="" class="row justify-content-md-end justify-content-center mb-3">
-                                <div className="col-md-3 col-6 mx-4" >
+                                {/* <div className="col-md-3 col-6 mx-4" >
                                     <Select label="Ordenar por: " default="Selecione o Filtro" options={filter} />
-                                </div>
+                                </div> */}
 
                             </form>
                         </div>

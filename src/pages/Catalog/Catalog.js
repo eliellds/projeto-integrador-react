@@ -9,13 +9,21 @@ import SelectByFilter from "../../components/micro/Forms/Select/SelectByFilter";
 export default function Catalog(props) {
 
     const category = props.match.params.category;
-    // console.log(category);
     const [products, setProducts] = useState()
+    const [filter, setFilter] = useState([
+        { id: 1, subjectDescription: "Menor Valor" },
+        { id: 2, subjectDescription: "Maior Valor" },
+        { id: 3, subjectDescription: "Maior Desconto" },
+        // { id: 4, subjectDescription: "Mais Antigo" },
+        // { id: 5, subjectDescription: "Mais Novo" },
+    ])
+    const [renderList, setRenderList] = useState(<ListProductsCatalogy products={products} />)
 
     function renderProduct() {
         api
             .get("/products/category/" + category)
-            .then((response) => {setProducts(response.data)
+            .then((response) => {
+                setProducts(response.data)
                 setRenderList(<ListProductsCatalogy products={response.data} />)
             })
             .catch((err) => {
@@ -23,18 +31,14 @@ export default function Catalog(props) {
 
             });
     }
+    
     useEffect(() => {
         renderProduct()
-     
-
     }, []);
-
-    const [renderList,setRenderList] = useState(<ListProductsCatalogy products={products} />)
-
+   
     // Preço menor para o maior
     function filterAsc() {
         var productTemp = products
-    
         productTemp.sort(function (a, b) {
             if (a.price < b.price) {
                 return 1
@@ -46,8 +50,8 @@ export default function Catalog(props) {
 
         setProducts(productTemp)
         console.log(products)
-
     }
+
     // Preço maior para o menor
     function filterDesc() {
         var productTemp = products
@@ -61,50 +65,39 @@ export default function Catalog(props) {
         })
         setProducts(productTemp)
         console.log(products)
-
     }
 
     // Promoções
     function filterSale() {
         var productTemp = products
         productTemp.sort(function (a, b) {
-            if (a.price < b.price) {
+            if (a.salePrice < b.salePrice) {
                 return 1
             }
-            if (a.price > b.price) {
+            if (a.salePrice > b.salePrice)  {
                 return -1
             }
         })
-
         setProducts(productTemp)
-    console.log(products)
-
+        console.log(products)
     }
-
-    const [filter, setFilter] = useState([
-        { id: 1, subjectDescription: "Menor Valor" },
-        { id: 2, subjectDescription: "Maior Valor" },
-        { id: 3, subjectDescription: "Maior Desconto" },
-        { id: 4, subjectDescription: "Mais Antigo" },
-        { id: 5, subjectDescription: "Mais Novo" },
-    ])
 
     function setProductBy(e) {
 
         if (e == 1) {
             filterDesc()
-           return setRenderList(<ListProductsCatalogy products={products} />)
+            return setRenderList(<ListProductsCatalogy products={products} />)
 
-        }else if(e == 2){
-     
+        } else if (e == 2) {
+
             filterAsc()
             return setRenderList(<ListProductsCatalogy products={products} />)
-        }else if (e == 3) {
-            
+        } else if (e == 3) {
+
             filterSale()
             return setRenderList(<ListProductsCatalogy products={products} />)
-            
-        }else{
+
+        } else {
             renderProduct()
             return setRenderList(<ListProductsCatalogy products={products} />)
         }
@@ -116,7 +109,7 @@ export default function Catalog(props) {
     }
 
     console.log(filter)
-    
+
     return (
         <>
             <div className="row justify-content-center mb-3 p-0 mx-0">
@@ -129,7 +122,7 @@ export default function Catalog(props) {
                     {/* <Filter></Filter> */}
                     <SelectByFilter label="Ordenar por: " options={filter} change={e => setProductBy(e.target.value)} default="Ordernar:" />
                 </div>
-    
+
             </form>
 
             <div className="container container-cards my-4">

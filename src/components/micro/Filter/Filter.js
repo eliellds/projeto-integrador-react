@@ -14,8 +14,6 @@ function Filter(props) {
                         <option value="ofertas">Maior desconto</option>
                         <option value="mais-antigo">Mais Antigo</option>
                         <option value="mais-novo">Mais Novo</option>
-
-
                     </select>
                 </form>
             </div>

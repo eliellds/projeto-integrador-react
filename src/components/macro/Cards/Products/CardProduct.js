@@ -12,7 +12,7 @@ function CardProduct(props) {
 
     const addToCart = () => {
         const product = {
-            id: props.product.id,
+            id: props.id,
             price: props.price,
             salePrice: props.salePrice,
             product: props.product,

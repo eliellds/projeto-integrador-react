@@ -74,13 +74,13 @@ function FormLogin(props) {
             <div className="container custom-form-div py-2">
 
                 <div className="row custom-form d-flex justify-content-center">
-                    <div className="col-12 col-md-7">
+                    <div className="col-10 col-sm-8 col-md-7 col-lg-5">
                         <Input change={e => setEmail(e.target.value)} label="E-mail" className="form-input form-control col-12 form-label" type="email" id="email" placeholder="Digite seu e-mail..." />
                     </div>
                 </div>
 
                 <div className="row custom-form d-flex justify-content-center">
-                    <div className="col-12 col-md-7">
+                    <div className="col-10 col-sm-8 col-md-7 col-lg-5">
                         <Input change={e => setPassword(e.target.value)} label="Senha" type="password" className="form-label form-control form-input col-12 " id="senha" placeholder="Digite sua senha..." />
                     </div>
                     <small className="text-center my-0 mb-2">Esqueceu a senha? <Link to="/forgotpassword">  Recuperar</Link></small>

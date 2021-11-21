@@ -75,14 +75,10 @@ export default function Catalog(props) {
                 return -1
             }
         })
-<<<<<<< HEAD
-        console.log(products)
-=======
 
         setProducts(productTemp)
     console.log(products)
 
->>>>>>> 0e48a0bc9cfc0ae8e15b16f94159b0b143103b3f
     }
 
     const [filter, setFilter] = useState([
@@ -130,12 +126,8 @@ export default function Catalog(props) {
 
             <form action="" class="row justify-content-md-end justify-content-center mb-3">
                 <div className="col-md-3 col-6 mx-4" >
-<<<<<<< HEAD
-                    <SelectByFilter label="Ordenar por: " options={filter} change={e => (setProductBy(e))} default="Ordernar:" />
-=======
                     {/* <Filter></Filter> */}
                     <SelectByFilter label="Ordenar por: " options={filter} change={e => setProductBy(e.target.value)} default="Ordernar:" />
->>>>>>> 0e48a0bc9cfc0ae8e15b16f94159b0b143103b3f
                 </div>
     
             </form>

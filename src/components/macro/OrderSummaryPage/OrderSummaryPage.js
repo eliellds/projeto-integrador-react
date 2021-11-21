@@ -16,6 +16,8 @@ function OrderSummaryPage(props) {
         getFlagByid( getPayments)
        
         setOrder(initial)
+
+        postOrder()
         
     },[])
 
@@ -35,17 +37,26 @@ function OrderSummaryPage(props) {
     }
     function getPayments(){
         api.get(`/payments/${order.payment.id}`).then((result) => {
+            
             console.log(order)
             initial = {...initial, payment:result.data }
             console.log(order)
             setOrder(initial)
+
+            
+
         }).catch((err) => {console.log("Falha ao consumir api"+err)})
 
     }
 
     console.log(order)
+    function postOrder(){
+        setOrder({...order, amount:parseFloat(localStorage.getItem('total')), qtyTotal: localStorage.getItem('qtyCart') })
+        
 
+    }
 
+    console.log(order)
 
     return (
         <>
@@ -62,11 +73,11 @@ function OrderSummaryPage(props) {
                         <ProductSuccessOrder frete={150}/>
                    
 
-                    </ul>
+                    </ul>  
 
                     <div className="container col-12 col-lg-5 mx-0">
                         <OrderInfo titulo="Pagamento" primeiraLinha={order.card.flag.description +" "+ order.payment.description} segundaLinha={order.card.cardNumber} terceiraLinha={order.payment.installments}/>
-                        <OrderInfo titulo="Endereço de entrega" primeiraLinha="Casa" segundaLinha="Travessa Sinhá Moça, 120- Jardim da Conquista, São Paulo - SP" terceiraLinha="Próximo ao AMA"/>
+                        <OrderInfo titulo="Endereço de entrega" primeiraLinha={order.address.street +", "+order.address.number+"-"+order.address.district+", "+order.address.city  } segundaLinha={order.address.complement} terceiraLinha={order.address.reference}/>
                     </div>
 
                 </div>

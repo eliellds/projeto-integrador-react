@@ -33,7 +33,7 @@ function ProductSuccess(props) {
                             <div className="atributos atributo-descricao col-9 col-sm-9">{product.productsDTO.product}</div>
 
                             <div className="atributos tipo-atributo col-3  d-sm-flex">Valor:</div>
-                            <div className="atributos atributo-valor col-9 col-sm-9">{product.totalPrice}</div>
+                            <div className="atributos atributo-valor col-9 col-sm-9">{product.totalPrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</div>
 
 
 

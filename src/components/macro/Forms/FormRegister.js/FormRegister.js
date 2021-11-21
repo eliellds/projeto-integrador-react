@@ -39,6 +39,7 @@ function FormRegister(props) {
     function registration() {
         console.log("aqui foi")
         api.post('/sign-up', user).then((response) => {
+            console.log(response)
             window.alert("Cadastrado com successo!")
             goBackTo()
         }).catch((error) => {

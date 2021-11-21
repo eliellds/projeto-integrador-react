@@ -53,11 +53,13 @@ function FormUser(props) {
 
         api.put("/user", data)
             .then(res => {
+                alert("Seus dados foram alterados com sucesso!")
                 getUser()
                 disableForm()
             })
             .catch(err => {
-                console.log(err)
+                console.error("Erro ao atualizar dados" + err)
+                alert("Erro ao atualizar dados!")
             })
     }
 

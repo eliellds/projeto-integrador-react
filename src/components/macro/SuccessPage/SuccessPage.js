@@ -9,10 +9,10 @@ import api from "../../../services/api";
 const initial = {
     id: 0,
     myUser: {
-        id: 1
+        id: 0
     },
     payment: {
-        id: 1,
+        id: 0,
         description: "",
         installments: "",
     },
@@ -44,7 +44,7 @@ const initial = {
         }
     },
     delivery: {
-        id: 1,
+        id: 0,
         descricao: ""
     },
     dateOrder: "",
@@ -72,9 +72,10 @@ function SuccessPage(props) {
 
     function getOrder() {
         api
-            .get(`/orders/${user.value.id}`)
+            .get(`/orders/${1}`)
             .then((response) => {
                 setOrder(response.data)
+                console.log(response.data)
                 getItemOrder(response.data.id)
             })
             .catch((err) => {

@@ -61,8 +61,8 @@ function Emphasis(props) {
 
                 <h6>{props.product}<br />{props.year}</h6>
                 
-                <p className={"text-center "+props.salePrice?"preco-de text-center ":"text-center  preco"}>{props.salePrice?"De: R$"+props.price :"R$"+props.price}</p>
-                <p className={"text-center preco"}>{props.salePrice?"Por: R$"+props.salePrice :""}</p>       
+                <p className={"text-center "+props.salePrice?"preco-de text-center ":"text-center  preco"}>{props.salePrice?"De: "+props.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) :props.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p>
+                <p className={"text-center preco"}>{props.salePrice?"Por: "+props.salePrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) :""}</p>       
                 <Button label="Comprar" onclick={addToCart} class="btn-categoria py-2 px-0" />
 
             </div>
@@ -77,8 +77,8 @@ function Emphasis(props) {
 
                 <h6>{props.product}<br />{props.year}</h6>
 
-                <p className={"" + props.salePrice?"text-center preco-de":" text-center preco"}>{props.salePrice?"De: R$"+props.price :"R$"+props.price}</p>
-                <p className={"text-center preco"}>{props.salePrice?"Por: R$"+props.salePrice :""}</p>
+                <p className={"" + props.salePrice?"text-center preco-de":" text-center preco"}>{props.salePrice?"De: "+props.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) :"R$"+props.price}</p>
+                <p className={"text-center preco"}>{props.salePrice?"Por: "+props.salePrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) :""}</p>
 
 
                 <Button label="Comprar" onclick={addToCart} class="btn-categoria py-2 px-0" />

@@ -141,6 +141,63 @@ function FormShippigAddress(props) {
 
     // console.log(paymentMethod)
 
+     /////////////////// INICIO FUNCOES DE BUSCA E VALIDACAO DE CEP /////////////////////
+
+     function limpa_formulário_cep() {
+        //Limpa valores do formulário de cep.
+        setOrder({...order,  street: "", district: "", city: "", state: "", number:"", complement: "", reference: ""});
+    }
+
+    function meu_callback(conteudo) {
+        console.log(conteudo)
+        if (!("erro" in conteudo)) {
+            //Atualiza os campos com os valores.
+            setOrder({...order, street: conteudo.logradouro, district: conteudo.bairro, city: conteudo.localidade, state: conteudo.uf})
+        } //end if.
+        else {
+            //CEP não Encontrado.
+            limpa_formulário_cep();
+            alert("CEP não encontrado.");
+        }
+    }
+
+    function pesquisacep(e) {
+
+        const valor = e.target.value
+
+        //Nova variável "cep" somente com dígitos.
+        const cep = valor.replace(/\D/g, '');
+
+        //Verifica se campo cep possui valor informado.
+        if (cep != "") {
+
+            //Expressão regular para validar o CEP.
+            var validacep = /^[0-9]{8}$/;
+
+            //Valida o formato do CEP.
+            if (validacep.test(cep)) {
+
+                //Preenche os campos com "..." enquanto consulta webservice.
+                setOrder({...order, street: "...", district: "...", city: "...", state: "...", number:"", complement: "", reference: ""});
+                
+                fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                    .then(res => res.json())
+                    .then(data => meu_callback(data))
+
+            } //end if.
+            else {
+                //cep é inválido.
+                limpa_formulário_cep();
+                alert("Formato de CEP inválido.");
+            }
+        } //end if.
+        else {
+            //cep sem valor, limpa formulário.
+            limpa_formulário_cep();
+        }
+    };
+    /////////////////// FIM FUNCOES DE BUSCA E VALIDACAO DE CEP /////////////////////
+
 
     return (
         <>

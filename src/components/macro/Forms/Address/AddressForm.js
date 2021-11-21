@@ -6,7 +6,6 @@ import Button from "../../../micro/Button/Button";
 import Select from "../../../micro/Forms/Select/Select";
 import api from "../../../../services/api";
 import InputCep from "../../../micro/Forms/Input/InputCep";
-import axios from "axios";
 
 const initial = {
     id: 0,
@@ -79,43 +78,37 @@ function Address(props) {
 
     function disableForm() {
         bool = true
-        setShow(bool);
+        setShow(bool)
         putAddress()
+        changeButton(bool)
     }
 
     function ableForm() {
         bool = false
         setShow(bool);
+        changeButton(bool)
     }
+
+    const changeButton = (change) => {
+        if (change) {
+            setB({
+                alterar: "",
+                salvar: "d-none"
+            })
+        } else {
+            setB({
+                alterar: "d-none",
+                salvar: ""
+            })
+        }
+    }
+
+    const [stateB, setB] = useState({
+        alterar: "",
+        salvar: "d-none"
+    })
+
     let change = false
-
-    // function click(e) {
-    //     e.preventDefault();
-    // }
-
-    // const [buttons, setButtons] = useState(
-    //     <>
-    //         <Button onclick={ableForm} label="Alterar" class="btn-confirmacao" />
-    //     </>
-    // )
-
-    // function changeButton(change) {
-    //     if (change) {
-    //         setButtons(
-    //             <>
-    //                 <Button onclick={ableForm} label="Alterar" class="btn-confirmacao" />
-    //             </>
-    //         )
-
-    //     } else {
-    //         setButtons(
-    //             <>
-    //                 <Button onclick={disableForm} label="Salvar" class="btn-confirmacao" />
-    //             </>
-    //         )
-
-    //     }
-    // }
 
     /////////////////// INICIO FUNCOES DE BUSCA E VALIDACAO DE CEP /////////////////////
 
@@ -221,8 +214,8 @@ function Address(props) {
 
                 </div>
                 <div className="row justify-content-center pt-5">
-                    <Button onclick={ableForm} label="Alterar" class="btn-confirmacao" />
-                    <Button onclick={disableForm} label="Salvar" class="btn-confirmacao" />
+                <Button onclick={ableForm} label="Alterar" class={`btn-confirmacao ${stateB.alterar}`} />
+                    <Button onclick={disableForm} label="Salvar" class={`btn-confirmacao ${stateB.salvar}`} />
                 </div>
 
             </FormDefault>

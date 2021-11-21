@@ -61,7 +61,6 @@ export default function Catalog(props) {
                 return -1
             }
         })
-
         console.log(products)
     }
 
@@ -111,7 +110,6 @@ export default function Catalog(props) {
 
             <form action="" class="row justify-content-md-end justify-content-center mb-3">
                 <div className="col-md-3 col-6 mx-4" >
-                    {/* <Filter></Filter> */}
                     <SelectByFilter label="Ordenar por: " options={filter} change={e => (setProductBy(e))} default="Ordernar:" />
                 </div>
     
@@ -126,5 +124,4 @@ export default function Catalog(props) {
             </div>
         </>
     )
-
 }

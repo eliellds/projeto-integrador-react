@@ -12,22 +12,35 @@ const user = JSON.parse(localStorage.getItem('user'))
 function OrderSummaryPage(props) {
 
     const [order, setOrder] = useState(initial)
-
+    
     function postItemOrder(order) {
+        let i = 0
+        localStorageRemoveOrder()
         return cart.map(function (item) {
-
+            setTimeout(function (){
             api.post("/itemsOrder", { productsDTO: { id: item.id },
-             compositeKey: { orderDTO: order },
+             compositeKey: { orderDTO: order, idItem: ++i },
               quantity: 1, 
                 unityDiscount: item.salePrice ? item.salePrice - item.price : 0,
                totalDiscount: item.salePrice ? (item.salePrice - item.price)* 1.0 : 0,
                totalPrice : item.salePrice? item.salePrice*1.0 :  item.price* 1.0
             }).then(result => {
-
+                
                 console.log(result)
             }).catch(err => {console.log("Erro ao gravar item"+err)});
-
+        },1
+            )
         })
+    }
+    function goToSucces(){
+        postOrder()
+        
+        
+        setTimeout(() =>{
+            window.location.href = "/success"
+        },2000)
+       
+       
     }
 
     useEffect(() => {
@@ -65,14 +78,14 @@ function OrderSummaryPage(props) {
         }).catch((err) => { console.log("Falha ao consumir api" + err) })
 
     }
-    // function localStorageRemoveOrder() {
-    //     localStorage.removeItem('order')
-    //     localStorage.removeItem('total')
-    //     localStorage.removeItem('qtyCart')
-    //     localStorage.removeItem('cart')
-    //     localStorage.removeItem('discount')
-    //     localStorage.removeItem('subTotal')
-    // }
+    function localStorageRemoveOrder() {
+        localStorage.removeItem('order')
+        localStorage.removeItem('total')
+        localStorage.removeItem('qtyCart')
+        localStorage.removeItem('cart')
+        localStorage.removeItem('discount')
+        localStorage.removeItem('subTotal')
+    }
 
 
 
@@ -86,7 +99,7 @@ function OrderSummaryPage(props) {
             totalDiscounts: localStorage.getItem('discount'),
             card:{...order.card, dueDate:"2021-12-10"}
         }).then(response => {
-            // localStorageRemoveOrder()
+            
             localStorage.setItem('idOrderLastCreated', response.data.id)
             let order = response.data
             postItemOrder(order)
@@ -120,15 +133,22 @@ function OrderSummaryPage(props) {
                     </ul>
 
                     <div className="container col-12 col-lg-5 mx-0">
-                        <OrderInfo titulo="Pagamento" primeiraLinha={order.card.flag.description + " " + order.payment.description} segundaLinha={order.card.cardNumber} terceiraLinha={order.payment.installments} />
-                        <OrderInfo titulo="Endereço de entrega" primeiraLinha={order.address.street + ", " + order.address.number + "-" + order.address.district + ", " + order.address.city} segundaLinha={order.address.complement} terceiraLinha={order.address.reference} />
+                        
+                        <OrderInfo titulo="Pagamento" 
+                                        primeiraLinha={order.payment.description} 
+                                        segundaLinha={order.card.flag.description} segundaLinha1={order.payment.installments} 
+                                        terceiraLinha={order.card.cardNumber}/>
+                        <OrderInfo titulo="Endereço de entrega" 
+                                        primeiraLinha={order.address.street + ", "} primeiraLinha1={order.address.number} primeiraLinha2={"Comp: " + order.address.complement}
+                                        segundaLinha={order.address.district + " - "} segundaLinha1={order.address.city + " - "} segundaLinha2={order.address.state}
+                                        terceiraLinha={"CEP: " + order.address.cep} quartaLinha={"Referência: " + order.address.reference} />
                     </div>
 
                 </div>
 
                 <div className="d-flex justify-content-between">
                     <Button navigation route="/checkout" class="btn-retorno align-self-center" label="voltar" />
-                    <Button onclick={postOrder} class="btn-comprar" label="Finalizar" />
+                    <Button onclick={ goToSucces} class="btn-comprar" label="Finalizar" />
                 </div>
 
 

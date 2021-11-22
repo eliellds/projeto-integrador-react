@@ -72,7 +72,7 @@ function SuccessPage(props) {
 
     function getOrder() {
         api
-            .get(`/orders/${1}`)
+            .get(`/orders/${localStorage.getItem('idOrderLastCreated')}`)
             .then((response) => {
                 setOrder(response.data)
                 console.log(response.data)

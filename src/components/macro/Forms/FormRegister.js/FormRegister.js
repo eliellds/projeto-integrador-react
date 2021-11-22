@@ -72,6 +72,7 @@ function FormRegister(props) {
             born: data.data,
             password: data.senha
         })
+     
 
         api.post('/sign-up', newUser).then((response) => {
             console.log(response)

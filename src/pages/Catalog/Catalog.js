@@ -28,7 +28,6 @@ export default function Catalog(props) {
             })
             .catch((err) => {
                 console.error("Erro ao consumir api de products" + err);
-
             });
     }
     
@@ -89,11 +88,10 @@ export default function Catalog(props) {
             return setRenderList(<ListProductsCatalogy products={products} />)
 
         } else if (e == 2) {
-
             filterAsc()
             return setRenderList(<ListProductsCatalogy products={products} />)
-        } else if (e == 3) {
 
+        } else if (e == 3) {
             filterSale()
             return setRenderList(<ListProductsCatalogy products={products} />)
 
@@ -122,7 +120,6 @@ export default function Catalog(props) {
                     {/* <Filter></Filter> */}
                     <SelectByFilter label="Ordenar por: " options={filter} change={e => setProductBy(e.target.value)} default="Ordernar:" />
                 </div>
-
             </form>
 
             <div className="container container-cards my-4">

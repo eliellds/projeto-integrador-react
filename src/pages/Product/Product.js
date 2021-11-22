@@ -4,30 +4,31 @@ import Button from '../../components/micro/Button/Button'
 import H1 from '../../components/micro/Title/H1'
 import H2 from '../../components/micro/Title/H2'
 import api from '../../services/api'
- 
+
 
 const initial = {
     product: {
-    id: 0,
-    product: "",
-    conservationStat: {
-        id: 4,
-        description: ""
+        id: 0,
+        product: "",
+        conservationStat: {
+            id: 4,
+            description: ""
+        },
+        description: "",
+        feature: "",
+        year: "",
+        categoryDTO: {
+            id: 2,
+            category: "",
+            description: ""
+        },
+        quantity: 1,
+        image: "padrao.png"
     },
-    description: "",
-    feature: "",
-    year: "",
-    categoryDTO: {
-        id: 2,
-        category: "",
-        description: ""
-    },
-    quantity: 1,
-    image: "padrao.png"
-},
-price: 0,
-salePrice:0,
-qty: 0}
+    price: 0,
+    salePrice: 0,
+    qty: 0
+}
 
 function Product(props) {
 
@@ -100,24 +101,27 @@ function Product(props) {
         )
     }
 
+
+
     console.log(produto);
     console.log(item);
     // console.log(produto.product);
 
     return (
         <>
-            <H1 h1= {produto.product.product}></H1>
+            <H1 h1={produto.product.product}></H1>
             <section className="mb-4">
                 <div className="container-fluid container-fluid-section">
                     <div className="container mb-4">
                         <div className="row row-correction">
                             <div className="container container-imagem mx-0 col-12 col-md-7 col-lg-8 mt-3">
                                 <div className="row p-0 imagem-caixa-registradora">
-                                    {imageRender()}                         
+                                    {imageRender()}
                                 </div>
                             </div>
                             <div className="container Valores px-0 px-md-3 px-lg-0 mb-5 col-12 col-md-5 col-lg-4 d-flex flex-column justify-content-center">
-                                <h4 className="valor text-center">R$ {produto.price}</h4>
+                                <h4 className="valor text-center">R$ 
+                                {produto.salePrice ? preco : precoDe}</h4>
 
                                 <Button onclick={addToCart} class="btn-comprar align-self-center " label="comprar" />
                                 <h4 className="frete-fixo-produto text-center pt-4">Frete fixo R$150,00</h4>

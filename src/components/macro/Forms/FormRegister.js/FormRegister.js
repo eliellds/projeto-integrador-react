@@ -116,7 +116,6 @@ function FormRegister(props) {
         let booleano = true
         if (cpf == "") {
             setUser({ ...user, cpf: "" })
-            setValid({...isValid, cpfCheck: true, cpf: false})
             setError("cpf", {
                 type: "focus",
                 message: "",
@@ -126,7 +125,9 @@ function FormRegister(props) {
             '33333333333', '44444444444', '55555555555', '66666666666',
             '77777777777', '88888888888', '99999999999'].includes(cpf)) {
             setUser({ ...user, cpf: "" })
-            setValid({...isValid, cpfCheck: true, cpf: false})
+            if (cpf != "") {
+                setValid({...isValid, cpfCheck: true, cpf: false})
+            }
             setError("cpf", {
                 type: "focus",
                 message: "",
@@ -144,7 +145,9 @@ function FormRegister(props) {
         if (resto != parseInt(cpf.charAt(9))) {
             clearErrors(["cpf"]) // limpa o erro ao clicar no campo CPF quando este exibe erro
             setUser({ ...user, cpf: "" })
-            setValid({...isValid, cpfCheck: true, cpf: false})
+            if (cpf != "") {
+                setValid({...isValid, cpfCheck: true, cpf: false})
+            }
             setError("cpf", {
                 type: "focus",
                 message: "",
@@ -162,7 +165,9 @@ function FormRegister(props) {
         if (resto != parseInt(cpf.charAt(10))) {
             clearErrors(["cpf"]) // limpa o erro ao clicar no campo CPF quando este exibe erro
             setUser({ ...user, cpf: "" })
-            setValid({...isValid, cpfCheck: true, cpf: false})
+            if (cpf != "") {
+                setValid({...isValid, cpfCheck: true, cpf: false})
+            }
             setError("cpf", {
                 type: "focus",
                 message: "",
@@ -267,7 +272,7 @@ function FormRegister(props) {
                         <InputHook // hook eh a props para input padrao com a verificacao
                             name="cpf" // name sera utilizado no componente para fazer as comparacoes
                             register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
-                            required={isValid.cpfCheck?"":<span className="text-danger">Digite um CPF válido!</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
+                            required={user.cpf == ""?<span className="text-danger">Digite um CPF válido!</span>:""} // mensagem de erro que sera exibida caso o campo nao seja valido
                             maxlength={14} // tamanho maximo do campo
                             minlength={11} // tamanho minimo do campo
                             pattern={/([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})/u}

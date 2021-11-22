@@ -14,15 +14,21 @@ function CartItemsComp(props) {
     const [qtyCart, setQty] = useState(JSON.parse(localStorage.getItem('qtyCart')))
     const [amount, setAmount] = useState(JSON.parse(localStorage.getItem('cart')
     ))
+    const [total, setTotal] = useState(0)
     console.log(qtyCart)
 
     function setQtyCart() {
         return qtyCart
     }
 
-    const [total, setTotal] = useState(0)
+    function increase() {
+        
+    }
+    
 
     useEffect(() => {
+        setQty(JSON.parse(localStorage.getItem('qtyCart')))
+        setAmount(JSON.parse(localStorage.getItem('cart')))
         somar()
     }, [])
 
@@ -72,7 +78,7 @@ function CartItemsComp(props) {
 
             <div className=" container personalizado-carrinho p-0 pl-md-1 pr-md-1  ">
 
-                {qtyCart >= 1 ? <CartItems /> :
+                {qtyCart >= 1 ? <CartItems increase={increase}/> :
                     <div className="m-5 justify-content-center">
                         <p className="text-center">Está meio vazio aqui, não? Confira nossas promoções e outros itens da loja!</p>
                     </div>}

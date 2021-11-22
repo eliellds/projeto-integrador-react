@@ -42,6 +42,8 @@ function FormRegister(props) {
             if (response.data) {
                 setValid({...isValid, email: false})
                 console.log("Email já cadastrado!")
+            } else {
+                setValid({...isValid, email: true})
             }
         }).catch((error) => {
             console.log("Erro ao buscar")
@@ -49,13 +51,28 @@ function FormRegister(props) {
         })
     }
 
+    // buscar cpf na base para saber se já foi cadastrado
+    const checkCPF = (cpf) => {
+        api.get('/user/cpf/' + cpf).then((response) => {
+            if (response.data) {
+                setValid({...isValid, cpf: true, cpfCheck: false})
+                console.log("CPF já cadastrado!")
+            }
+        }).catch((error) => {
+            console.log("Erro ao buscar")
+            setValid({...isValid, cpfCheck: true})
+        })
+    }
+
     // funcao async executada recebendo o parametro data do register do react-hook-form
     const registration = async data => {
 
         if (isValid.cpf == false) {
-            return alert("CPF inválido ou já cadastrado!")
+            return alert("CPF inválido!")
         } else if (isValid.email == false) {
-            return alert("email já cadastrado!")
+            return alert("E-mail já cadastrado!")
+        } else if (isValid.cpfCheck == false) {
+            return alert("CPF já cadastrado!")
         }
 
         // objeto newUser recebendo os valores de register 
@@ -86,17 +103,20 @@ function FormRegister(props) {
 
     const [isValid, setValid] = useState({
         cpf: true,
-        email: true
+        email: true,
+        cpfCheck: true
     })
 
     // @see https://incom.in.gov.br/js/util.js
     function checarCPF(e) {
+        setValid({...isValid, cpfCheck: true, cpf: true})
         var cpf = e.target.value;
         cpf = cpf.toString().replace(/[^0-9]/g, ""); // transforma os valores digitados para apenas numeros
 
+        let booleano = true
         if (cpf == "") {
             setUser({ ...user, cpf: "" })
-            setValid({...isValid, cpf: false})
+            setValid({...isValid, cpfCheck: true, cpf: false})
             setError("cpf", {
                 type: "focus",
                 message: "",
@@ -106,7 +126,7 @@ function FormRegister(props) {
             '33333333333', '44444444444', '55555555555', '66666666666',
             '77777777777', '88888888888', '99999999999'].includes(cpf)) {
             setUser({ ...user, cpf: "" })
-            setValid({...isValid, cpf: false})
+            setValid({...isValid, cpfCheck: true, cpf: false})
             setError("cpf", {
                 type: "focus",
                 message: "",
@@ -124,7 +144,7 @@ function FormRegister(props) {
         if (resto != parseInt(cpf.charAt(9))) {
             clearErrors(["cpf"]) // limpa o erro ao clicar no campo CPF quando este exibe erro
             setUser({ ...user, cpf: "" })
-            setValid({...isValid, cpf: false})
+            setValid({...isValid, cpfCheck: true, cpf: false})
             setError("cpf", {
                 type: "focus",
                 message: "",
@@ -142,7 +162,7 @@ function FormRegister(props) {
         if (resto != parseInt(cpf.charAt(10))) {
             clearErrors(["cpf"]) // limpa o erro ao clicar no campo CPF quando este exibe erro
             setUser({ ...user, cpf: "" })
-            setValid({...isValid, cpf: false})
+            setValid({...isValid, cpfCheck: true, cpf: false})
             setError("cpf", {
                 type: "focus",
                 message: "",
@@ -150,6 +170,7 @@ function FormRegister(props) {
             return false;
         }
         setValid({...isValid, cpf: true})
+        checkCPF(cpf)
         setUser({ ...user, cpf: cpf })
         clearErrors(["cpf"]) // limpa o erro ao clicar no campo CPF quando este exibe erro
         return cpf;
@@ -246,7 +267,7 @@ function FormRegister(props) {
                         <InputHook // hook eh a props para input padrao com a verificacao
                             name="cpf" // name sera utilizado no componente para fazer as comparacoes
                             register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
-                            required={user.cpf == ""? "":<span className="text-danger">Digite um CPF válido!</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
+                            required={isValid.cpfCheck?"":<span className="text-danger">Digite um CPF válido!</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
                             maxlength={14} // tamanho maximo do campo
                             minlength={11} // tamanho minimo do campo
                             pattern={/([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})/u}
@@ -258,7 +279,8 @@ function FormRegister(props) {
                             type="text"
                             className="form-input col-12"
                             placeholder="000.000.000-00" />
-                            {isValid.cpf?"":<span className="text-danger">Digite um CPF válido!</span>}
+                            {isValid.cpf?"":<span className="text-danger">Digite um CPF válido! </span>}
+                            {isValid.cpfCheck?"":<span className="text-danger">CPF já cadastrado!</span>}
 
                     </div>
 

@@ -7,11 +7,11 @@ function SelectCard(props) {
     function getPaymentMethod() {
         return paymentMethod.map(
             option =>  { 
-                if(option.id>1 && option.id<4){
+                if(option.id>1 && option.id<=3){
                 return <option key={option.id} value={option.id}>{option.description} {option.installments}</option>}
                 
 
-                if(option.id>3){
+                if(option.id>=4){
                     return <option key={option.id} value={option.id}>{option.description} {option.installments +"x s/JUROS"}</option>
                 }
 

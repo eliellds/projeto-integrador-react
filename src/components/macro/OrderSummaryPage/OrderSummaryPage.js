@@ -33,8 +33,13 @@ function OrderSummaryPage(props) {
         })
     }
     function goToSucces(){
-        postOrder() 
-        window.location.href = "/success"
+        postOrder()
+        
+        
+        setTimeout(() =>{
+            window.location.href = "/success"
+        },2000)
+       
        
     }
 

@@ -71,7 +71,7 @@ function FormRegister(props) {
             }
         }).catch((error) => {
             console.log("Erro ao buscar")
-            setValid({ ...isValid, cpfCheck: true })
+            // setValid({ ...isValid, cpfCheck: true })
         })
     }
 

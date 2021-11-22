@@ -1,4 +1,5 @@
 import React from 'react';
+import "./FormContact.css"
 import {useState } from 'react';
 import api from '../../../../services/api';
 import Input from '../../../micro/Forms/Input/Input';
@@ -75,7 +76,7 @@ function FormContact(props) {
                 </div>
                 <div className="row justify-content-center">
                     <div className="col-12 col-md-11">
-                        <label htmlFor="textarea" className="form-label col-12">Deixe sua mensagem</label>
+                        <label htmlFor="textarea" className="form-label col-12">Deixe sua mensagem:</label>
                         <textarea required className="textarea col-12" id="textarea" rows="5"
                             placeholder=" Escreva sua mensagem..." onKeyDown={e => setContent(e.target.value)}></textarea>
                     </div>

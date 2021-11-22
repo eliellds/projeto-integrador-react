@@ -14,7 +14,7 @@ function Register(props) {
         <>
             <section className="container-fluid px-sm-5 py-3 custom-container">
                 
-                <FormDefault submit={customSubmit} title="Faça seu Cadastro" action="#" className="custom-form-box mx-3 mx-sm-1 mx-lg-4 px-5 px-sm-1 px-lg-4">
+                <FormDefault title="Faça seu Cadastro" action="#" className="custom-form-box mx-3 mx-sm-1 mx-lg-4 px-5 px-sm-1 px-lg-4">
                 
                     <FormRegister/>
 

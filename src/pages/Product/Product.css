@@ -155,8 +155,21 @@
 }
 
 .image-product-api {
-    height: 400px;
-    width: 400px;
+    height: 300px;
+    width: 300px;
     border:  2px solid #BC4C2A;
     object-fit: cover;
+    padding: 0px;
+}
+
+.tamanho-num {
+    margin-bottom: 10px;
+    font-size: 35px !important;
+    /* margin-left: -220px !important; */
+}
+
+.tamanho-letra {
+    font-size: 20px !important;
+    margin-bottom: 20px;
+    font-family: 'Times New Roman', Times, serif;
 }

@@ -65,11 +65,12 @@ function Product(props) {
 
     const addToCart = () => {
         const product = {
-            id: props.id,
-            precoDe: props.precoDe,
-            preco: props.precoPor,
-            nome: props.nome,
-            ano: props.ano
+            id: produto.product.id,
+            price: produto.price,
+            salePrice: produto.salePrice,
+            product: produto.product.product,
+            year: produto.product.year,
+            image: produto.product.image
         }
         let cartList = localStorage.getItem("cart")
             ? JSON.parse(localStorage.getItem("cart"))
@@ -82,25 +83,37 @@ function Product(props) {
         window.location.href = "/cart";
     }
 
-    const precoDe = () => {
 
-        if (produto.salePrice != null) {
-            return <div className="preco-de">R$ {produto.price}</div>
+
+    const preco = () => {
+
+        if (produto.salePrice) {
+
+            const saleFormated = produto.salePrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            const priceFormated = produto.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            const parcelas = (produto.salePrice / 10).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+            return (
+                <>
+                    <div className="preco-de tamanho-num">De: {priceFormated}</div>
+                    <div className="preco-por tamanho-num">Por: {saleFormated}</div>
+                    <div className="parcelas tamanho-letra">À vista, ou em até <span className="tamanho-letra">{10}x</span> de <span className="tamanho-letra">{parcelas}</span> no cartão</div>
+                </>
+            )
+        } else {
+
+            const priceFormated = produto.price?.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            const parcelas = (produto.price / 10).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+            return (
+                <>
+                    <div className="preco-por tamanho-num">Por: {priceFormated}</div>
+                    <div className="parcelas tamanho-letra">À vista, ou em até <span className="tamanho-letra">{10}x</span> de <span className="tamanho-letra">{parcelas}</span> no cartão</div>
+                </>
+            )
         }
-        return
+
     }
-
-    const preco = (props) => {
-
-        return (
-            <>
-                {precoDe()}
-                <div className="preco-por">R$ {produto.salePrice}</div>
-                <div className="parcelas">À vista, ou em <em>10x</em> de <em>R$ {props.parcelas}</em> no cartão</div>
-            </>
-        )
-    }
-
 
 
     console.log(produto);
@@ -112,16 +125,15 @@ function Product(props) {
             <H1 h1={produto.product.product}></H1>
             <section className="mb-4">
                 <div className="container-fluid container-fluid-section">
-                    <div className="container mb-4">
+                    <div className="container">
                         <div className="row row-correction">
-                            <div className="container container-imagem mx-0 col-12 col-md-7 col-lg-8 mt-3">
+                            <div className="container container-imagem mx-0 col-12 col-md-7 col-lg-6 mt-3">
                                 <div className="row p-0 imagem-caixa-registradora">
                                     {imageRender()}
                                 </div>
                             </div>
-                            <div className="container Valores px-0 px-md-3 px-lg-0 mb-5 col-12 col-md-5 col-lg-4 d-flex flex-column justify-content-center">
-                                <h4 className="valor text-center">R$ 
-                                {produto.salePrice ? preco : precoDe}</h4>
+                            <div className="container Valores px-0 px-md-3 px-lg-0 mb-5 col-12 col-md-5 col-lg-6 d-flex flex-column justify-content-center">
+                                <h4 className="valor text-center">{preco()}</h4>
 
                                 <Button onclick={addToCart} class="btn-comprar align-self-center " label="comprar" />
                                 <h4 className="frete-fixo-produto text-center pt-4">Frete fixo R$150,00</h4>
@@ -135,7 +147,7 @@ function Product(props) {
                         </div>
                     </div>
 
-                    <div className="container container-fluid-informações-texto p-5">
+                    <div className="container container-fluid-informações-texto px-5 py-2">
                         <div className="row">
                             <p className="h1-informações-texto">
                                 {produto.product.description} </p>
@@ -146,7 +158,7 @@ function Product(props) {
                             <H2 h2="Características"></H2>
                         </div>
                     </div>
-                    <div className="container container-fluid-caracteristicas-texto p-5">
+                    <div className="container container-fluid-caracteristicas-texto px-5 py-2">
                         <div className="row">
                             <p className="h1-caracteristicas-texto">
                                 {produto.product.feature} </p>

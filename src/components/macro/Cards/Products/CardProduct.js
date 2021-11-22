@@ -9,10 +9,10 @@ function CardProduct(props) {
         return <img src={`${imgSrc.default}`} />
     }
 
-    
+
     const addToCart = () => {
         const product = {
-            id: props.product.id,
+            id: props.id,
             price: props.price,
             salePrice: props.salePrice,
             product: props.product,
@@ -31,26 +31,33 @@ function CardProduct(props) {
     }
 
 
-
-
-    const precoDe = () => {
-
-        if (props.price) {
-            return <div className="preco-de">R$ {(props.price).toFixed(2)}</div>
-        }
-        return
-
-    }
-
     const preco = () => {
 
-        return (
-            <>
-                {precoDe()}
-                <div className="preco-por">R$ {props.salePrice?(props.salePrice).toFixed(2):null}</div>
-                <div className="parcelas">À vista, ou em <em>{10}x</em> de <em>R$ {props.salePrice?(props.salePrice/10).toFixed(2):(props.price/10).toFixed(2)}</em> no cartão</div>
-            </>
-        )
+        if (props.salePrice) {
+
+            const saleFormated = props.salePrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            const priceFormated = props.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            const parcelas = (props.salePrice / 10).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+            return (
+                <>
+                    <div className="preco-de">{priceFormated}</div>
+                    <div className="preco-por">{saleFormated}</div>
+                    <div className="parcelas">À vista, ou em até <em>{10}x</em> de <em>{parcelas}</em> no cartão</div>
+                </>
+            )
+        } else {
+            
+            const priceFormated = props.price?.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            const parcelas = (props.price / 10).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+            return (
+                <>
+                    <div className="preco-por">{priceFormated}</div>
+                    <div className="parcelas">À vista, ou em até <em>{10}x</em> de <em>{parcelas}</em> no cartão</div>
+                </>
+            )
+        }
 
     }
 
@@ -61,7 +68,7 @@ function CardProduct(props) {
 
                 <div className="caixa-imagem">
                     <a href={`/product/${props.id}`}>
-                    {imageRender()}
+                        {imageRender()}
                     </a>
                 </div>
 

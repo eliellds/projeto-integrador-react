@@ -7,7 +7,7 @@ function OrderSummary(props) {
 
     return (
         <>
-            <OrderSummaryPage valorTotal="R$ 9999,99" valorTotal="R$ 9999,99"/>
+            <OrderSummaryPage />
         </>
     )
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import {useState } from 'react';
 import api from '../../../../services/api';
 import Input from '../../../micro/Forms/Input/Input';
-import Select from '../../../micro/Forms/Select/Select';
+import SelectOptions from '../../../micro/Forms/Select/SelectOption';
 import ModalComp from '../../../micro/Modal/Modal';
 import FormDefault from '../FormDefault/FormDefault';
 import Button from "../../../micro/Button/Button"
@@ -59,7 +59,7 @@ function FormContact(props) {
                         <Input change={e => setName(e.target.value)} label="Nome" type="text" id="name" className="form-input col-12" placeholder="Digite seu nome" />
                     </div>
                     <div className="col-12 col-md-5">
-                        <Select required label="Assunto:"  options={props.options} change={e => setSubject(e.target.value)} />
+                        <SelectOptions required label="Assunto:"  options={props.options} change={e => setSubject(e.target.value)} />
                     </div>
                 </div>
                 <div className="row custom-form justify-content-center">
@@ -73,7 +73,7 @@ function FormContact(props) {
                 </div>
                 <div className="row justify-content-center">
                     <div className="col-12 col-md-11">
-                        <label for="textarea" className="form-label col-12">Deixe sua mensagem</label>
+                        <label htmlFor="textarea" className="form-label col-12">Deixe sua mensagem</label>
                         <textarea required className="textarea col-12" id="textarea" rows="5"
                             placeholder=" Escreva sua mensagem..." onKeyDown={e => setContent(e.target.value)}></textarea>
                     </div>
@@ -81,8 +81,8 @@ function FormContact(props) {
             </div>
 
             <div className="row justify-content-center pt-3">
-                <Button label="Voltar" onclick={history.goBack} class="btn-retorno mx-5" />
-                <Button label="Enviar" class="btn-confirmacao mx-5" onclick={postContact}  />
+                <Button label="Voltar" onclick={history.goBack} class="btn-retorno mx-5 my-1" />
+                <Button label="Enviar" class="btn-confirmacao mx-5 my-1" onclick={postContact}  />
             </div>
 
             <div className="row justify-content-around">

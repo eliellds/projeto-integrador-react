@@ -1,20 +1,20 @@
 import React from 'react'
 
-function Select(props) {
+function SelectByFilter(props) {
     const options = props.options || []
-    
+
+    console.log(options)
 
     function getOptions(){
         return options.map(
             function(option){
-                if (props.selected == option.subjectDescription) {
-                    return <option selected="selected" key={option.id} value={option.subjectDescription}>{option.subjectDescription}</option>
+                if (props.selected == option.id) {
+                    return <option selected="selected" key={option.id} value={option.id}>{option.subjectDescription}</option>
                 } else {
-                    return <option key={option.id} value={option.subjectDescription}>{option.subjectDescription}</option>
+                    return <option key={option.id} value={option.id}>{option.subjectDescription}</option>
                 }
             }
         )
-    
     }
 
     if (props.selected) {
@@ -39,4 +39,4 @@ function Select(props) {
     
 }
 
-export default Select
+export default SelectByFilter

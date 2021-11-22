@@ -32,9 +32,9 @@ function CartItems(props) {
             
                 <div className="row carrinho-card mt-1 mb-2 mx-0 align-items-center justify-content-between">
                     <div className=" col-2 col-md-2  p-0">
-                      <a href="#" > {imageRender(product.image)}</a>
+                      <a href={`/product/${product.id}`} > {imageRender(product.image)}</a>
                     </div>
-                    <a href="#paginaProduto" className="col-4 col-md-4 pe-0  texto-carrinho">
+                    <a href={`/product/${product.id}`} className="col-4 col-md-4 pe-0  texto-carrinho">
                         {product.product}
                     </a>
                     
@@ -43,7 +43,7 @@ function CartItems(props) {
                     </div>
 
                     <div className="col-2 texto-carrinho text-center">
-                        R$<span className="numero">{product.salePrice?product.salePrice:product.price}</span>
+                        <span className="numero">{product.salePrice?product.salePrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }):product.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
                     </div>
                     
                     <div className="col-2 ">

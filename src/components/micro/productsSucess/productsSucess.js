@@ -1,51 +1,65 @@
-import React, { useState } from "react";
+import React, { useState} from "react";
 
 function ProductSuccess(props) {
-    const products = JSON.parse(localStorage.getItem('cart')) || [] 
-    let total=0 ;
-    const [PrecoTotal,setPrecoTotal]=useState(total)
-    console.log(products)
-    function setTotalPrice(){
+
+    const productsOrder = props.products || []
+    let total = 0;
+
+    const [PrecoTotal, setPrecoTotal] = useState(total)
+
+    function setTotalPrice() {
         setPrecoTotal(total)
         return PrecoTotal
     }
-    function listProducts(){
-    return products.map((product) => {
-        total += parseInt(product.preco)
-        localStorage.setItem('total', total)
-        return  <>
-        
-            <li class="row bloco-produto item-1">
+    function imageRender(image) {
+        var imgSrc = require(`../../../assets/images/products/${image}`);
+        console.log(imgSrc)
+        return <img className="imageSuccess" src={`${imgSrc.default}`} />
+    }
 
-                <div class="atributos tipo-atributo col-3 d-none d-sm-flex">Desc.:</div>
-                <div class="atributos atributo-descricao col-12 col-sm-9">{product.nome}</div>
+    function listProducts() {
+        return productsOrder.map((product) => {
+            total += parseInt(product.preco)
+            localStorage.setItem('total', total)
+            return <>
 
-                <div class="atributos tipo-atributo col-3 d-none d-sm-flex">Valor:</div>
-                <div class="atributos atributo-valor col-12 col-sm-9">{product.preco}</div>
-                
-                
-                
-                <div class="atributos tipo-atributo col-3 d-none d-sm-flex">Qtd.:</div>
-                <div class="atributos atributo-qtd col-12 col-sm-9">{1}</div>
-              
-            </li>
-        </>
+                <li key={product.id} className="row bloco-produto justify-content-center item-1">
+                    <div className="col-md-3 col-4 ">
+                        {imageRender(product.productsDTO.image)}
+                    </div>
+                    <div className="col-md-9 col-9">
+                        <div className="row ">
+                            <div className="atributos tipo-atributo col-3  d-sm-flex">Produto:</div>
+                            <div className="atributos atributo-descricao col-9 col-sm-9">{product.productsDTO.product}</div>
 
-    })
+                            <div className="atributos tipo-atributo col-3  d-sm-flex">Valor:</div>
+                            <div className="atributos atributo-valor col-9 col-sm-9">{product.totalPrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</div>
+
+
+
+                            <div className="atributos tipo-atributo col-3  d-sm-flex">Qtd.:</div>
+                            <div className="atributos atributo-qtd col-9 col-sm-9">{product.quantity}</div>
+                        </div>
+                    </div>
+
+
+                </li>
+            </>
+
+        })
 
     }
-  
 
+
+    const finalPrice = parseInt(total + props.frete)
 
     return (
         <>
-        {listProducts()} 
-          {console.log(total)}
-          
-          
-        
-         <div class="valor-total">Frete: R$:&nbsp;<b>{props.frete}</b></div>
-        <div class="valor-total">Total: R$:&nbsp;<b> {parseInt(total+props.frete)}</b></div>
+            {listProducts()}
+            {console.log(total)}
+
+            <div class="valor-total">Frete: &nbsp;<b>{props.frete}</b></div>
+            <div class="valor-total">Total: &nbsp;<b>{props.finalPrice}</b></div>
         </>
     )
 }

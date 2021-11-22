@@ -7,11 +7,12 @@ import Button from "../../micro/Button/Button"
 import api from "../../../services/api";
 
 const initial = {
+    id: 0,
     myUser: {
-        id: 1
+        id: 0
     },
     payment: {
-        id: 1,
+        id: 0,
         description: "",
         installments: "",
     },
@@ -43,7 +44,7 @@ const initial = {
         }
     },
     delivery: {
-        id: 1,
+        id: 0,
         descricao: ""
     },
     dateOrder: "",
@@ -59,20 +60,41 @@ function SuccessPage(props) {
 
     const user = JSON.parse(localStorage.getItem("user"));
     const [order, setOrder] = useState(initial);
+    const [orderProduct, setOrderProducts] = useState([]);
 
     const dateInput = order.deliveryDate
     const data = new Date(dateInput);
     const dataFormatada = data.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
 
     const amountFormated = order.amount.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    const deliveryFormated = order.deliveryValue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
-    useEffect(() => {
+
+    function getOrder() {
         api
-            .get(`/orders/${user.value.id}`)
-            .then((response) => setOrder(response.data))
+            .get(`/orders/${1}`)
+            .then((response) => {
+                setOrder(response.data)
+                console.log(response.data)
+                getItemOrder(response.data.id)
+            })
             .catch((err) => {
                 console.error("ops! ocorreu um erro" + err);
             });
+    }
+
+    function getItemOrder(id) {
+        api
+        .get(`/itemsOrder/${id}`)
+        .then((response) => setOrderProducts(response.data))
+        .catch((err) => {
+            console.error("ops! ocorreu um erro" + err);
+        });
+    }
+
+    useEffect(() => {
+       getOrder()
+
     }, []);
 
     console.log(order)
@@ -86,14 +108,18 @@ function SuccessPage(props) {
             </p>
 
             <div class="container-fluid container-principal">
-                <h2 class="numero-pedido col-12">NÚMERO DO PEDIDO:<b>&nbsp;{props.numPedido}12345</b></h2>
+
+                <h2 class="numero-pedido col-12">Número do Pedido:<b>&nbsp;{order.id}</b></h2>
 
                 <div class="row linha-geral justify-content-between">
 
                     <ul class="container col-12 col-lg-6 mx-0 d-flex flex-column">
                         <h4>Itens</h4>
+
                         <ProductSuccess
-                            frete={dataFormatada} />
+                            products={orderProduct}
+                            frete={deliveryFormated}
+                            finalPrice={amountFormated} />
 
                     </ul>
 
@@ -112,12 +138,14 @@ function SuccessPage(props) {
                         <OrderInfo titulo="Endereço de entrega"
                             primeiraLinha={order.address.street + ","} primeiraLinha1={order.address.number} primeiraLinha2={"Comp: " + order.address.complement}
                             segundaLinha={order.address.district + " - "} segundaLinha1={order.address.city + " - "} segundaLinha2={order.address.state}
-                            terceiraLinha={"CEP: " +order.address.cep} quartaLinha={"Referência: " + order.address.reference} />
-                        
+                            terceiraLinha={"CEP: " + order.address.cep} quartaLinha={"Referência: " + order.address.reference} />
+
                     </div>
 
                 </div>
+
                 <div class="texto-prazo">Prazo estimado para entrega: <b>{dataFormatada}</b></div>
+
                 <Button navigation route="/dashboard/myorder" class="btn-retorno" label="Pedidos" />
 
             </div>

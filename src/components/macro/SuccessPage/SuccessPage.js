@@ -123,7 +123,7 @@ function SuccessPage(props) {
 
                     </ul>
 
-                    <div class="container col-12 col-lg-5 mx-0">
+                    <div class="container col-12 col-lg-5 mx-0 info-sucesso">
 
                         <OrderInfo titulo="Pagamento"
                             primeiraLinha={order.payment.description}
@@ -133,7 +133,7 @@ function SuccessPage(props) {
                         <OrderInfo titulo="Entrega"
                             primeiraLinha={order.delivery.descricao}
                             segundaLinha="Prazo estimado para entrega: " segundaLinha1={dataFormatada}
-                            terceiraLinha={amountFormated} />
+                            terceiraLinha= {deliveryFormated} />
 
                         <OrderInfo titulo="Endereço de entrega"
                             primeiraLinha={order.address.street + ","} primeiraLinha1={order.address.number} primeiraLinha2={"Comp: " + order.address.complement}

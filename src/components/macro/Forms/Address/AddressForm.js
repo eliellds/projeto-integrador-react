@@ -11,7 +11,7 @@ const initial = {
     id: 0,
     cep: "",
     street: "",
-    number: 0,
+    number: "",
     complement: "",
     district: "",
     reference: "",

@@ -16,7 +16,7 @@ const initial = {
         id: 0
     },
     payment: {
-        id: 1
+        id: 2
     },
     address: {
         cep: "",

@@ -28,6 +28,7 @@ function CartItems(props) {
 
         return productItems.map(product => {
             console.log(product)
+            let qtd = 0
             return <>
             
                 <div className="row carrinho-card mt-1 mb-2 mx-0 align-items-center justify-content-between">
@@ -39,7 +40,7 @@ function CartItems(props) {
                     </a>
                     
                     <div className=" col-1 numero quantidade align-content-center text-center">
-                        <a href="#" className="controle positivo">+</a> 1 <a href="" className="controle negativo">-</a>
+                        <button href="#" className="controle positivo increase-btn">+</button> 1 <button href="" className="controle negativo decrease-btn">-</button>
                     </div>
 
                     <div className="col-2 texto-carrinho text-center">

@@ -131,7 +131,7 @@ function OrderSummaryPage(props) {
                     </ul>
 
                     <div className="container col-12 col-lg-5 mx-0">
-                        <OrderInfo titulo="Pagamento" primeiraLinha={order.card.flag.description + " " + order.payment.description} segundaLinha={order.card.cardNumber} terceiraLinha={order.payment.installments} />
+                        <OrderInfo titulo="Pagamento" primeiraLinha={order.card.flag.description + " " + order.payment.description} segundaLinha="" terceiraLinha={order.payment.installments} />
                         <OrderInfo titulo="Endereço de entrega" primeiraLinha={order.address.street + ", " + order.address.number + "-" + order.address.district + ", " + order.address.city} segundaLinha={order.address.complement} terceiraLinha={order.address.reference} />
                     </div>
 

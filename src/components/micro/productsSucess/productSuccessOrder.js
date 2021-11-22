@@ -36,7 +36,7 @@ function ProductSuccessOrder(props) {
                             <div className="atributos atributo-descricao col-9 col-sm-9">{product.product}</div>
 
                             <div className="atributos tipo-atributo col-3  d-sm-flex">Valor:</div>
-                            <div className="atributos atributo-valor col-9 col-sm-9">R$:{product.salePrice ? product.salePrice : product.price}</div>
+                            <div className="atributos atributo-valor col-9 col-sm-9">R$:{product.salePrice ? product.salePrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : product.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</div>
 
 
 
@@ -60,11 +60,11 @@ function ProductSuccessOrder(props) {
             {listProducts()}
             {/* {console.log(total)} */}
 
-            <div className="valor-total">Sub Total: R$:&nbsp;<b>{subTotal.toFixed(2)}</b></div>
+            <div className="valor-total">Sub Total: R$:&nbsp;<b>{subTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</b></div>
 
-            <div className="valor-total">Desconto total: - R$:&nbsp;<b>{discount.toFixed(2)}</b></div>
-            <div className="valor-total">Frete: R$:&nbsp;<b>{props.frete}</b></div>
-            <div className="valor-total">Total: R$:&nbsp;<b> {total+props.frete}</b></div>
+            <div className="valor-total">Desconto total: - R$:&nbsp;<b>{discount.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</b></div>
+            <div className="valor-total">Frete: R$:&nbsp;<b>{props.frete.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</b></div>
+            <div className="valor-total">Total: R$:&nbsp;<b> {(total+props.frete).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</b></div>
         </>
     )
 }

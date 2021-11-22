@@ -1,5 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import '../../../pages/Cart/Cart.css'
 import CartItems from '../../micro/CartItems/CartItems';
 import Button from "../../micro/Button/Button"
@@ -12,10 +12,33 @@ import CardProduct from '../Cards/Products/CardProduct';
 function CartItemsComp(props) {
     const history = useHistory()
     const [qtyCart, setQty] = useState(JSON.parse(localStorage.getItem('qtyCart')))
+    const [amount, setAmount] = useState(JSON.parse(localStorage.getItem('cart')
+    ))
     console.log(qtyCart)
 
     function setQtyCart() {
         return qtyCart
+    }
+
+    const [total, setTotal] = useState(0)
+
+    useEffect(() => {
+        somar()
+    }, [])
+
+    function somar() {
+        let valor = 0
+        if (amount) {
+            amount.map(product => {
+                console.log(amount)
+                {
+                    product.salePrice
+                    ? valor = valor + product.salePrice
+                    : valor = valor + product.price
+                }
+            })
+        }
+        setTotal(valor + 150)
     }
 
     function preventDefault(e) {
@@ -60,7 +83,7 @@ function CartItemsComp(props) {
                         <h4 className="texto-total">Frete fixo: R$<span className="numero total">150,00</span></h4>
                     </div>
                     <div className="col-5 mb-3 mt-3">
-                        <h4 className="texto-total">Quantidade: <span className="numero total">{qtyCart} </span> - Total:R$ <span className="numero total">{props.finalprice}</span></h4>
+                        <h4 className="texto-total">Quantidade: <span className="numero total">{qtyCart} </span> - Total:R$ <span className="numero total">{total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span></h4>
                     </div>
 
                 </div> : ""}

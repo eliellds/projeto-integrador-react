@@ -6,8 +6,6 @@ import InputMask from "react-input-mask";
 
 function InputHook(props) {
 
-    const onlyNumbers = (str) => str.replace(/[^0-9]/g, "")
-
     if (props.hook) {
         return (
             <>

@@ -33,7 +33,8 @@ function OrderSummaryPage(props) {
         })
     }
     function goToSucces(){
-        postOrder() 
+        postOrder()
+        alert("Pedido criado!") 
         window.location.href = "/success"
        
     }
@@ -56,7 +57,9 @@ function OrderSummaryPage(props) {
             console.log(order)
             setOrder(initial)
 
-        }).catch((err) => { console.log("Falha ao consumir api" + err) })
+        }).catch((err) => {
+            
+            console.log("Falha ao consumir api" + err) })
 
         setTimeout(() => { callback() }, 1)
     }
@@ -136,7 +139,7 @@ function OrderSummaryPage(props) {
 
                 <div className="d-flex justify-content-between">
                     <Button navigation route="/checkout" class="btn-retorno align-self-center" label="voltar" />
-                    <Button onclick={ goToSucces} class="btn-comprar" label="Finalizar" />
+                    <Button onclick={ goToSucces} class="btn-comprar " label="Finalizar"/>
                 </div>
 
 

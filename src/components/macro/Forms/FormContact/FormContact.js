@@ -7,6 +7,9 @@ import ModalComp from '../../../micro/Modal/Modal';
 import FormDefault from '../FormDefault/FormDefault';
 import Button from "../../../micro/Button/Button"
 import {useHistory } from 'react-router';
+import InputHook from '../../../micro/Forms/Input/InputHook';
+import { useForm } from "react-hook-form"; 
+import { ErrorMessage } from "@hookform/error-message"; 
 
 function FormContact(props) {
 
@@ -42,7 +45,7 @@ function FormContact(props) {
                 id: subject
             },
             name: name,
-            phoneNumber: phoneNumber,
+            phoneNumber: phoneNumber.toString().replace(/[^0-9]/g, ""),
             email: email,
             content: content
         })
@@ -50,12 +53,12 @@ function FormContact(props) {
         sendContact(contact)
     }
 
-
     return <>
         <FormDefault title="Contato" className="custom-form-box mx-3 mx-sm-1 mx-lg-4 px-5 px-sm-1 px-lg-4" >
             <div className="row forms-block justify-content-center">
                 <div className="row custom-form justify-content-center">
                     <div className="col-12 col-md-6">
+
                         <Input change={e => setName(e.target.value)} label="Nome" type="text" id="name" className="form-input col-12" placeholder="Digite seu nome" />
                     </div>
                     <div className="col-12 col-md-5">
@@ -69,7 +72,6 @@ function FormContact(props) {
                     <div className="col-12 col-sm-6 col-md-5">
                         <Input label="Telefone" type="text" id="telephone" className="form-input col-12" placeholder="(00) 00000-0000" change={e => setPhoneNumber(e.target.value)} />
                     </div>
-
                 </div>
                 <div className="row justify-content-center">
                     <div className="col-12 col-md-11">

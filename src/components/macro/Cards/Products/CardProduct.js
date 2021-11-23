@@ -18,7 +18,8 @@ function CardProduct(props) {
             product: props.product,
             year: props.year,
             image: props.image,
-            storage: props.qty
+            storage:props.qty,
+            qty:1
         }
         let cartList = localStorage.getItem("cart")
             ? JSON.parse(localStorage.getItem("cart"))

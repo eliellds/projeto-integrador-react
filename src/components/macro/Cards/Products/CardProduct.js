@@ -32,6 +32,8 @@ function CardProduct(props) {
         window.location.href = "/cart";
     }
 
+    
+
 
     const preco = () => {
 

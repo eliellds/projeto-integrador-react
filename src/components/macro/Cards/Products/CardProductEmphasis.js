@@ -12,7 +12,8 @@ function Emphasis(props) {
             price: props.price,
             product: props.product,
             year:props.year,
-            image:props.image
+            image:props.image,
+            storage:props.qty
         }
         let cartList = localStorage.getItem("cart")
             ? JSON.parse(localStorage.getItem("cart"))

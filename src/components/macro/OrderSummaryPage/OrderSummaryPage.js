@@ -127,6 +127,8 @@ function OrderSummaryPage(props) {
 
             console.log(order)
             initial = { ...initial, payment: result.data }
+            var parcelas = (20000/result.data.installments).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            console.log(parcelas)
             console.log(order)
             setOrder(initial)
 
@@ -239,7 +241,8 @@ function OrderSummaryPage(props) {
                     </ul>
 
                     <div className="container col-12 col-lg-5 mx-0">
-                        <OrderInfo titulo="Pagamento" primeiraLinha={order.card.flag.description + " " + order.payment.description} segundaLinha="" terceiraLinha={order.payment.installments} />
+                        <OrderInfo titulo="Pagamento" primeiraLinha={order.card.flag.description + " " + order.payment.description} segundaLinha="" terceiraLinha={order.payment.installments} terceiraLinha1={1} />
+                        
                         <OrderInfo titulo="Endereço de entrega" primeiraLinha={order.address.street + ", " + order.address.number + "-" + order.address.district + ", " + order.address.city} segundaLinha={order.address.complement} terceiraLinha={order.address.reference} />
                     </div>
 

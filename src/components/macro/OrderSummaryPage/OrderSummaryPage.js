@@ -86,6 +86,21 @@ function OrderSummaryPage(props) {
     }
 
 
+    function somar() {
+        let valor = 0
+        if (cartItems) {
+            cartItems.map(product => {
+                {
+                    product.salePrice
+                    ? valor = valor + (product.salePrice * product.qty)
+                    : valor = valor + (product.price * product.qty)
+                }
+            })
+        }
+        setTotal(valor + 150)
+    }
+
+
 
     console.log(order)
     function postOrder() {
@@ -101,10 +116,6 @@ function OrderSummaryPage(props) {
             localStorage.setItem('idOrderLastCreated', response.data.id)
             let order = response.data
             postItemOrder(order)
-
-
-
-
 
 
         }).catch(error => {console.log("Erro ao consumir api de post order"+error)})

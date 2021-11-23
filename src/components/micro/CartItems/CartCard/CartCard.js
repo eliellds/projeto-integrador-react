@@ -5,6 +5,7 @@ export default function CartCard(props) {
 
     const [iqty, setQty] = useState(props.qty)
     const [list, setList] = useState(props.list)
+    const [storage, setStorage] = useState(props.storage)
 
     function updateCart(cartItem) {
         localStorage.setItem('cart', JSON.stringify(cartItem));
@@ -79,14 +80,16 @@ export default function CartCard(props) {
                 </a>
 
                 <div className=" col-1 numero quantidade align-content-center text-center">
-                    <button onClick={e => {
+                    {iqty < storage ?<button onClick={e => {
                         e.preventDefault()
                         increaseItem(props.id)
-                    }} className="controle positivo increase-btn">+</button> {iqty}
-                    <button onClick={e => {
+                    }} className="controle positivo increase-btn">+</button>
+                    : <button className="controle limit-btn increase-btn">+</button>} {iqty}
+                    {iqty > 1 ?<button onClick={e => {
                         e.preventDefault()
                         decreaseItem(props.id)
                     }} className="controle negativo decrease-btn" >-</button>
+                    : <button className="controle limit-btn decrease-btn">-</button>}
                 </div>
 
                 <div className="col-2 texto-carrinho text-center">

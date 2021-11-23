@@ -57,12 +57,14 @@ function Product(props) {
     const [item, setItem] = useState();
 
 
-
-
-
     const product = produto || [];
 
     const addToCart = () => {
+
+        let cartList = localStorage.getItem("cart")
+            ? JSON.parse(localStorage.getItem("cart"))
+            : []
+        
         const product = {
             id: produto.product.id,
             price: produto.price,

@@ -25,7 +25,9 @@ function OrderSummaryPage(props) {
                totalDiscount: item.salePrice ? (item.salePrice - item.price)* 1.0 : 0,
                totalPrice : item.salePrice? item.salePrice*1.0 :  item.price* 1.0
             }).then(result => {
-                
+                if(i == cart.length){
+                    window.location.href="/success"
+                }
                 console.log(result)
             }).catch(err => {console.log("Erro ao gravar item"+err)});
         },1
@@ -33,9 +35,8 @@ function OrderSummaryPage(props) {
         })
     }
     function goToSucces(){
-        postOrder()
-      
-       
+        postOrder()  
+        alert("Pedido criado com sucesso!!")
     }
 
     useEffect(() => {

@@ -52,24 +52,55 @@ const initial = {
 
 }
 
-
 function FormShippigAddress(props) {
     const user = JSON.parse(localStorage.getItem('user'))
 
     const [order, setOrder] = useState(initial)
     const [flags, setFlag] = useState([])
 
+    const getAddress = () => {
+        api.get(`/userAddress/myAddress/${user.value.id}`).then(
+            res => {
+                setOrder({ ...order, address: { ...res.data[0].address} })
+            })
+            .catch((err) => {
+                console.error("Erro ao consumir api de Address" + err)
+            })
+    }
+
+    const getTelephone = () => {
+        api.get(`/user/${user.value.id}`).then(
+            res => {
+                setOrder({ ...order, telephone: { ...res.data.telephone} })
+            })
+            .catch((err) => {
+                console.error("Erro ao consumir api de telefone" + err)
+            })
+    }
+
+    const getUfs = () => {
+        return ufs
+    }
+
+    useEffect(() => {
+        getAddress();
+        getTelephone();
+        getUfs();
+
+    }, []);
+
     console.log(order)
     function postOrder() {
-        setOrder({ ...order,   myUser: {...user.value
-            
-        }, card: { ...order.card, dueDate: dueDate + "-01" } })
+        setOrder({
+            ...order, myUser: {
+                ...user.value
+            }, card: { ...order.card, dueDate: dueDate + "-01" }
+        })
         let orderJson = JSON.stringify(order)
 
         localStorage.setItem('order', orderJson)
         window.location.href = "/order"
     }
-
 
     const [displayNoneB, setDisplayNoneB] = useState("d-none")
     const [displayNoneC, setDisplayNoneC] = useState("")
@@ -137,17 +168,16 @@ function FormShippigAddress(props) {
     }
 
     useEffect(() => {
-
         getListPayments()
         getListFlags()
 
     }, [])
 
     // console.log(paymentMethod)
-    function backToCart(){
+    function backToCart() {
         window.location.href = "/cart"
     }
-    
+
     const [ufs, setUfs] = useState([
         { id: 1, subjectDescription: "AC" }, { id: 2, subjectDescription: "AL" }, { id: 3, subjectDescription: "AP" },
         { id: 4, subjectDescription: "AM" }, { id: 5, subjectDescription: "BA" }, { id: 6, subjectDescription: "CE" },
@@ -159,6 +189,7 @@ function FormShippigAddress(props) {
         { id: 22, subjectDescription: "RO" }, { id: 23, subjectDescription: "RR" }, { id: 24, subjectDescription: "SC" },
         { id: 25, subjectDescription: "SP" }, { id: 26, subjectDescription: "SE" }, { id: 27, subjectDescription: "TO" }
     ]);
+
 
     /////////////////// INICIO FUNCOES DE BUSCA E VALIDACAO DE CEP /////////////////////
 
@@ -216,7 +247,7 @@ function FormShippigAddress(props) {
         }
     };
     /////////////////// FIM FUNCOES DE BUSCA E VALIDACAO DE CEP /////////////////////
-    
+
 
     return (
         <>
@@ -226,7 +257,7 @@ function FormShippigAddress(props) {
 
                     <div class="row ">
                         <div class=" col-6  col-sm-6 col-md-3">
-                            <Input change={e => setOrder({ ...order, telephone: { ...order.telephone, number: e.target.value } })} label="Telefone" className="form-input col-12 form-label" type="tel" name="telephone" placeholder="Telefone com DDD" />
+                            <Input value={order.telephone.number} change={e => setOrder({ ...order, telephone: { ...order.telephone, number: e.target.value } })} label="Telefone" className="form-input col-12 form-label" type="tel" name="telephone" placeholder="Telefone com DDD" />
                         </div>
 
                         <div class=" col-6 col-sm-6 col-md-3">
@@ -246,7 +277,7 @@ function FormShippigAddress(props) {
                         </div>
 
                         <div class=" col-3  col-md-4">
-                            <Input change={e => setOrder({ ...order, address: { ...order.address, number: e.target.value } })} label="Numero" className="form-input col-12 form-label" type="text" name="number" placeholder="Digite o número..." />
+                            <Input value={order.address.number} change={e => setOrder({ ...order, address: { ...order.address, number: e.target.value } })} label="Numero" className="form-input col-12 form-label" type="text" name="number" placeholder="Digite o número..." />
                         </div>
 
                         <div class=" col-6 col-md-4">
@@ -254,11 +285,11 @@ function FormShippigAddress(props) {
                         </div>
 
                         <div class=" col-6  col-md-4">
-                            <Input change={e => setOrder({ ...order, address: { ...order.address, complement: e.target.value } })} label="Complemento" className="form-input col-12 form-label" type="text" name="complement" placeholder="Digite o complemento..." />
+                            <Input value={order.address.complement} change={e => setOrder({ ...order, address: { ...order.address, complement: e.target.value } })} label="Complemento" className="form-input col-12 form-label" type="text" name="complement" placeholder="Digite o complemento..." />
                         </div>
 
                         <div class=" col-6 col-md-4">
-                            <Input change={e => setOrder({ ...order, address: { ...order.address, reference: e.target.value } })} label="Referencia" className="form-input col-12 form-label" type="text" name="reference" placeholder="Digite um ponto de referência" />
+                            <Input value={order.address.reference} change={e => setOrder({ ...order, address: { ...order.address, reference: e.target.value } })} label="Referencia" className="form-input col-12 form-label" type="text" name="reference" placeholder="Digite um ponto de referência" />
 
                         </div>
 

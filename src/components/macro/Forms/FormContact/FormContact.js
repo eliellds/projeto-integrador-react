@@ -68,10 +68,10 @@ function FormContact(props) {
                 </div>
                 <div className="row custom-form justify-content-center">
                     <div className="col-12 col-sm-6 col-md-6">
-                        <Input label="E-mail" type="email" id="email" className="form-input col-12" placeholder="Maria@Email.com" change={e => setEmail(e.target.value)} />
+                        <Input label="E-mail" type="email" id="email" className="form-input col-12" placeholder="Digite seu e-mail..." change={e => setEmail(e.target.value)} />
                     </div>
                     <div className="col-12 col-sm-6 col-md-5">
-                        <Input label="Telefone" type="text" id="telephone" className="form-input col-12" placeholder="(00) 00000-0000" change={e => setPhoneNumber(e.target.value)} />
+                        <Input label="Telefone" type="text" id="telephone" className="form-input col-12" placeholder="(99) 99999-9999" change={e => setPhoneNumber(e.target.value)} />
                     </div>
                 </div>
                 <div className="row justify-content-center">

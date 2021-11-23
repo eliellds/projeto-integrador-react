@@ -14,7 +14,9 @@ function CartItems(props) {
     }
 function updateCart(cartItem){
     localStorage.setItem('cart',JSON.stringify(cartItem));
+    
     localStorage.setItem('qtyCart',cartItem.length)
+    window.location.reload()
 }
 
     function remove(id){
@@ -27,6 +29,27 @@ function updateCart(cartItem){
                 window.location.reload()
                 
             }
+        }
+    }
+
+    function increaseItem(id){
+        var cartTemp = JSON.parse(localStorage.getItem('cart'))
+        console.log(cartTemp)
+        for (var i = 0; i < cartTemp.length; i){
+            if(id==cartTemp[i].id){
+                if(cartTemp[i].storage > cartTemp[i].qty){
+                    cartTemp[i].qty = 1 + cartTemp[i].qty
+                
+                    updateCart(cartTemp);
+                    return console.log(cartTemp)
+
+                }else{
+                    return  alert("produto sem estoque")
+                    
+
+                }
+            }
+            
         }
     }
 
@@ -52,7 +75,9 @@ function updateCart(cartItem){
                     </a>
                     
                     <div className=" col-1 numero quantidade align-content-center text-center">
-                        <button href="#" className="controle positivo increase-btn">+</button> 1 <button href="" className="controle negativo decrease-btn">-</button>
+                        <button  onClick={e=>{e.preventDefault()
+                                increaseItem(product.id)
+                        }} className="controle positivo increase-btn">+</button> {product.qty} <button href="" className="controle negativo decrease-btn">-</button>
                     </div>
 
                     <div className="col-2 texto-carrinho text-center">

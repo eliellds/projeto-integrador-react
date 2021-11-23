@@ -23,7 +23,7 @@ const initial = {
             description: ""
         },
         quantity: 1,
-        image: "padrao.png"
+        image:"padrao.png"
     },
     price: 0,
     salePrice: 0,
@@ -41,17 +41,16 @@ function Product(props) {
     const id = props.match.params.id;
     console.log(props);
 
-    const [produto, setProduto] = useState(initial);
+    const [produto, setProduto] = useState({...initial});
+    function chargeProduct(){
+        api.get("/products/"+id).then( (response) => setProduto(response.data) ).catch((err) => {
+            console.error("Erro ao consumir API" + err);
 
+        });
+     
+    }
     useEffect(() => {
-        api.get("/products/" + id).then((response) => setProduto({ ...response.data })).catch((err) => {
-            console.error("Erro ao consumir API" + err);
-
-        });
-        api.get("/products/" + id).then((response) => setItem(response.data.product)).catch((err) => {
-            console.error("Erro ao consumir API" + err);
-
-        });
+        chargeProduct()
 
     }, []);
 

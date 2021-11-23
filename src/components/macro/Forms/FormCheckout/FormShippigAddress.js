@@ -13,7 +13,8 @@ import Select from "../../../micro/Forms/Select/Select";
 const initial = {
 
     myUser: {
-        id: 0
+        id: 0,
+        email:"",
     },
     payment: {
         id: 2
@@ -61,40 +62,38 @@ function FormShippigAddress(props) {
     const getAddress = () => {
         api.get(`/userAddress/myAddress/${user.value.id}`).then(
             res => {
-                setOrder({ ...order, address: { ...res.data[0].address} })
+                getTelephone(res.data[0].address)
             })
             .catch((err) => {
                 console.error("Erro ao consumir api de Address" + err)
             })
     }
 
-    const getTelephone = () => {
+    useEffect(() => {
+        getAddress();
+        getUfs();
+    }, []);
+
+    const getTelephone = (address) => {
         api.get(`/user/${user.value.id}`).then(
             res => {
-                setOrder({ ...order, telephone: { ...res.data.telephone} })
+                setOrder({ ...order, myUser: {email:res.data.email, id:res.data.id}, telephone: { ...res.data.telephone }, address: {...address} })
             })
             .catch((err) => {
                 console.error("Erro ao consumir api de telefone" + err)
             })
+
     }
 
     const getUfs = () => {
         return ufs
     }
 
-    useEffect(() => {
-        getAddress();
-        getTelephone();
-        getUfs();
-
-    }, []);
-
     console.log(order)
+
     function postOrder() {
         setOrder({
-            ...order, myUser: {
-                ...user.value
-            }, card: { ...order.card, dueDate: dueDate + "-01" }
+            ...order, card: { ...order.card, dueDate: dueDate + "-01" }
         })
         let orderJson = JSON.stringify(order)
 
@@ -113,7 +112,6 @@ function FormShippigAddress(props) {
     )
     let change = false
     const history = useHistory()
-
 
     function changeComponent() {
         if (change) {
@@ -248,7 +246,6 @@ function FormShippigAddress(props) {
     };
     /////////////////// FIM FUNCOES DE BUSCA E VALIDACAO DE CEP /////////////////////
 
-
     return (
         <>
             <FormDefault id="address" title="Dados de entrega" action="/order">
@@ -257,26 +254,31 @@ function FormShippigAddress(props) {
 
                     <div class="row ">
                         <div class=" col-6  col-sm-6 col-md-3">
-                            <Input value={order.telephone.number} change={e => setOrder({ ...order, telephone: { ...order.telephone, number: e.target.value } })} label="Telefone" className="form-input col-12 form-label" type="tel" name="telephone" placeholder="Telefone com DDD" />
+                            <Input  value={order.telephone.number} change={e => setOrder({ ...order, telephone: { ...order.telephone, number: e.target.value } })} label="Telefone" className="form-input col-12 form-label" type="tel" name="telephone" placeholder="Telefone com DDD" />
+                        </div>
+
+                        <div class=" col-6  col-sm-6 col-md-4">
+                            <Input  value={order.myUser.email} change={e => setOrder({ ...order, myUser: { ...order.myUser, email: e.target.value } })} label="E-mail:" className="form-input col-12 form-label" type="mail" name="email" placeholder="E-mail para contato" />
                         </div>
 
                         <div class=" col-6 col-sm-6 col-md-3">
                             <InputCep className="form-input col-12 form-label" length="9" blur={buscarCep} value={order.address.cep} label="CEP" type="text" id="cep" className="form-input col-12" placeholder="Digite seu CEP..." change={e => setOrder({ ...order, address: { ...order.address, cep: e.target.value } })} />
                         </div>
 
-                        <div class=" col-6 col-sm-6 col-md-4">
-                            <Input value={order.address.city} change={e => setOrder({ ...order, address: { ...order.address, city: e.target.value } })} label="Cidade" className="form-input col-12 form-label" type="text" name="city" placeholder="Digite a cidade..." />
-                        </div>
-
                         <div class=" col-6 col-sm-6 col-md-2">
                             <Select label="Estado" options={ufs} selected={order.address.state} change={e => setOrder({ ...order, address: { ...order.address, state: e.target.value } })} default="Estado:" />
                         </div>
 
-                        <div class=" col-9 col-md-8">
+                        <div class=" col-6 col-sm-6 col-md-4">
+                            <Input value={order.address.city} change={e => setOrder({ ...order, address: { ...order.address, city: e.target.value } })} label="Cidade" className="form-input col-12 form-label" type="text" name="city" placeholder="Digite a cidade..." />
+                        </div>
+
+                        
+                        <div class=" col-9 col-md-6">
                             <Input value={order.address.street} change={e => setOrder({ ...order, address: { ...order.address, street: e.target.value } })} label="Logradouro" className="form-input col-12 form-label" type="text" name="street" placeholder="Digite o logradouro..." />
                         </div>
 
-                        <div class=" col-3  col-md-4">
+                        <div class=" col-3  col-md-2">
                             <Input value={order.address.number} change={e => setOrder({ ...order, address: { ...order.address, number: e.target.value } })} label="Numero" className="form-input col-12 form-label" type="text" name="number" placeholder="Digite o número..." />
                         </div>
 

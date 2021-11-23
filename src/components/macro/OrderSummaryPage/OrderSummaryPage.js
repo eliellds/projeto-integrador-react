@@ -25,7 +25,9 @@ function OrderSummaryPage(props) {
                totalDiscount: item.salePrice ? (item.salePrice - item.price)* 1.0 : 0,
                totalPrice : item.salePrice? item.salePrice*1.0 :  item.price* 1.0
             }).then(result => {
-                
+                if(i == cart.length){
+                    window.location.href="/success"
+                }
                 console.log(result)
             }).catch(err => {console.log("Erro ao gravar item"+err)});
         },1
@@ -33,10 +35,8 @@ function OrderSummaryPage(props) {
         })
     }
     function goToSucces(){
-        postOrder()
-        alert("Pedido criado!") 
-        window.location.href = "/success"
-       
+        postOrder()  
+        alert("Pedido criado com sucesso!!")
     }
 
     useEffect(() => {
@@ -91,7 +91,7 @@ function OrderSummaryPage(props) {
     function postOrder() {
   
         api.post(`/orders`, {
-            ...order,myUser: {id:user.value.id},            
+            ...order,      
             amount: parseFloat(localStorage.getItem('total')),
             qtyTotal: localStorage.getItem('qtyCart'),
             totalDiscounts: localStorage.getItem('discount'),

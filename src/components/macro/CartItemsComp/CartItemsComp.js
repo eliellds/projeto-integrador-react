@@ -24,6 +24,10 @@ function CartItemsComp(props) {
     function increase() {
         
     }
+
+    function deacrease(){
+        
+    }
     
 
     useEffect(() => {
@@ -78,7 +82,7 @@ function CartItemsComp(props) {
 
             <div className=" container personalizado-carrinho p-0 pl-md-1 pr-md-1  ">
 
-                {qtyCart >= 1 ? <CartItems increase={increase}/> :
+                {qtyCart >= 1 ? <CartItems increase={increase} descrease={deacrease}/> :
                     <div className="m-5 justify-content-center">
                         <p className="text-center">Está meio vazio aqui, não? Confira nossas promoções e outros itens da loja!</p>
                     </div>}

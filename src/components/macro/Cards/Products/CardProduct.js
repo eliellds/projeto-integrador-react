@@ -17,7 +17,8 @@ function CardProduct(props) {
             salePrice: props.salePrice,
             product: props.product,
             year: props.year,
-            image: props.image
+            image: props.image,
+            storage: props.qty
         }
         let cartList = localStorage.getItem("cart")
             ? JSON.parse(localStorage.getItem("cart"))
@@ -29,6 +30,8 @@ function CardProduct(props) {
 
         window.location.href = "/cart";
     }
+
+    
 
 
     const preco = () => {

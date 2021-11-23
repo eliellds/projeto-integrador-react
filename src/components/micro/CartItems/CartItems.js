@@ -18,6 +18,12 @@ function CartItems(props) {
     //     for(var i = )
     // }
 
+    function renderQty() {
+        productItems.map((product) => {
+            
+        })
+    }
+
     function imageRender(image) {
         var imgSrc = require(`../../../assets/images/products/${image}`);
         console.log(imgSrc)
@@ -40,11 +46,11 @@ function CartItems(props) {
                     </a>
                     
                     <div className=" col-1 numero quantidade align-content-center text-center">
-                        <button href="#" className="controle positivo increase-btn">+</button> 1 <button href="" className="controle negativo decrease-btn">-</button>
+                        <button onClick={props.increase()} className="controle positivo increase-btn">+</button> 1 <button href="" className="controle negativo decrease-btn">-</button>
                     </div>
 
                     <div className="col-2 texto-carrinho text-center">
-                        <span className="numero">{product.salePrice?product.salePrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }):product.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
+                         <span className="numero">{product.salePrice?product.salePrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }):product.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
                     </div>
                     
                     <div className="col-2 ">

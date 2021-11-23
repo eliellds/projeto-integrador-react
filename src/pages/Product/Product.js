@@ -57,23 +57,24 @@ function Product(props) {
     const [item, setItem] = useState();
 
 
-
-
-
     const product = produto || [];
 
     const addToCart = () => {
+
+        let cartList = localStorage.getItem("cart")
+            ? JSON.parse(localStorage.getItem("cart"))
+            : []
+        
         const product = {
             id: produto.product.id,
             price: produto.price,
             salePrice: produto.salePrice,
             product: produto.product.product,
             year: produto.product.year,
-            image: produto.product.image
+            image: produto.product.image,
+            storage: produto.qty
         }
-        let cartList = localStorage.getItem("cart")
-            ? JSON.parse(localStorage.getItem("cart"))
-            : []
+        
         cartList.push(product)
         let cartString = JSON.stringify(cartList)
         localStorage.setItem("cart", cartString)

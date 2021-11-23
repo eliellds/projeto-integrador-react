@@ -12,11 +12,23 @@ function CartItems(props) {
     function setQtyCart() {
         return qtyCart
     }
+function updateCart(cartItem){
+    localStorage.setItem('cart',JSON.stringify(cartItem));
+    localStorage.setItem('qtyCart',cartItem.length)
+}
 
-    // function remover(id){
-
-    //     for(var i = )
-    // }
+    function remove(id){
+        var cartTemp = JSON.parse(localStorage.getItem('cart'))
+        console.log(cartTemp)
+        for (var i = 0; i < cartTemp.length; i++){
+            if(cartTemp[i].id == id){
+                cartTemp.splice(i, 1);
+                updateCart(cartTemp);
+                window.location.reload()
+                
+            }
+        }
+    }
 
     function renderQty() {
         productItems.map((product) => {
@@ -54,7 +66,11 @@ function CartItems(props) {
                     </div>
                     
                     <div className="col-2 ">
-                        <a href="#" className="removerCarrinho row justify-content-center">
+                        <a onClick={e =>{e.preventDefault() 
+                           remove(product.id)                   
+                        
+                        
+                        }}  href="#" className="removerCarrinho row justify-content-center">
                             <img className="remover col-7 col-md-4" src={Remove} alt="" width="20px"/>
                         </a>
                     </div>

@@ -12,30 +12,32 @@ const user = JSON.parse(localStorage.getItem('user'))
 function OrderSummaryPage(props) {
 
     const [order, setOrder] = useState(initial)
-    
+    const [parcelas, setParcelas] =useState()
+
     function postItemOrder(order) {
         let i = 0
         localStorageRemoveOrder()
         return cart.map(function (item) {
-            setTimeout(function (){
-            api.post("/itemsOrder", { productsDTO: { id: item.id },
-             compositeKey: { orderDTO: order, idItem: ++i },
-              quantity: 1, 
-                unityDiscount: item.salePrice ? item.salePrice - item.price : 0,
-               totalDiscount: item.salePrice ? (item.salePrice - item.price)* 1.0 : 0,
-               totalPrice : item.salePrice? item.salePrice*1.0 :  item.price* 1.0
-            }).then(result => {
-                if(i == cart.length){
-                    window.location.href="/success"
-                }
-                console.log(result)
-            }).catch(err => {console.log("Erro ao gravar item"+err)});
-        },1
+            setTimeout(function () {
+                api.post("/itemsOrder", {
+                    productsDTO: { id: item.id },
+                    compositeKey: { orderDTO: order, idItem: ++i },
+                    quantity: 1,
+                    unityDiscount: item.salePrice ? item.salePrice - item.price : 0,
+                    totalDiscount: item.salePrice ? (item.salePrice - item.price) * 1.0 : 0,
+                    totalPrice: item.salePrice ? item.salePrice * 1.0 : item.price * 1.0
+                }).then(result => {
+                    if (i == cart.length) {
+                        window.location.href = "/success"
+                    }
+                    console.log(result)
+                }).catch(err => { console.log("Erro ao gravar item" + err) });
+            }, 1
             )
         })
     }
-    function goToSucces(){
-        postOrder()  
+    function goToSucces() {
+        postOrder()
         alert("Pedido criado com sucesso!!")
     }
 
@@ -58,8 +60,9 @@ function OrderSummaryPage(props) {
             setOrder(initial)
 
         }).catch((err) => {
-            
-            console.log("Falha ao consumir api" + err) })
+
+            console.log("Falha ao consumir api" + err)
+        })
 
         setTimeout(() => { callback() }, 1)
     }
@@ -68,6 +71,8 @@ function OrderSummaryPage(props) {
 
             console.log(order)
             initial = { ...initial, payment: result.data }
+            var parcelas = (20000/result.data.installments).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            console.log(parcelas)
             console.log(order)
             setOrder(initial)
 
@@ -89,15 +94,16 @@ function OrderSummaryPage(props) {
 
     console.log(order)
     function postOrder() {
-  
+
         api.post(`/orders`, {
-            ...order,      
+            ...order,
             amount: parseFloat(localStorage.getItem('total')),
             qtyTotal: localStorage.getItem('qtyCart'),
             totalDiscounts: localStorage.getItem('discount'),
-            card:{...order.card, dueDate:"2021-12-10"}
+            card: { ...order.card, dueDate: "2021-12-10" }
+
         }).then(response => {
-            
+
             localStorage.setItem('idOrderLastCreated', response.data.id)
             let order = response.data
             postItemOrder(order)
@@ -107,7 +113,7 @@ function OrderSummaryPage(props) {
 
 
 
-        }).catch(error => {console.log("Erro ao consumir api de post order"+error)})
+        }).catch(error => { console.log("Erro ao consumir api de post order" + error) })
 
     }
 
@@ -131,7 +137,8 @@ function OrderSummaryPage(props) {
                     </ul>
 
                     <div className="container col-12 col-lg-5 mx-0">
-                        <OrderInfo titulo="Pagamento" primeiraLinha={order.card.flag.description + " " + order.payment.description} segundaLinha="" terceiraLinha={order.payment.installments} />
+                        <OrderInfo titulo="Pagamento" primeiraLinha={order.card.flag.description + " " + order.payment.description} segundaLinha="" terceiraLinha={order.payment.installments} terceiraLinha1={parcelas} />
+                        
                         <OrderInfo titulo="Endereço de entrega" primeiraLinha={order.address.street + ", " + order.address.number + "-" + order.address.district + ", " + order.address.city} segundaLinha={order.address.complement} terceiraLinha={order.address.reference} />
                     </div>
 
@@ -139,7 +146,7 @@ function OrderSummaryPage(props) {
 
                 <div className="d-flex justify-content-between">
                     <Button navigation route="/checkout" class="btn-retorno align-self-center" label="voltar" />
-                    <Button onclick={ goToSucces} class="btn-comprar " label="Finalizar"/>
+                    <Button onclick={goToSucces} class="btn-comprar " label="Finalizar" />
                 </div>
 
 

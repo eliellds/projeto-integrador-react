@@ -34,8 +34,7 @@ function OrderSummaryPage(props) {
     }
     function goToSucces(){
         postOrder()
-        alert("Pedido criado!") 
-        window.location.href = "/success"
+      
        
     }
 
@@ -91,7 +90,7 @@ function OrderSummaryPage(props) {
     function postOrder() {
   
         api.post(`/orders`, {
-            ...order,myUser: {id:user.value.id},            
+            ...order,
             amount: parseFloat(localStorage.getItem('total')),
             qtyTotal: localStorage.getItem('qtyCart'),
             totalDiscounts: localStorage.getItem('discount'),

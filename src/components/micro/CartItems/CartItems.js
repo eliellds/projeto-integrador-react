@@ -58,7 +58,7 @@ function updateCart(cartItem){
                     </a>
                     
                     <div className=" col-1 numero quantidade align-content-center text-center">
-                        <button onClick={props.increase()} className="controle positivo increase-btn">+</button> 1 <button href="" className="controle negativo decrease-btn">-</button>
+                        <button href="#" className="controle positivo increase-btn">+</button> 1 <button href="" className="controle negativo decrease-btn">-</button>
                     </div>
 
                     <div className="col-2 texto-carrinho text-center">

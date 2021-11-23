@@ -75,9 +75,6 @@ function Product(props) {
             qty:1, 
             storage:produto.qty
         }
-        let cartList = localStorage.getItem("cart")
-            ? JSON.parse(localStorage.getItem("cart"))
-            : []
             console.log(cartList)
             if (cartList.length >0) {
                 for (var i = 0; i <= cartList.length; ++i) {

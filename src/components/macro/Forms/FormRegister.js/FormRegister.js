@@ -145,7 +145,7 @@ function FormRegister(props) {
 
     // buscar email na base para saber se já foi cadastrado
     const checkMail = (email) => {
-        api.get('/user/email/' + email).then((response) => {
+        api.get('/user/checkEmail/' + email).then((response) => {
             if (response.data) {
                 setValid({ ...isValid, email: false })
                 console.log("Email já cadastrado!")

@@ -13,6 +13,11 @@ export default function CartCard(props) {
         window.location.reload()
     }
 
+    useEffect(() => {
+        setQty(props.qty)
+        setList(props.list)
+    }, [])
+
     function remove(id) {
         var cartTemp = JSON.parse(localStorage.getItem('cart'))
         console.log(cartTemp)

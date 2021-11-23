@@ -42,8 +42,8 @@ function CartItemsComp(props) {
             cartItems.map(product => {
                 {
                     product.salePrice
-                    ? valor = valor + product.salePrice
-                    : valor = valor + product.price
+                    ? valor = (valor + product.salePrice) * product.qty
+                    : valor = (valor + product.price) * product.qty
                 }
             })
         }

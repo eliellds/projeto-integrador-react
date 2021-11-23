@@ -85,7 +85,9 @@ export default function CartCard(props) {
                 </div>
 
                 <div className="col-2 texto-carrinho text-center">
-                    <span className="numero">{props.salePrice ? props.salePrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : props.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
+                    <span className="numero">{props.salePrice 
+                    ? (props.salePrice * iqty).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) 
+                    : (props.price * iqty).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
                 </div>
 
                 <div className="col-2 ">

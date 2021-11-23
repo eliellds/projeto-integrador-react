@@ -69,7 +69,8 @@ function ListProducts(props) {
                     <Slide index={index = index++}  >
 
                         <div className="row lista-cards  tamanho  mb-3 justify-content-center">
-                            <ListProduct id={product.product.id} image={product.product.image} year={product.product.year} product={product.product.product} price={product.price} salePrice={product.salePrice}></ListProduct>
+                            <ListProduct id={product.product.id} image={product.product.image} year={product.product.year} product={product.product.product} price={product.price} salePrice={product.salePrice}
+                            qty={product.qty}/>
                         </div>
                     </Slide>
                     

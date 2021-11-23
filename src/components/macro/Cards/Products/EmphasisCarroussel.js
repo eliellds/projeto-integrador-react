@@ -10,7 +10,13 @@ function CarrousselEmphasis(props) {
         let indexEmphasis=0
         return products.map((product=>{
             return <Emphasis variable={indexEmphasis++%2==0? true : false }
-             image={product.product.image} price={product.price} salePrice={product.salePrice} product={product.product.product} year={product.product.year} id={product.product.id} />
+            id={product.product.id}
+            image={product.product.image}
+            product={product.product.product}
+            year={product.product.year}
+            price={(product.price)}
+            salePrice={(product.salePrice)}
+            qty={(product.qty)} />
         }))
 
 

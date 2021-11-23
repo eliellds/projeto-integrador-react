@@ -41,7 +41,7 @@ const initial = {
         dueDate: "",
         flag:
         {
-            id: 0
+            id: 1
 
         }
     },

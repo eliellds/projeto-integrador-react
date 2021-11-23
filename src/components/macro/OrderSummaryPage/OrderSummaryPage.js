@@ -106,7 +106,7 @@ function OrderSummaryPage(props) {
     function postOrder() {
   
         api.post(`/orders`, {
-            ...order,      
+            ...order,
             amount: parseFloat(localStorage.getItem('total')),
             qtyTotal: localStorage.getItem('qtyCart'),
             totalDiscounts: localStorage.getItem('discount'),

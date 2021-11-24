@@ -31,8 +31,8 @@ function OrderSummaryPage(props) {
             if (item.id == id) {
                 {
                     item.salePrice
-                    ? unityDiscount = (item.price - item.salePrice)
-                    : unityDiscount = unityDiscount
+                        ? unityDiscount = (item.price - item.salePrice)
+                        : unityDiscount = unityDiscount
                 }
             }
         })
@@ -46,8 +46,8 @@ function OrderSummaryPage(props) {
             if (item.id == id) {
                 {
                     item.salePrice
-                    ? totalDiscount = (item.price - item.salePrice) * item.qty
-                    : totalDiscount = totalDiscount
+                        ? totalDiscount = (item.price - item.salePrice) * item.qty
+                        : totalDiscount = totalDiscount
                 }
             }
         })
@@ -61,14 +61,31 @@ function OrderSummaryPage(props) {
             if (item.id == id) {
                 {
                     item.salePrice
-                    ? totalPrice = totalPrice + (item.salePrice * item.qty)
-                    : totalPrice = totalPrice + (item.price * item.qty)
+                        ? totalPrice = totalPrice + (item.salePrice * item.qty)
+                        : totalPrice = totalPrice + (item.price * item.qty)
                 }
             }
         })
         return totalPrice
     }
 
+    // função que calcula o valor das parcelas
+    function calcInstallments() {
+        let installmentsPrice = 0
+        let valor = 0
+        if (cart) {
+            cart.map(product => {
+                {
+                    product.salePrice
+                        ? installmentsPrice = (valor + (product.salePrice * product.qty)) / order.payment.installments
+                        : installmentsPrice = (valor + (product.price * product.qty)) / order.payment.installments
+
+                    installmentsPrice = installmentsPrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+                }
+            })
+        }
+        return installmentsPrice
+    }
 
     function postItemOrder(order) {
         let i = 0
@@ -122,21 +139,19 @@ function OrderSummaryPage(props) {
 
         setTimeout(() => { callback() }, 1)
     }
+
     function getPayments() {
         api.get(`/payments/${order.payment.id}`).then((result) => {
 
             console.log(order)
             initial = { ...initial, payment: result.data }
-            var parcelas = (20000/result.data.installments).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-            console.log(parcelas)
             console.log(order)
             setOrder(initial)
-
-
 
         }).catch((err) => { console.log("Falha ao consumir api" + err) })
 
     }
+
     function localStorageRemoveOrder() {
         localStorage.removeItem('order')
         localStorage.removeItem('total')
@@ -180,8 +195,8 @@ function OrderSummaryPage(props) {
             cart.map(product => {
                 {
                     product.salePrice
-                    ? discount = discount + ((product.price - product.salePrice) * product.qty)
-                    : discount = discount
+                        ? discount = discount + ((product.price - product.salePrice) * product.qty)
+                        : discount = discount
                 }
             })
         }
@@ -192,9 +207,9 @@ function OrderSummaryPage(props) {
         let sub = 0
         if (cart) {
             cart.map(product => {
-                
-                 sub = sub + (product.price * product.qty)
-                
+
+                sub = sub + (product.price * product.qty)
+
             })
         }
         return sub
@@ -241,8 +256,8 @@ function OrderSummaryPage(props) {
                     </ul>
 
                     <div className="container col-12 col-lg-5 mx-0">
-                        <OrderInfo titulo="Pagamento" primeiraLinha={order.card.flag.description + " " + order.payment.description} segundaLinha="" terceiraLinha={order.payment.installments} terceiraLinha1={1} />
-                        
+                        <OrderInfo titulo="Pagamento" primeiraLinha={order.card.flag.description + " " + order.payment.description} segundaLinha="" terceiraLinha={order.payment.installments + " x de "} terceiraLinha1={calcInstallments()} />
+
                         <OrderInfo titulo="Endereço de entrega" primeiraLinha={order.address.street + ", " + order.address.number + "-" + order.address.district + ", " + order.address.city} segundaLinha={order.address.complement} terceiraLinha={order.address.reference} />
                     </div>
 

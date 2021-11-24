@@ -54,11 +54,10 @@ function Home(props) {
             <h2 id="novidades">Novidades</h2>
 
             {/* <!-- Inicio lista cards produtos novidades --> */}
-            <div className="container container-cards">
+        
                 <ListProducts products={news}/>
           
 
-            </div>
         </>
     )
 }

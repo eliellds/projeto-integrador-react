@@ -11,7 +11,7 @@ function Checkout(props) {
     return (
         <>
             <main class="container-fluid mb-4">
-
+                
                 <FormShippigAddress />
 
                 {/* <FormDataCard/> */}

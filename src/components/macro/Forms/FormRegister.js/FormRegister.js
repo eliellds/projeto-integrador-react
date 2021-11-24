@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react"
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Input from "../../../micro/Forms/Input/Input"
 import Button from "../../../micro/Button/Button"
 import { useHistory } from "react-router"
@@ -6,6 +7,8 @@ import api from "../../../../services/api"
 import InputHook from "../../../micro/Forms/Input/InputHook"
 import { useForm } from "react-hook-form"; // lembrar de fazer npm install para instalar a biblioteca react-hook-form
 import { ErrorMessage } from "@hookform/error-message"; // lembrar de fazer npm install para instalar a biblioteca error-message
+import InputCep from "../../../micro/Forms/Input/InputCep"
+import Select from "../../../micro/Forms/Select/Select"
 
 const initial = {
     firstName: "",
@@ -19,9 +22,102 @@ const initial = {
     born: "",
     password: ""
 }
-
+const initialAddress = {
+    id: 0,
+    cep: "",
+    street: "",
+    number: "",
+    complement: "",
+    district: "",
+    reference: "",
+    city: "",
+    state: ""
+}
 
 function FormRegister(props) {
+    // Endereços
+    const [address, setAddress] = useState({ ...initialAddress });
+    const [ufs, setUfs] = useState([
+        { id: 1, subjectDescription: "AC" }, { id: 2, subjectDescription: "AL" }, { id: 3, subjectDescription: "AP" },
+        { id: 4, subjectDescription: "AM" }, { id: 5, subjectDescription: "BA" }, { id: 6, subjectDescription: "CE" },
+        { id: 7, subjectDescription: "DF" }, { id: 8, subjectDescription: "ES" }, { id: 9, subjectDescription: "GO" },
+        { id: 10, subjectDescription: "MA" }, { id: 11, subjectDescription: "MS" }, { id: 12, subjectDescription: "MT" },
+        { id: 13, subjectDescription: "MG" }, { id: 14, subjectDescription: "PA" }, { id: 15, subjectDescription: "PB" },
+        { id: 16, subjectDescription: "PR" }, { id: 17, subjectDescription: "PE" }, { id: 18, subjectDescription: "PI" },
+        { id: 19, subjectDescription: "RJ" }, { id: 20, subjectDescription: "RN" }, { id: 21, subjectDescription: "RS" },
+        { id: 22, subjectDescription: "RO" }, { id: 23, subjectDescription: "RR" }, { id: 24, subjectDescription: "SC" },
+        { id: 25, subjectDescription: "SP" }, { id: 26, subjectDescription: "SE" }, { id: 27, subjectDescription: "TO" }
+    ]);
+
+    const getUfs = () => {
+        return ufs
+    }
+
+    useEffect(() => {
+        getUfs();
+    }, []);
+
+    useEffect(() => { })
+    console.log(address)
+
+
+    /////////////////// INICIO FUNCOES DE BUSCA E VALIDACAO DE CEP /////////////////////
+
+    function limpa_formulário_cep() {
+        //Limpa valores do formulário de cep.
+        setAddress({ ...address, street: "", district: "", city: "", state: "", number: "", complement: "", reference: "" });
+    }
+
+    function meu_callback(conteudo) {
+        console.log(conteudo)
+        if (!("erro" in conteudo)) {
+            //Atualiza os campos com os valores.
+            setAddress({ ...address, street: conteudo.logradouro, district: conteudo.bairro, city: conteudo.localidade, state: conteudo.uf })
+        } //end if.
+        else {
+            //CEP não Encontrado.
+            limpa_formulário_cep();
+            alert("CEP não encontrado.");
+        }
+    }
+
+    function pesquisacep(e) {
+
+        const valor = e.target.value
+
+        //Nova variável "cep" somente com dígitos.
+        const cep = valor.replace(/\D/g, '');
+
+        //Verifica se campo cep possui valor informado.
+        if (cep != "") {
+
+            //Expressão regular para validar o CEP.
+            var validacep = /^[0-9]{8}$/;
+
+            //Valida o formato do CEP.
+            if (validacep.test(cep)) {
+
+                //Preenche os campos com "..." enquanto consulta webservice.
+                setAddress({ ...address, street: "...", district: "...", city: "...", state: "...", number: "", complement: "", reference: "" });
+
+                fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                    .then(res => res.json())
+                    .then(data => meu_callback(data))
+
+            } //end if.
+            else {
+                //cep é inválido.
+                limpa_formulário_cep();
+                alert("Formato de CEP inválido.");
+            }
+        } //end if.
+        else {
+            //cep sem valor, limpa formulário.
+            limpa_formulário_cep();
+        }
+    };
+    /////////////////// FIM FUNCOES DE BUSCA E VALIDACAO DE CEP /////////////////////
+
 
     // desfragmentando as funcoes e objetos da biblioteca
     const { register, handleSubmit, watch, formState: { errors }, reset, clearErrors, setError } = useForm();
@@ -49,7 +145,7 @@ function FormRegister(props) {
 
     // buscar email na base para saber se já foi cadastrado
     const checkMail = (email) => {
-        api.get('/user/email/' + email).then((response) => {
+        api.get('/user/checkEmail/' + email).then((response) => {
             if (response.data) {
                 setValid({ ...isValid, email: false })
                 console.log("Email já cadastrado!")
@@ -74,9 +170,13 @@ function FormRegister(props) {
             // setValid({ ...isValid, cpfCheck: true })
         })
     }
+    // desabilita botão cadastrar após o click
+    const [disable, setDisable] = React.useState(false);
 
     // funcao async executada recebendo o parametro data do register do react-hook-form
     const registration = async data => {
+
+        setDisable(true)
 
         if (isValid.cpf == false) {
             return alert("CPF inválido!")
@@ -101,17 +201,47 @@ function FormRegister(props) {
             password: data.senha
         })
 
-
         api.post('/sign-up', newUser).then((response) => {
             console.log(response)
             window.alert("Cadastrado com successo!")
+            sendAddress(response.data.id)
             goBackTo()
         }).catch((error) => {
             window.alert("Erro ao cadastrar")
             console.log(error)
         })
-
     }
+
+    function sendAddress(userId) {
+        api.post("/address", address)
+            .then((response) => {
+                console.log(response)
+                idAddreess(userId, response.data.id)
+            })
+            .catch((err) => {
+                console.error("Erro ao criar endereço" + err)
+            })
+    }
+
+    function idAddreess(userId, addressId) {
+        const userAddress = {
+            id: {
+                idUser: userId
+            },
+            description: "",
+            address: {
+                id: addressId
+            }
+        }
+        api.post("/userAddress", userAddress)
+            .then((response) => {
+                console.log(response)
+            })
+            .catch((err) => {
+                console.error("Erro criar endereço" + err)
+            })
+    }
+
 
     const [isValid, setValid] = useState({
         cpf: true,
@@ -230,7 +360,7 @@ function FormRegister(props) {
     return (
         <>
             <div className="row justify-content-center">
-                <div className="row custom-form">
+                <div className="row custom-form d-flex justify-content-center">
                     <div className="nome col-12 col-md-4">
 
 
@@ -263,7 +393,7 @@ function FormRegister(props) {
                             className="form-input col-12"
                             placeholder="Ex.: dos Santos" />
                     </div>
-                    <div className="nascimento col-12 col-md-3">
+                    <div className="nascimento col-12 col-md-2">
                         <InputHook hook // hook eh a props para input padrao com a verificacao
                             name="data" // name sera utilizado no componente para fazer as comparacoes
                             register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
@@ -278,7 +408,7 @@ function FormRegister(props) {
                     </div>
                 </div>
 
-                <div className="row custom-form">
+                <div className="row custom-form d-flex justify-content-center">
 
                     <div className="cpf col-12 col-sm-6 col-md-3">
                         <InputHook // hook eh a props para input padrao com a verificacao
@@ -320,7 +450,7 @@ function FormRegister(props) {
                             placeholder="(00) 00000-0000" />
                     </div>
 
-                    <div className="email col-12 col-md-6">
+                    <div className="email col-12 col-md-5">
                         <InputHook hook // hook eh a props para input padrao com a verificacao
                             name="email" // name sera utilizado no componente para fazer as comparacoes
                             register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
@@ -339,9 +469,52 @@ function FormRegister(props) {
 
                 </div>
 
-                <div className="row custom-form">
 
-                    <div className="senha col-12 col-sm-6 col-md-6">
+                <div className="row custom-form d-flex justify-content-center">
+                    <div className=" col-12 col-md-3">
+                        {/* INPUT PARA BUSCA DE CEP AO CLICAR FORA DO FORMULARIO. 
+                        LENGTH == LIMITE DE CARACTERES NO INPUT 
+                        (POR ENQUANTO 9 PENSANDO NA MÁSCARA QUE INSERE "-") */}
+                        <InputCep length="9" blur={pesquisacep} value={address.cep} label="CEP" type="text" id="cep" className="form-input col-12" placeholder="Digite seu CEP..." change={e => setAddress({ ...address, cep: e.target.value })} />
+                    </div>
+
+                    <div className=" col-12 col-md-6">
+                        <Input value={address.street} label="Logradouro" type="text" id="rua" className="form-input col-12" placeholder="Digite o logradouro..." change={e => setAddress({ ...address, street: e.target.value })} />
+                    </div>
+
+                    <div className=" col-12 col-md-2">
+                        <Input value={address.number} label="Número" type="text" id="rua" className="form-input col-12" placeholder="Digite o número..." change={e => setAddress({ ...address, number: e.target.value })} />
+                    </div>
+
+                </div>
+
+                <div className="row custom-form d-flex justify-content-center">
+
+                    <div className="col-12 col-md-5">
+                        <Input value={address.complement} label="Complemento" type="text" id="complemento" className="form-input col-12" placeholder="Digite o complemento..." change={e => setAddress({ ...address, complement: e.target.value })} />
+                    </div>
+                    <div className="col-12 col-md-6">
+                        <Input value={address.district} label="Bairro" type="text" id="bairro" className="form-input col-12" placeholder="Digite seu bairro..." change={e => setAddress({ ...address, district: e.target.value })} />
+                    </div>
+
+                </div>
+
+                <div className="row custom-form d-flex justify-content-center">
+                    <div className="col-12 col-md-4">
+                        <Input value={address.reference} label="Ponto de referência" type="text" id="ponto-referencia" className="form-input col-12" placeholder="Digite um ponto de referência..." change={e => setAddress({ ...address, reference: e.target.value })} />
+                    </div>
+                    <div className="col-12 col-md-5">
+                        <Input value={address.city} label="Cidade" type="text" id="cidade" className="form-input col-12" placeholder="Digite sua cidade..." change={e => setAddress({ ...address, city: e.target.value })} />
+                    </div>
+
+                    <div className="col-12 col-md-2">
+                        <Select label="Estado:" options={ufs} selected={address.state} change={e => setAddress({ ...address, state: e.target.value })} default="Estado" />
+                    </div>
+
+                </div>
+                <div className="row custom-form d-flex justify-content-around">
+
+                    <div className="senha col-12 col-sm-6 col-md-5">
 
                         {/* componente 'InputPassword' criado por haver uma particularidade nesse input especifico */}
 
@@ -358,9 +531,11 @@ function FormRegister(props) {
                             id="senha"
                             className="form-input col-12 form-control"
                             placeholder="Defina uma senha" />
+                            <small>A senha deve conter no mínimo 8 caracteres, uma letra e um número</small>
                     </div>
+                    
 
-                    <div className="confirmarSenha col-12 col-sm-6 col-md-6">
+                    <div className="confirmarSenha col-12 col-sm-6 col-md-5">
                         <InputHook confirm // confirm eh a props que indica que eh o segundo campo de senha, o campo de confirmacao
                             name="confirmarSenha"
                             register={register}
@@ -384,7 +559,7 @@ function FormRegister(props) {
                 {/* no onclick, eh executada a funcao 'handleSubmit' do hook-form, 
                 a qual ira exibir os erros de cada campo preenchido incorretamente,
                 ou ira executar a funcao callback passada para ela caso o formulario esteja corretamente preenchido */}
-                <Button onclick={handleSubmit(registration)} label="Cadastrar" class="btn-confirmacao" />
+                <Button onclick={handleSubmit(registration)} disabled={disable} label="Cadastrar" class="btn-confirmacao" />
             </div>
         </>
     )

@@ -25,6 +25,7 @@ function ListProductsCatalogy(props){
             year={product.product.year}
             price={(product.price)}
             salePrice={(product.salePrice)}
+            qty={(product.qty)}
             
             />
             </>

@@ -23,7 +23,7 @@ const initial = {
             description: ""
         },
         quantity: 1,
-        image: "padrao.png"
+        image:"padrao.png"
     },
     price: 0,
     salePrice: 0,
@@ -41,17 +41,16 @@ function Product(props) {
     const id = props.match.params.id;
     console.log(props);
 
-    const [produto, setProduto] = useState(initial);
+    const [produto, setProduto] = useState({...initial});
+    function chargeProduct(){
+        api.get("/products/"+id).then( (response) => setProduto(response.data) ).catch((err) => {
+            console.error("Erro ao consumir API" + err);
 
+        });
+     
+    }
     useEffect(() => {
-        api.get("/products/" + id).then((response) => setProduto({ ...response.data })).catch((err) => {
-            console.error("Erro ao consumir API" + err);
-
-        });
-        api.get("/products/" + id).then((response) => setItem(response.data.product)).catch((err) => {
-            console.error("Erro ao consumir API" + err);
-
-        });
+        chargeProduct()
 
     }, []);
 
@@ -60,24 +59,51 @@ function Product(props) {
     const product = produto || [];
 
     const addToCart = () => {
+
+        let cartList = localStorage.getItem("cart")
+            ? JSON.parse(localStorage.getItem("cart"))
+            : []
+        
         const product = {
             id: produto.product.id,
             price: produto.price,
             salePrice: produto.salePrice,
             product: produto.product.product,
             year: produto.product.year,
-            image: produto.product.image
+            image: produto.product.image,
+            qty:1, 
+            storage:produto.qty
         }
-        let cartList = localStorage.getItem("cart")
-            ? JSON.parse(localStorage.getItem("cart"))
-            : []
-        cartList.push(product)
-        let cartString = JSON.stringify(cartList)
-        localStorage.setItem("cart", cartString)
-        localStorage.setItem('qtyCart', JSON.stringify(cartList.length))
-
-        window.location.href = "/cart";
-    }
+            console.log(cartList)
+            if (cartList.length >0) {
+                for (var i = 0; i <= cartList.length; ++i) {
+                    if (cartList[i].id == product.id) {
+                        if (cartList[i].storage > cartList[i].qty) {
+                            cartList[i].qty = cartList[i].qty + 1
+                            break 
+                        } else {
+                             window.alert("Produto sem estoque")
+                             break
+                        }
+                    } else if (i == cartList.length - 1) {
+                        cartList.push(product)
+                        break
+    
+                    }
+                }
+            } else {
+    
+    
+                cartList.push(product)
+               
+            }
+            let cartString = JSON.stringify(cartList)
+            localStorage.setItem("cart", cartString)
+            localStorage.setItem('qtyCart', JSON.stringify(cartList.length))
+            window.location.href = "/cart";
+    
+        }
+    
 
 
 

@@ -14,7 +14,8 @@ import { MoipValidator } from "moip-sdk-js";
 const initial = {
 
     myUser: {
-        id: 0
+        id: 0,
+        email: "",
     },
     payment: {
         id: 2
@@ -41,7 +42,7 @@ const initial = {
         dueDate: "",
         flag:
         {
-            id: 0
+            id: 1
 
         }
     },
@@ -52,9 +53,35 @@ const initial = {
     deliveryValue: 150,
 
 }
-
+const crypto = require('crypto');
+const alg = 'aes-256-ctr'
+const pwd = 'qwertjose'
 
 function FormShippigAddress(props) {
+
+    function criptCard(num) {
+
+        var text = num
+        var cipher = crypto.createCipher(alg, pwd)
+        var crypted = cipher.update(text, 'utf8', 'hex')
+        return crypted.toString()
+
+
+    }
+
+    function uncriptCard(cript) {
+        var text = "1234789001234"
+        var cipher = crypto.createCipher(alg, pwd)
+        var crypted = cipher.update(text, 'utf8', 'hex')
+        var decipher = crypto.createDecipher(alg,pwd)
+        var uncrypted = decipher.update(crypted, 'hex', 'utf8')
+        return console.log(uncrypted)
+
+
+
+    }
+    uncriptCard()
+
     const user = JSON.parse(localStorage.getItem('user'))
 
     const [order, setOrder] = useState(initial);
@@ -65,15 +92,45 @@ function FormShippigAddress(props) {
     const [inputCVV, setInputCVV] = useState("");
     const [inputCardNumber, setInputCardNumber] = useState("");
 
-    console.log(order)
-    function postOrder() {
-        setOrder({
-            ...order, myUser: {
-                ...user.value
+    const getAddress = () => {
+        api.get(`/userAddress/myAddress/${user.value.id}`).then(
+            res => {
+                getTelephone(res.data[0].address)
+            })
+            .catch((err) => {
+                console.error("Erro ao consumir api de Address" + err)
+            })
+    }
 
-            }, card: { ...order.card, dueDate: inputYear + "-" + inputMonth + "-01" }
-        })
-        let orderJson = JSON.stringify(order)
+    useEffect(() => {
+        getAddress();
+        getUfs();
+    }, []);
+
+    const getTelephone = (address) => {
+        api.get(`/user/${user.value.id}`).then(
+            res => {
+                setOrder({ ...order, myUser: { email: res.data.email, id: res.data.id }, telephone: { ...res.data.telephone }, address: { ...address } })
+            })
+            .catch((err) => {
+                console.error("Erro ao consumir api de telefone" + err)
+            })
+
+    }
+
+    const getUfs = () => {
+        return ufs
+    }
+
+    console.log(order)
+
+    function postOrder() {
+        
+        var tempOrder = {...order}
+        
+        tempOrder =({...tempOrder, card: { ...tempOrder.card, cardNumber: criptCard(tempOrder.card.cardNumber).toString(), dueDate: inputYear + "-" + inputMonth + "-01" }})
+        
+        let orderJson = JSON.stringify(tempOrder)
 
         localStorage.setItem('order', orderJson)
         window.location.href = "/order"
@@ -88,27 +145,27 @@ function FormShippigAddress(props) {
 
             switch (MoipValidator.cardType(cardNumber).brand) {
                 case "VISA":
-                    setOrder({ ...order, card: { ...order.card, flag: { id: 2 } } })
+                    setOrder({ ...order, card: { ...order.card, flag: { id: 2 }, cardNumber: cardNumber } })
                     return setInputBrand("VISA")
                     break;
                 case "MASTERCARD":
-                    setOrder({ ...order, card: { ...order.card, flag: { id: 1 } } })
+                    setOrder({ ...order, card: { ...order.card, flag: { id: 1 }, cardNumber: cardNumber  } })
                     return setInputBrand("MASTERCARD");
                     break;
                 case "AMEX":
-                    setOrder({ ...order, card: { ...order.card, flag: { id: 3 } } })
+                    setOrder({ ...order, card: { ...order.card, flag: { id: 3 }, cardNumber: cardNumber  } })
                     return setInputBrand("AMERICAN EXPRESS");
                     break;
                 case "ELO":
-                    setOrder({ ...order, card: { ...order.card, flag: { id: 4 } } })
+                    setOrder({ ...order, card: { ...order.card, flag: { id: 4 }, cardNumber: cardNumber  } })
                     return setInputBrand("ELO");
                     break;
                 case "HIPERCARD":
-                    setOrder({ ...order, card: { ...order.card, flag: { id: 5 } } })
+                    setOrder({ ...order, card: { ...order.card, flag: { id: 5 }, cardNumber: cardNumber  } })
                     return setInputBrand("HIPERCARD");
                     break;
                 case "DINERS":
-                    setOrder({ ...order, card: { ...order.card, flag: { id: 6 } } })
+                    setOrder({ ...order, card: { ...order.card, flag: { id: 6 }, cardNumber: cardNumber  } })
                     return setInputBrand("DINERS CLUB");
                     break;
                 default:
@@ -146,7 +203,6 @@ function FormShippigAddress(props) {
     )
     let change = false
     const history = useHistory()
-
 
     function changeComponent() {
         if (change) {
@@ -201,7 +257,6 @@ function FormShippigAddress(props) {
     }
 
     useEffect(() => {
-
         getListPayments()
         getListFlags()
 
@@ -223,6 +278,7 @@ function FormShippigAddress(props) {
         { id: 22, subjectDescription: "RO" }, { id: 23, subjectDescription: "RR" }, { id: 24, subjectDescription: "SC" },
         { id: 25, subjectDescription: "SP" }, { id: 26, subjectDescription: "SE" }, { id: 27, subjectDescription: "TO" }
     ]);
+
 
     /////////////////// INICIO FUNCOES DE BUSCA E VALIDACAO DE CEP /////////////////////
 
@@ -281,7 +337,6 @@ function FormShippigAddress(props) {
     };
     /////////////////// FIM FUNCOES DE BUSCA E VALIDACAO DE CEP /////////////////////
 
-
     return (
         <>
             <FormDefault id="address" title="Dados de entrega" action="/order">
@@ -290,27 +345,32 @@ function FormShippigAddress(props) {
 
                     <div class="row ">
                         <div class=" col-6  col-sm-6 col-md-3">
-                            <Input change={e => setOrder({ ...order, telephone: { ...order.telephone, number: e.target.value } })} label="Telefone" className="form-input col-12 form-label" type="tel" name="telephone" placeholder="Telefone com DDD" />
+                            <Input value={order.telephone.number} change={e => setOrder({ ...order, telephone: { ...order.telephone, number: e.target.value } })} label="Telefone" className="form-input col-12 form-label" type="tel" name="telephone" placeholder="Telefone com DDD" />
+                        </div>
+
+                        <div class=" col-6  col-sm-6 col-md-4">
+                            <Input value={order.myUser.email} change={e => setOrder({ ...order, myUser: { ...order.myUser, email: e.target.value } })} label="E-mail:" className="form-input col-12 form-label" type="mail" name="email" placeholder="E-mail para contato" />
                         </div>
 
                         <div class=" col-6 col-sm-6 col-md-3">
                             <InputCep className="form-input col-12 form-label" length="9" blur={buscarCep} value={order.address.cep} label="CEP" type="text" id="cep" className="form-input col-12" placeholder="Digite seu CEP..." change={e => setOrder({ ...order, address: { ...order.address, cep: e.target.value } })} />
                         </div>
 
-                        <div class=" col-6 col-sm-6 col-md-4">
-                            <Input value={order.address.city} change={e => setOrder({ ...order, address: { ...order.address, city: e.target.value } })} label="Cidade" className="form-input col-12 form-label" type="text" name="city" placeholder="Digite a cidade..." />
-                        </div>
-
                         <div class=" col-6 col-sm-6 col-md-2">
                             <Select label="Estado" options={ufs} selected={order.address.state} change={e => setOrder({ ...order, address: { ...order.address, state: e.target.value } })} default="Estado:" />
                         </div>
 
-                        <div class=" col-9 col-md-8">
+                        <div class=" col-6 col-sm-6 col-md-4">
+                            <Input value={order.address.city} change={e => setOrder({ ...order, address: { ...order.address, city: e.target.value } })} label="Cidade" className="form-input col-12 form-label" type="text" name="city" placeholder="Digite a cidade..." />
+                        </div>
+
+
+                        <div class=" col-9 col-md-6">
                             <Input value={order.address.street} change={e => setOrder({ ...order, address: { ...order.address, street: e.target.value } })} label="Logradouro" className="form-input col-12 form-label" type="text" name="street" placeholder="Digite o logradouro..." />
                         </div>
 
-                        <div class=" col-3  col-md-4">
-                            <Input change={e => setOrder({ ...order, address: { ...order.address, number: e.target.value } })} label="Numero" className="form-input col-12 form-label" type="text" name="number" placeholder="Digite o número..." />
+                        <div class=" col-3  col-md-2">
+                            <Input value={order.address.number} change={e => setOrder({ ...order, address: { ...order.address, number: e.target.value } })} label="Numero" className="form-input col-12 form-label" type="text" name="number" placeholder="Digite o número..." />
                         </div>
 
                         <div class=" col-6 col-md-4">
@@ -318,11 +378,11 @@ function FormShippigAddress(props) {
                         </div>
 
                         <div class=" col-6  col-md-4">
-                            <Input change={e => setOrder({ ...order, address: { ...order.address, complement: e.target.value } })} label="Complemento" className="form-input col-12 form-label" type="text" name="complement" placeholder="Digite o complemento..." />
+                            <Input value={order.address.complement} change={e => setOrder({ ...order, address: { ...order.address, complement: e.target.value } })} label="Complemento" className="form-input col-12 form-label" type="text" name="complement" placeholder="Digite o complemento..." />
                         </div>
 
                         <div class=" col-6 col-md-4">
-                            <Input change={e => setOrder({ ...order, address: { ...order.address, reference: e.target.value } })} label="Referencia" className="form-input col-12 form-label" type="text" name="reference" placeholder="Digite um ponto de referência" />
+                            <Input value={order.address.reference} change={e => setOrder({ ...order, address: { ...order.address, reference: e.target.value } })} label="Referencia" className="form-input col-12 form-label" type="text" name="reference" placeholder="Digite um ponto de referência" />
 
                         </div>
 

@@ -47,7 +47,7 @@ function CartItemsComp(props) {
                 }
             })
         }
-        setTotal(valor + 150)
+        setTotal(valor)
     }
 
     function preventDefault(e) {

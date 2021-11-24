@@ -172,7 +172,9 @@ function FormRegister(props) {
     }
     // desabilita botão cadastrar após o click
     const [disable, setDisable] = React.useState(false);
+    //retorna dataFormatada
 
+    
     // funcao async executada recebendo o parametro data do register do react-hook-form
     const registration = async data => {
 
@@ -185,7 +187,6 @@ function FormRegister(props) {
         } else if (isValid.cpfCheck == false) {
             return alert("CPF já cadastrado!")
         }
-
         // objeto newUser recebendo os valores de register 
         // (register guarda os valores dos inputs atraves do props name)
         const newUser = ({
@@ -201,16 +202,36 @@ function FormRegister(props) {
             password: data.senha
         })
 
-        api.post('/sign-up', newUser).then((response) => {
-            console.log(response)
-            window.alert("Cadastrado com successo!")
-            sendAddress(response.data.id)
-            goBackTo()
-        }).catch((error) => {
-            window.alert("Erro ao cadastrar")
-            console.log(error)
-        })
+        //verificação da data de nascimento
+        var dataCurrente = new Date();
+        console.log(newUser.born)
+        var dateCurrent = (dataCurrente.getFullYear()-16)+"-"+dataCurrente.getMonth()+"-"+dataCurrente.getDate()
+
+        if(dateCurrent>newUser.born) {
+           
+                api.post('/sign-up', newUser).then((response) => {
+                console.log(response)
+                window.alert("Cadastrado com successo!")
+                sendAddress(response.data.id)
+                goBackTo()
+            }).catch((error) => {
+                window.alert("Erro ao cadastrar")
+                console.log(error)
+            })
+        }else{
+            setDisable(false)
+            var formatedDateError =  newUser.born
+            var formatedDateError = new Date(formatedDateError)
+            window.alert("Erro ao cadastrar! Data de nascimento invalida: " +formatedDateError.toLocaleDateString('pt-BR', {timeZone: 'UTC'})+ "\n Certifique-se de ter mais de 16 anos ao efetuar o cadastro")
+        }
+            
+         
+
+        // }else{
+
+       
     }
+    
 
     function sendAddress(userId) {
         api.post("/address", address)
@@ -381,7 +402,7 @@ function FormRegister(props) {
                             placeholder="Ex.: Francisca" />
 
                     </div>
-                    <div className="sobrenome col-12 col-md-5">
+                    <div className="sobrenome col-12 col-md-4 col-xl-5">
                         <InputHook hook // hook eh a props para input padrao com a verificacao
                             name="sobrenome" // name sera utilizado no componente para fazer as comparacoes
                             register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
@@ -395,7 +416,7 @@ function FormRegister(props) {
                             className="form-input col-12"
                             placeholder="Ex.: dos Santos" />
                     </div>
-                    <div className="nascimento col-12 col-md-2">
+                    <div className="nascimento col-12 col-md-3 col-xl-2">
                         <InputHook hook // hook eh a props para input padrao com a verificacao
                             name="data" // name sera utilizado no componente para fazer as comparacoes
                             register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente

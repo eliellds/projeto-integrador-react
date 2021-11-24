@@ -1,16 +1,15 @@
 import React from 'react';
 import "./FormContact.css"
-import {useState } from 'react';
+import { useState, useEffect } from 'react';
 import api from '../../../../services/api';
-import Input from '../../../micro/Forms/Input/Input';
 import SelectOptions from '../../../micro/Forms/Select/SelectOption';
 import ModalComp from '../../../micro/Modal/Modal';
 import FormDefault from '../FormDefault/FormDefault';
 import Button from "../../../micro/Button/Button"
-import {useHistory } from 'react-router';
+import { useHistory } from 'react-router';
 import InputHook from '../../../micro/Forms/Input/InputHook';
-import { useForm } from "react-hook-form"; 
-import { ErrorMessage } from "@hookform/error-message"; 
+import { useForm } from "react-hook-form";
+import { ErrorMessage } from "@hookform/error-message";
 
 function FormContact(props) {
 
@@ -21,6 +20,7 @@ function FormContact(props) {
     const [email, setEmail] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
     const [subject, setSubject] = useState("");
+    const { register, handleSubmit, formState: { errors }, clearErrors} = useForm();
 
     function handleShow() {
         return show
@@ -54,26 +54,105 @@ function FormContact(props) {
         sendContact(contact)
     }
 
+    useEffect(() => {
+        document.addEventListener("keydown", function (event) {
+            if (event.keyCode === 13 && event.target.nodeName === "INPUT") {
+                var form = event.target.form;
+                var index = Array.prototype.indexOf.call(form, event.target);
+                form.elements[index + 1].focus();
+                event.preventDefault();
+            }
+        });
+    }, []);
+
+    // const [isValid, setValid] = useState({
+    //     email: true
+    // }) 
+
+    function ValidarTel(e) {
+        setPhoneNumber(e.target.value)
+        setPhoneNumber.toString().replace(/[^0-9]/g, ""); // transforma o valor digitado para apenas numeros
+        clearErrors(["telefone"])
+        return phoneNumber
+    }
+
+    function LimparNome(e) {
+        setName(e.target.value)
+        clearErrors(["nome"])
+    }
+
+    function LimparEmail(e) {
+        setEmail(e.target.value)
+        clearErrors(["email"])
+        return email
+    }
+
     return <>
         <FormDefault title="Contato" className="custom-form-box mx-3 mx-sm-1 mx-lg-4 px-5 px-sm-1 px-lg-4" >
             <div className="row forms-block justify-content-center">
                 <div className="row custom-form justify-content-center">
                     <div className="col-12 col-md-6">
 
-                        <Input change={e => setName(e.target.value)} label="Nome" type="text" id="name" className="form-input col-12" placeholder="Digite seu nome" />
+                    <InputHook hook 
+                            name="nome" 
+                            register={register} 
+                            required={<span className="text-danger">Digite um nome válido e sem números!</span>} 
+                            maxlength={50}
+                            pattern={/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u}
+                            errors={errors}
+                            clear={clearErrors}
+                            label="Nome:"
+                            type="text"
+                            className="form-input col-12"
+                            placeholder="Digite seu nome..." 
+                            change={LimparNome}/>
                     </div>
+
                     <div className="col-12 col-md-5">
-                        <SelectOptions required label="Assunto:"  options={props.options} change={e => setSubject(e.target.value)} />
+                        <SelectOptions required label="Assunto:" options={props.options} change={e => setSubject(e.target.value)} />
                     </div>
+
                 </div>
+
                 <div className="row custom-form justify-content-center">
                     <div className="col-12 col-sm-6 col-md-6">
-                        <Input label="E-mail" type="email" id="email" className="form-input col-12" placeholder="Digite seu e-mail..." change={e => setEmail(e.target.value)} />
+
+                    <InputHook hook
+                            name="email" 
+                            register={register}
+                            required={<span className="text-danger">Digite o email corretamente!</span>}
+                            maxlength={255}
+                            pattern={/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/}
+                            errors={errors}
+                            label="E-mail"
+                            type="email"
+                            id="email"
+                            errors={errors}
+                            className="form-input col-12"
+                            placeholder="Digite seu e-mail..."
+                            change={LimparEmail} />
                     </div>
+
                     <div className="col-12 col-sm-6 col-md-5">
-                        <Input label="Telefone" type="text" id="telephone" className="form-input col-12" placeholder="(99) 99999-9999" change={e => setPhoneNumber(e.target.value)} />
+                    <InputHook 
+                            name="telefone" 
+                            register={register}
+                            maxlength={15} 
+                            minlength={11} 
+                            pattern={/\([1-9]\d\)\s9?\d{4}-\d{4}/}
+                            errors={errors}
+                            mask={phoneNumber.charAt(2) == 9 ? "(99) 99999-9999" : "(99) 9999-9999"}
+                            value={phoneNumber}
+                            change={ValidarTel}
+                            label="Telefone"
+                            type="text"
+                            id="telefone"
+                            className="form-input col-12"
+                            placeholder="(00) 00000-0000" />
                     </div>
+
                 </div>
+
                 <div className="row justify-content-center">
                     <div className="col-12 col-md-11">
                         <label htmlFor="textarea" className="form-label col-12">Deixe sua mensagem:</label>
@@ -85,7 +164,8 @@ function FormContact(props) {
 
             <div className="row justify-content-center pt-3">
                 <Button label="Voltar" onclick={history.goBack} class="btn-retorno mx-5 my-1" />
-                <Button label="Enviar" class="btn-confirmacao mx-5 my-1" onclick={postContact}  />
+                <Button onclick={handleSubmit(postContact)} label="Enviar" class="btn-confirmacao mx-5 my-1" />
+              
             </div>
 
             <div className="row justify-content-around">

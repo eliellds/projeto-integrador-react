@@ -9,6 +9,7 @@ import { useHistory } from "react-router";
 import SelectedFlag from "../../../micro/Forms/Select/SelectedFlag";
 import InputCep from "../../../micro/Forms/Input/InputCep";
 import Select from "../../../micro/Forms/Select/Select";
+import { MoipValidator } from "moip-sdk-js";
 
 const initial = {
 
@@ -56,18 +57,81 @@ const initial = {
 function FormShippigAddress(props) {
     const user = JSON.parse(localStorage.getItem('user'))
 
-    const [order, setOrder] = useState(initial)
-    const [flags, setFlag] = useState([])
+    const [order, setOrder] = useState(initial);
+    const [flags, setFlag] = useState([]);
+    const [inputBrand, setInputBrand] = useState("");
+    const [inputMonth, setInputMonth] = useState("");
+    const [inputYear, setInputYear] = useState("");
+    const [inputCVV, setInputCVV] = useState("");
+    const [inputCardNumber, setInputCardNumber] = useState("");
 
     console.log(order)
     function postOrder() {
-        setOrder({ ...order,   myUser: {...user.value
-            
-        }, card: { ...order.card, dueDate: dueDate + "-01" } })
+        setOrder({
+            ...order, myUser: {
+                ...user.value
+
+            }, card: { ...order.card, dueDate: inputYear + "-" + inputMonth + "-01" }
+        })
         let orderJson = JSON.stringify(order)
 
         localStorage.setItem('order', orderJson)
         window.location.href = "/order"
+    }
+
+    function authCard(e) {
+        var cardNumber = e.target.value
+
+        if (MoipValidator.isValidNumber(cardNumber) == true) {
+
+            console.log(MoipValidator.cardType(cardNumber))
+
+            switch (MoipValidator.cardType(cardNumber).brand) {
+                case "VISA":
+                    setOrder({ ...order, card: { ...order.card, flag: { id: 2 } } })
+                    return setInputBrand("VISA")
+                    break;
+                case "MASTERCARD":
+                    setOrder({ ...order, card: { ...order.card, flag: { id: 1 } } })
+                    return setInputBrand("MASTERCARD");
+                    break;
+                case "AMEX":
+                    setOrder({ ...order, card: { ...order.card, flag: { id: 3 } } })
+                    return setInputBrand("AMERICAN EXPRESS");
+                    break;
+                case "ELO":
+                    setOrder({ ...order, card: { ...order.card, flag: { id: 4 } } })
+                    return setInputBrand("ELO");
+                    break;
+                case "HIPERCARD":
+                    setOrder({ ...order, card: { ...order.card, flag: { id: 5 } } })
+                    return setInputBrand("HIPERCARD");
+                    break;
+                case "DINERS":
+                    setOrder({ ...order, card: { ...order.card, flag: { id: 6 } } })
+                    return setInputBrand("DINERS CLUB");
+                    break;
+                default:
+                    return setInputBrand("Cartão não aceito!")
+            }
+        }
+    }
+
+    function authDateCard() {
+
+
+        if (MoipValidator.isExpiryDateValid(inputMonth, inputYear) == true) {
+            postOrder()
+        } else {
+            console.log("data inválida");
+        }
+    }
+
+    function authCodeCard() {
+
+        if (MoipValidator.isSecurityCodeValid() == true) {
+            
+        }
     }
 
 
@@ -144,10 +208,10 @@ function FormShippigAddress(props) {
     }, [])
 
     // console.log(paymentMethod)
-    function backToCart(){
+    function backToCart() {
         window.location.href = "/cart"
     }
-    
+
     const [ufs, setUfs] = useState([
         { id: 1, subjectDescription: "AC" }, { id: 2, subjectDescription: "AL" }, { id: 3, subjectDescription: "AP" },
         { id: 4, subjectDescription: "AM" }, { id: 5, subjectDescription: "BA" }, { id: 6, subjectDescription: "CE" },
@@ -216,7 +280,7 @@ function FormShippigAddress(props) {
         }
     };
     /////////////////// FIM FUNCOES DE BUSCA E VALIDACAO DE CEP /////////////////////
-    
+
 
     return (
         <>
@@ -276,12 +340,12 @@ function FormShippigAddress(props) {
                 </div>
 
 
-                <div className={`row pagamento justify-content-center ${displayNoneB}`}>
+                {/* <div className={`row pagamento justify-content-center ${displayNoneB}`}>
                     <div className="col-8 justify-content-center text-center ">
                         <input type="text" readonly className="form-control-plaintext justifi-content-center text-center" id="staticEmail"
                             value="Número do boleto: 000000 000000 000000 000000 000000" />
                     </div>
-                </div>
+                </div> */}
 
                 <div className={"row justify-content-center"}>
                     <div className={`row custom-form ${displayNoneC}`}>
@@ -299,22 +363,25 @@ function FormShippigAddress(props) {
                         </div>
 
                         <div className=" col-12 col-md-4">
-                            <Input change={e => setOrder({ ...order, card: { ...order.card, cardNumber: e.target.value } })} label="Numero do Cartão" className="form-input col-12 form-label" type="text" name="cardNumber" placeholder="Ex.: 0000 1111 2222 3333." />
+                            <Input change={authCard} label="Numero do Cartão" className="form-input col-12 form-label" type="text" name="cardNumber" placeholder="Ex.: 0000 1111 2222 3333." />
                         </div>
 
                         <div className=" col-6 col-md-1">
                             <Input /*change={e => validarCvv(e)}*/ label="CVV" className="form-input col-12 form-label" type="text" name="cvv" placeholder="Ex.: 000." />
                         </div>
                         <div className=" col-6 col-md-2">
-                            <SelectedFlag required label="Bandeira" Flags={flags} change={e => setOrder({ ...order, card: { ...order.card, flag: { ...order.card.flag, id: e.target.value } } })} />
+                            {/* <Input label="Bandeira" Flags={flags} change={e => setOrder({ ...order, card: { ...order.card, flag: { ...order.card.flag, id: e.target.value } } })} /> */}
+                            <Input label="Bandeira" disabled value={inputBrand} />
                         </div>
 
 
                         <div className=" col-6 col-md-2">
-
-                            <Input change={e => setDueDate(e.target.value)} label="Vencimento" className="form-input col-12 form-label" type="text" name="dia" placeholder="Mes-Ano" />
-
+                            <div className="row">
+                                <Input change={e => setInputMonth(e.target.value)} label="Mês" classCustom="col-6" type="text" placeholder="MM" />
+                                <Input change={e => setInputYear(e.target.value)} label="Ano" classCustom="col-6" type="text" placeholder="AA" />
+                            </div>
                         </div>
+
 
                         <div className=" col-6 col-md-3">
                             <SelectCard required label="Forma de Pagamento:" paymentMethod={paymentMethod} change={e => setOrder({ ...order, payment: { id: e.target.value } })} />
@@ -325,7 +392,7 @@ function FormShippigAddress(props) {
 
                 <div className="row justify-content-around py-4">
                     <Button label="Voltar" onclick={backToCart} class="btn-retorno" />
-                    <Button onclick={postOrder} label="Finalizar" class="btn-confirmacao" type="submit" />
+                    <Button onclick={authDateCard} label="Finalizar" class="btn-confirmacao" type="submit" />
                 </div>
 
             </FormDefault>

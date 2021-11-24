@@ -8,9 +8,30 @@ import ProductSuccessOrder from "../../micro/productsSucess/productSuccessOrder"
 let initial = JSON.parse(localStorage.getItem('order'))
 const cart = JSON.parse(localStorage.getItem('cart'))
 const user = JSON.parse(localStorage.getItem('user'))
+const crypto = require('crypto');
+const alg = 'aes-256-ctr'
+const pwd = 'qwertjose'
 
 function OrderSummaryPage(props) {
 
+    function uncriptCard(cript) {
+        var decipher = crypto.createDecipher(alg,pwd)
+        var uncrypted = decipher.update(cript, 'hex', 'utf8')
+        console.log(uncrypted)
+        let c = ""             
+        for (let index = 0; index < uncrypted.length; index++) {
+            
+            if(index < uncrypted.length - 4){
+                c = c+"#"
+            }else{
+                c = c+uncrypted.charAt(index)
+            }
+                          
+            
+        }
+        return c
+    }
+  
     const [order, setOrder] = useState(initial)
 
     // funcao para setar a quantidade de cada item no itemOrder, retorna o valor
@@ -258,7 +279,7 @@ function OrderSummaryPage(props) {
 
                         <OrderInfo titulo="Pagamento" 
                                     primeiraLinha={order.payment.description + " - " + order.card.flag.description  } 
-                                    segundaLinha="************1123" 
+                                    segundaLinha={uncriptCard(order.card.cardNumber)}
                                     terceiraLinha={order.payment.installments >= 2 ? order.payment.installments + " x de" : order.payment.installments } terceiraLinha1={order.payment.installments >= 2  ?  calcInstallments() : somar()}
                                     quartaLinha={"Total: " + somar()} />
                     

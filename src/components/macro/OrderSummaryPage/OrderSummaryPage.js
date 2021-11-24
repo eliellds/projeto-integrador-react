@@ -15,23 +15,23 @@ const pwd = 'qwertjose'
 function OrderSummaryPage(props) {
 
     function uncriptCard(cript) {
-        var decipher = crypto.createDecipher(alg,pwd)
+        var decipher = crypto.createDecipher(alg, pwd)
         var uncrypted = decipher.update(cript, 'hex', 'utf8')
         console.log(uncrypted)
-        let c = ""             
+        let c = ""
         for (let index = 0; index < uncrypted.length; index++) {
-            
-            if(index < uncrypted.length - 4){
-                c = c+"#"
-            }else{
-                c = c+uncrypted.charAt(index)
+
+            if (index < uncrypted.length - 4) {
+                c = c + "#"
+            } else {
+                c = c + uncrypted.charAt(index)
             }
-                          
-            
+
+
         }
         return c
     }
-  
+
     const [order, setOrder] = useState(initial)
 
     // funcao para setar a quantidade de cada item no itemOrder, retorna o valor
@@ -125,14 +125,17 @@ function OrderSummaryPage(props) {
                         window.location.href = "/success"
                     }
                     console.log(result)
-                }).catch(err => { console.log("Erro ao gravar item" + err) });
+                }).catch(err => { 
+                    console.log("Erro ao gravar item" + err) 
+                    setDisable(false)
+                });
             }, 1
             )
         })
     }
+
     function goToSucces() {
         postOrder()
-        alert("Pedido criado com sucesso!!")
     }
 
     useEffect(() => {
@@ -236,9 +239,13 @@ function OrderSummaryPage(props) {
         return sub
     }
 
+    // desabilita botão finalizar apos o click
+    const [disable, setDisable] = React.useState(false);
 
     console.log(order)
     function postOrder() {
+
+        setDisable(true)
 
         api.post(`/orders`, {
             ...order,
@@ -250,10 +257,15 @@ function OrderSummaryPage(props) {
 
             localStorage.setItem('idOrderLastCreated', response.data.id)
             let order = response.data
-            postItemOrder(order)
+            if (postItemOrder(order)) {
+                alert("Pedido efetuado com sucesso!!")
+            }
 
 
-        }).catch(error => { console.log("Erro ao consumir api de post order" + error) })
+        }).catch(error => {
+            console.log("Erro ao consumir api de post order" + error)
+            setDisable(false)
+        })
 
     }
 
@@ -277,16 +289,16 @@ function OrderSummaryPage(props) {
 
                     <div className="container col-12 col-lg-5 mx-0">
 
-                        <OrderInfo titulo="Pagamento" 
-                                    primeiraLinha={order.payment.description + " - " + order.card.flag.description  } 
-                                    segundaLinha={uncriptCard(order.card.cardNumber)}
-                                    terceiraLinha={order.payment.installments >= 2 ? order.payment.installments + " x de" : order.payment.installments } terceiraLinha1={order.payment.installments >= 2  ?  calcInstallments() : somar()}
-                                    quartaLinha={"Total: " + somar()} />
-                    
+                        <OrderInfo titulo="Pagamento"
+                            primeiraLinha={order.payment.description + " - " + order.card.flag.description}
+                            segundaLinha={uncriptCard(order.card.cardNumber)}
+                            terceiraLinha={order.payment.installments >= 2 ? order.payment.installments + " x de" : order.payment.installments} terceiraLinha1={order.payment.installments >= 2 ? calcInstallments() : somar()}
+                            quartaLinha={"Total: " + somar()} />
+
                         <OrderInfo titulo="Endereço de entrega"
-                                    primeiraLinha={order.address.street + ","} primeiraLinha1={order.address.number + "."} primeiraLinha2={"Comp: " + order.address.complement}
-                                    segundaLinha={order.address.district + " - "} segundaLinha1={order.address.city + " - "} segundaLinha2={order.address.state}
-                                    terceiraLinha={"CEP: " + order.address.cep} quartaLinha={"Referência: " + order.address.reference} />
+                            primeiraLinha={order.address.street + ","} primeiraLinha1={order.address.number + "."} primeiraLinha2={"Comp: " + order.address.complement}
+                            segundaLinha={order.address.district + " - "} segundaLinha1={order.address.city + " - "} segundaLinha2={order.address.state}
+                            terceiraLinha={"CEP: " + order.address.cep} quartaLinha={"Referência: " + order.address.reference} />
 
                     </div>
 
@@ -295,7 +307,7 @@ function OrderSummaryPage(props) {
                 <div className="d-flex justify-content-between">
 
                     <Button navigation route="/checkout" class="btn-retorno align-self-center" label="voltar" />
-                    <Button onclick={goToSucces} class="btn-comprar " label="Finalizar" />
+                    <Button onclick={goToSucces} disabled={disable} class="btn-comprar " label="Finalizar" />
 
                 </div>
 

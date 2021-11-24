@@ -531,7 +531,9 @@ function FormRegister(props) {
                             id="senha"
                             className="form-input col-12 form-control"
                             placeholder="Defina uma senha" />
+                            <small>A senha deve conter no mínimo 8 caracteres, uma letra e um número</small>
                     </div>
+                    
 
                     <div className="confirmarSenha col-12 col-sm-6 col-md-5">
                         <InputHook confirm // confirm eh a props que indica que eh o segundo campo de senha, o campo de confirmacao

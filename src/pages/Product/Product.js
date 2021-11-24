@@ -56,7 +56,6 @@ function Product(props) {
 
     const [item, setItem] = useState();
 
-
     const product = produto || [];
 
     const addToCart = () => {

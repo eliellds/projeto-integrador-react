@@ -78,6 +78,9 @@ function FormRegister(props) {
         if (!("erro" in conteudo)) {
             //Atualiza os campos com os valores.
             setAddress({ ...address, street: conteudo.logradouro, district: conteudo.bairro, city: conteudo.localidade, state: conteudo.uf })
+            setValue("rua", conteudo.logradouro)
+            setValue("bairro", conteudo.bairro)
+            setValue("cidade", conteudo.localidade)
         } //end if.
         else {
             //CEP não Encontrado.
@@ -89,6 +92,9 @@ function FormRegister(props) {
     function pesquisacep(e) {
 
         const valor = e.target.value
+
+        setValue("cep", valor)
+
 
         //Nova variável "cep" somente com dígitos.
         const cep = valor.replace(/\D/g, '');
@@ -124,8 +130,8 @@ function FormRegister(props) {
     /////////////////// FIM FUNCOES DE BUSCA E VALIDACAO DE CEP /////////////////////
 
 
-    // desfragmentando as funcoes e objetos da biblioteca
-    const { register, handleSubmit, watch, formState: { errors }, reset, clearErrors, setError } = useForm();
+    // desfragmentando as funcoes e objetos da biblioteca react-hook-form
+    const { register, handleSubmit, watch, formState: { errors }, reset, setValue, clearErrors, setError } = useForm();
 
     const [user, setUser] = useState(initial)
     const [passwordConfirm, setConfirm] = useState("")
@@ -154,8 +160,10 @@ function FormRegister(props) {
             if (response.data) {
                 setValid({ ...isValid, email: false })
                 console.log("Email já cadastrado!")
+                return true
             } else {
                 setValid({ ...isValid, email: true })
+                return false
             }
         }).catch((error) => {
             console.log("Erro ao buscar")
@@ -169,9 +177,11 @@ function FormRegister(props) {
             if (response.data) {
                 setValid({ ...isValid, cpf: true, cpfCheck: false })
                 console.log("CPF já cadastrado!")
+                return true
             }
         }).catch((error) => {
             console.log("Erro ao buscar")
+            return false
             // setValid({ ...isValid, cpfCheck: true })
         })
     }
@@ -185,9 +195,9 @@ function FormRegister(props) {
 
         if (isValid.cpf == false) {
             return alert("CPF inválido!")
-        } else if (isValid.email == false) {
+        } else if (checkMail(data.email)) {
             return alert("E-mail já cadastrado!")
-        } else if (isValid.cpfCheck == false) {
+        } else if (checkCPF(user.cpf.toString().replace(/[^0-9]/g, ""))) {
             return alert("CPF já cadastrado!")
         }
 
@@ -315,7 +325,6 @@ function FormRegister(props) {
             return false;
         }
         setValid({ ...isValid, cpf: true })
-        checkCPF(cpf)
         setUser({ ...user, cpf: cpf })
         clearErrors(["cpf"]) // limpa o erro ao clicar no campo CPF quando este exibe erro
         return cpf;
@@ -344,7 +353,6 @@ function FormRegister(props) {
         var email = e.target.value
         setUser({ ...user, email: email })
         clearErrors(["email"])
-        checkMail(email)
         return email
     }
     function LimparSenha(e) {
@@ -353,6 +361,37 @@ function FormRegister(props) {
     function LimparConfirmacao(e) {
         return
     }
+    function LimparRua(e) {
+        clearErrors(["rua"])
+        setAddress({ ...address, street: e.target.value })
+    }
+    function LimparNumero(e) {
+        clearErrors(["numero"])
+        setAddress({ ...address, number: e.target.value })
+    }
+    function LimparBairro(e) {
+        clearErrors(["bairro"])
+        setAddress({ ...address, district: e.target.value })
+        
+    }
+    function LimparCidade(e) {
+        clearErrors(["cidade"])
+        setAddress({ ...address, city: e.target.value })
+    }
+
+    const [cep, setCep] = useState()
+
+    function setInputCep(e) {
+        clearErrors(["cep"])
+        const valor = e.target.value
+
+        //Nova variável "cep" somente com dígitos.
+        const cep = valor.replace(/\D/g, '');
+
+        setAddress({ ...address, cep: cep})
+    }
+
+    console.log(register.options)
 
 
     return (
@@ -412,7 +451,7 @@ function FormRegister(props) {
                         <InputHook // hook eh a props para input padrao com a verificacao
                             name="cpf" // name sera utilizado no componente para fazer as comparacoes
                             register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
-                            required={user.cpf == "" ? <><span className="text-danger">Campo inválido!</span><br/></> : ""} // mensagem de erro que sera exibida caso o campo nao seja valido
+                            required={user.cpf == "" ? <><span className="text-danger">Campo inválido!</span><br /></> : ""} // mensagem de erro que sera exibida caso o campo nao seja valido
                             maxlength={14} // tamanho maximo do campo
                             minlength={11} // tamanho minimo do campo
                             pattern={/([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})/u}
@@ -425,7 +464,7 @@ function FormRegister(props) {
                             className="form-input col-12"
                             placeholder="000.000.000-00" />
                         {isValid.cpf ? "" : <span className="text-danger">Digite um CPF válido! </span>}
-                        {isValid.cpfCheck ? "" : <><br/><span className="text-danger">CPF já cadastrado!</span></>}
+                        {isValid.cpfCheck ? "" : <span className="text-danger">CPF já cadastrado!</span>}
 
                     </div>
 
@@ -458,7 +497,7 @@ function FormRegister(props) {
                             errors={errors}
                             change={LimparEmail}
                             label="E-mail"
-                            type="text"
+                            type="email"
                             id="email"
                             className="form-input col-12"
                             placeholder="exemplo@exemplo.com" />
@@ -473,15 +512,46 @@ function FormRegister(props) {
                         {/* INPUT PARA BUSCA DE CEP AO CLICAR FORA DO FORMULARIO. 
                         LENGTH == LIMITE DE CARACTERES NO INPUT 
                         (POR ENQUANTO 9 PENSANDO NA MÁSCARA QUE INSERE "-") */}
-                        <InputCep length="9" blur={pesquisacep} value={address.cep} label="CEP" type="text" id="cep" className="form-input col-12" placeholder="Digite seu CEP..." change={e => setAddress({ ...address, cep: e.target.value })} />
+                        <InputCep
+                            name="cep" pattern={/^\d{5}-\d{3}$/}
+                            mask={[/[0-9]/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]}
+                            required={<span className="text-danger">Campo inválido!</span>}
+                            blur={pesquisacep}
+                            label="CEP" type="text" id="cep" className="form-input col-12"
+                            placeholder="00000-000"
+                            change={setInputCep} register={register} errors={errors} />
                     </div>
 
                     <div className=" col-12 col-md-6">
-                        <Input value={address.street} label="Logradouro" type="text" id="rua" className="form-input col-12" placeholder="Digite o logradouro..." change={e => setAddress({ ...address, street: e.target.value })} />
+                        <InputHook hook // hook eh a props para input padrao com a verificacao
+                            name="rua" // name sera utilizado no componente para fazer as comparacoes
+                            register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
+                            required={<span className="text-danger">Campo inválido!</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
+                            errors={errors}
+                            minlength={1}
+                            change={LimparRua}
+                            label="Logradouro"
+                            type="text"
+                            placeholder="Digite o logradouro..."
+                            value={address.street}
+                        />
+                        {/* <Input value={address.street} label="Número" type="text" id="rua" className="form-input col-12" placeholder="Digite o número..." change={e => setAddress({ ...address, street: e.target.value })} /> */}
+
                     </div>
 
                     <div className=" col-12 col-md-2">
-                        <Input value={address.number} label="Número" type="text" id="rua" className="form-input col-12" placeholder="Digite o número..." change={e => setAddress({ ...address, number: e.target.value })} />
+                        <InputHook hook // hook eh a props para input padrao com a verificacao
+                            name="numero" // name sera utilizado no componente para fazer as comparacoes
+                            register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
+                            required={<span className="text-danger">Campo inválido!</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
+                            errors={errors}
+                            minlength={1}
+                            change={LimparNumero}
+                            label="Número"
+                            type="text"
+                            placeholder="Digite o número..."
+                        />
+                        {/* <Input value={address.number} label="Número" type="text" id="rua" className="form-input col-12" placeholder="Digite o número..." change={e => setAddress({ ...address, number: e.target.value })} /> */}
                     </div>
 
                 </div>
@@ -492,7 +562,19 @@ function FormRegister(props) {
                         <Input value={address.complement} label="Complemento" type="text" id="complemento" className="form-input col-12" placeholder="Digite o complemento..." change={e => setAddress({ ...address, complement: e.target.value })} />
                     </div>
                     <div className="col-12 col-md-6">
-                        <Input value={address.district} label="Bairro" type="text" id="bairro" className="form-input col-12" placeholder="Digite seu bairro..." change={e => setAddress({ ...address, district: e.target.value })} />
+                        <InputHook hook // hook eh a props para input padrao com a verificacao
+                            name="bairro" // name sera utilizado no componente para fazer as comparacoes
+                            register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
+                            required={<span className="text-danger">Campo inválido!</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
+                            errors={errors}
+                            minlength={1}
+                            change={LimparBairro}
+                            label="Bairro"
+                            type="text"
+                            placeholder="Digite seu bairro..."
+                            value={address.district}
+                        />
+                        {/* <Input value={address.district} label="Bairro" type="text" id="bairro" className="form-input col-12" placeholder="Digite seu bairro..." change={e => setAddress({ ...address, district: e.target.value })} /> */}
                     </div>
 
                 </div>
@@ -502,7 +584,19 @@ function FormRegister(props) {
                         <Input value={address.reference} label="Ponto de referência" type="text" id="ponto-referencia" className="form-input col-12" placeholder="Digite um ponto de referência..." change={e => setAddress({ ...address, reference: e.target.value })} />
                     </div>
                     <div className="col-12 col-md-5">
-                        <Input value={address.city} label="Cidade" type="text" id="cidade" className="form-input col-12" placeholder="Digite sua cidade..." change={e => setAddress({ ...address, city: e.target.value })} />
+                        <InputHook hook // hook eh a props para input padrao com a verificacao
+                            name="cidade" // name sera utilizado no componente para fazer as comparacoes
+                            register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
+                            required={<span className="text-danger">Campo inválido!</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
+                            errors={errors}
+                            minlength={1}
+                            change={LimparCidade}
+                            label="Cidade"
+                            type="text"
+                            placeholder="Digite sua cidade..."
+                            value={address.city}
+                        />
+                        {/* <Input value={address.city} label="Cidade" type="text" id="cidade" className="form-input col-12" placeholder="Digite sua cidade..." change={e => setAddress({ ...address, city: e.target.value })} /> */}
                     </div>
 
                     <div className="col-12 col-md-2">
@@ -519,7 +613,7 @@ function FormRegister(props) {
                         <InputHook hook // hook eh a props para input padrao com a verificacao
                             name="senha" // name sera utilizado no componente para fazer as comparacoes
                             register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
-                            required={<><span className="text-danger">Senha inválida</span><br/></>} // mensagem de erro que sera exibida caso o campo nao seja valido
+                            required={<><span className="text-danger">Senha inválida</span><br /></>} // mensagem de erro que sera exibida caso o campo nao seja valido
                             pattern={/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/} // senha deve ter min 8 caracteres, min uma letra e min um numero
                             errors={errors} // passa o objeto errors para o componente para ser utilizado pelo componente ErrorMessage
                             type="password"
@@ -529,9 +623,9 @@ function FormRegister(props) {
                             id="senha"
                             className="form-input col-12 form-control"
                             placeholder="Defina uma senha" />
-                            <small>A senha deve conter no mínimo 8 caracteres, uma letra e um número</small>
+                        <small>A senha deve conter no mínimo 8 caracteres, uma letra e um número</small>
                     </div>
-                    
+
 
                     <div className="confirmarSenha col-12 col-sm-6 col-md-5">
                         <InputHook confirm // confirm eh a props que indica que eh o segundo campo de senha, o campo de confirmacao
@@ -557,7 +651,7 @@ function FormRegister(props) {
                 {/* no onclick, eh executada a funcao 'handleSubmit' do hook-form, 
                 a qual ira exibir os erros de cada campo preenchido incorretamente,
                 ou ira executar a funcao callback passada para ela caso o formulario esteja corretamente preenchido */}
-                <Button onclick={handleSubmit(registration)} disabled={disable} label={disable?renderLoading():"Cadastrar"} class="btn-confirmacao" />
+                <Button onclick={handleSubmit(registration)} disabled={disable} label={disable ? renderLoading() : "Cadastrar"} class="btn-confirmacao" />
             </div>
         </>
     )

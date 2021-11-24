@@ -147,39 +147,39 @@ function FormShippigAddress(props) {
     const [buttons, setButtons] = useState(
         <>
             <Button class="col-4 cartao forma-pagamento selected-button" label={<H2 h2="Cartão" />}></Button>
-            <Button onclick={changeComponent} class="col-4 forma-pagamento boleto disabled-button" label={<H2 h2="Boleto" />}></Button>
+            {/* <Button onclick={changeComponent} class="col-4 forma-pagamento boleto disabled-button" label={<H2 h2="Boleto" />}></Button> */}
         </>
     )
     let change = false
     const history = useHistory()
 
-    function changeComponent() {
-        if (change) {
-            setButtons(
-                <>
-                    <Button class="col-4 cartao forma-pagamento selected-button" label={<H2 h2="Cartão" />}></Button>
-                    <Button onclick={changeComponent} class="col-4 forma-pagamento boleto disabled-button" label={<H2 h2="Boleto" />}></Button>
-                </>
-            )
-            change = false
-            setDisplayNoneB("d-none")
-            setDisplayNoneC("")
-            console.log("noneC")
-            console.log(change)
-        } else {
-            setButtons(
-                <>
-                    <Button onclick={changeComponent} class="col-4 cartao forma-pagamento disabled-button" label={<H2 h2="Cartão" />}></Button>
-                    <Button class="col-4 forma-pagamento boleto selected-button" label={<H2 h2="Boleto" />}></Button>
-                </>
-            )
-            change = true
-            setDisplayNoneB("")
-            setDisplayNoneC("d-none")
-            console.log("noneB")
-            console.log(change)
-        }
-    }
+    // function changeComponent() {
+    //     if (change) {
+    //         setButtons(
+    //             <>
+    //                 <Button class="col-4 cartao forma-pagamento selected-button" label={<H2 h2="Cartão" />}></Button>
+    //                 <Button onclick={changeComponent} class="col-4 forma-pagamento boleto disabled-button" label={<H2 h2="Boleto" />}></Button>
+    //             </>
+    //         )
+    //         change = false
+    //         setDisplayNoneB("d-none")
+    //         setDisplayNoneC("")
+    //         console.log("noneC")
+    //         console.log(change)
+    //     } else {
+    //         setButtons(
+    //             <>
+    //                 <Button onclick={changeComponent} class="col-4 cartao forma-pagamento disabled-button" label={<H2 h2="Cartão" />}></Button>
+    //                 <Button class="col-4 forma-pagamento boleto selected-button" label={<H2 h2="Boleto" />}></Button>
+    //             </>
+    //         )
+    //         change = true
+    //         setDisplayNoneB("")
+    //         setDisplayNoneC("d-none")
+    //         console.log("noneB")
+    //         console.log(change)
+    //     }
+    // }
 
     const [paymentMethod, setPaymentMethod] = useState("")
 
@@ -420,13 +420,13 @@ function FormShippigAddress(props) {
 
                 </div>
 
-
+{/* 
                 <div className={`row pagamento justify-content-center ${displayNoneB}`}>
                     <div className="col-8 justify-content-center text-center ">
                         <input type="text" readonly className="form-control-plaintext justifi-content-center text-center" id="staticEmail"
                             value="Número do boleto: 000000 000000 000000 000000 000000" />
                     </div>
-                </div>
+                </div> */}
 
                 <div className={"row justify-content-center"}>
                     <div className={`row custom-form ${displayNoneC}`}>
@@ -498,7 +498,7 @@ function FormShippigAddress(props) {
                         </div>
 
                         <div className=" col-6 col-md-3">
-                            <SelectCard required label="Forma de Pagamento:" paymentMethod={paymentMethod} change={e => setOrder({ ...order, payment: { id: e.target.value } })} />
+                            <SelectCard label="Forma de Pagamento:" paymentMethod={paymentMethod} change={e => setOrder({ ...order, payment: { id: e.target.value }})} />
                         </div>
 
                     </div>

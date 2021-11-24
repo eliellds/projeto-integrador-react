@@ -91,7 +91,7 @@ function SuccessPage(props) {
 
     const amountFormated = order.amount.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
     const deliveryFormated = order.deliveryValue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-
+    const installmentsPrice = order.amount / order.payment.installments
 
     function getOrder() {
         api
@@ -154,7 +154,7 @@ function SuccessPage(props) {
                                     primeiraLinha={order.payment.description + " - " + order.card.flag.description} 
                                     segundaLinha={uncriptCard(order.card.cardNumber)} 
                                     terceiraLinha={order.payment.installments >= 2 ? order.payment.installments + " x de" : order.payment.installments } 
-                                    terceiraLinha1={order.payment.installments }
+                                    terceiraLinha1={order.payment.installments >= 2 ? installmentsPrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) :amountFormated}
                                     quartaLinha={"Total: " + amountFormated}
                                      />
 

@@ -1,8 +1,9 @@
 
 import ListProduct from '../Cards/Products/CardProduct'
 import React, { useState, useEffect } from 'react'
-import { CarouselProvider, Slider, Slide } from 'pure-react-carousel';
+import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext } from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
+import './listProductsCarroussel.css'
 
 
 
@@ -53,10 +54,10 @@ function ListProducts(props) {
 
     }
 
- 
 
-    let index=0
-    
+
+    let index = 0
+
     //consome e faz o map do array
     function listarProdutos() {
 
@@ -70,11 +71,12 @@ function ListProducts(props) {
 
                         <div className="row lista-cards  tamanho  mb-3 justify-content-center">
                             <ListProduct id={product.product.id} image={product.product.image} year={product.product.year} product={product.product.product} price={product.price} salePrice={product.salePrice}
-                            qty={product.qty}/>
+                                qty={product.qty} />
                         </div>
+
                     </Slide>
-                    
-                   
+
+
                 </>
                 )
             }
@@ -83,24 +85,33 @@ function ListProducts(props) {
 
 
 
-return <>
+    return <>
 
-    <CarouselProvider
-        naturalSlideWidth={100}
-        naturalSlideHeight={100}
-        totalSlides={products.length}
-        infinite={true}
-        isIntrinsicHeight={true}
-        visibleSlides={visibleSlide}
-        className=" container container-cards"
-    >
-        <Slider >
-            {listarProdutos()}
+        <CarouselProvider
+            naturalSlideWidth={100}
+            naturalSlideHeight={100}
+            totalSlides={products.length}
+            infinite={true}
+            isPlaying={true}
+            interval={2500}
+            step={2}
+            isIntrinsicHeight={true}
+            visibleSlides={visibleSlide}
+            className=" container-fluid "
+        >
+            <div className="row justify-content-around">
+                <ButtonBack className="col-1 customButtonCarroussel text-center">{"<"}</ButtonBack>
 
-        </Slider>
+                <Slider className="col-md-10 col-8">
+                    {listarProdutos()}
 
-    </CarouselProvider>
-</>
+
+                </Slider>
+                <ButtonNext className="col-1 customButtonCarroussel text-center">{">"}</ButtonNext>
+            </div>
+
+        </CarouselProvider>
+    </>
 
 }
 

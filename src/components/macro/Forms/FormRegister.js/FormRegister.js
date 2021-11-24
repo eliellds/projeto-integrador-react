@@ -226,7 +226,9 @@ function FormRegister(props) {
     function idAddreess(userId, addressId) {
         const userAddress = {
             id: {
-                idUser: userId
+                idUser: userId,
+                idAddress: addressId
+
             },
             description: "",
             address: {

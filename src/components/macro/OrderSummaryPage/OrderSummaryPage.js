@@ -15,23 +15,23 @@ const pwd = 'qwertjose'
 function OrderSummaryPage(props) {
 
     function uncriptCard(cript) {
-        var decipher = crypto.createDecipher(alg,pwd)
+        var decipher = crypto.createDecipher(alg, pwd)
         var uncrypted = decipher.update(cript, 'hex', 'utf8')
         console.log(uncrypted)
-        let c = ""             
+        let c = ""
         for (let index = 0; index < uncrypted.length; index++) {
-            
-            if(index < uncrypted.length - 4){
-                c = c+"#"
-            }else{
-                c = c+uncrypted.charAt(index)
+
+            if (index < uncrypted.length - 4) {
+                c = c + "#"
+            } else {
+                c = c + uncrypted.charAt(index)
             }
-                          
-            
+
+
         }
         return c
     }
-  
+
     const [order, setOrder] = useState(initial)
 
     // funcao para setar a quantidade de cada item no itemOrder, retorna o valor
@@ -92,19 +92,11 @@ function OrderSummaryPage(props) {
 
     // função que calcula o valor das parcelas
     function calcInstallments() {
-        let installmentsPrice = 0
-        let valor = 0
-        if (cart) {
-            cart.map(product => {
-                {
-                    product.salePrice
-                        ? installmentsPrice = (valor + (product.salePrice * product.qty)) / order.payment.installments
-                        : installmentsPrice = (valor + (product.price * product.qty)) / order.payment.installments
 
-                    installmentsPrice = installmentsPrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
-                }
-            })
-        }
+        let installmentsPrice = 0
+        installmentsPrice = somar() / order.payment.installments
+        installmentsPrice = installmentsPrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+
         return installmentsPrice
     }
 
@@ -185,13 +177,14 @@ function OrderSummaryPage(props) {
 
     // funcao que soma o valor total do pedido e retorna valor
     function somar() {
-        let valor = 0
+        let valor = 150
         if (cart) {
             cart.map(product => {
                 {
                     product.salePrice
                         ? valor = valor + (product.salePrice * product.qty)
                         : valor = valor + (product.price * product.qty)
+                       
                 }
             })
         }
@@ -273,20 +266,30 @@ function OrderSummaryPage(props) {
 
                         <ProductSuccessOrder desconto={calcularDescontos} total={somar} sub={somarSubTotal} frete={150} />
 
-
                     </ul>
 
                     <div className="container col-12 col-lg-5 mx-0">
-                        <OrderInfo titulo="Pagamento" primeiraLinha={order.card.flag.description + " " + order.payment.description} segundaLinha={uncriptCard(order.card.cardNumber)} terceiraLinha={order.payment.installments + " x de "} terceiraLinha1={calcInstallments()} />
 
-                        <OrderInfo titulo="Endereço de entrega" primeiraLinha={order.address.street + ", " + order.address.number + "-" + order.address.district + ", " + order.address.city} segundaLinha={order.address.complement} terceiraLinha={order.address.reference} />
+                        <OrderInfo titulo="Pagamento"
+                            primeiraLinha={order.payment.description + " - " + order.card.flag.description}
+                            segundaLinha={uncriptCard(order.card.cardNumber)}
+                            terceiraLinha={order.payment.installments >= 2 ? order.payment.installments + " x de" : order.payment.installments} terceiraLinha1={order.payment.installments >= 2 ? calcInstallments() : somar().toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                            quartaLinha={"Total: " + somar().toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} />
+
+                        <OrderInfo titulo="Endereço de entrega"
+                            primeiraLinha={order.address.street + ","} primeiraLinha1={order.address.number + "."} primeiraLinha2={"Comp: " + order.address.complement}
+                            segundaLinha={order.address.district + " - "} segundaLinha1={order.address.city + " - "} segundaLinha2={order.address.state}
+                            terceiraLinha={"CEP: " + order.address.cep} quartaLinha={"Referência: " + order.address.reference} />
+
                     </div>
 
                 </div>
 
                 <div className="d-flex justify-content-between">
+
                     <Button navigation route="/checkout" class="btn-retorno align-self-center" label="voltar" />
                     <Button onclick={goToSucces} class="btn-comprar " label="Finalizar" />
+
                 </div>
 
 

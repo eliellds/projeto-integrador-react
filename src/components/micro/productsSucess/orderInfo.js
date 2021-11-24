@@ -9,11 +9,11 @@ function orderInfo(props) {
 
                     <h4>{props.titulo}</h4>
 
-                    <li class="row pagamento-lista">
-                        <div class="atributos tipo-pagamento ">{props.primeiraLinha} {props.primeiraLinha1} {props.primeiraLinha2}</div>
-                        <div class="atributos numero-cartao">{props.segundaLinha} {props.segundaLinha1} {props.segundaLinha2}</div>
+                    <li class="row pagamento-lista info-sucesso">
+                        <div class="atributos tipo-pagamento info-sucesso ">{props.primeiraLinha} {props.primeiraLinha1} {props.primeiraLinha2}</div>
+                        <div class="atributos numero-cartao info-sucesso">{props.segundaLinha} {props.segundaLinha1} {props.segundaLinha2}</div>
                         <div class="atributos tipo-pagamento info-sucesso">{props.terceiraLinha} {props.terceiraLinha1}</div>
-                        <div class="atributos tipo-pagamento">{props.quartaLinha}</div>
+                        <div class="atributos tipo-pagamento info-sucesso">{props.quartaLinha}</div>
                     </li>
                 </ul>
             </div>

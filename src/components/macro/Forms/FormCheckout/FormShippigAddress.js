@@ -14,7 +14,7 @@ const initial = {
 
     myUser: {
         id: 0,
-        email:"",
+        email: "",
     },
     payment: {
         id: 2
@@ -52,8 +52,35 @@ const initial = {
     deliveryValue: 150,
 
 }
+const crypto = require('crypto');
+const alg = 'aes-256-ctr'
+const pwd = 'qwertjose'
 
 function FormShippigAddress(props) {
+
+    function criptCard(num) {
+
+        var text = num
+        var cipher = crypto.createCipher(alg, pwd)
+        var crypted = cipher.update(text, 'utf8', 'hex')
+        return crypted.toString()
+
+
+    }
+
+    function uncriptCard(cript) {
+        var text = "1234789001234"
+        var cipher = crypto.createCipher(alg, pwd)
+        var crypted = cipher.update(text, 'utf8', 'hex')
+        var decipher = crypto.createDecipher(alg,pwd)
+        var uncrypted = decipher.update(crypted, 'hex', 'utf8')
+        return console.log(uncrypted)
+
+
+
+    }
+    uncriptCard()
+
     const user = JSON.parse(localStorage.getItem('user'))
 
     const [order, setOrder] = useState(initial)
@@ -77,7 +104,7 @@ function FormShippigAddress(props) {
     const getTelephone = (address) => {
         api.get(`/user/${user.value.id}`).then(
             res => {
-                setOrder({ ...order, myUser: {email:res.data.email, id:res.data.id}, telephone: { ...res.data.telephone }, address: {...address} })
+                setOrder({ ...order, myUser: { email: res.data.email, id: res.data.id }, telephone: { ...res.data.telephone }, address: { ...address } })
             })
             .catch((err) => {
                 console.error("Erro ao consumir api de telefone" + err)
@@ -92,10 +119,11 @@ function FormShippigAddress(props) {
     console.log(order)
 
     function postOrder() {
-        setOrder({
-            ...order, card: { ...order.card, dueDate: dueDate + "-01" }
-        })
-        let orderJson = JSON.stringify(order)
+        
+        var tempOrder = {...order}
+        
+        tempOrder =({...tempOrder, card: { ...tempOrder.card, cardNumber: criptCard(tempOrder.card.cardNumber).toString(),dueDate: dueDate + "-01" }})
+        let orderJson = JSON.stringify(tempOrder)
 
         localStorage.setItem('order', orderJson)
         window.location.href = "/order"
@@ -254,11 +282,11 @@ function FormShippigAddress(props) {
 
                     <div class="row ">
                         <div class=" col-6  col-sm-6 col-md-3">
-                            <Input  value={order.telephone.number} change={e => setOrder({ ...order, telephone: { ...order.telephone, number: e.target.value } })} label="Telefone" className="form-input col-12 form-label" type="tel" name="telephone" placeholder="Telefone com DDD" />
+                            <Input value={order.telephone.number} change={e => setOrder({ ...order, telephone: { ...order.telephone, number: e.target.value } })} label="Telefone" className="form-input col-12 form-label" type="tel" name="telephone" placeholder="Telefone com DDD" />
                         </div>
 
                         <div class=" col-6  col-sm-6 col-md-4">
-                            <Input  value={order.myUser.email} change={e => setOrder({ ...order, myUser: { ...order.myUser, email: e.target.value } })} label="E-mail:" className="form-input col-12 form-label" type="mail" name="email" placeholder="E-mail para contato" />
+                            <Input value={order.myUser.email} change={e => setOrder({ ...order, myUser: { ...order.myUser, email: e.target.value } })} label="E-mail:" className="form-input col-12 form-label" type="mail" name="email" placeholder="E-mail para contato" />
                         </div>
 
                         <div class=" col-6 col-sm-6 col-md-3">
@@ -273,7 +301,7 @@ function FormShippigAddress(props) {
                             <Input value={order.address.city} change={e => setOrder({ ...order, address: { ...order.address, city: e.target.value } })} label="Cidade" className="form-input col-12 form-label" type="text" name="city" placeholder="Digite a cidade..." />
                         </div>
 
-                        
+
                         <div class=" col-9 col-md-6">
                             <Input value={order.address.street} change={e => setOrder({ ...order, address: { ...order.address, street: e.target.value } })} label="Logradouro" className="form-input col-12 form-label" type="text" name="street" placeholder="Digite o logradouro..." />
                         </div>

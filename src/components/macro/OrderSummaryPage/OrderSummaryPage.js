@@ -8,9 +8,30 @@ import ProductSuccessOrder from "../../micro/productsSucess/productSuccessOrder"
 let initial = JSON.parse(localStorage.getItem('order'))
 const cart = JSON.parse(localStorage.getItem('cart'))
 const user = JSON.parse(localStorage.getItem('user'))
+const crypto = require('crypto');
+const alg = 'aes-256-ctr'
+const pwd = 'qwertjose'
 
 function OrderSummaryPage(props) {
 
+    function uncriptCard(cript) {
+        var decipher = crypto.createDecipher(alg,pwd)
+        var uncrypted = decipher.update(cript, 'hex', 'utf8')
+        console.log(uncrypted)
+        let c = ""             
+        for (let index = 0; index < uncrypted.length; index++) {
+            
+            if(index < uncrypted.length - 4){
+                c = c+"#"
+            }else{
+                c = c+uncrypted.charAt(index)
+            }
+                          
+            
+        }
+        return c
+    }
+  
     const [order, setOrder] = useState(initial)
     
     function postItemOrder(order) {
@@ -131,7 +152,7 @@ function OrderSummaryPage(props) {
                     </ul>
 
                     <div className="container col-12 col-lg-5 mx-0">
-                        <OrderInfo titulo="Pagamento" primeiraLinha={order.card.flag.description + " " + order.payment.description} segundaLinha="" terceiraLinha={order.payment.installments} />
+                        <OrderInfo titulo="Pagamento" primeiraLinha={order.card.flag.description + " " + order.payment.description} segundaLinha={uncriptCard(order.card.cardNumber)} terceiraLinha={order.payment.installments} />
                         <OrderInfo titulo="Endereço de entrega" primeiraLinha={order.address.street + ", " + order.address.number + "-" + order.address.district + ", " + order.address.city} segundaLinha={order.address.complement} terceiraLinha={order.address.reference} />
                     </div>
 

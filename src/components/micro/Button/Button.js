@@ -19,7 +19,7 @@ function Button(props) {
             )
         } else {
             return (
-                <button type={props.type} onClick={e => clickDvent(e)} className={"btn-custom-default " + props.class}>
+                <button type={props.type} onClick={e => clickDvent(e)} className={"btn-custom-default " + props.class} disabled={props.disabled}>
                     {props.label}
                 </button>
             )

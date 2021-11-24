@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react"
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Input from "../../../micro/Forms/Input/Input"
 import Button from "../../../micro/Button/Button"
 import { useHistory } from "react-router"
@@ -34,7 +35,6 @@ const initialAddress = {
 }
 
 function FormRegister(props) {
-
     // Endereços
     const [address, setAddress] = useState({ ...initialAddress });
     const [ufs, setUfs] = useState([
@@ -145,7 +145,7 @@ function FormRegister(props) {
 
     // buscar email na base para saber se já foi cadastrado
     const checkMail = (email) => {
-        api.get('/user/email/' + email).then((response) => {
+        api.get('/user/checkEmail/' + email).then((response) => {
             if (response.data) {
                 setValid({ ...isValid, email: false })
                 console.log("Email já cadastrado!")
@@ -170,9 +170,13 @@ function FormRegister(props) {
             // setValid({ ...isValid, cpfCheck: true })
         })
     }
+    // desabilita botão cadastrar após o click
+    const [disable, setDisable] = React.useState(false);
 
     // funcao async executada recebendo o parametro data do register do react-hook-form
     const registration = async data => {
+
+        setDisable(true)
 
         if (isValid.cpf == false) {
             return alert("CPF inválido!")
@@ -220,23 +224,24 @@ function FormRegister(props) {
     }
 
     function idAddreess(userId, addressId) {
-        const userAddress={
+        const userAddress = {
             id: {
                 idUser: userId
             },
-            description:"",
+            description: "",
             address: {
                 id: addressId
             }
         }
         api.post("/userAddress", userAddress)
-        .then((response) => {
-            console.log(response)
-        })
-        .catch((err) => {
-            console.error("Erro criar endereço" + err)
-        })
+            .then((response) => {
+                console.log(response)
+            })
+            .catch((err) => {
+                console.error("Erro criar endereço" + err)
+            })
     }
+
 
     const [isValid, setValid] = useState({
         cpf: true,
@@ -526,7 +531,9 @@ function FormRegister(props) {
                             id="senha"
                             className="form-input col-12 form-control"
                             placeholder="Defina uma senha" />
+                            <small>A senha deve conter no mínimo 8 caracteres, uma letra e um número</small>
                     </div>
+                    
 
                     <div className="confirmarSenha col-12 col-sm-6 col-md-5">
                         <InputHook confirm // confirm eh a props que indica que eh o segundo campo de senha, o campo de confirmacao
@@ -552,7 +559,7 @@ function FormRegister(props) {
                 {/* no onclick, eh executada a funcao 'handleSubmit' do hook-form, 
                 a qual ira exibir os erros de cada campo preenchido incorretamente,
                 ou ira executar a funcao callback passada para ela caso o formulario esteja corretamente preenchido */}
-                <Button onclick={handleSubmit(registration)} label="Cadastrar" class="btn-confirmacao" />
+                <Button onclick={handleSubmit(registration)} disabled={disable} label="Cadastrar" class="btn-confirmacao" />
             </div>
         </>
     )

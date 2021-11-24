@@ -4,6 +4,7 @@ import Button from "../../micro/Button/Button"
 import "./OrderSummaryPage.css"
 import api from "../../../services/api";
 import ProductSuccessOrder from "../../micro/productsSucess/productSuccessOrder";
+import Loading from "../../../assets/images/success/loading.gif"
 
 let initial = JSON.parse(localStorage.getItem('order'))
 const cart = JSON.parse(localStorage.getItem('cart'))
@@ -13,6 +14,10 @@ const alg = 'aes-256-ctr'
 const pwd = 'qwertjose'
 
 function OrderSummaryPage(props) {
+
+    function renderLoading() {
+        return <img className="img-loading-btn" src={Loading} alt="Gerando pedido" />
+    }
 
     function uncriptCard(cript) {
         var decipher = crypto.createDecipher(alg, pwd)
@@ -92,36 +97,29 @@ function OrderSummaryPage(props) {
 
     // função que calcula o valor das parcelas
     function calcInstallments() {
-        let installmentsPrice = 0
-        let valor = 0
-        if (cart) {
-            cart.map(product => {
-                {
-                    product.salePrice
-                        ? installmentsPrice = (valor + (product.salePrice * product.qty)) / order.payment.installments
-                        : installmentsPrice = (valor + (product.price * product.qty)) / order.payment.installments
 
-                    installmentsPrice = installmentsPrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
-                }
-            })
-        }
+        let installmentsPrice = 0
+        installmentsPrice = somar() / order.payment.installments
+        installmentsPrice = installmentsPrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+
         return installmentsPrice
     }
 
     function postItemOrder(order) {
         let i = 0
-        localStorageRemoveOrder()
         return cart.map(function (item) {
             setTimeout(function () {
                 api.post("/itemsOrder", {
                     productsDTO: { id: item.id },
                     compositeKey: { orderDTO: order, idItem: ++i },
-                    quantity: setQtyItem(item.id),
+                    quantity: item.qty,
                     unityDiscount: calcUnityDiscount(item.id),
                     totalDiscount: calcTotalDiscount(item.id),
                     totalPrice: calcTotalPrice(item.id)
                 }).then(result => {
-                    if (i == cart.length) {
+                    if (result.data.compositeKey.idItem == cart.length) {
+                        localStorageRemoveOrder()
+                        alert("Pedido gerado com sucesso!")
                         window.location.href = "/success"
                     }
                     console.log(result)
@@ -129,7 +127,7 @@ function OrderSummaryPage(props) {
                     console.log("Erro ao gravar item" + err) 
                     setDisable(false)
                 });
-            }, 1
+            }, 20
             )
         })
     }
@@ -188,13 +186,14 @@ function OrderSummaryPage(props) {
 
     // funcao que soma o valor total do pedido e retorna valor
     function somar() {
-        let valor = 0
+        let valor = 150
         if (cart) {
             cart.map(product => {
                 {
                     product.salePrice
                         ? valor = valor + (product.salePrice * product.qty)
                         : valor = valor + (product.price * product.qty)
+                       
                 }
             })
         }
@@ -257,9 +256,7 @@ function OrderSummaryPage(props) {
 
             localStorage.setItem('idOrderLastCreated', response.data.id)
             let order = response.data
-            if (postItemOrder(order)) {
-                alert("Pedido efetuado com sucesso!!")
-            }
+            postItemOrder(order)
 
 
         }).catch(error => {
@@ -292,8 +289,8 @@ function OrderSummaryPage(props) {
                         <OrderInfo titulo="Pagamento"
                             primeiraLinha={order.payment.description + " - " + order.card.flag.description}
                             segundaLinha={uncriptCard(order.card.cardNumber)}
-                            terceiraLinha={order.payment.installments >= 2 ? order.payment.installments + " x de" : order.payment.installments} terceiraLinha1={order.payment.installments >= 2 ? calcInstallments() : somar()}
-                            quartaLinha={"Total: " + somar()} />
+                            terceiraLinha={order.payment.installments >= 2 ? order.payment.installments + " x de" : order.payment.installments} terceiraLinha1={order.payment.installments >= 2 ? calcInstallments() : somar().toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                            quartaLinha={"Total: " + somar().toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} />
 
                         <OrderInfo titulo="Endereço de entrega"
                             primeiraLinha={order.address.street + ","} primeiraLinha1={order.address.number + "."} primeiraLinha2={"Comp: " + order.address.complement}
@@ -307,7 +304,7 @@ function OrderSummaryPage(props) {
                 <div className="d-flex justify-content-between">
 
                     <Button navigation route="/checkout" class="btn-retorno align-self-center" label="voltar" />
-                    <Button onclick={goToSucces} disabled={disable} class="btn-comprar " label="Finalizar" />
+                    <Button onclick={goToSucces} disabled={disable} class="btn-comprar " label={disable?renderLoading():"Finalizar"} />
 
                 </div>
 

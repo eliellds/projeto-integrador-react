@@ -9,6 +9,9 @@ import { useHistory } from "react-router";
 import SelectedFlag from "../../../micro/Forms/Select/SelectedFlag";
 import InputCep from "../../../micro/Forms/Input/InputCep";
 import Select from "../../../micro/Forms/Select/Select";
+import { useForm } from "react-hook-form"; // lembrar de fazer npm install para instalar a biblioteca react-hook-form
+import { ErrorMessage } from "@hookform/error-message"; // lembrar de fazer npm install para instalar a biblioteca error-message
+import InputHook from "../../../micro/Forms/Input/InputHook"
 
 const initial = {
 
@@ -83,6 +86,11 @@ function FormShippigAddress(props) {
 
     const user = JSON.parse(localStorage.getItem('user'))
 
+    // desfragmentando as funcoes e objetos da biblioteca react-hook-form
+    const { register, handleSubmit, formState: { errors }, reset, clearErrors, setError, setValue } = useForm();
+
+
+
     const [order, setOrder] = useState(initial)
     const [flags, setFlag] = useState([])
 
@@ -101,10 +109,12 @@ function FormShippigAddress(props) {
         getUfs();
     }, []);
 
-    const getTelephone = (address) => {
+    const getTelephone = (addressRes) => {
         api.get(`/user/${user.value.id}`).then(
             res => {
-                setOrder({ ...order, myUser: { email: res.data.email, id: res.data.id }, telephone: { ...res.data.telephone }, address: { ...address } })
+
+                setOrder({ ...order, myUser: { email: res.data.email, id: res.data.id }, telephone: { ...res.data.telephone }, address: { ...addressRes } })
+
             })
             .catch((err) => {
                 console.error("Erro ao consumir api de telefone" + err)
@@ -119,7 +129,9 @@ function FormShippigAddress(props) {
     console.log(order)
 
     function postOrder() {
-        
+        if (cpfCheck == false) {
+            return alert("Preencha os dados corretamente")
+        }
         var tempOrder = {...order}
         
         tempOrder =({...tempOrder, card: { ...tempOrder.card, cardNumber: criptCard(tempOrder.card.cardNumber).toString(),dueDate: dueDate + "-01" }})
@@ -274,6 +286,78 @@ function FormShippigAddress(props) {
     };
     /////////////////// FIM FUNCOES DE BUSCA E VALIDACAO DE CEP /////////////////////
 
+    /////////////////// INICIO FUNCAO DE VALIDAÇÃO DE CPF /////////////////////
+
+    // @see https://incom.in.gov.br/js/util.js
+    function checarCPF(e) {
+        setCheck(true)
+        setCpf(true)
+        clearErrors(["cpf"]) // limpa o erro ao clicar no campo CPF quando este exibe erro
+        var cpf = e.target.value;
+        cpf = cpf.toString().replace(/[^0-9]/g, ""); // transforma os valores digitados para apenas numeros
+
+        let booleano = true
+        if (cpf == "") {
+            // setCheck(false)
+            setCpf("")
+            return false
+        }
+
+        if (cpf.length !== 11 || ['00000000000', '11111111111', '22222222222',
+            '33333333333', '44444444444', '55555555555', '66666666666',
+            '77777777777', '88888888888', '99999999999'].includes(cpf)) {
+            setCheck(false)
+            setCpf("")
+            return false;
+        }
+        var soma = 0;
+        for (let i = 0; i < 9; i++) {
+            soma += parseInt(cpf.charAt(i)) * (10 - i);
+        }
+        var resto = 11 - (soma % 11);
+        if (resto == 10 || resto == 11) {
+            resto = 0;
+        }
+        if (resto != parseInt(cpf.charAt(9))) {
+            setCheck(false)
+            setCpf("")
+            return false;
+        }
+        var soma = 0;
+        for (let i = 0; i < 10; i++) {
+            soma += parseInt(cpf.charAt(i)) * (11 - i);
+        }
+        var resto = 11 - (soma % 11);
+        if (resto == 10 || resto == 11) {
+            resto = 0;
+        }
+        if (resto != parseInt(cpf.charAt(10))) {
+            setCheck(false)
+            setCpf("")
+            return false;
+        }
+        clearErrors(["cpf"]) // limpa o erro ao clicar no campo CPF quando este exibe erro
+        setCheck(true)
+        setCpf(cpf)
+        return cpf;
+    }
+
+    /////////////////// FIM FUNCAO DE VALIDAÇÃO DE CPF /////////////////////
+
+    // limpam o vaor do input ao alterar o campo quando o mesmo tem erro
+
+    function LimparNome(e) {
+        clearErrors(["nome"])
+        setOrder({ ...order, card: { ...order.card, name: e.target.value } })
+    }
+
+    function LimparData(e) {
+        clearErrors(["data"])
+        setOrder({ ...order, card: { ...order.card, birthDate: e.target.value } })
+    }
+
+    const [cpfCheck, setCheck] = useState(true)
+    const [cpfValue, setCpf] = useState("")
     return (
         <>
             <FormDefault id="address" title="Dados de entrega" action="/order">
@@ -348,33 +432,69 @@ function FormShippigAddress(props) {
                     <div className={`row custom-form ${displayNoneC}`}>
 
                         <div className=" col-12 col-md-5">
-                            <Input change={e => setOrder({ ...order, card: { ...order.card, name: e.target.value } })} label="Nome do Titular" className="form-input col-12 form-label" type="text" name="name" placeholder="Nome como está no cartão" />
+                            <InputHook hook // hook eh a props para input padrao com a verificacao
+                                name="nome" // name sera utilizado no componente para fazer as comparacoes
+                                register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
+                                required={<span className="text-danger">Digite um nome válido e sem números!</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
+                                maxlength={50} // tamanho maximo do campo
+                                pattern={/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u}
+                                errors={errors}
+                                clear={clearErrors}
+                                change={LimparNome}
+                                label="Nome Titular"
+                                type="text"
+                                className="form-input col-12"
+                                placeholder="Nome como está no cartão" />
                         </div>
 
                         <div className=" col-6 col-md-4">
-                            <Input change={e => setOrder({ ...order, card: { ...order.card, cpf: e.target.value } })} label="CPF-Titular" className="form-input col-12 form-label" type="text" name="CPF" placeholder="999-999-999-99" />
+                            <InputHook // hook eh a props para input padrao com a verificacao
+                                name="cpf" // name sera utilizado no componente para fazer as comparacoes
+                                register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
+                                required={cpfValue == "" ? <><span className="text-danger">Campo inválido!</span><br/></> : ""} // mensagem de erro que sera exibida caso o campo nao seja valido
+                                maxlength={14} // tamanho maximo do campo
+                                minlength={11} // tamanho minimo do campo
+                                pattern={/([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})/u}
+                                errors={errors}
+                                change={checarCPF}
+                                mask="999.999.999-99" // mascara que sera aplicada
+                                value={cpfValue}
+                                label="CPF Titular"
+                                type="text"
+                                className="form-input col-12"
+                                placeholder="000.000.000-00" />
+                            {cpfCheck ? "" : <span className="text-danger">Digite um CPF a válido! </span>}
+
                         </div>
 
                         <div className=" col-6 col-md-3">
-                            <Input change={e => setOrder({ ...order, card: { ...order.card, birthDate: e.target.value } })} label="Data Nascimento Titular" className="form-input col-12 form-label" type="date" name="birthDate" placeholder="Ex.: Dia/Mês/Ano." />
+                        <InputHook hook // hook eh a props para input padrao com a verificacao
+                            name="data" // name sera utilizado no componente para fazer as comparacoes
+                            register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
+                            required={<span className="text-danger">Digite uma data válida!</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
+                            pattern={/^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$/}
+                            errors={errors}
+                            change={LimparData}
+                            label="Data de Nascimento Titular"
+                            type="date"
+                            className="form-input col-12" />
                         </div>
 
                         <div className=" col-12 col-md-4">
-                            <Input change={e => setOrder({ ...order, card: { ...order.card, cardNumber: e.target.value } })} label="Numero do Cartão" className="form-input col-12 form-label" type="text" name="cardNumber" placeholder="Ex.: 0000 1111 2222 3333." />
+                            <Input change={e => setOrder({ ...order, card: { ...order.card, cardNumber: e.target.value } })} label="Numero do Cartão" className="form-input col-12 form-label" type="text" name="cardNumber" placeholder="Ex.: 0000 1111 2222 3333" />
                         </div>
 
                         <div className=" col-6 col-md-1">
                             <Input /*change={e => validarCvv(e)}*/ label="CVV" className="form-input col-12 form-label" type="text" name="cvv" placeholder="Ex.: 000." />
                         </div>
+
                         <div className=" col-6 col-md-2">
                             <SelectedFlag required label="Bandeira" Flags={flags} change={e => setOrder({ ...order, card: { ...order.card, flag: { ...order.card.flag, id: e.target.value } } })} />
                         </div>
 
 
                         <div className=" col-6 col-md-2">
-
                             <Input change={e => setDueDate(e.target.value)} label="Vencimento" className="form-input col-12 form-label" type="text" name="dia" placeholder="Mes-Ano" />
-
                         </div>
 
                         <div className=" col-6 col-md-3">
@@ -386,7 +506,7 @@ function FormShippigAddress(props) {
 
                 <div className="row justify-content-around py-4">
                     <Button label="Voltar" onclick={backToCart} class="btn-retorno" />
-                    <Button onclick={postOrder} label="Finalizar" class="btn-confirmacao" type="submit" />
+                    <Button onclick={handleSubmit(postOrder)} label="Finalizar" class="btn-confirmacao" type="submit" />
                 </div>
 
             </FormDefault>

@@ -55,7 +55,7 @@ function ProductSuccessOrder(props) {
 
             <div className="valor-total">Desconto total: -&nbsp;<b>{discount.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</b></div>
             <div className="valor-total">Frete: &nbsp;<b>{props.frete.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</b></div>
-            <div className="valor-total">Total: &nbsp;<b> {(total+props.frete).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</b></div>
+            <div className="valor-total">Total: &nbsp;<b> {(total).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</b></div>
         </>
     )
 }

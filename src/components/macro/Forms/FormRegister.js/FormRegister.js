@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form"; // lembrar de fazer npm install para 
 import { ErrorMessage } from "@hookform/error-message"; // lembrar de fazer npm install para instalar a biblioteca error-message
 import InputCep from "../../../micro/Forms/Input/InputCep"
 import Select from "../../../micro/Forms/Select/Select"
+import Loading from "../../../../assets/images/success/loading.gif"
 
 const initial = {
     firstName: "",
@@ -48,6 +49,10 @@ function FormRegister(props) {
         { id: 22, subjectDescription: "RO" }, { id: 23, subjectDescription: "RR" }, { id: 24, subjectDescription: "SC" },
         { id: 25, subjectDescription: "SP" }, { id: 26, subjectDescription: "SE" }, { id: 27, subjectDescription: "TO" }
     ]);
+
+    function renderLoading() {
+        return <img className="img-loading-btn" src={Loading} alt="Gerando pedido" />
+    }
 
     const getUfs = () => {
         return ufs
@@ -209,6 +214,7 @@ function FormRegister(props) {
         }).catch((error) => {
             window.alert("Erro ao cadastrar")
             console.log(error)
+            setDisable(false)
         })
     }
 
@@ -226,7 +232,9 @@ function FormRegister(props) {
     function idAddreess(userId, addressId) {
         const userAddress = {
             id: {
-                idUser: userId
+                idUser: userId,
+                idAddress: addressId
+
             },
             description: "",
             address: {
@@ -249,6 +257,8 @@ function FormRegister(props) {
         cpfCheck: true
     })
 
+    /////////// INICIO DA FUNCAO DE VALIDACAO DE CPF /////////////
+
     // @see https://incom.in.gov.br/js/util.js
     function checarCPF(e) {
         setValid({ ...isValid, cpfCheck: true, cpf: true })
@@ -258,10 +268,6 @@ function FormRegister(props) {
         let booleano = true
         if (cpf == "") {
             setUser({ ...user, cpf: "" })
-            setError("cpf", {
-                type: "focus",
-                message: "",
-            })
         }
         if (cpf.length !== 11 || ['00000000000', '11111111111', '22222222222',
             '33333333333', '44444444444', '55555555555', '66666666666',
@@ -290,10 +296,6 @@ function FormRegister(props) {
             if (cpf != "") {
                 setValid({ ...isValid, cpfCheck: true, cpf: false })
             }
-            setError("cpf", {
-                type: "focus",
-                message: "",
-            })
             return false;
         }
         var soma = 0;
@@ -310,10 +312,6 @@ function FormRegister(props) {
             if (cpf != "") {
                 setValid({ ...isValid, cpfCheck: true, cpf: false })
             }
-            setError("cpf", {
-                type: "focus",
-                message: "",
-            })
             return false;
         }
         setValid({ ...isValid, cpf: true })
@@ -414,7 +412,7 @@ function FormRegister(props) {
                         <InputHook // hook eh a props para input padrao com a verificacao
                             name="cpf" // name sera utilizado no componente para fazer as comparacoes
                             register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
-                            required={user.cpf == "" ? <span className="text-danger">Digite um CPF válido!</span> : ""} // mensagem de erro que sera exibida caso o campo nao seja valido
+                            required={user.cpf == "" ? <><span className="text-danger">Campo inválido!</span><br/></> : ""} // mensagem de erro que sera exibida caso o campo nao seja valido
                             maxlength={14} // tamanho maximo do campo
                             minlength={11} // tamanho minimo do campo
                             pattern={/([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})/u}
@@ -427,7 +425,7 @@ function FormRegister(props) {
                             className="form-input col-12"
                             placeholder="000.000.000-00" />
                         {isValid.cpf ? "" : <span className="text-danger">Digite um CPF válido! </span>}
-                        {isValid.cpfCheck ? "" : <span className="text-danger">CPF já cadastrado!</span>}
+                        {isValid.cpfCheck ? "" : <><br/><span className="text-danger">CPF já cadastrado!</span></>}
 
                     </div>
 
@@ -521,7 +519,7 @@ function FormRegister(props) {
                         <InputHook hook // hook eh a props para input padrao com a verificacao
                             name="senha" // name sera utilizado no componente para fazer as comparacoes
                             register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
-                            required={<span className="text-danger">A senha deve ter no mínimo 8 caracteres, uma letra e um número</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
+                            required={<><span className="text-danger">Senha inválida</span><br/></>} // mensagem de erro que sera exibida caso o campo nao seja valido
                             pattern={/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/} // senha deve ter min 8 caracteres, min uma letra e min um numero
                             errors={errors} // passa o objeto errors para o componente para ser utilizado pelo componente ErrorMessage
                             type="password"
@@ -559,7 +557,7 @@ function FormRegister(props) {
                 {/* no onclick, eh executada a funcao 'handleSubmit' do hook-form, 
                 a qual ira exibir os erros de cada campo preenchido incorretamente,
                 ou ira executar a funcao callback passada para ela caso o formulario esteja corretamente preenchido */}
-                <Button onclick={handleSubmit(registration)} disabled={disable} label="Cadastrar" class="btn-confirmacao" />
+                <Button onclick={handleSubmit(registration)} disabled={disable} label={disable?renderLoading():"Cadastrar"} class="btn-confirmacao" />
             </div>
         </>
     )

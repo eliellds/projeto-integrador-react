@@ -183,12 +183,20 @@ function FormShippigAddress(props) {
     }
 
     function authDateCard() {
+        var dataCurrente = new Date();
+        console.log(order.card.birthDate)
+        var dateCurrent = (dataCurrente.getFullYear()-10)+"-"+dataCurrente.getMonth()+"-"+dataCurrente.getDate()
 
+        if(dateCurrent>order.card.birthDate) {
 
-        if (MoipValidator.isExpiryDateValid(inputMonth, inputYear) == true) {
-            postOrder()
-        } else {
-            console.log("data inválida");
+            if (MoipValidator.isExpiryDateValid(inputMonth, inputYear) == true) {
+                postOrder()
+            } else {
+                console.log("data inválida");
+            }
+        }else{
+            window.alert("Data de nascimento do titular do cartão invalida!"  )
+            
         }
     }
 

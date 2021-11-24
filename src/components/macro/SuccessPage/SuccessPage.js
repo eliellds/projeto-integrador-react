@@ -55,8 +55,31 @@ const initial = {
     amount: 0.0,
     bankSlip: ""
 }
+const crypto = require('crypto');
+const alg = 'aes-256-ctr'
+const pwd = 'qwertjose'
 
 function SuccessPage(props) {
+
+    function uncriptCard(cript) {
+        var decipher = crypto.createDecipher(alg,pwd)
+        var uncrypted = decipher.update(cript, 'hex', 'utf8')
+        console.log(uncrypted)
+        let c = ""             
+        for (let index = 0; index < uncrypted.length; index++) {
+            
+            if(index < uncrypted.length - 4){
+                c = c+"#"
+            }else{
+                c = c+uncrypted.charAt(index)
+            }
+                          
+            
+        }
+        return c
+    }
+    
+
 
     const user = JSON.parse(localStorage.getItem("user"));
     const [order, setOrder] = useState(initial);
@@ -129,7 +152,7 @@ function SuccessPage(props) {
 
                         <OrderInfo titulo="Pagamento"
                                     primeiraLinha={order.payment.description + " - " + order.card.flag.description} 
-                                    segundaLinha="************1123" 
+                                    segundaLinha={uncriptCard(order.card.cardNumber)} 
                                     terceiraLinha={order.payment.installments >= 2 ? order.payment.installments + " x de" : order.payment.installments } 
                                     terceiraLinha1={order.payment.installments }
                                     quartaLinha={"Total: " + amountFormated}

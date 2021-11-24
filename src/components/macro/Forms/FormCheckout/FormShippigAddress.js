@@ -101,10 +101,10 @@ function FormShippigAddress(props) {
         getUfs();
     }, []);
 
-    const getTelephone = (address) => {
+    const getTelephone = (addressRes) => {
         api.get(`/user/${user.value.id}`).then(
             res => {
-                setOrder({ ...order, myUser: { email: res.data.email, id: res.data.id }, telephone: { ...res.data.telephone }, address: { ...address } })
+                setOrder({ ...order, myUser: { email: res.data.email, id: res.data.id }, telephone: { ...res.data.telephone }, address: { ...addressRes } })
             })
             .catch((err) => {
                 console.error("Erro ao consumir api de telefone" + err)

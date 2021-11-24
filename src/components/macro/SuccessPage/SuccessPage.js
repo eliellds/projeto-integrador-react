@@ -147,21 +147,26 @@ function SuccessPage(props) {
                     </ul>
 
                     <div class="container col-12 col-lg-5 mx-0 info-sucesso">
+                    
+                
 
                         <OrderInfo titulo="Pagamento"
-                            primeiraLinha={order.payment.description}
-                            segundaLinha={order.card.flag.description} segundaLinha1={order.payment.installments}
-                            terceiraLinha={"total:"+ amountFormated} />
+                                    primeiraLinha={order.payment.description + " - " + order.card.flag.description} 
+                                    segundaLinha={uncriptCard(order.card.cardNumber)} 
+                                    terceiraLinha={order.payment.installments >= 2 ? order.payment.installments + " x de" : order.payment.installments } 
+                                    terceiraLinha1={order.payment.installments }
+                                    quartaLinha={"Total: " + amountFormated}
+                                     />
 
                         <OrderInfo titulo="Entrega"
-                            primeiraLinha={order.delivery.descricao}
-                            segundaLinha="Prazo estimado para entrega: " segundaLinha1={dataFormatada}
-                            terceiraLinha= {deliveryFormated} />
+                                    primeiraLinha={order.delivery.descricao}
+                                    segundaLinha="Prazo estimado para entrega: " segundaLinha1={dataFormatada}
+                                    terceiraLinha= {deliveryFormated} />
 
                         <OrderInfo titulo="Endereço de entrega"
-                            primeiraLinha={order.address.street + ","} primeiraLinha1={order.address.number} primeiraLinha2={"Comp: " + order.address.complement}
-                            segundaLinha={order.address.district + " - "} segundaLinha1={order.address.city + " - "} segundaLinha2={order.address.state}
-                            terceiraLinha={"CEP: " + order.address.cep} quartaLinha={"Referência: " + order.address.reference} />
+                                    primeiraLinha={order.address.street + ","} primeiraLinha1={order.address.number + "."} primeiraLinha2={"Comp: " + order.address.complement}
+                                    segundaLinha={order.address.district + " - "} segundaLinha1={order.address.city + " - "} segundaLinha2={order.address.state}
+                                    terceiraLinha={"CEP: " + order.address.cep} quartaLinha={"Referência: " + order.address.reference} />
 
                     </div>
 

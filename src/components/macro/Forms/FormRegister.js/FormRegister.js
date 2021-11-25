@@ -196,10 +196,13 @@ function FormRegister(props) {
         setDisable(true)
 
         if (isValid.cpf == false) {
+            setDisable(false)
             return alert("CPF inválido!")
         } else if (checkMail(data.email)) {
+            setDisable(false)
             return alert("E-mail já cadastrado!")
         } else if (checkCPF(user.cpf.toString().replace(/[^0-9]/g, ""))) {
+            setDisable(false)
             return alert("CPF já cadastrado!")
         }
         // objeto newUser recebendo os valores de register 
@@ -232,6 +235,7 @@ function FormRegister(props) {
             }).catch((error) => {
                 window.alert("Erro ao cadastrar")
                 console.log(error)
+                setDisable(false)
             })
         }else{
             setDisable(false)

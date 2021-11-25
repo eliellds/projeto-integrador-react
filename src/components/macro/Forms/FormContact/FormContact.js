@@ -10,6 +10,7 @@ import { useHistory } from 'react-router';
 import InputHook from '../../../micro/Forms/Input/InputHook';
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
+import Loading from "../../../../assets/images/success/loading.gif"
 
 function FormContact(props) {
 
@@ -52,6 +53,7 @@ function FormContact(props) {
         })
 
         sendContact(contact)
+        setDisable(true)
     }
 
     useEffect(() => {
@@ -86,6 +88,14 @@ function FormContact(props) {
         clearErrors(["email"])
         return email
     }
+
+    // imagem de loading
+    function renderLoading() {
+        return <img className="img-loading-btn" src={Loading} alt="Gerando pedido" />
+    }
+
+    // desabilita botão apos o click
+    const [disable, setDisable] = React.useState(false);    
 
     return <>
         <FormDefault title="Contato" className="custom-form-box mx-3 mx-sm-1 mx-lg-4 px-5 px-sm-1 px-lg-4" >
@@ -139,9 +149,10 @@ function FormContact(props) {
                             register={register}
                             maxlength={15} 
                             minlength={11} 
+                            required={<span className="text-danger">Digite o campo com DDD e telefone!</span>}
                             pattern={/\([1-9]\d\)\s9?\d{4}-\d{4}/}
                             errors={errors}
-                            mask={phoneNumber.charAt(2) == 9 ? "(99) 99999-9999" : "(99) 9999-9999"}
+                            mask={phoneNumber.charAt(5) == 9 ? "(99) 99999-9999" : "(99) 9999-9999"}
                             value={phoneNumber}
                             change={ValidarTel}
                             label="Telefone"
@@ -164,7 +175,7 @@ function FormContact(props) {
 
             <div className="row justify-content-center pt-3">
                 <Button label="Voltar" onclick={history.goBack} class="btn-retorno mx-5 my-1" />
-                <Button onclick={handleSubmit(postContact)} label="Enviar" class="btn-confirmacao mx-5 my-1" />
+                <Button onclick={handleSubmit(postContact)} disabled={disable} label={disable ? renderLoading() : "Enviar"} class="btn-confirmacao mx-5 my-1" />
               
             </div>
 

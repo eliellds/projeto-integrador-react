@@ -128,8 +128,6 @@ function FormShippigAddress(props) {
         return ufs
     }
 
-    console.log(order)
-
     function postOrder() {
         if (cpfCheck == false) {
             return alert("Preencha os dados corretamente")
@@ -184,7 +182,6 @@ function FormShippigAddress(props) {
 
     function authDateCard() {
         var dataCurrente = new Date();
-        console.log(order.card.birthDate)
         var dateCurrent = (dataCurrente.getFullYear()-10)+"-"+dataCurrente.getMonth()+"-"+dataCurrente.getDate()
 
         if(dateCurrent>order.card.birthDate) {
@@ -220,33 +217,6 @@ function FormShippigAddress(props) {
     let change = false
     const history = useHistory()
 
-    // function changeComponent() {
-    //     if (change) {
-    //         setButtons(
-    //             <>
-    //                 <Button class="col-4 cartao forma-pagamento selected-button" label={<H2 h2="Cartão" />}></Button>
-    //                 <Button onclick={changeComponent} class="col-4 forma-pagamento boleto disabled-button" label={<H2 h2="Boleto" />}></Button>
-    //             </>
-    //         )
-    //         change = false
-    //         setDisplayNoneB("d-none")
-    //         setDisplayNoneC("")
-    //         console.log("noneC")
-    //         console.log(change)
-    //     } else {
-    //         setButtons(
-    //             <>
-    //                 <Button onclick={changeComponent} class="col-4 cartao forma-pagamento disabled-button" label={<H2 h2="Cartão" />}></Button>
-    //                 <Button class="col-4 forma-pagamento boleto selected-button" label={<H2 h2="Boleto" />}></Button>
-    //             </>
-    //         )
-    //         change = true
-    //         setDisplayNoneB("")
-    //         setDisplayNoneC("d-none")
-    //         console.log("noneB")
-    //         console.log(change)
-    //     }
-    // }
 
     const [paymentMethod, setPaymentMethod] = useState("")
 
@@ -278,7 +248,6 @@ function FormShippigAddress(props) {
 
     }, [])
 
-    // console.log(paymentMethod)
     function backToCart() {
         window.location.href = "/cart"
     }
@@ -304,7 +273,6 @@ function FormShippigAddress(props) {
     }
 
     function meu_callback(conteudo) {
-        console.log(conteudo)
         if (!("erro" in conteudo)) {
             //Atualiza os campos com os valores.
             setOrder({ ...order, address: { ...order.address, street: conteudo.logradouro, district: conteudo.bairro, city: conteudo.localidade, state: conteudo.uf } })
@@ -315,13 +283,15 @@ function FormShippigAddress(props) {
             alert("CEP não encontrado.");
         }
     }
+    
 
     function buscarCep(e) {
 
         const valor = e.target.value
-
+        setValue('cep',valor)
         //Nova variável "cep" somente com dígitos.
         const cep = valor.replace(/\D/g, '');
+        
 
         //Verifica se campo cep possui valor informado.
         if (cep != "") {
@@ -441,7 +411,16 @@ function FormShippigAddress(props) {
                         </div>
 
                         <div class=" col-6 col-sm-6 col-md-3">
-                            <InputCep className="form-input col-12 form-label" length="9" blur={buscarCep} value={order.address.cep} label="CEP" type="text" id="cep" className="form-input col-12" placeholder="Digite seu CEP..." change={e => setOrder({ ...order, address: { ...order.address, cep: e.target.value } })} />
+                        <InputCep
+                            name="cep" pattern={/^\d{5}-\d{3}$/}
+                            mask={[/[0-9]/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]}
+                            required={<span className="text-danger">Campo inválido!</span>}
+                            blur={buscarCep}
+                            label="CEP" type="text" id="cep" className="form-input col-12"
+                            placeholder="00000-000"
+                            change={e =>setOrder({ ...order, address: { ...order.address, cep: e.target.value } }) } register={register} errors={errors}
+                            value={order.address.cep} />
+                            {/* <InputCep className="form-input col-12 form-label" length="9" blur={buscarCep} value={order.address.cep} label="CEP" type="text" id="cep" className="form-input col-12" placeholder="Digite seu CEP..." change={e => setOrder({ ...order, address: { ...order.address, cep: e.target.value } })} /> */}
                         </div>
 
                         <div class=" col-6 col-sm-6 col-md-2">

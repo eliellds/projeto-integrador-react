@@ -5,25 +5,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 function Emphasis(props) {
-    function searchItem(product, cartList) {
-        for (var i = 0; i < cartList.length; i++) {
-            if (cartList[i].id == product.id) {
-                if (cartList[i].storage > cartList[i].qty) {
-                    cartList[i].qty = cartList[i].qty + 1
-                } else {
-                    window.alert("Produto sem estoque")
-                }
-            } else if (i == cartList.length - 1) {
-                cartList.push(product)
+    
 
-            }
-        }
-    }
-
-    const addToCart = () => {
-        let cartList = localStorage.getItem("cart")
-            ? JSON.parse(localStorage.getItem("cart"))
-            : []
+     const addToCart = () => {
         const product = {
             id: props.id,
             price: props.price,
@@ -31,9 +15,13 @@ function Emphasis(props) {
             product: props.product,
             year: props.year,
             image: props.image,
-            storage: props.qty,
-            qty: 1
+            storage:props.qty,
+            qty:1
         }
+        let cartList = localStorage.getItem("cart")
+            ? JSON.parse(localStorage.getItem("cart"))
+            : []
+        
         console.log(cartList)
         if (cartList.length >0) {
             for (var i = 0; i <= cartList.length; ++i) {
@@ -46,15 +34,26 @@ function Emphasis(props) {
                          break
                     }
                 } else if (i == cartList.length - 1) {
-                    cartList.push(product)
-                    break
+                    if (product.storage >=1) {
+                        cartList.push(product)
+                        break 
+                    } else {
+                         window.alert("Produto sem estoque")
+                         break
+                    }
+
 
                 }
             }
         } else {
 
-
-            cartList.push(product)
+            if (product.storage >=1) {
+                cartList.push(product)
+              
+            } else {
+                 window.alert("Produto sem estoque")
+               
+            }
            
         }
         let cartString = JSON.stringify(cartList)
@@ -63,6 +62,8 @@ function Emphasis(props) {
         window.location.href = "/cart";
 
     }
+
+    
 
     const precoDe = (props) => {
 
@@ -85,8 +86,11 @@ function Emphasis(props) {
 
     function image() {
         var imgSrc = require(`../../../../assets/images/products/${props.image}`);
-        console.log(imgSrc)
         return <img className="image-emphasis" src={`${imgSrc.default}`} />
+    }
+    function AlertDefault(){
+        window.alert("Produto sem estoque")
+
     }
     if (props.variable == true) {
         return <>
@@ -102,8 +106,7 @@ function Emphasis(props) {
 
                 <p className={"text-center " + props.salePrice ? "preco-de text-center " : "text-center  preco"}>{props.salePrice ? "De: " + props.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : props.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p>
                 <p className={"text-center preco"}>{props.salePrice ? "Por: " + props.salePrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : ""}</p>
-                <Button label={props.qty == 0 ? "Sem estoque" : "Comprar"} onclick={addToCart} class="btn-categoria py-2 px-0" />
-
+                <Button label={props.qty == 0 ? "Sem Estoque" : "Comprar"} disabled={props.qty == 0? true: false} onclick={props.qty == 0 ?AlertDefault:addToCart} class={props.qty != 0 ?"btn-categoria py-2 px-0":"btn-categoria-sem-estoque py-2 px-0"} />
             </div>
 
         </>
@@ -120,7 +123,7 @@ function Emphasis(props) {
                 <p className={"text-center preco"}>{props.salePrice ? "Por: " + props.salePrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : ""}</p>
 
 
-                <Button label="Comprar" onclick={addToCart} class="btn-categoria py-2 px-0" />
+                <Button label={props.qty == 0 ? "Sem Estoque" : "Comprar"} disabled={props.qty == 0? true: false} onclick={props.qty == 0 ?AlertDefault:addToCart} class={props.qty != 0 ?"btn-categoria py-2 px-0":"btn-categoria-sem-estoque py-2 px-0"} />
 
             </div>
 

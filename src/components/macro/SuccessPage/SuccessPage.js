@@ -88,9 +88,10 @@ function SuccessPage(props) {
     const dateInput = order.deliveryDate
     const data = new Date(dateInput);
     const dataFormatada = data.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
-
+    const subTotal = (order.amount+order.totalDiscounts)
     const amountFormated = order.amount.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
     const deliveryFormated = order.deliveryValue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    const totalDiscount = order.totalDiscounts.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
     const installmentsPrice = order.amount / order.payment.installments
 
     function getOrder() {
@@ -140,9 +141,12 @@ function SuccessPage(props) {
                         <h4>Itens</h4>
 
                         <ProductSuccess
+                            subTotal={subTotal}
                             products={orderProduct}
                             frete={deliveryFormated}
-                            finalPrice={amountFormated} />
+                            finalPrice={amountFormated} 
+                            discount={totalDiscount}
+                            />
 
                     </ul>
 

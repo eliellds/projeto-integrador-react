@@ -26,7 +26,6 @@ function InputHook(props) {
                     <label>{props.label}:</label>
                     <input {...props.register(props.name, {
                         validate: value => {
-                            console.log(props.watch("senha"))
                             return value === props.watch("senha") || <span className="text-danger">As senhas não coincidem</span>
                         }
                     })

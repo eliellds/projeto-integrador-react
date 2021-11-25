@@ -86,15 +86,26 @@ function Product(props) {
                              break
                         }
                     } else if (i == cartList.length - 1) {
-                        cartList.push(product)
-                        break
+                        if (product.storage >= 1) {
+                            cartList.push(product)
+                            break                           
+                        } else {
+                             window.alert("Produto sem estoque")
+                             break
+                        }
+                        
     
                     }
                 }
             } else {
     
-    
-                cartList.push(product)
+                if (product.storage >= 1) {
+                    cartList.push(product)
+                                          
+                } else {
+                     window.alert("Produto sem estoque")
+                     
+                }
                
             }
             let cartString = JSON.stringify(cartList)
@@ -141,6 +152,9 @@ function Product(props) {
     console.log(produto);
     console.log(item);
     // console.log(produto.product);
+    function AlertDefault(){
+        window.alert("Produto sem estoque")
+    }
 
     return (
         <>
@@ -156,8 +170,8 @@ function Product(props) {
                             </div>
                             <div className="container Valores px-0 px-md-3 px-lg-0 mb-5 col-12 col-md-5 col-lg-6 d-flex flex-column justify-content-center">
                                 <h4 className="valor text-center">{preco()}</h4>
+                                <Button onclick={produto.qty>=1?addToCart:AlertDefault } disabled={produto.qty>=1?false:true} class={produto.qty>=1?"btn-comprar  align-self-center":"btn-sem-estoque align-self-center "} label={produto.qty>=1?"COMPRAR":"sem estoque"} />
 
-                                <Button onclick={addToCart} class="btn-comprar align-self-center " label="comprar" />
                                 <h4 className="frete-fixo-produto text-center pt-4">Frete fixo R$150,00</h4>
                             </div>
                         </div>

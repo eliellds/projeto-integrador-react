@@ -63,7 +63,6 @@ function FormRegister(props) {
     }, []);
 
     useEffect(() => { })
-    console.log(address)
 
 
     /////////////////// INICIO FUNCOES DE BUSCA E VALIDACAO DE CEP /////////////////////
@@ -74,7 +73,6 @@ function FormRegister(props) {
     }
 
     function meu_callback(conteudo) {
-        console.log(conteudo)
         if (!("erro" in conteudo)) {
             //Atualiza os campos com os valores.
             setAddress({ ...address, street: conteudo.logradouro, district: conteudo.bairro, city: conteudo.localidade, state: conteudo.uf })
@@ -159,7 +157,6 @@ function FormRegister(props) {
         api.get('/user/checkEmail/' + email).then((response) => {
             if (response.data) {
                 setValid({ ...isValid, email: false })
-                console.log("Email já cadastrado!")
                 return true
             } else {
                 setValid({ ...isValid, email: true })
@@ -222,13 +219,11 @@ function FormRegister(props) {
 
         //verificação da data de nascimento
         var dataCurrente = new Date();
-        console.log(newUser.born)
         var dateCurrent = (dataCurrente.getFullYear()-16)+"-"+dataCurrente.getMonth()+"-"+dataCurrente.getDate()
 
         if(dateCurrent>newUser.born) {
            
                 api.post('/sign-up', newUser).then((response) => {
-                console.log(response)
                 window.alert("Cadastrado com successo!")
                 sendAddress(response.data.id)
                 goBackTo()
@@ -255,7 +250,6 @@ function FormRegister(props) {
     function sendAddress(userId) {
         api.post("/address", address)
             .then((response) => {
-                console.log(response)
                 idAddreess(userId, response.data.id)
             })
             .catch((err) => {
@@ -277,7 +271,7 @@ function FormRegister(props) {
         }
         api.post("/userAddress", userAddress)
             .then((response) => {
-                console.log(response)
+                console.log("Endereço vinculado ao usuário")
             })
             .catch((err) => {
                 console.error("Erro criar endereço" + err)
@@ -414,8 +408,6 @@ function FormRegister(props) {
 
         setAddress({ ...address, cep: cep})
     }
-
-    console.log(register.options)
 
 
     return (

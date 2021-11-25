@@ -47,7 +47,7 @@ function MeusPedidos(props) {
                 if (orderNumber == item.orderNumber) {
                     return (
                         <>
-                            <Accordion.Body>
+                            <Accordion.Body >
                                 <ul className="row cabecalho-meu-pedido-item text-center">
                                     <li className="col-7 "><strong>Detalhes do Pedido</strong></li>
                                     <li className="col-2 data justify-self-start"><strong>Data</strong></li>
@@ -64,10 +64,18 @@ function MeusPedidos(props) {
                                                 <li className="col-5 meu-pedido-item data me-3">{dataFormatada}</li>
                                                 <li className="col-7 meu-pedido-item">{item.status}</li>
                                             </div>
-                                            <div className="container justify-content-end align-items-end d-flex m-0 p-0">
-                                                <div>Total: {amountFormated}</div>
-                                            </div>
+
                                         </div>
+                                    </div>
+                                    <div className="container justify-content-end containerValues align-items-end d-flex m-0 mt-3 p-0">
+                                        
+                                        <div className="row  mx-2 mb-1 ">
+                                            <div className="col-6">Total: {amountFormated}</div>
+                                        </div>
+                                        <div className="row  mx-2 mb-1 ">
+                                        
+                                        </div>
+
                                     </div>
                                 </ul>
                             </Accordion.Body>

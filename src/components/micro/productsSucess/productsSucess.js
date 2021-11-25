@@ -32,7 +32,8 @@ function ProductSuccess(props) {
                             <div className="atributos tipo-atributo col-3  d-sm-flex">Produto:</div>
                             <div className="atributos atributo-descricao col-9 col-sm-9">{product.productsDTO.product}</div>
 
-                            <div className="atributos tipo-atributo col-3  d-sm-flex">Valor:</div>
+                    
+                            <div className="atributos tipo-atributo col-3  d-sm-flex">Valor Total:</div>
                             <div className="atributos atributo-valor col-9 col-sm-9">{product.totalPrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</div>
 
 
@@ -57,7 +58,9 @@ function ProductSuccess(props) {
         <>
             {listProducts()}
             {console.log(total)}
+            <div class="valor-total">Sub Total: &nbsp;<b>{(props.subTotal).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</b></div>
 
+            <div class="valor-total">Descontos total: &nbsp;<b>{props.discount}</b></div>
             <div class="valor-total">Frete: &nbsp;<b>{props.frete}</b></div>
             <div class="valor-total">Total: &nbsp;<b>{props.finalPrice}</b></div>
         </>

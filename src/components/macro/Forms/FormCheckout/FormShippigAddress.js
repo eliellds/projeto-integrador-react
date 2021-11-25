@@ -399,6 +399,21 @@ function FormShippigAddress(props) {
         setOrder({ ...order, card: { ...order.card, birthDate: e.target.value } })
     }
 
+    function LimparTelefone(e) {
+        clearErrors(["telefone"])
+        setOrder({ ...order, telephone: { ...order.telephone, number: e.target.value } })
+    }
+
+    function LimparEmail(e) {
+        clearErrors(["E-mail"])
+        setOrder({ ...order, myUser: { ...order.myUser, email: e.target.value } })
+    }
+
+    function LimparNumero(e) {
+        clearErrors(["Número"])
+        setOrder({ ...order, address: { ...order.address, number: e.target.value } })
+    }
+
     const [cpfCheck, setCheck] = useState(true)
     const [cpfValue, setCpf] = useState("")
     return (
@@ -409,14 +424,42 @@ function FormShippigAddress(props) {
 
                     <div class="row ">
                         <div class=" col-6  col-sm-6 col-md-3">
-                            <Input value={order.telephone.number} change={e => setOrder({ ...order, telephone: { ...order.telephone, number: e.target.value } })} label="Telefone" className="form-input col-12 form-label" type="tel" name="telephone" placeholder="Telefone com DDD" />
+                        <InputHook hook // hook eh a props para input padrao com a verificacao
+                                name="telefone" // name sera utilizado no componente para fazer as comparacoes
+                                register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
+                                required={<span className="text-danger">Digite um telefone válido</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
+                                maxlength={15} // tamanho maximo do campo
+                                pattern={/^\(?[1-9]{2}\)? ?(?:[2-8]|9[1-9])[0-9]{3}\-?[0-9]{4}$/}
+                                errors={errors}
+                                clear={clearErrors}
+                                change={LimparTelefone}
+                                label="Telefone"
+                                type="tel"
+                                className="form-input col-12"
+                                placeholder="Telefone para contato com DDD" />
+                            
                         </div>
 
                         <div class=" col-6  col-sm-6 col-md-4">
-                            <Input value={order.myUser.email} change={e => setOrder({ ...order, myUser: { ...order.myUser, email: e.target.value } })} label="E-mail:" className="form-input col-12 form-label" type="mail" name="email" placeholder="E-mail para contato" />
+                        <InputHook hook // hook eh a props para input padrao com a verificacao
+                                name="E-mail" // name sera utilizado no componente para fazer as comparacoes
+                                register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
+                                required={<span className="text-danger">Digite um email válido</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
+                                maxlength={30} // tamanho maximo do campo
+                                pattern={/^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$/i}
+                                errors={errors}
+                                clear={clearErrors}
+                                change={LimparEmail}
+                                label="E-mail"
+                                type="mail"
+                                className="form-input col-12 form-label"
+                                placeholder="E-mail para contato"/>
+                            
                         </div>
 
+
                         <div class=" col-6 col-sm-6 col-md-3">
+<<<<<<< HEAD
                         <InputCep
                             name="cep" pattern={/^\d{5}-\d{3}$/}
                             mask={[/[0-9]/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]}
@@ -427,27 +470,54 @@ function FormShippigAddress(props) {
                             change={e =>setOrder({ ...order, address: { ...order.address, cep: e.target.value } }) } register={register} errors={errors}
                             value={order.address.cep} />
                             {/* <InputCep className="form-input col-12 form-label" length="9" blur={buscarCep} value={order.address.cep} label="CEP" type="text" id="cep" className="form-input col-12" placeholder="Digite seu CEP..." change={e => setOrder({ ...order, address: { ...order.address, cep: e.target.value } })} /> */}
+=======
+                        <InputHook hook // hook eh a props para input padrao com a verificacao
+                                name="Cep" // name sera utilizado no componente para fazer as comparacoes
+                                register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
+                                required={<span className="text-danger">Digite um CEP válido</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
+                                maxlength={9} // tamanho maximo do campo
+                                pattern={/[0-9]{5}-[0-9]{3}/}
+                                errors={errors}
+                                clear={clearErrors}
+                                change={buscarCep}
+                                label="CEP"
+                                type="text"
+                                className="form-input col-12"
+                                placeholder="Digite seu CEP..."/>
+                    
+>>>>>>> 1b5e10656e4f99ae05e5385198fede44ce725bf7
                         </div>
 
                         <div class=" col-6 col-sm-6 col-md-2">
-                            <Select label="Estado" options={ufs} selected={order.address.state} change={e => setOrder({ ...order, address: { ...order.address, state: e.target.value } })} default="Estado:" />
+                            <Select label="Estado" disabled={true} options={ufs} selected={order.address.state} change={e => setOrder({ ...order, address: { ...order.address, state: e.target.value } })} default="Estado:" />
                         </div>
 
                         <div class=" col-6 col-sm-6 col-md-4">
-                            <Input value={order.address.city} change={e => setOrder({ ...order, address: { ...order.address, city: e.target.value } })} label="Cidade" className="form-input col-12 form-label" type="text" name="city" placeholder="Digite a cidade..." />
+                            <Input value={order.address.city} disabled={true} change={e => setOrder({ ...order, address: { ...order.address, city: e.target.value } })} label="Cidade" className="form-input col-12 form-label" type="text" name="city" placeholder="Digite a cidade..." />
                         </div>
 
-
                         <div class=" col-9 col-md-6">
-                            <Input value={order.address.street} change={e => setOrder({ ...order, address: { ...order.address, street: e.target.value } })} label="Logradouro" className="form-input col-12 form-label" type="text" name="street" placeholder="Digite o logradouro..." />
+                            <Input value={order.address.street} disabled={true} change={e => setOrder({ ...order, address: { ...order.address, street: e.target.value } })} label="Logradouro" className="form-input col-12 form-label" type="text" name="street" placeholder="Digite o logradouro..." />
                         </div>
 
                         <div class=" col-3  col-md-2">
-                            <Input value={order.address.number} change={e => setOrder({ ...order, address: { ...order.address, number: e.target.value } })} label="Numero" className="form-input col-12 form-label" type="text" name="number" placeholder="Digite o número..." />
+                        <InputHook hook // hook eh a props para input padrao com a verificacao
+                                name="Número" // name sera utilizado no componente para fazer as comparacoes
+                                register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
+                                required={<span className="text-danger">Digite um número válido</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
+                                maxlength={5} // tamanho maximo do campo
+                                pattern={/(\d)/}
+                                errors={errors}
+                                clear={clearErrors}
+                                change={LimparNumero}
+                                label="Número"
+                                type="text"
+                                className="form-input col-12"
+                                placeholder="Digite o número..."/>
                         </div>
 
                         <div class=" col-6 col-md-4">
-                            <Input value={order.address.district} change={e => setOrder({ ...order, address: { ...order.address, district: e.target.value } })} label="Bairro" className="form-input col-12 form-label" type="text" name="district" placeholder="Digite o Bairro..." />
+                            <Input value={order.address.district} disabled={true} change={e => setOrder({ ...order, address: { ...order.address, district: e.target.value } })} label="Bairro" className="form-input col-12 form-label" type="text" name="district" placeholder="Digite o Bairro..." />
                         </div>
 
                         <div class=" col-6  col-md-4">

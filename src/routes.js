@@ -22,13 +22,10 @@ import OrderSummary from "./pages/OrderSummary/OrderSummary"
 import Address from "./components/macro/Forms/Address/AddressForm"
 import FormUser from "./components/macro/Forms/FormUser/FormUser"
 import MeusPedidos from "./components/macro/MeusPedidos/MeusPedidos"
-<<<<<<< HEAD
 import NewPasswordForm from "./components/macro/Forms/FormForgotPassword/NewPasswordForm"
 import NewPassword from "./pages/ForgotPassword/NewPassword"
-=======
 import ProtectedRoute from "./ProtectedRoute"
 import api from "./services/api"
->>>>>>> ce6ab02f7c76331dcf03391cf11a9869014c7998
 
 export const Routes = () => {
 
@@ -80,37 +77,7 @@ export const Routes = () => {
 
     return (
         <Switch>
-<<<<<<< HEAD
-            <Route path="/" component={Home} exact/>
-            <Route path="/home" component={Home} exact/>
-            <Route path="/cart" component={Cart}/>
-            <Route path="/category" component={Category}/>
-            <Route path="/checkout" component={Checkout}/>
-            <Route path="/dashboard" component={Dashboard}/>
-            <Route path="/login" component={Login}/>
-            <Route path="/product/:id" component={Product}/>
-            <Route path="/register" component={Register}/>
-            <Route path="/success" component={Success}/>
-            <Route path="/catalog/:category" component={Catalog}/>
-            <Route path="/sales" component={Sales}/>
-            <Route path="/search/:text" component={Search}/>
-            <Route path="/about" component={About}/>
-            <Route path="/forgotpassword" component={ForgotPassword}/>
-            <Route path="/contact" component={Contact}/>
-            <Route path="/productnotfound" component={ProductNotFound}/>
-            <Route path="/order" component={OrderSummary}/>
-            <Route path="/addressform" component={Address}/>
-            <Route path="/formuser" component={FormUser}/>
-            <Route path="/myorder" component={MeusPedidos}/>
-            <Route path="/newpassword" component={NewPassword}/>
-            <Route path="/newpasswordform" component={NewPasswordForm}/>
-            <Route component={NotFound}/>
-=======
-            <Route path="/" component={Home} exact />
-            <Route path="/home" component={Home} exact />
-            <Route path="/cart" component={Cart} />
-            <Route path="/category" component={Category} />
-            {/* 
+             {/* 
                 ProtectedRoute se refere a rotas que so podem ser acessadas caso o usuario esteja logado,
                 eh passado para a props isAuth o valor de isLogged para verificar se ira renderizar ou nao o componente
                 (Obs.: ProtectedRoute criado na src do projeto)
@@ -122,6 +89,7 @@ export const Routes = () => {
             <Route path="/register" component={Register} />
             <ProtectedRoute path="/success" component={Success} isAuth={isLogged} />
             <Route path="/catalog/:category" component={Catalog} />
+            <Route path="/category" component={Category} />
             <Route path="/sales" component={Sales} />
             <Route path="/search/:text" component={Search} />
             <Route path="/about" component={About} />
@@ -133,7 +101,11 @@ export const Routes = () => {
             <ProtectedRoute path="/formuser" component={FormUser} isAuth={isLogged} />
             <ProtectedRoute path="/myorder" component={MeusPedidos} isAuth={isLogged} />
             <Route component={NotFound} />
->>>>>>> ce6ab02f7c76331dcf03391cf11a9869014c7998
+            <Route path="/" component={Home} exact/>
+            <Route path="/home" component={Home} exact/>
+            <Route path="/cart" component={Cart}/>
+            <Route path="/newpassword" component={NewPassword}/>
+            <Route path="/newpasswordform" component={NewPasswordForm}/>
         </Switch>
     )
 }

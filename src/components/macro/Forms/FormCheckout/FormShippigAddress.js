@@ -71,6 +71,7 @@ function FormShippigAddress(props) {
 
 
     }
+ 
 
     function uncriptCard(cript) {
         var text = "1234789001234"
@@ -100,6 +101,7 @@ function FormShippigAddress(props) {
         api.get(`/userAddress/myAddress/${user.value.id}`).then(
             res => {
                 getTelephone(res.data[0].address)
+                // CepRun(res.data[0].address.cep)
             })
             .catch((err) => {
                 console.error("Erro ao consumir api de Address" + err)
@@ -114,16 +116,12 @@ function FormShippigAddress(props) {
     const getTelephone = (addressRes) => {
         api.get(`/user/${user.value.id}`).then(
             res => {
-                let tempCep
-                setOrder({ ...order, myUser: { email: res.data.email, id: res.data.id }, telephone: { ...res.data.telephone }, address: { ...addressRes } })
-                for(var i = 0; i < addressRes.cep.length; i){
-                   tempCep += addressRes.cep.charAt(i)
-                   if(i==4){
-                    tempCep += "-"
-                   }
-                }
-                setValue('cep', tempCep)
-                console.log("tempCep")
+                var cepTemp =  addressRes.cep.substring(0,5)+"-"+addressRes.cep.substring(5);
+                setOrder({ ...order, myUser: { email: res.data.email, id: res.data.id }, telephone: { ...res.data.telephone }, address: { ...addressRes, cep:cepTemp } })
+              
+                setValue('cep',cepTemp )
+                console.log(cepTemp)
+
             })
             .catch((err) => {
                 console.error("Erro ao consumir api de telefone" + err)

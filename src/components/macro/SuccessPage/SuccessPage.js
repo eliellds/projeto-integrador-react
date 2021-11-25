@@ -93,6 +93,7 @@ function SuccessPage(props) {
     const deliveryFormated = order.deliveryValue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
     const totalDiscount = order.totalDiscounts.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
     const installmentsPrice = order.amount / order.payment.installments
+    const cepFormated =  order.address.cep.substring(0,5)+  "-"+ order.address.cep.substring(5);
 
     function getOrder() {
         api
@@ -170,7 +171,7 @@ function SuccessPage(props) {
                         <OrderInfo titulo="Endereço de entrega"
                                     primeiraLinha={order.address.street + ","} primeiraLinha1={order.address.number + "."} primeiraLinha2={"Comp: " + order.address.complement}
                                     segundaLinha={order.address.district + " - "} segundaLinha1={order.address.city + " - "} segundaLinha2={order.address.state}
-                                    terceiraLinha={"CEP: " + order.address.cep} quartaLinha={"Referência: " + order.address.reference} />
+                                    terceiraLinha={"CEP: " + cepFormated} quartaLinha={"Referência: " + order.address.reference} />
 
                     </div>
 

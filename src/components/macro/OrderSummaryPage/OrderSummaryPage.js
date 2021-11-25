@@ -122,7 +122,6 @@ function OrderSummaryPage(props) {
                         alert("Pedido gerado com sucesso!")
                         window.location.href = "/success"
                     }
-                    console.log(result)
                 }).catch(err => { 
                     console.log("Erro ao gravar item" + err) 
                     setDisable(false)
@@ -148,10 +147,8 @@ function OrderSummaryPage(props) {
 
 
         api.get(`/flags/${order.card.flag.id}`).then((result) => {
-            console.log(order)
 
             initial = { ...initial, card: { ...initial.card, flag: result.data } }
-            console.log(order)
             setOrder(initial)
 
         }).catch((err) => {
@@ -165,9 +162,7 @@ function OrderSummaryPage(props) {
     function getPayments() {
         api.get(`/payments/${order.payment.id}`).then((result) => {
 
-            console.log(order)
             initial = { ...initial, payment: result.data }
-            console.log(order)
             setOrder(initial)
 
         }).catch((err) => { console.log("Falha ao consumir api" + err) })
@@ -241,7 +236,6 @@ function OrderSummaryPage(props) {
     // desabilita botão finalizar apos o click
     const [disable, setDisable] = React.useState(false);
 
-    console.log(order)
     function postOrder() {
 
         setDisable(true)
@@ -266,7 +260,6 @@ function OrderSummaryPage(props) {
 
     }
 
-    console.log(order)
 
     return (
         <>

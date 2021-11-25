@@ -64,7 +64,6 @@ function ListProducts(props) {
 
         return products.map(
             function (product) {
-                console.log(product)
 
                 return (<>
                     <Slide index={index = index++}  >

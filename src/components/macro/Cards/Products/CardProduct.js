@@ -5,7 +5,6 @@ import Button from '../../../micro/Button/Button'
 function CardProduct(props) {
     function imageRender() {
         var imgSrc = require(`../../../../assets/images/products/${props.image}`);
-        console.log(imgSrc)
         return <img src={`${imgSrc.default}`} />
     }
 
@@ -26,7 +25,6 @@ function CardProduct(props) {
             ? JSON.parse(localStorage.getItem("cart"))
             : []
         
-        console.log(cartList)
         if (cartList.length >0) {
             for (var i = 0; i <= cartList.length; ++i) {
                 if (cartList[i].id == product.id) {

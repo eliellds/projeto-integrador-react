@@ -14,13 +14,6 @@ function Checkout(props) {
                 
                 <FormShippigAddress />
 
-                {/* <FormDataCard/> */}
-
-                {/* <div className="row justify-content-around py-4">
-                    <Button label="Voltar" onclick={history.goBack} class="btn-retorno"  />
-                    <Button onclick={envio} label="Finalizar"  class="btn-confirmacao" type="submit" />
-                </div> */}
-
             </main>
         </>
     )

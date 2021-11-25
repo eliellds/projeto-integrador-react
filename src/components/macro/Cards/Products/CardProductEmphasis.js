@@ -86,7 +86,6 @@ function Emphasis(props) {
 
     function image() {
         var imgSrc = require(`../../../../assets/images/products/${props.image}`);
-        console.log(imgSrc)
         return <img className="image-emphasis" src={`${imgSrc.default}`} />
     }
     function AlertDefault(){

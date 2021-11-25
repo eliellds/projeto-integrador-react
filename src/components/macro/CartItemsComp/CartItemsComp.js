@@ -15,18 +15,9 @@ function CartItemsComp(props) {
     const [cartItems, setCartItems] = useState(JSON.parse(localStorage.getItem('cart')
     ))
     const [total, setTotal] = useState(0)
-    console.log(qtyCart)
 
     function setQtyCart() {
         return qtyCart
-    }
-
-    function increase() {
-        
-    }
-
-    function deacrease(){
-
     }
     
 

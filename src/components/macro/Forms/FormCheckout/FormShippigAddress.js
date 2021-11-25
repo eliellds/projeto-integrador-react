@@ -315,13 +315,15 @@ function FormShippigAddress(props) {
             alert("CEP não encontrado.");
         }
     }
+    
 
     function buscarCep(e) {
 
         const valor = e.target.value
-
+        setValue('cep',valor)
         //Nova variável "cep" somente com dígitos.
         const cep = valor.replace(/\D/g, '');
+        
 
         //Verifica se campo cep possui valor informado.
         if (cep != "") {
@@ -441,7 +443,16 @@ function FormShippigAddress(props) {
                         </div>
 
                         <div class=" col-6 col-sm-6 col-md-3">
-                            <InputCep className="form-input col-12 form-label" length="9" blur={buscarCep} value={order.address.cep} label="CEP" type="text" id="cep" className="form-input col-12" placeholder="Digite seu CEP..." change={e => setOrder({ ...order, address: { ...order.address, cep: e.target.value } })} />
+                        <InputCep
+                            name="cep" pattern={/^\d{5}-\d{3}$/}
+                            mask={[/[0-9]/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]}
+                            required={<span className="text-danger">Campo inválido!</span>}
+                            blur={buscarCep}
+                            label="CEP" type="text" id="cep" className="form-input col-12"
+                            placeholder="00000-000"
+                            change={e =>setOrder({ ...order, address: { ...order.address, cep: e.target.value } }) } register={register} errors={errors}
+                            value={order.address.cep} />
+                            {/* <InputCep className="form-input col-12 form-label" length="9" blur={buscarCep} value={order.address.cep} label="CEP" type="text" id="cep" className="form-input col-12" placeholder="Digite seu CEP..." change={e => setOrder({ ...order, address: { ...order.address, cep: e.target.value } })} /> */}
                         </div>
 
                         <div class=" col-6 col-sm-6 col-md-2">

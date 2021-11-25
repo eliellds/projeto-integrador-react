@@ -38,15 +38,26 @@ function CardProduct(props) {
                          break
                     }
                 } else if (i == cartList.length - 1) {
-                    cartList.push(product)
-                    break
+                    if (product.storage >=1) {
+                        cartList.push(product)
+                        break 
+                    } else {
+                         window.alert("Produto sem estoque")
+                         break
+                    }
+
 
                 }
             }
         } else {
 
-
-            cartList.push(product)
+            if (product.storage >=1) {
+                cartList.push(product)
+              
+            } else {
+                 window.alert("Produto sem estoque")
+               
+            }
            
         }
         let cartString = JSON.stringify(cartList)
@@ -87,6 +98,11 @@ function CardProduct(props) {
             )
         }
 
+    }  
+    
+    function AlertDefault(){
+        window.alert("Produto sem estoque")
+
     }
 
     return (
@@ -103,14 +119,14 @@ function CardProduct(props) {
 
                 <div className="corpo-card">
 
-                    <a href={`/product/${props.id}`} className="descricao">{props.product}<br />({props.year})</a>
+                    <a href={`/product/${props.id}`}  className="descricao">{props.product}<br />({props.year})</a>
 
                     <div className="pagamento">
                         <div className="preco">
                             {preco()}
                         </div>
 
-                        <Button onclick={addToCart} class="btn-comprar btn-expand" label="COMPRAR" />
+                        <Button onclick={props.qty>=1?addToCart:AlertDefault } disabled={props.qty>=1?false:true} class={props.qty>=1?"btn-comprar btn-expand":"btn-sem-estoque btn-expand"} label={props.qty>=1?"COMPRAR":"sem estoque"} />
 
                     </div>
 

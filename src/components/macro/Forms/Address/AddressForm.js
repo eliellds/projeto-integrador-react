@@ -6,6 +6,8 @@ import Button from "../../../micro/Button/Button";
 import Select from "../../../micro/Forms/Select/Select";
 import api from "../../../../services/api";
 import InputCep from "../../../micro/Forms/Input/InputCep";
+import { useForm } from "react-hook-form"; // lembrar de fazer npm install para instalar a biblioteca react-hook-form
+import { ErrorMessage } from "@hookform/error-message"; // lembrar de fazer npm install para instalar a biblioteca error-message
 
 const initial = {
     id: 0,
@@ -21,6 +23,9 @@ const initial = {
 
 function Address(props) {
     let bool = true
+
+    // desfragmentando as funcoes e objetos da biblioteca react-hook-form
+    const { register, handleSubmit, watch, formState: { errors }, reset, setValue, clearErrors, setError } = useForm();
 
     const [address, setAddress] = useState({ ...initial });
     const [show, setShow] = useState(bool);
@@ -167,6 +172,16 @@ function Address(props) {
     };
     /////////////////// FIM FUNCOES DE BUSCA E VALIDACAO DE CEP /////////////////////
 
+    function setInputCep(e) {
+        clearErrors(["cep"])
+        const valor = e.target.value
+
+        //Nova variável "cep" somente com dígitos.
+        const cep = valor.replace(/\D/g, '');
+
+        setAddress({ ...address, cep: cep})
+    }
+
     return (
         <>
             <FormDefault title="Endereços" className="container custom-form-box mx-3 mx-sm-1 mx-lg-4 px-5 px-sm-1 px-lg-4">
@@ -176,7 +191,15 @@ function Address(props) {
                         {/* INPUT PARA BUSCA DE CEP AO CLICAR FORA DO FORMULARIO. 
                         LENGTH == LIMITE DE CARACTERES NO INPUT 
                         (POR ENQUANTO 9 PENSANDO NA MÁSCARA QUE INSERE "-") */}
-                        <InputCep length="9" blur={pesquisacep} value={address.cep} disabled={show} label="CEP" type="text" id="cep" className="form-input col-12" placeholder="Digite seu CEP..." change={e => setAddress({ ...address, cep: e.target.value})} />
+                        <InputCep
+                            name="cep" pattern={/^\d{5}-\d{3}$/}
+                            mask={[/[0-9]/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]}
+                            required={<span className="text-danger">Campo inválido!</span>}
+                            blur={pesquisacep}
+                            label="CEP" type="text" id="cep" className="form-input col-12"
+                            placeholder="00000-000" value={address.cep} disabled={show}
+                            change={setInputCep} register={register} errors={errors} />
+                        {/* <InputCep length="9" blur={pesquisacep} value={address.cep} disabled={show} label="CEP" type="text" id="cep" className="form-input col-12" placeholder="Digite seu CEP..." change={e => setAddress({ ...address, cep: e.target.value})} /> */}
                     </div>
 
                     <div className=" col-12 col-md-6">

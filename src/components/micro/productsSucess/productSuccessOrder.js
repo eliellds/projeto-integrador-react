@@ -2,14 +2,11 @@ import React, { useState } from "react";
 
 function ProductSuccessOrder(props) {
     const products = JSON.parse(localStorage.getItem('cart')) || []
-    const [PrecoTotal, setPrecoTotal] = useState(0)
-    let total = 0
-    let subTotal = 0
-    let discount=0
-    function setTotalPrice() {
-        setPrecoTotal(total)
-        return PrecoTotal
-    }
+
+    let total = props.total()
+    let subTotal = props.sub()
+    let discount = props.desconto()
+    
     function imageRender(image) {
         var imgSrc = require(`../../../assets/images/products/${image}`);
     
@@ -18,12 +15,6 @@ function ProductSuccessOrder(props) {
 
     function listProducts() {
         return products.map((product) => {
-            total += parseFloat(product.salePrice?product.salePrice:product.price)
-            subTotal += parseFloat(product.price)
-            discount += product.salePrice? parseFloat(product.price - product.salePrice) : 0
-            localStorage.setItem('discount',discount)
-            localStorage.setItem('total', total)
-            localStorage.setItem('subTotal', subTotal)
             return <>
 
                 <li key={product.id} className="row bloco-produto justify-content-center item-1">
@@ -41,7 +32,7 @@ function ProductSuccessOrder(props) {
 
 
                             <div className="atributos tipo-atributo col-3  d-sm-flex">Qtd.:</div>
-                            <div className="atributos atributo-qtd col-9 col-sm-9">{1}</div>
+                            <div className="atributos atributo-qtd col-9 col-sm-9">{product.qty}</div>
                         </div>
                     </div>
 
@@ -64,7 +55,7 @@ function ProductSuccessOrder(props) {
 
             <div className="valor-total">Desconto total: -&nbsp;<b>{discount.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</b></div>
             <div className="valor-total">Frete: &nbsp;<b>{props.frete.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</b></div>
-            <div className="valor-total">Total: &nbsp;<b> {(total+props.frete).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</b></div>
+            <div className="valor-total">Total: &nbsp;<b> {(total).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</b></div>
         </>
     )
 }

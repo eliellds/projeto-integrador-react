@@ -55,8 +55,31 @@ const initial = {
     amount: 0.0,
     bankSlip: ""
 }
+const crypto = require('crypto');
+const alg = 'aes-256-ctr'
+const pwd = 'qwertjose'
 
 function SuccessPage(props) {
+
+    function uncriptCard(cript) {
+        var decipher = crypto.createDecipher(alg,pwd)
+        var uncrypted = decipher.update(cript, 'hex', 'utf8')
+        console.log(uncrypted)
+        let c = ""             
+        for (let index = 0; index < uncrypted.length; index++) {
+            
+            if(index < uncrypted.length - 4){
+                c = c+"#"
+            }else{
+                c = c+uncrypted.charAt(index)
+            }
+                          
+            
+        }
+        return c
+    }
+    
+
 
     const user = JSON.parse(localStorage.getItem("user"));
     const [order, setOrder] = useState(initial);
@@ -68,7 +91,7 @@ function SuccessPage(props) {
 
     const amountFormated = order.amount.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
     const deliveryFormated = order.deliveryValue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-
+    const installmentsPrice = order.amount / order.payment.installments
 
     function getOrder() {
         api
@@ -124,21 +147,26 @@ function SuccessPage(props) {
                     </ul>
 
                     <div class="container col-12 col-lg-5 mx-0 info-sucesso">
+                    
+                
 
                         <OrderInfo titulo="Pagamento"
-                            primeiraLinha={order.payment.description}
-                            segundaLinha={order.card.flag.description} segundaLinha1={order.payment.installments}
-                            terceiraLinha={amountFormated} />
+                                    primeiraLinha={order.payment.description + " - " + order.card.flag.description} 
+                                    segundaLinha={uncriptCard(order.card.cardNumber)} 
+                                    terceiraLinha={order.payment.installments >= 2 ? order.payment.installments + " x de" : order.payment.installments } 
+                                    terceiraLinha1={order.payment.installments >= 2 ? installmentsPrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) :amountFormated}
+                                    quartaLinha={"Total: " + amountFormated}
+                                     />
 
                         <OrderInfo titulo="Entrega"
-                            primeiraLinha={order.delivery.descricao}
-                            segundaLinha="Prazo estimado para entrega: " segundaLinha1={dataFormatada}
-                            terceiraLinha= {deliveryFormated} />
+                                    primeiraLinha={order.delivery.descricao}
+                                    segundaLinha="Prazo estimado para entrega: " segundaLinha1={dataFormatada}
+                                    terceiraLinha= {deliveryFormated} />
 
                         <OrderInfo titulo="Endereço de entrega"
-                            primeiraLinha={order.address.street + ","} primeiraLinha1={order.address.number} primeiraLinha2={"Comp: " + order.address.complement}
-                            segundaLinha={order.address.district + " - "} segundaLinha1={order.address.city + " - "} segundaLinha2={order.address.state}
-                            terceiraLinha={"CEP: " + order.address.cep} quartaLinha={"Referência: " + order.address.reference} />
+                                    primeiraLinha={order.address.street + ","} primeiraLinha1={order.address.number + "."} primeiraLinha2={"Comp: " + order.address.complement}
+                                    segundaLinha={order.address.district + " - "} segundaLinha1={order.address.city + " - "} segundaLinha2={order.address.state}
+                                    terceiraLinha={"CEP: " + order.address.cep} quartaLinha={"Referência: " + order.address.reference} />
 
                     </div>
 

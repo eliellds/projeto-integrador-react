@@ -56,31 +56,54 @@ function Product(props) {
 
     const [item, setItem] = useState();
 
-
-
-
-
     const product = produto || [];
 
     const addToCart = () => {
+
+        let cartList = localStorage.getItem("cart")
+            ? JSON.parse(localStorage.getItem("cart"))
+            : []
+        
         const product = {
             id: produto.product.id,
             price: produto.price,
             salePrice: produto.salePrice,
             product: produto.product.product,
             year: produto.product.year,
-            image: produto.product.image
+            image: produto.product.image,
+            qty:1, 
+            storage:produto.qty
         }
-        let cartList = localStorage.getItem("cart")
-            ? JSON.parse(localStorage.getItem("cart"))
-            : []
-        cartList.push(product)
-        let cartString = JSON.stringify(cartList)
-        localStorage.setItem("cart", cartString)
-        localStorage.setItem('qtyCart', JSON.stringify(cartList.length))
-
-        window.location.href = "/cart";
-    }
+            console.log(cartList)
+            if (cartList.length >0) {
+                for (var i = 0; i <= cartList.length; ++i) {
+                    if (cartList[i].id == product.id) {
+                        if (cartList[i].storage > cartList[i].qty) {
+                            cartList[i].qty = cartList[i].qty + 1
+                            break 
+                        } else {
+                             window.alert("Produto sem estoque")
+                             break
+                        }
+                    } else if (i == cartList.length - 1) {
+                        cartList.push(product)
+                        break
+    
+                    }
+                }
+            } else {
+    
+    
+                cartList.push(product)
+               
+            }
+            let cartString = JSON.stringify(cartList)
+            localStorage.setItem("cart", cartString)
+            localStorage.setItem('qtyCart', JSON.stringify(cartList.length))
+            window.location.href = "/cart";
+    
+        }
+    
 
 
 

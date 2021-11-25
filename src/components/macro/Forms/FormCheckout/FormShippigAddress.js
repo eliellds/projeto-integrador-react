@@ -9,6 +9,7 @@ import { useHistory } from "react-router";
 import SelectedFlag from "../../../micro/Forms/Select/SelectedFlag";
 import InputCep from "../../../micro/Forms/Input/InputCep";
 import Select from "../../../micro/Forms/Select/Select";
+import { MoipValidator } from "moip-sdk-js";
 import { useForm } from "react-hook-form"; // lembrar de fazer npm install para instalar a biblioteca react-hook-form
 import { ErrorMessage } from "@hookform/error-message"; // lembrar de fazer npm install para instalar a biblioteca error-message
 import InputHook from "../../../micro/Forms/Input/InputHook"
@@ -16,7 +17,8 @@ import InputHook from "../../../micro/Forms/Input/InputHook"
 const initial = {
 
     myUser: {
-        id: 0
+        id: 0,
+        email: "",
     },
     payment: {
         id: 2
@@ -43,7 +45,7 @@ const initial = {
         dueDate: "",
         flag:
         {
-            id: 0
+            id: 1
 
         }
     },
@@ -54,64 +56,157 @@ const initial = {
     deliveryValue: 150,
 
 }
+const crypto = require('crypto');
+const alg = 'aes-256-ctr'
+const pwd = 'qwertjose'
 
 function FormShippigAddress(props) {
+
+    function criptCard(num) {
+
+        var text = num
+        var cipher = crypto.createCipher(alg, pwd)
+        var crypted = cipher.update(text, 'utf8', 'hex')
+        return crypted.toString()
+
+
+    }
+
+    function uncriptCard(cript) {
+        var text = "1234789001234"
+        var cipher = crypto.createCipher(alg, pwd)
+        var crypted = cipher.update(text, 'utf8', 'hex')
+        var decipher = crypto.createDecipher(alg,pwd)
+        var uncrypted = decipher.update(crypted, 'hex', 'utf8')
+        return console.log(uncrypted)
+
+
+
+    }
+    uncriptCard()
+
     const user = JSON.parse(localStorage.getItem('user'))
 
+    const [order, setOrder] = useState(initial);
+    const [flags, setFlag] = useState([]);
+    const [inputBrand, setInputBrand] = useState("");
+    const [inputMonth, setInputMonth] = useState("");
+    const [inputYear, setInputYear] = useState("");
     // desfragmentando as funcoes e objetos da biblioteca react-hook-form
     const { register, handleSubmit, formState: { errors }, reset, clearErrors, setError, setValue } = useForm();
 
 
-
-    const [order, setOrder] = useState(initial)
-    const [flags, setFlag] = useState([])
-
     const getAddress = () => {
         api.get(`/userAddress/myAddress/${user.value.id}`).then(
             res => {
-                setOrder({ ...order, address: { ...res.data[0].address } })
+                getTelephone(res.data[0].address)
             })
             .catch((err) => {
                 console.error("Erro ao consumir api de Address" + err)
             })
     }
 
-    const getTelephone = () => {
+    useEffect(() => {
+        getAddress();
+        getUfs();
+    }, []);
+
+    const getTelephone = (addressRes) => {
         api.get(`/user/${user.value.id}`).then(
             res => {
-                setOrder({ ...order, telephone: { ...res.data.telephone } })
+
+                setOrder({ ...order, myUser: { email: res.data.email, id: res.data.id }, telephone: { ...res.data.telephone }, address: { ...addressRes } })
+
             })
             .catch((err) => {
                 console.error("Erro ao consumir api de telefone" + err)
             })
+
     }
 
     const getUfs = () => {
         return ufs
     }
 
-    useEffect(() => {
-        getAddress();
-        getTelephone();
-        getUfs();
-
-    }, []);
-
     console.log(order)
+
     function postOrder() {
         if (cpfCheck == false) {
             return alert("Preencha os dados corretamente")
         }
-        setOrder({
-            ...order, myUser: {
-                ...user.value
-            }, card: { ...order.card, dueDate: dueDate + "-01" }
-        })
-        let orderJson = JSON.stringify(order)
+        var tempOrder = {...order}
+        
+        tempOrder =({...tempOrder, card: { ...tempOrder.card, cardNumber: criptCard(tempOrder.card.cardNumber).toString(), dueDate: inputYear + "-" + inputMonth + "-01" }})
+        
+        let orderJson = JSON.stringify(tempOrder)
 
         localStorage.setItem('order', orderJson)
         window.location.href = "/order"
     }
+
+    function authCard(e) {
+        var cardNumber = e.target.value
+
+        if (MoipValidator.isValidNumber(cardNumber) == true) {
+
+            console.log(MoipValidator.cardType(cardNumber))
+
+            switch (MoipValidator.cardType(cardNumber).brand) {
+                case "VISA":
+                    setOrder({ ...order, card: { ...order.card, flag: { id: 2 }, cardNumber: cardNumber } })
+                    return setInputBrand("VISA")
+                    break;
+                case "MASTERCARD":
+                    setOrder({ ...order, card: { ...order.card, flag: { id: 1 }, cardNumber: cardNumber  } })
+                    return setInputBrand("MASTERCARD");
+                    break;
+                case "AMEX":
+                    setOrder({ ...order, card: { ...order.card, flag: { id: 3 }, cardNumber: cardNumber  } })
+                    return setInputBrand("AMERICAN EXPRESS");
+                    break;
+                case "ELO":
+                    setOrder({ ...order, card: { ...order.card, flag: { id: 4 }, cardNumber: cardNumber  } })
+                    return setInputBrand("ELO");
+                    break;
+                case "HIPERCARD":
+                    setOrder({ ...order, card: { ...order.card, flag: { id: 5 }, cardNumber: cardNumber  } })
+                    return setInputBrand("HIPERCARD");
+                    break;
+                case "DINERS":
+                    setOrder({ ...order, card: { ...order.card, flag: { id: 6 }, cardNumber: cardNumber  } })
+                    return setInputBrand("DINERS CLUB");
+                    break;
+                default:
+                    return setInputBrand("Cartão não aceito!")
+            }
+        }
+    }
+
+    function authDateCard() {
+        var dataCurrente = new Date();
+        console.log(order.card.birthDate)
+        var dateCurrent = (dataCurrente.getFullYear()-10)+"-"+dataCurrente.getMonth()+"-"+dataCurrente.getDate()
+
+        if(dateCurrent>order.card.birthDate) {
+
+            if (MoipValidator.isExpiryDateValid(inputMonth, inputYear) == true) {
+                postOrder()
+            } else {
+                console.log("data inválida");
+            }
+        }else{
+            window.alert("Data de nascimento do titular do cartão invalida!"  )
+            
+        }
+    }
+
+    function authCodeCard() {
+
+        if (MoipValidator.isSecurityCodeValid() == true) {
+            
+        }
+    }
+
 
     const [displayNoneB, setDisplayNoneB] = useState("d-none")
     const [displayNoneC, setDisplayNoneC] = useState("")
@@ -119,40 +214,39 @@ function FormShippigAddress(props) {
     const [buttons, setButtons] = useState(
         <>
             <Button class="col-4 cartao forma-pagamento selected-button" label={<H2 h2="Cartão" />}></Button>
-            <Button onclick={changeComponent} class="col-4 forma-pagamento boleto disabled-button" label={<H2 h2="Boleto" />}></Button>
+            {/* <Button onclick={changeComponent} class="col-4 forma-pagamento boleto disabled-button" label={<H2 h2="Boleto" />}></Button> */}
         </>
     )
     let change = false
     const history = useHistory()
 
-
-    function changeComponent() {
-        if (change) {
-            setButtons(
-                <>
-                    <Button class="col-4 cartao forma-pagamento selected-button" label={<H2 h2="Cartão" />}></Button>
-                    <Button onclick={changeComponent} class="col-4 forma-pagamento boleto disabled-button" label={<H2 h2="Boleto" />}></Button>
-                </>
-            )
-            change = false
-            setDisplayNoneB("d-none")
-            setDisplayNoneC("")
-            console.log("noneC")
-            console.log(change)
-        } else {
-            setButtons(
-                <>
-                    <Button onclick={changeComponent} class="col-4 cartao forma-pagamento disabled-button" label={<H2 h2="Cartão" />}></Button>
-                    <Button class="col-4 forma-pagamento boleto selected-button" label={<H2 h2="Boleto" />}></Button>
-                </>
-            )
-            change = true
-            setDisplayNoneB("")
-            setDisplayNoneC("d-none")
-            console.log("noneB")
-            console.log(change)
-        }
-    }
+    // function changeComponent() {
+    //     if (change) {
+    //         setButtons(
+    //             <>
+    //                 <Button class="col-4 cartao forma-pagamento selected-button" label={<H2 h2="Cartão" />}></Button>
+    //                 <Button onclick={changeComponent} class="col-4 forma-pagamento boleto disabled-button" label={<H2 h2="Boleto" />}></Button>
+    //             </>
+    //         )
+    //         change = false
+    //         setDisplayNoneB("d-none")
+    //         setDisplayNoneC("")
+    //         console.log("noneC")
+    //         console.log(change)
+    //     } else {
+    //         setButtons(
+    //             <>
+    //                 <Button onclick={changeComponent} class="col-4 cartao forma-pagamento disabled-button" label={<H2 h2="Cartão" />}></Button>
+    //                 <Button class="col-4 forma-pagamento boleto selected-button" label={<H2 h2="Boleto" />}></Button>
+    //             </>
+    //         )
+    //         change = true
+    //         setDisplayNoneB("")
+    //         setDisplayNoneC("d-none")
+    //         console.log("noneB")
+    //         console.log(change)
+    //     }
+    // }
 
     const [paymentMethod, setPaymentMethod] = useState("")
 
@@ -460,12 +554,12 @@ function FormShippigAddress(props) {
                 </div>
 
 
-                <div className={`row pagamento justify-content-center ${displayNoneB}`}>
+                {/* <div className={`row pagamento justify-content-center ${displayNoneB}`}>
                     <div className="col-8 justify-content-center text-center ">
                         <input type="text" readonly className="form-control-plaintext justifi-content-center text-center" id="staticEmail"
                             value="Número do boleto: 000000 000000 000000 000000 000000" />
                     </div>
-                </div>
+                </div> */}
 
                 <div className={"row justify-content-center"}>
                     <div className={`row custom-form ${displayNoneC}`}>
@@ -490,7 +584,7 @@ function FormShippigAddress(props) {
                             <InputHook // hook eh a props para input padrao com a verificacao
                                 name="cpf" // name sera utilizado no componente para fazer as comparacoes
                                 register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
-                                required={cpfValue == "" ? <span className="text-danger">Digite um CPF válido!</span> : ""} // mensagem de erro que sera exibida caso o campo nao seja valido
+                                required={cpfValue == "" ? <><span className="text-danger">Campo inválido!</span><br/></> : ""} // mensagem de erro que sera exibida caso o campo nao seja valido
                                 maxlength={14} // tamanho maximo do campo
                                 minlength={11} // tamanho minimo do campo
                                 pattern={/([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})/u}
@@ -502,7 +596,7 @@ function FormShippigAddress(props) {
                                 type="text"
                                 className="form-input col-12"
                                 placeholder="000.000.000-00" />
-                            {cpfCheck ? "" : <span className="text-danger">Digite um CPF válido! </span>}
+                            {cpfCheck ? "" : <span className="text-danger">Digite um CPF a válido! </span>}
 
                         </div>
 
@@ -520,7 +614,7 @@ function FormShippigAddress(props) {
                         </div>
 
                         <div className=" col-12 col-md-4">
-                            <Input change={e => setOrder({ ...order, card: { ...order.card, cardNumber: e.target.value } })} label="Numero do Cartão" className="form-input col-12 form-label" type="text" name="cardNumber" placeholder="Ex.: 0000 1111 2222 3333" />
+                            <Input change={authCard} label="Numero do Cartão" className="form-input col-12 form-label" type="text" name="cardNumber" placeholder="Ex.: 0000 1111 2222 3333." />
                         </div>
 
                         <div className=" col-6 col-md-1">
@@ -528,16 +622,21 @@ function FormShippigAddress(props) {
                         </div>
 
                         <div className=" col-6 col-md-2">
-                            <SelectedFlag required label="Bandeira" Flags={flags} change={e => setOrder({ ...order, card: { ...order.card, flag: { ...order.card.flag, id: e.target.value } } })} />
+                            {/* <Input label="Bandeira" Flags={flags} change={e => setOrder({ ...order, card: { ...order.card, flag: { ...order.card.flag, id: e.target.value } } })} /> */}
+                            <Input label="Bandeira" disabled value={inputBrand} />
                         </div>
 
 
                         <div className=" col-6 col-md-2">
-                            <Input change={e => setDueDate(e.target.value)} label="Vencimento" className="form-input col-12 form-label" type="text" name="dia" placeholder="Mes-Ano" />
+                            <div className="row">
+                                <Input change={e => setInputMonth(e.target.value)} label="Mês" classCustom="col-6" type="text" placeholder="MM" />
+                                <Input change={e => setInputYear(e.target.value)} label="Ano" classCustom="col-6" type="text" placeholder="AA" />
+                            </div>
                         </div>
 
+
                         <div className=" col-6 col-md-3">
-                            <SelectCard required label="Forma de Pagamento:" paymentMethod={paymentMethod} change={e => setOrder({ ...order, payment: { id: e.target.value } })} />
+                            <SelectCard label="Forma de Pagamento:" paymentMethod={paymentMethod} change={e => setOrder({ ...order, payment: { id: e.target.value }})} />
                         </div>
 
                     </div>
@@ -545,7 +644,7 @@ function FormShippigAddress(props) {
 
                 <div className="row justify-content-around py-4">
                     <Button label="Voltar" onclick={backToCart} class="btn-retorno" />
-                    <Button onclick={handleSubmit(postOrder)} label="Finalizar" class="btn-confirmacao" type="submit" />
+                    <Button onclick={handleSubmit(authDateCard)} label="Finalizar" class="btn-confirmacao" type="submit" />
                 </div>
 
             </FormDefault>

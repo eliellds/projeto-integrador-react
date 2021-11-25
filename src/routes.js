@@ -22,6 +22,8 @@ import OrderSummary from "./pages/OrderSummary/OrderSummary"
 import Address from "./components/macro/Forms/Address/AddressForm"
 import FormUser from "./components/macro/Forms/FormUser/FormUser"
 import MeusPedidos from "./components/macro/MeusPedidos/MeusPedidos"
+import NewPasswordForm from "./components/macro/Forms/FormForgotPassword/NewPasswordForm"
+import NewPassword from "./pages/ForgotPassword/NewPassword"
 
 export const Routes = () => {
     return (
@@ -47,6 +49,8 @@ export const Routes = () => {
             <Route path="/addressform" component={Address}/>
             <Route path="/formuser" component={FormUser}/>
             <Route path="/myorder" component={MeusPedidos}/>
+            <Route path="/newpassword" component={NewPassword}/>
+            <Route path="/newpasswordform" component={NewPasswordForm}/>
             <Route component={NotFound}/>
         </Switch>
     )

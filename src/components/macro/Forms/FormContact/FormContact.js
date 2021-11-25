@@ -38,6 +38,7 @@ function FormContact(props) {
             .catch((err) => {
                 console.error("Erro ao realizar Post de contato" + err)
                 alert("Você deve preencher todos os campos do formulário.")
+                setDisable(false)
             });
     }
 
@@ -119,7 +120,7 @@ function FormContact(props) {
                     </div>
 
                     <div className="col-12 col-md-5">
-                        <SelectOptions required label="Assunto:" options={props.options} change={e => setSubject(e.target.value)} />
+                        <SelectOptions label="Assunto:" value="Outros" options={props.options} change={e => setSubject(e.target.value)} />
                     </div>
 
                 </div>

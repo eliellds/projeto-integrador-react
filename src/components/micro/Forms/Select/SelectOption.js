@@ -2,13 +2,12 @@ import React from 'react'
 
 function SelectOptions(props) {
     const options = props.options || []
-    
 
     function getOptions(){
         return options.map(
             function(option){
                 if (props.selected == option.id) {
-                    return <option selected="selected" key={option.id} value={option.id}>{option.subjectDescription}</option>
+                    return <option selected="selected" value={props.value} key={option.id} value={option.id}>{option.subjectDescription}</option>
                 } else {
                     return <option key={option.id} value={option.id}>{option.subjectDescription}</option>
                 }

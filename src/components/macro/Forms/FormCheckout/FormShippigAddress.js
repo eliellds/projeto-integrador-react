@@ -114,9 +114,16 @@ function FormShippigAddress(props) {
     const getTelephone = (addressRes) => {
         api.get(`/user/${user.value.id}`).then(
             res => {
-
+                let tempCep
                 setOrder({ ...order, myUser: { email: res.data.email, id: res.data.id }, telephone: { ...res.data.telephone }, address: { ...addressRes } })
-
+                for(var i = 0; i < addressRes.cep.length; i){
+                   tempCep += addressRes.cep.charAt(i)
+                   if(i==4){
+                    tempCep += "-"
+                   }
+                }
+                setValue('cep', tempCep)
+                console.log("tempCep")
             })
             .catch((err) => {
                 console.error("Erro ao consumir api de telefone" + err)
@@ -243,6 +250,7 @@ function FormShippigAddress(props) {
     }
 
     useEffect(() => {
+        
         getListPayments()
         getListFlags()
 

@@ -34,7 +34,6 @@ function Emphasis(props) {
             storage: props.qty,
             qty: 1
         }
-        console.log(cartList)
         if (cartList.length >0) {
             for (var i = 0; i <= cartList.length; ++i) {
                 if (cartList[i].id == product.id) {
@@ -85,7 +84,6 @@ function Emphasis(props) {
 
     function image() {
         var imgSrc = require(`../../../../assets/images/products/${props.image}`);
-        console.log(imgSrc)
         return <img className="image-emphasis" src={`${imgSrc.default}`} />
     }
     if (props.variable == true) {

@@ -17,7 +17,6 @@ function Home(props) {
     
     function offersData(){
         api.get("/products/offers").then((response) => {setOffers(response.data)
-            console.log(response.data)
             }).catch((error) => console.log("Erro ao carregar api de offers"+error))
     }
     function newlestData(){

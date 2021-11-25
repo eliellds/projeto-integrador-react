@@ -44,12 +44,10 @@ function Address(props) {
     ]);
 
     useEffect(() => { })
-    console.log(address)
 
     function putAddress() {
         api.put("/address", address)
             .then((response) => {
-                console.log(response)
                 alert("Seu endereço foi alterado com sucesso!")
             })
             .catch((err) => {
@@ -123,7 +121,6 @@ function Address(props) {
     }
 
     function meu_callback(conteudo) {
-        console.log(conteudo)
         if (!("erro" in conteudo)) {
             //Atualiza os campos com os valores.
             setAddress({...address, street: conteudo.logradouro, district: conteudo.bairro, city: conteudo.localidade, state: conteudo.uf})

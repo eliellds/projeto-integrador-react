@@ -12,17 +12,20 @@ function Header(props) {
 
     const location = window.location.pathname
 
-    const [login, setLogin] = useState(!localStorage.getItem("user"));
+    // login recebe a resposta invertida de getWithExpiry, 
+    // caso a funcao retorne um valor, login == false,
+    // caso a funcao retorne null, login == true
+    const [login, setLogin] = useState();
+    // login true significa que estamos deslogados, login false significa que estamos logados
 
     const removeUser = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
-        localStorage.removeItem("username");
     }
 
     const changeState = () => {
         if (login) {
-            if (localStorage.getItem("user")) {
+            if (getWithExpiry("token")) {
                 setLogin(false);
             }
         } else {
@@ -32,44 +35,63 @@ function Header(props) {
         compProfile();
     }
 
-    const [perfil,setPerfil]= useState(getWithExpiry("user")?<Profile/> : <></>)
+    // caso getWithExpiry retorne um valor, Profile eh renderizado, caso retorne null, nao
+    const [perfil, setPerfil] = useState(getWithExpiry("token") ? <Profile /> : <></>)
 
-    function compProfile(){
-        setPerfil(localStorage.getItem("user")?<Profile/> : <></>)
+    function compProfile() {
+        setPerfil(getWithExpiry("token") ? <Profile /> : <></>)
     }
 
+    // funcao getWithExpiry recebe uma chave da localStorage como parametro
+    // retorna null caso nao atenda as condicoes de verificacao
+    // retorna o valor da chave caso atenda as condicoes de verificacao
     function getWithExpiry(key) {
-        const itemStr = localStorage.getItem(key)
 
-        // if the item doesn't exist, return null
-        if (!itemStr) {
+        // itemStr recebe a String do item armazenado na localStorage
+        // (eh armazenada apenas a String do token)
+        const tokenStr = localStorage.getItem(key)
+
+        // se o item nao existir, returna null
+        if (!tokenStr) {
             return null
         }
 
-        const item = JSON.parse(itemStr)
+        // now recebe o horario do momento em que eh feita a requisicao
         const now = new Date()
 
-        // compare the expiry time of the item with the current time
-        if (now.getTime() > item.expiry) {
-            // If the item is expired, delete the item from storage
-            // and return null
-            localStorage.removeItem(key)
-            localStorage.removeItem("token")
-            return null
-        }
-        return item.value
+        // api.get recebe no corpo o objeto JSON com o token e retorna em milisegundos o tempo de expiracao
+        api.get("/login/" + tokenStr)
+            .then(response => {
+                // compara o tempo de expiracao do token com o tempo atual
+                if (now.getTime() > response.data.expiration) {
+                    // Se o token expirou, deleta o item da localStorage
+                    // e returna null
+                    localStorage.removeItem(key)
+                    localStorage.removeItem("user")
+                    window.location.reload()
+                    return null
+                }
+            })
+            .catch(err => {
+                localStorage.removeItem(key)
+                localStorage.removeItem("user")
+                window.location.reload()
+                return null
+            })
+
+        // caso o token nao tenha expirado, retorna o valor da String do token
+        return tokenStr
     }
 
     function getPerfil() {
-        getWithExpiry("user")
+        getWithExpiry("token")
         return perfil
     }
 
     useEffect(() => {
         getPerfil()
+        setLogin(!getWithExpiry("token"))
     }, [])
-
-    console.log(login);
 
     return (
         <>

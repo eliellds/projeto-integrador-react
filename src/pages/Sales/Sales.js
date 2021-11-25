@@ -12,7 +12,7 @@ export default function Sales(props) {
         { id: 1, subjectDescription: "Menor Valor" },
         { id: 2, subjectDescription: "Maior Valor" },
         { id: 3, subjectDescription: "Maior Desconto" },
-        // { id: 4, subjectDescription: "Mais Antigo" },
+        { id: 4, subjectDescription: "Por Nome" },
         // { id: 5, subjectDescription: "Mais Novo" },
     ])
     const [renderList, setRenderList] = useState(<ListProductsCatalogy products={products} />)
@@ -33,6 +33,22 @@ export default function Sales(props) {
     useEffect(() => {
         renderProduct()
     }, []);
+
+    // Preço ordem alfabética
+    function filterName() {
+        var productTemp = products
+        productTemp.sort(function (a, b) {
+            if (a.product.product > b.product.product) {
+                return 1
+            }
+            if (a.product.product < b.product.product) {
+                return -1
+            }
+        })
+
+        setProducts(productTemp)
+        console.log(products)
+    }
 
     // Preço menor para o maior
     function filterAsc() {
@@ -87,12 +103,15 @@ export default function Sales(props) {
             return setRenderList(<ListProductsCatalogy products={products} />)
 
         } else if (e == 2) {
-
             filterAsc()
             return setRenderList(<ListProductsCatalogy products={products} />)
-        } else if (e == 3) {
 
+        } else if (e == 3) {
             filterSale()
+            return setRenderList(<ListProductsCatalogy products={products} />)
+
+        } else if (e == 4) {
+            filterName()
             return setRenderList(<ListProductsCatalogy products={products} />)
 
         } else {

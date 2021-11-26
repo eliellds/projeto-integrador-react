@@ -78,18 +78,7 @@ function FormShippigAddress(props) {
     }
 
 
-    function uncriptCard(cript) {
-        var text = "1234789001234"
-        var cipher = crypto.createCipher(alg, pwd)
-        var crypted = cipher.update(text, 'utf8', 'hex')
-        var decipher = crypto.createDecipher(alg, pwd)
-        var uncrypted = decipher.update(crypted, 'hex', 'utf8')
-        return console.log(uncrypted)
 
-
-
-    }
-    uncriptCard()
 
     const user = JSON.parse(localStorage.getItem('user'))
 
@@ -139,7 +128,6 @@ function FormShippigAddress(props) {
                 setValue("E-mail", res.data.email)
                 setValue('numero', addressRes.number)
 
-                console.log(cepTemp)
 
             })
             .catch((err) => {
@@ -157,18 +145,18 @@ function FormShippigAddress(props) {
             return alert("Preencha os dados corretamente")
         }
 
-        if (MoipValidator.isValidNumber(cardNumber) == false) {
-            return alert("Preencha os dados de pagamento corretamente")
-        }
+ 
         var tempOrder = { ...order }
 
-        tempOrder = ({ ...tempOrder, card: { ...tempOrder.card, cardNumber: criptCard(tempOrder.card.cardNumber).toString(), dueDate: inputYear + "-" + inputMonth + "-01" } })
+        tempOrder = ({ ...tempOrder, card: { ...tempOrder.card, cardNumber: criptCard(tempOrder.card.cardNumber), dueDate: inputYear + "-" + inputMonth + "-01" } })
 
         let orderJson = JSON.stringify(tempOrder)
 
         localStorage.setItem('order', orderJson)
 
         setDisable(true)
+        changeRedirect()
+
     }
 
     function changeRedirect() {
@@ -188,21 +176,20 @@ function FormShippigAddress(props) {
 
         if (MoipValidator.isValidNumber(card) == true) {
 
-            console.log(MoipValidator.cardType(card))
 
             switch (MoipValidator.cardType(card).brand) {
                 case "VISA":
-                    setOrder({ ...order, card: { ...order.card, flag: { id: 2 }, cardNumber: cardNumber } })
+                    setOrder({ ...order, card: { ...order.card, flag: { id: 2 }, cardNumber: card } })
                     setInputBrand("VISA")
                     return true 
                     break;
                 case "MASTERCARD":
-                    setOrder({ ...order, card: { ...order.card, flag: { id: 1 }, cardNumber: cardNumber } })
+                    setOrder({ ...order, card: { ...order.card, flag: { id: 1 }, cardNumber: card } })
                     setInputBrand("MASTERCARD");
                     return true 
                     break;
                 case "AMEX":
-                    setOrder({ ...order, card: { ...order.card, flag: { id: 3 }, cardNumber: cardNumber } })
+                    setOrder({ ...order, card: { ...order.card, flag: { id: 3 }, cardNumber: card } })
                     setMask([/[0-9]/, /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/, /\d/])
                     // setValue("CardNum", cardNumber)
                     clearErrors(["CardNum"])
@@ -210,17 +197,17 @@ function FormShippigAddress(props) {
                     return true
                     break;
                 case "ELO":
-                    setOrder({ ...order, card: { ...order.card, flag: { id: 4 }, cardNumber: cardNumber } })
+                    setOrder({ ...order, card: { ...order.card, flag: { id: 4 }, cardNumber: card } })
                     setInputBrand("ELO");
                     return true 
                     break;
                 case "HIPERCARD":
-                    setOrder({ ...order, card: { ...order.card, flag: { id: 5 }, cardNumber: cardNumber } })
+                    setOrder({ ...order, card: { ...order.card, flag: { id: 5 }, cardNumber: card } })
                     setInputBrand("HIPERCARD");
                     return true 
                     break;
                 case "DINERS":
-                    setOrder({ ...order, card: { ...order.card, flag: { id: 6 }, cardNumber: cardNumber } })
+                    setOrder({ ...order, card: { ...order.card, flag: { id: 6 }, cardNumber: card } })
                     setInputBrand("DINERS CLUB");
                     return true 
                     break;
@@ -243,13 +230,10 @@ function FormShippigAddress(props) {
             if (MoipValidator.isSecurityCodeValid(data.CardNum, data.cvv) == true) {
                 if (MoipValidator.isExpiryDateValid(inputMonth, inputYear) == true) {
                     postOrder()
-                    changeRedirect()
                 } else {
-                    console.log("data inválida");
                     return alert("Preencha os dados de pagamento corretamente")
                 }
             } else {
-                console.log("cvv inválida");
                 return alert("Preencha os dados de pagamento corretamente")
             }
         } else {
@@ -487,8 +471,7 @@ function FormShippigAddress(props) {
     function LimpaCartao(e) {
         clearErrors(["CardNum"])
         var cartao = e.target.value.toString()
-        console.log(cartao)
-        console.log('aqui')
+
         setValue("CardNum", cartao)
         var validacoes = [
         {  flag: 'Amex', regex: /^3[47][0-9]{13, 14}$/}
@@ -510,13 +493,10 @@ function FormShippigAddress(props) {
         ]
 
         validacoes.map(item => {
-            console.log(item)
             if (item.regex.test(cartao)) {
                 
                 setInputBrand(item.flag)
-                setOrder({...order, card:{...order.card, cardNumber: cartao }})
 
-                console.log("doi")
             }
         })
     }
@@ -733,7 +713,7 @@ function FormShippigAddress(props) {
                                 value={cvv}
                                 className="form-input col-12"
                                 placeholder="123" />
-                            {MoipValidator.isSecurityCodeValid(cardNumber, cvv) ? "" : <span className="text-danger">Insira um número de cvv válido!</span>}
+                       
                         </div>
 
                         <div className=" col-6 col-md-2">

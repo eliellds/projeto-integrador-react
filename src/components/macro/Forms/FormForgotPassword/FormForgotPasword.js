@@ -4,7 +4,6 @@ import 'react-bootstrap'
 import "./FormForgotPassword.css"
 import Input from "../../../micro/Forms/Input/Input";
 import FormDefault from "../FormDefault/FormDefault";
-import ModalComp from "../../../micro/Modal/Modal";
 import { Link } from "react-router-dom";
 import Button from "../../../micro/Button/Button"
 import api from '../../../../services/api';

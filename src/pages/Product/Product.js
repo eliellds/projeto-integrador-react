@@ -34,12 +34,10 @@ function Product(props) {
 
     function imageRender() {
         var imgSrc = require(`../../assets/images/products/${produto.product.image}`);
-        console.log(imgSrc)
         return <img src={`${imgSrc.default}`} className="image-product-api" />
     }
 
     const id = props.match.params.id;
-    console.log(props);
 
     const [produto, setProduto] = useState({...initial});
     function chargeProduct(){
@@ -74,7 +72,6 @@ function Product(props) {
             qty:1, 
             storage:produto.qty
         }
-            console.log(cartList)
             if (cartList.length >0) {
                 for (var i = 0; i <= cartList.length; ++i) {
                     if (cartList[i].id == product.id) {
@@ -149,9 +146,7 @@ function Product(props) {
     }
 
 
-    console.log(produto);
-    console.log(item);
-    // console.log(produto.product);
+  
     function AlertDefault(){
         window.alert("Produto sem estoque")
     }

@@ -88,6 +88,7 @@ export const Routes = () => {
             <Route path="/login" component={Login} />
             <Route path="/product/:id" component={Product} />
             <Route path="/register" component={Register} />
+        
             <Route path="/catalog/:category" component={Catalog} />
             <Route path="/sales" component={Sales} />
             <Route path="/search/:text" component={Search} />
@@ -97,6 +98,7 @@ export const Routes = () => {
             <Route path="/productnotfound" component={ProductNotFound} />
             <Route path="/cart" component={Cart} exact/>
             <Route path="/newpassword" component={NewPassword}/>
+            <Route path="/category" component={Category} />
             <Route path="/newpasswordform" component={NewPasswordForm}/>
             {/* <OrderSummaryRoute path="/checkout" component={Checkout} /> */}
             <ProtectedRoute path="/checkout" component={Checkout} isAuth={isLogged} />

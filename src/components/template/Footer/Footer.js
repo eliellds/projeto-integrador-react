@@ -45,7 +45,7 @@ function Footer(props) {
                         </h3>
                         <ul>
                             <li className="instagram"><a href="">Instagram</a></li>
-                            <li className="facebook"><a href="">Facebook</a></li>
+                            <li className="facebook"><a href="https://www.facebook.com/Velho-Luxo-108803898301516" target="_blank">Facebook</a></li>
                             <li className="pinterest"><a href="">Pinterest</a></li>
                         </ul>
                     </div>

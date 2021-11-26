@@ -78,18 +78,7 @@ function FormShippigAddress(props) {
     }
 
 
-    function uncriptCard(cript) {
-        var text = "1234789001234"
-        var cipher = crypto.createCipher(alg, pwd)
-        var crypted = cipher.update(text, 'utf8', 'hex')
-        var decipher = crypto.createDecipher(alg, pwd)
-        var uncrypted = decipher.update(crypted, 'hex', 'utf8')
-        return console.log(uncrypted)
 
-
-
-    }
-    uncriptCard()
 
     const user = JSON.parse(localStorage.getItem('user'))
 
@@ -139,7 +128,6 @@ function FormShippigAddress(props) {
                 setValue("E-mail", res.data.email)
                 setValue('numero', addressRes.number)
 
-                console.log(cepTemp)
 
             })
             .catch((err) => {
@@ -188,7 +176,6 @@ function FormShippigAddress(props) {
 
         if (MoipValidator.isValidNumber(card) == true) {
 
-            console.log(MoipValidator.cardType(card))
 
             switch (MoipValidator.cardType(card).brand) {
                 case "VISA":
@@ -245,11 +232,9 @@ function FormShippigAddress(props) {
                     postOrder()
                     changeRedirect()
                 } else {
-                    console.log("data inválida");
                     return alert("Preencha os dados de pagamento corretamente")
                 }
             } else {
-                console.log("cvv inválida");
                 return alert("Preencha os dados de pagamento corretamente")
             }
         } else {
@@ -487,8 +472,7 @@ function FormShippigAddress(props) {
     function LimpaCartao(e) {
         clearErrors(["CardNum"])
         var cartao = e.target.value.toString()
-        console.log(cartao)
-        console.log('aqui')
+
         setValue("CardNum", cartao)
         var validacoes = [
         {  flag: 'Amex', regex: /^3[47][0-9]{13, 14}$/}
@@ -510,13 +494,11 @@ function FormShippigAddress(props) {
         ]
 
         validacoes.map(item => {
-            console.log(item)
             if (item.regex.test(cartao)) {
                 
                 setInputBrand(item.flag)
                 setOrder({...order, card:{...order.card, cardNumber: cartao }})
 
-                console.log("doi")
             }
         })
     }

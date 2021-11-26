@@ -186,7 +186,7 @@ function FormRegister(props) {
                 return false
             }
         }).catch((error) => {
-            console.log("Erro ao buscar")
+            console.log("Erro ao buscar" + error)
             setValid({ ...isValid, email: true })
         })
     }
@@ -196,11 +196,10 @@ function FormRegister(props) {
         api.get('/user/cpf/' + cpf).then((response) => {
             if (response.data) {
                 setValid({ ...isValid, cpf: true, cpfCheck: false })
-                console.log("CPF já cadastrado!")
                 return true
             }
         }).catch((error) => {
-            console.log("Erro ao buscar")
+            console.log("Erro ao buscar"+ error)
             return false
             // setValid({ ...isValid, cpfCheck: true })
         })
@@ -252,7 +251,6 @@ function FormRegister(props) {
                 goBackTo()
             }).catch((error) => {
                 window.alert("Erro ao cadastrar")
-                console.log(error)
                 setDisable(false)
             })
         }else{
@@ -294,7 +292,6 @@ function FormRegister(props) {
         }
         api.post("/userAddress", userAddress)
             .then((response) => {
-                console.log("Endereço vinculado ao usuário")
             })
             .catch((err) => {
                 console.error("Erro criar endereço" + err)

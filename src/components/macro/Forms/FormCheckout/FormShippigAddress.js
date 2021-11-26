@@ -638,6 +638,7 @@ function FormShippigAddress(props) {
 
                         <div className=" col-6 col-md-2">
                             <div className="row">
+                            <div className="col-6">
                                 <InputHook
                                     name="MM" // name sera utilizado no componente para fazer as comparacoes
                                     register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
@@ -650,7 +651,9 @@ function FormShippigAddress(props) {
                                     type="text"
                                     classCustom="col-6"
                                     placeholder="12" />
+                                    </div>
 
+                                <div className="col-6">
 
                                 <InputHook
                                     name="ano" // name sera utilizado no componente para fazer as comparacoes
@@ -665,7 +668,8 @@ function FormShippigAddress(props) {
                                     classCustom="col-6"
                                     placeholder="12" />
 
-                                {MoipValidator.isExpiryDateValid(cardNumber, cvv) ? "" : <span className="text-danger">Insira uma data válida!</span>}
+                                    {MoipValidator.isExpiryDateValid(cardNumber, cvv) ? "" : <span className="text-danger">Insira uma data válida!</span>}
+                                </div>
 
                                 {/* <Input change={e => setInputMonth(e.target.value)} label="Mês" classCustom="col-6" type="text" placeholder="MM" />
                                 <Input change={e => setInputYear(e.target.value)} label="Ano" classCustom="col-6" type="text" placeholder="AA" /> */}

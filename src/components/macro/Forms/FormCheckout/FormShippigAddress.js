@@ -489,7 +489,6 @@ function FormShippigAddress(props) {
         var cartao = e.target.value.toString()
         console.log(cartao)
         console.log('aqui')
-        setCardNumber(cartao)
         setValue("CardNum", cartao)
         var validacoes = [
         {  flag: 'Amex', regex: /^3[47][0-9]{13, 14}$/}

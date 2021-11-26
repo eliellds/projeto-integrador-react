@@ -47,8 +47,9 @@ function Address(props) {
     useEffect(() => { })
 
     function putAddress(data) {
-        setAddress({...address, cep : address.cep.replace(/\D/g, '')})
-        api.put("/address", address)
+        setAddress({...address, cep : data.cep.replace(/\D/g, '')})
+        var newAddress = ({...address, cep: data.cep.replace(/\D/g, '')})
+        api.put("/address", newAddress)
             .then((response) => {
                 alert("Seu endereço foi alterado com sucesso!")
             })

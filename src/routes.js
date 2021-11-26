@@ -98,6 +98,7 @@ export const Routes = () => {
             <Route path="/cart" component={Cart} exact/>
             <Route path="/newpassword" component={NewPassword}/>
             <Route path="/newpasswordform" component={NewPasswordForm}/>
+            <Route path="/category" component={Category}/>
             {/* <OrderSummaryRoute path="/checkout" component={Checkout} /> */}
             <ProtectedRoute path="/checkout" component={Checkout} isAuth={isLogged} />
             <ProtectedRoute path="/dashboard" component={Dashboard} isAuth={isLogged} />

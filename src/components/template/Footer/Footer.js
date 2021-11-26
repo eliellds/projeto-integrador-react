@@ -44,14 +44,14 @@ function Footer(props) {
                             redes sociais
                         </h3>
                         <ul>
-                            <li className="instagram"><a href="">Instagram</a></li>
-                            <li className="facebook"><a href="">Facebook</a></li>
-                            <li className="pinterest"><a href="">Pinterest</a></li>
+                            <li className="instagram"><a href="https://www.instagram.com/velho_luxo/" target="_blank">Instagram</a></li>
+                            <li className="facebook"><a href="https://www.facebook.com/Velho-Luxo-108803898301516" target="_blank">Facebook</a></li>
+                            <li className="pinterest"><a href="" target="_blank">Pinterest</a></li>
                         </ul>
                     </div>
 
                     <div className="col-md-12 last-footer px-0">
-                        criado por GRUPO 5 RD
+                        Velho Luxo Antiquário® - Todos os direitos reservaos
                     </div>
 
                 </div>

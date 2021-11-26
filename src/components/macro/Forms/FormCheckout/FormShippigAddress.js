@@ -396,9 +396,9 @@ function FormShippigAddress(props) {
         setCheck(true)
         setCpf(true)
         clearErrors(["cpf"]) // limpa o erro ao clicar no campo CPF quando este exibe erro
-        var cpf = e;
+        var cpf = e;          
         cpf = cpf.toString().replace(/[^0-9]/g, ""); // transforma os valores digitados para apenas numeros
-
+        setOrder({...order, card:{...order.card, cpf: cpf }})
         let booleano = true
         if (cpf == "") {
             // setCheck(false)
@@ -514,6 +514,8 @@ function FormShippigAddress(props) {
             if (item.regex.test(cartao)) {
                 
                 setInputBrand(item.flag)
+                setOrder({...order, card:{...order.card, cardNumber: cartao }})
+
                 console.log("doi")
             }
         })

@@ -14,40 +14,47 @@ import Loading from "../../../../assets/images/success/loading.gif"
 import { useHistory } from 'react-router';
 
 
-
 function FormForgotPassword(props) {
 
     const history = useHistory()
     const [email, setEmail] = useState("");
-    const { register, handleSubmit, formState: { errors }, clearErrors } = useForm();
+    // const { register, handleSubmit, formState: { errors }, clearErrors } = useForm();
 
-    // function sendEmail(contact) {
-    //     then((response) => {
-    //         console.log(response)
-    //         alert("Verifique seu e-mail, você receberá um link para resetar sua senha. Caso nao receba, entre em contato conosco.")
-    //         window.location.href = "/newpasswordform";
-    //     })
-    //         .catch((err) => {
-    //             console.error("Erro ao realizar Post de recuperar senha" + err)
-    //             alert("Não foi possível recuperar sua senha.")
-    //             setDisable(false)
-    //         });
+    // handleSubmit = e => {
+    //     e.preventDefault();
+
+    //     const data = {
+    //         email: this.email
+    //     }
+        
     // }
 
-    // function postContact() {
-    //     const contact = ({
-    //         subject: {
-    //             id: subject
-    //         },
-    //         name: name,
-    //         phoneNumber: phoneNumber.toString().replace(/[^0-9]/g, ""),
-    //         email: email,
-    //         content: content
-    //     })
+    const getEmail = () => {
+        api
+            .get("/forgotpassword")
+            .then((response) => setEmail(response.data))
+            .catch((err) => {
+                console.error("ops! ocorreu um erro" + err);
+            })
+    }
 
-    //     sendContact(contact)
-    //     setDisable(true)
-    // }
+    useEffect(() => {
+        getEmail();
+    }, []);
+
+    function sendEmail(email) {
+        api.post("/forgotpassword", email)
+            .then((response) => {
+                console.log(response)
+                alert("Verifique seu e-mail, você receberá um link para resetar sua senha. Caso nao receba, entre em contato conosco.")
+                window.location.href = "/newpasswordform";
+            })
+            .catch((err) => {
+                console.error("Erro ao realizar Post de recuperar senha" + err)
+                alert("Não foi possível recuperar sua senha.")
+                setDisable(false)
+            });
+    }
 
     useEffect(() => {
         document.addEventListener("keydown", function (event) {
@@ -59,13 +66,6 @@ function FormForgotPassword(props) {
             }
         });
     }, []);
-
-
-    function LimparEmail(e) {
-        setEmail(e.target.value)
-        clearErrors(["email"])
-        return email
-    }
 
     // imagem de loading
     function renderLoading() {
@@ -93,15 +93,8 @@ function FormForgotPassword(props) {
                     </div>
 
                     <div className="row justify-content-center mt-2">
-                        <Button class="btn-confirmacao" type="submit" disabled={disable} label={disable ? renderLoading() : "Recuperar"} />
+                        <Button class="btn-confirmacao" type="submit" disabled={disable} label={disable ? renderLoading(sendEmail) : "Recuperar"}/>
                     </div>
-
-                    <ModalComp
-                        msg={<p className="modal-text">Mensagem Enviada!</p>}
-                        info={<p className="modal-text">Seu pedido de recuperção de senha foi recebido.</p>}
-                        info1={<p className="modal-text">Confira seu e-mail e cheque sua caixa de spam. Qualquer dúvida, entre em contato.</p>}
-                        info2={<p className="modal-text">Obrigado!</p>}>
-                    </ModalComp>
 
                 </FormDefault>
 

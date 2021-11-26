@@ -4,6 +4,14 @@ import Button from "../../../micro/Button/Button"
 import FormDefault from "../FormDefault/FormDefault"
 
 function NewPasswordForm(props) {
+    // function confirmPassword(verifyPassword){
+
+    //     if(verifyPassword.value != $("changePassword").val()){
+           
+
+
+    //     }
+    // }
 
     return (
         <>
@@ -15,13 +23,13 @@ function NewPasswordForm(props) {
 
                         <div className="row custom-form d-flex justify-content-center">
                             <div className="col-10 col-sm-8 col-md-7 col-lg-5">
-                                <Input label="Senha" className="form-input form-control col-12 form-label" type="password" id="password" placeholder="Digite sua nova senha..." />
+                                <Input label="Nova senha:" value="changePassword" className="form-input form-control col-12 form-label" type="password" placeholder="Digite sua nova senha..." />
                             </div>
                         </div>
 
                         <div className="row custom-form d-flex justify-content-center">
                             <div className="col-10 col-sm-8 col-md-7 col-lg-5">
-                                <Input label="Senha" type="password" className="form-label form-control form-input col-12 " id="senha" placeholder="Confirme sua nova senha..." />
+                                <Input label="Confirmar senha:" value="verifyPassword" type="password" className="form-label form-control form-input col-12 "placeholder="Confirme sua nova senha..." />
                             </div>
                         </div>
 

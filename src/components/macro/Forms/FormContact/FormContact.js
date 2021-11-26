@@ -20,8 +20,8 @@ function FormContact(props) {
     const [content, setContent] = useState("");
     const [email, setEmail] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
-    const [subject, setSubject] = useState("");
-    const { register, handleSubmit, formState: { errors }, clearErrors} = useForm();
+    const [subject, setSubject] = useState(1);
+    const {setValue, register, handleSubmit, formState: { errors }, clearErrors} = useForm();
 
     function handleShow() {
         return show
@@ -120,7 +120,7 @@ function FormContact(props) {
                     </div>
 
                     <div className="col-12 col-md-5">
-                        <SelectOptions label="Assunto:" value="Outros" options={props.options} change={e => setSubject(e.target.value)} />
+                        <SelectOptions label="Assunto:" options={props.options} change={e => setSubject(e.target.value)} />
                     </div>
 
                 </div>

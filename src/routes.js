@@ -77,11 +77,15 @@ export const Routes = () => {
 
     return (
         <Switch>
-             {/* 
+            {/* 
                 ProtectedRoute se refere a rotas que so podem ser acessadas caso o usuario esteja logado,
                 eh passado para a props isAuth o valor de isLogged para verificar se ira renderizar ou nao o componente
                 (Obs.: ProtectedRoute criado na src do projeto)
              */}
+            <Route path="/" component={Home} exact />
+            <Route path="/home" component={Home} exact />
+            <Route path="/cart" component={Cart} />
+            <Route path="/category" component={Category} />
             <ProtectedRoute path="/checkout" component={Checkout} isAuth={isLogged} />
             <ProtectedRoute path="/dashboard" component={Dashboard} isAuth={isLogged} />
             <Route path="/login" component={Login} />
@@ -89,7 +93,6 @@ export const Routes = () => {
             <Route path="/register" component={Register} />
             <ProtectedRoute path="/success" component={Success} isAuth={isLogged} />
             <Route path="/catalog/:category" component={Catalog} />
-            <Route path="/category" component={Category} />
             <Route path="/sales" component={Sales} />
             <Route path="/search/:text" component={Search} />
             <Route path="/about" component={About} />
@@ -100,12 +103,10 @@ export const Routes = () => {
             <ProtectedRoute path="/addressform" component={Address} isAuth={isLogged} />
             <ProtectedRoute path="/formuser" component={FormUser} isAuth={isLogged} />
             <ProtectedRoute path="/myorder" component={MeusPedidos} isAuth={isLogged} />
+            <Route path="/newpassword" component={NewPassword} />
+            <Route path="/newpasswordform" component={NewPasswordForm} />
             <Route component={NotFound} />
-            <Route path="/" component={Home} exact/>
-            <Route path="/home" component={Home} exact/>
-            <Route path="/cart" component={Cart}/>
-            <Route path="/newpassword" component={NewPassword}/>
-            <Route path="/newpasswordform" component={NewPasswordForm}/>
+            
         </Switch>
     )
 }

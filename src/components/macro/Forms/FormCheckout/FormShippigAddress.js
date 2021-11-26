@@ -71,13 +71,13 @@ function FormShippigAddress(props) {
 
 
     }
- 
+
 
     function uncriptCard(cript) {
         var text = "1234789001234"
         var cipher = crypto.createCipher(alg, pwd)
         var crypted = cipher.update(text, 'utf8', 'hex')
-        var decipher = crypto.createDecipher(alg,pwd)
+        var decipher = crypto.createDecipher(alg, pwd)
         var uncrypted = decipher.update(crypted, 'hex', 'utf8')
         return console.log(uncrypted)
 
@@ -116,10 +116,10 @@ function FormShippigAddress(props) {
     const getTelephone = (addressRes) => {
         api.get(`/user/${user.value.id}`).then(
             res => {
-                var cepTemp =  addressRes.cep.substring(0,5)+"-"+addressRes.cep.substring(5);
-                setOrder({ ...order, myUser: { email: res.data.email, id: res.data.id }, telephone: { ...res.data.telephone }, address: { ...addressRes, cep:cepTemp } })
-              
-                setValue('cep',cepTemp )
+                var cepTemp = addressRes.cep.substring(0, 5) + "-" + addressRes.cep.substring(5);
+                setOrder({ ...order, myUser: { email: res.data.email, id: res.data.id }, telephone: { ...res.data.telephone }, address: { ...addressRes, cep: cepTemp } })
+
+                setValue('cep', cepTemp)
                 console.log(cepTemp)
 
             })
@@ -137,10 +137,14 @@ function FormShippigAddress(props) {
         if (cpfCheck == false) {
             return alert("Preencha os dados corretamente")
         }
-        var tempOrder = {...order}
-        
-        tempOrder =({...tempOrder, card: { ...tempOrder.card, cardNumber: criptCard(tempOrder.card.cardNumber).toString(), dueDate: inputYear + "-" + inputMonth + "-01" }})
-        
+
+        if (MoipValidator.isValidNumber(cardNumber) == false) {
+            return alert("Preencha os dados de pagamento corretamente")
+        }
+        var tempOrder = { ...order }
+
+        tempOrder = ({ ...tempOrder, card: { ...tempOrder.card, cardNumber: criptCard(tempOrder.card.cardNumber).toString(), dueDate: inputYear + "-" + inputMonth + "-01" } })
+
         let orderJson = JSON.stringify(tempOrder)
 
         localStorage.setItem('order', orderJson)
@@ -149,6 +153,7 @@ function FormShippigAddress(props) {
 
     function authCard(e) {
         var cardNumber = e.target.value
+        setCardNumber(cardNumber);
 
         if (MoipValidator.isValidNumber(cardNumber) == true) {
 
@@ -160,23 +165,23 @@ function FormShippigAddress(props) {
                     return setInputBrand("VISA")
                     break;
                 case "MASTERCARD":
-                    setOrder({ ...order, card: { ...order.card, flag: { id: 1 }, cardNumber: cardNumber  } })
+                    setOrder({ ...order, card: { ...order.card, flag: { id: 1 }, cardNumber: cardNumber } })
                     return setInputBrand("MASTERCARD");
                     break;
                 case "AMEX":
-                    setOrder({ ...order, card: { ...order.card, flag: { id: 3 }, cardNumber: cardNumber  } })
+                    setOrder({ ...order, card: { ...order.card, flag: { id: 3 }, cardNumber: cardNumber } })
                     return setInputBrand("AMERICAN EXPRESS");
                     break;
                 case "ELO":
-                    setOrder({ ...order, card: { ...order.card, flag: { id: 4 }, cardNumber: cardNumber  } })
+                    setOrder({ ...order, card: { ...order.card, flag: { id: 4 }, cardNumber: cardNumber } })
                     return setInputBrand("ELO");
                     break;
                 case "HIPERCARD":
-                    setOrder({ ...order, card: { ...order.card, flag: { id: 5 }, cardNumber: cardNumber  } })
+                    setOrder({ ...order, card: { ...order.card, flag: { id: 5 }, cardNumber: cardNumber } })
                     return setInputBrand("HIPERCARD");
                     break;
                 case "DINERS":
-                    setOrder({ ...order, card: { ...order.card, flag: { id: 6 }, cardNumber: cardNumber  } })
+                    setOrder({ ...order, card: { ...order.card, flag: { id: 6 }, cardNumber: cardNumber } })
                     return setInputBrand("DINERS CLUB");
                     break;
                 default:
@@ -185,29 +190,33 @@ function FormShippigAddress(props) {
         }
     }
 
-    function authDateCard() {
+    const [cardNumber, setCardNumber] = useState("");
+    const [cvv, setCvv] = useState("");
+
+    function authDateCard(data) {
         var dataCurrente = new Date();
         var dateCurrent = (dataCurrente.getFullYear()-10)+"-"+dataCurrente.getMonth()+"-"+dataCurrente.getDate()
 
-        if(dateCurrent>order.card.birthDate) {
+        if (dateCurrent > order.card.birthDate) {
 
-            if (MoipValidator.isExpiryDateValid(inputMonth, inputYear) == true) {
-                postOrder()
+            if (MoipValidator.isSecurityCodeValid(data.CardNum, data.cvv) == true) {
+                if (MoipValidator.isExpiryDateValid(inputMonth, inputYear) == true) {
+                    postOrder()
+                } else {
+                    console.log("data inválida");
+                    return alert("Preencha os dados de pagamento corretamente")
+                }
             } else {
-                console.log("data inválida");
+                console.log("cvv inválida");
+                return alert("Preencha os dados de pagamento corretamente")
             }
-        }else{
-            window.alert("Data de nascimento do titular do cartão invalida!"  )
-            
+        } else {
+            window.alert("Data de nascimento do titular do cartão invalida!")
+
         }
+
     }
 
-    function authCodeCard() {
-
-        if (MoipValidator.isSecurityCodeValid() == true) {
-            
-        }
-    }
 
 
     const [displayNoneB, setDisplayNoneB] = useState("d-none")
@@ -248,7 +257,7 @@ function FormShippigAddress(props) {
     }
 
     useEffect(() => {
-        
+
         getListPayments()
         getListFlags()
 
@@ -289,15 +298,15 @@ function FormShippigAddress(props) {
             alert("CEP não encontrado.");
         }
     }
-    
+
 
     function buscarCep(e) {
 
         const valor = e.target.value
-        setValue('cep',valor)
+        setValue('cep', valor)
         //Nova variável "cep" somente com dígitos.
         const cep = valor.replace(/\D/g, '');
-        
+
 
         //Verifica se campo cep possui valor informado.
         if (cep != "") {
@@ -424,7 +433,7 @@ function FormShippigAddress(props) {
 
                     <div class="row ">
                         <div class=" col-6  col-sm-6 col-md-3">
-                        <InputHook hook // hook eh a props para input padrao com a verificacao
+                            <InputHook hook // hook eh a props para input padrao com a verificacao
                                 name="telefone" // name sera utilizado no componente para fazer as comparacoes
                                 register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
                                 required={<span className="text-danger">Digite um telefone válido</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
@@ -437,11 +446,11 @@ function FormShippigAddress(props) {
                                 type="tel"
                                 className="form-input col-12"
                                 placeholder="Telefone para contato com DDD" />
-                            
+
                         </div>
 
                         <div class=" col-6  col-sm-6 col-md-4">
-                        <InputHook hook // hook eh a props para input padrao com a verificacao
+                            <InputHook hook // hook eh a props para input padrao com a verificacao
                                 name="E-mail" // name sera utilizado no componente para fazer as comparacoes
                                 register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
                                 required={<span className="text-danger">Digite um email válido</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
@@ -453,13 +462,13 @@ function FormShippigAddress(props) {
                                 label="E-mail"
                                 type="mail"
                                 className="form-input col-12 form-label"
-                                placeholder="E-mail para contato"/>
-                            
+                                placeholder="E-mail para contato" />
+
                         </div>
 
 
                         <div class=" col-6 col-sm-6 col-md-3">
-                        <InputHook hook // hook eh a props para input padrao com a verificacao
+                            <InputHook hook // hook eh a props para input padrao com a verificacao
                                 name="Cep" // name sera utilizado no componente para fazer as comparacoes
                                 register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
                                 required={<span className="text-danger">Digite um CEP válido</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
@@ -471,8 +480,8 @@ function FormShippigAddress(props) {
                                 label="CEP"
                                 type="text"
                                 className="form-input col-12"
-                                placeholder="Digite seu CEP..."/>
-                    
+                                placeholder="Digite seu CEP..." />
+
                         </div>
 
                         <div class=" col-6 col-sm-6 col-md-2">
@@ -488,7 +497,7 @@ function FormShippigAddress(props) {
                         </div>
 
                         <div class=" col-3  col-md-2">
-                        <InputHook hook // hook eh a props para input padrao com a verificacao
+                            <InputHook hook // hook eh a props para input padrao com a verificacao
                                 name="Número" // name sera utilizado no componente para fazer as comparacoes
                                 register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
                                 required={<span className="text-danger">Digite um número válido</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
@@ -500,7 +509,7 @@ function FormShippigAddress(props) {
                                 label="Número"
                                 type="text"
                                 className="form-input col-12"
-                                placeholder="Digite o número..."/>
+                                placeholder="Digite o número..." />
                         </div>
 
                         <div class=" col-6 col-md-4">
@@ -560,7 +569,7 @@ function FormShippigAddress(props) {
                             <InputHook // hook eh a props para input padrao com a verificacao
                                 name="cpf" // name sera utilizado no componente para fazer as comparacoes
                                 register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
-                                required={cpfValue == "" ? <><span className="text-danger">Campo inválido!</span><br/></> : ""} // mensagem de erro que sera exibida caso o campo nao seja valido
+                                required={cpfValue == "" ? <><span className="text-danger">Campo inválido!</span><br /></> : ""} // mensagem de erro que sera exibida caso o campo nao seja valido
                                 maxlength={14} // tamanho maximo do campo
                                 minlength={11} // tamanho minimo do campo
                                 pattern={/([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})/u}
@@ -577,24 +586,50 @@ function FormShippigAddress(props) {
                         </div>
 
                         <div className=" col-6 col-md-3">
-                        <InputHook hook // hook eh a props para input padrao com a verificacao
-                            name="data" // name sera utilizado no componente para fazer as comparacoes
-                            register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
-                            required={<span className="text-danger">Digite uma data válida!</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
-                            pattern={/^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$/}
-                            errors={errors}
-                            change={LimparData}
-                            label="Data de Nascimento Titular"
-                            type="date"
-                            className="form-input col-12" />
+                            <InputHook hook // hook eh a props para input padrao com a verificacao
+                                name="data" // name sera utilizado no componente para fazer as comparacoes
+                                register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
+                                required={<span className="text-danger">Digite uma data válida!</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
+                                pattern={/^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$/}
+                                errors={errors}
+                                change={LimparData}
+                                label="Data de Nascimento Titular"
+                                type="date"
+                                className="form-input col-12"
+                            />
                         </div>
 
                         <div className=" col-12 col-md-4">
-                            <Input change={authCard} label="Numero do Cartão" className="form-input col-12 form-label" type="text" name="cardNumber" placeholder="Ex.: 0000 1111 2222 3333." />
+                            <InputHook hook
+                                name="CardNum" // name sera utilizado no componente para fazer as comparacoes
+                                register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
+                                required // mensagem de erro que sera exibida caso o campo nao seja valido
+                                errors={errors}
+                                change={authCard}
+                                mask="9999 9999 9999 9999"
+                                label="Número do cartão"
+                                type="text"
+                                className="form-input col-12"
+                                placeholder="1234 1234 1234 1234" />
+                            {MoipValidator.isValidNumber(cardNumber) ? "" : <span className="text-danger">Insira um número de cartão válido!</span>}
+                            {/* <Input change={authCard} label="Numero do Cartão" className="form-input col-12 form-label" type="text" name="cardNumber" placeholder="Ex.: 0000 1111 2222 3333." /> */}
                         </div>
 
                         <div className=" col-6 col-md-1">
-                            <Input /*change={e => validarCvv(e)}*/ label="CVV" className="form-input col-12 form-label" type="text" name="cvv" placeholder="Ex.: 000." />
+                            <InputHook
+                                name="cvv" // name sera utilizado no componente para fazer as comparacoes
+                                register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
+                                required // mensagem de erro que sera exibida caso o campo nao seja valido
+                                errors={errors}
+                                change={e => { setCvv(e.target.value) }}
+                                maxlength={3}
+                                mask="999"
+                                label="CVV"
+                                type="text"
+                                value={cvv}
+                                className="form-input col-12"
+                                placeholder="123" />
+                            {MoipValidator.isSecurityCodeValid(cardNumber, cvv) ? "" : <span className="text-danger">Insira um número de cvv válido!</span>}
                         </div>
 
                         <div className=" col-6 col-md-2">
@@ -605,14 +640,43 @@ function FormShippigAddress(props) {
 
                         <div className=" col-6 col-md-2">
                             <div className="row">
-                                <Input change={e => setInputMonth(e.target.value)} label="Mês" classCustom="col-6" type="text" placeholder="MM" />
-                                <Input change={e => setInputYear(e.target.value)} label="Ano" classCustom="col-6" type="text" placeholder="AA" />
+                                <InputHook
+                                    name="MM" // name sera utilizado no componente para fazer as comparacoes
+                                    register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
+                                    required // mensagem de erro que sera exibida caso o campo nao seja valido
+                                    errors={errors}
+                                    change={e => { setInputMonth(e.target.value) }}
+                                    maxlength={2}
+                                    mask="99"
+                                    label="Mês"
+                                    type="text"
+                                    classCustom="col-6"
+                                    placeholder="12" />
+
+
+                                <InputHook
+                                    name="ano" // name sera utilizado no componente para fazer as comparacoes
+                                    register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
+                                    required // mensagem de erro que sera exibida caso o campo nao seja valido
+                                    errors={errors}
+                                    change={e => { setInputYear(e.target.value) }}
+                                    maxlength={2}
+                                    mask="99"
+                                    label="Ano"
+                                    type="text"
+                                    classCustom="col-6"
+                                    placeholder="12" />
+
+                                {MoipValidator.isExpiryDateValid(cardNumber, cvv) ? "" : <span className="text-danger">Insira uma data válida!</span>}
+
+                                {/* <Input change={e => setInputMonth(e.target.value)} label="Mês" classCustom="col-6" type="text" placeholder="MM" />
+                                <Input change={e => setInputYear(e.target.value)} label="Ano" classCustom="col-6" type="text" placeholder="AA" /> */}
                             </div>
                         </div>
 
 
                         <div className=" col-6 col-md-3">
-                            <SelectCard label="Forma de Pagamento:" paymentMethod={paymentMethod} change={e => setOrder({ ...order, payment: { id: e.target.value }})} />
+                            <SelectCard label="Forma de Pagamento:" paymentMethod={paymentMethod} change={e => setOrder({ ...order, payment: { id: e.target.value } })} />
                         </div>
 
                     </div>

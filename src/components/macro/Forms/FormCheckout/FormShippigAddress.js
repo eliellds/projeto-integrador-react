@@ -118,8 +118,10 @@ function FormShippigAddress(props) {
             res => {
                 var cepTemp =  addressRes.cep.substring(0,5)+"-"+addressRes.cep.substring(5);
                 setOrder({ ...order, myUser: { email: res.data.email, id: res.data.id }, telephone: { ...res.data.telephone }, address: { ...addressRes, cep:cepTemp } })
-              
+                setValue('telefone',res.data.telephone.number)
                 setValue('cep',cepTemp )
+                setValue("E-mail",res.data.email)
+
                 console.log(cepTemp)
 
             })
@@ -459,7 +461,6 @@ function FormShippigAddress(props) {
 
 
                         <div class=" col-6 col-sm-6 col-md-3">
-<<<<<<< HEAD
                         <InputCep
                             name="cep" pattern={/^\d{5}-\d{3}$/}
                             mask={[/[0-9]/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]}
@@ -470,22 +471,6 @@ function FormShippigAddress(props) {
                             change={e =>setOrder({ ...order, address: { ...order.address, cep: e.target.value } }) } register={register} errors={errors}
                             value={order.address.cep} />
                             {/* <InputCep className="form-input col-12 form-label" length="9" blur={buscarCep} value={order.address.cep} label="CEP" type="text" id="cep" className="form-input col-12" placeholder="Digite seu CEP..." change={e => setOrder({ ...order, address: { ...order.address, cep: e.target.value } })} /> */}
-=======
-                        <InputHook hook // hook eh a props para input padrao com a verificacao
-                                name="Cep" // name sera utilizado no componente para fazer as comparacoes
-                                register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
-                                required={<span className="text-danger">Digite um CEP válido</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
-                                maxlength={9} // tamanho maximo do campo
-                                pattern={/[0-9]{5}-[0-9]{3}/}
-                                errors={errors}
-                                clear={clearErrors}
-                                change={buscarCep}
-                                label="CEP"
-                                type="text"
-                                className="form-input col-12"
-                                placeholder="Digite seu CEP..."/>
-                    
->>>>>>> 1b5e10656e4f99ae05e5385198fede44ce725bf7
                         </div>
 
                         <div class=" col-6 col-sm-6 col-md-2">

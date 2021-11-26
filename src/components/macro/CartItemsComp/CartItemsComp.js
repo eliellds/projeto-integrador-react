@@ -6,6 +6,7 @@ import Button from "../../micro/Button/Button"
 import { useHistory } from "react-router"
 import { Link } from 'react-router-dom';
 import CardProduct from '../Cards/Products/CardProduct';
+import { Redirect } from "react-router-dom";
 
 
 
@@ -19,6 +20,8 @@ function CartItemsComp(props) {
     function setQtyCart() {
         return qtyCart
     }
+
+    // const [success, setSuccess] = useState(false)
     
 
     useEffect(() => {
@@ -45,6 +48,7 @@ function CartItemsComp(props) {
         e.preventDefault()
         props.click()
         window.location.href = props.logged ? "/login" : "/checkout";
+        // setSuccess(true)
 
     }
     return (
@@ -99,7 +103,11 @@ function CartItemsComp(props) {
                     </Link> : ""}
                 </div>
 
-            </div>
+            </div> 
+            {/* {success
+                ? <Redirect to={{pathname: "/checkout", state: {...cartItems}}} />
+                : ""
+            } */}
         </>
     )
 }

@@ -5,8 +5,9 @@ import "./OrderSummaryPage.css"
 import api from "../../../services/api";
 import ProductSuccessOrder from "../../micro/productsSucess/productSuccessOrder";
 import Loading from "../../../assets/images/success/loading.gif"
+import { Redirect } from "react-router-dom";
 
-let initial = JSON.parse(localStorage.getItem('order'))
+
 const cart = JSON.parse(localStorage.getItem('cart'))
 const user = JSON.parse(localStorage.getItem('user'))
 const crypto = require('crypto');
@@ -14,6 +15,19 @@ const alg = 'aes-256-ctr'
 const pwd = 'qwertjose'
 
 function OrderSummaryPage(props) {
+
+    let initial = { 
+        ...JSON.parse(localStorage.getItem('order')), 
+        payment: { 
+            ...JSON.parse(localStorage.getItem('order')).payment,
+            description: "" 
+        }
+        } || {}
+
+    console.log(props)
+    
+    const [success, setSuccess] = useState(false)
+    const [back, setBack] = useState(false)
 
     function renderLoading() {
         return <img className="img-loading-btn" src={Loading} alt="Gerando pedido" />
@@ -118,13 +132,16 @@ function OrderSummaryPage(props) {
                     totalPrice: calcTotalPrice(item.id)
                 }).then(result => {
                     if (result.data.compositeKey.idItem == cart.length) {
-                        localStorageRemoveOrder()
+                        
+                        setSuccess(true)
                         alert("Pedido gerado com sucesso!")
-                        window.location.href = "/success"
+                        localStorageRemoveOrder()
+                        // window.location.href = "/success"
                     }
                 }).catch(err => { 
                     console.log("Erro ao gravar item" + err) 
                     setDisable(false)
+                    setSuccess(false)
                 });
             }, 20
             )
@@ -282,7 +299,7 @@ function OrderSummaryPage(props) {
                         <OrderInfo titulo="Pagamento"
                             primeiraLinha={order.payment.description + " - " + order.card.flag.description}
                             segundaLinha={uncriptCard(order.card.cardNumber)}
-                            terceiraLinha={order.payment.installments >= 2 ? order.payment.installments + " x de" : order.payment.installments} terceiraLinha1={order.payment.installments >= 2 ? calcInstallments() : somar().toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                            terceiraLinha={order.payment?.installments >= 2 ? order.payment.installments + " x de" : order.payment.installments} terceiraLinha1={order.payment.installments >= 2 ? calcInstallments() : somar().toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                             quartaLinha={"Total: " + somar().toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} />
 
                         <OrderInfo titulo="Endereço de entrega"
@@ -303,7 +320,11 @@ function OrderSummaryPage(props) {
 
 
 
-            </div>
+            </div> 
+            {success
+                ? <Redirect to={{pathname: "/success", state: {...order}}} />
+                : ""
+            }
         </>
     );
 }

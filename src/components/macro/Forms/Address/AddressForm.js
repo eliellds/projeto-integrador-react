@@ -47,8 +47,9 @@ function Address(props) {
     useEffect(() => { })
 
     function putAddress(data) {
-        setAddress({...address, cep : address.cep.replace(/\D/g, '')})
-        api.put("/address", address)
+        setAddress({...address, cep : data.cep.replace(/\D/g, '')})
+        var newAddress = ({...address, cep: data.cep.replace(/\D/g, '')})
+        api.put("/address", newAddress)
             .then((response) => {
                 alert("Seu endereço foi alterado com sucesso!")
             })
@@ -148,7 +149,7 @@ function Address(props) {
 
     function pesquisacep(e) {
 
-        const valor = e.target.value
+        const valor = e
         setValue("cep", valor)
 
         //Nova variável "cep" somente com dígitos.
@@ -227,7 +228,7 @@ function Address(props) {
                             name="cep" pattern={/^\d{5}-\d{3}$/}
                             mask={[/[0-9]/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]}
                             required={<span className="text-danger">Campo inválido!</span>}
-                            blur={pesquisacep}
+                            blur={pesquisacep} validation={pesquisacep}
                             label="CEP" type="text" id="cep" className="form-input col-12"
                             placeholder="00000-000" value={address.cep} disabled={show}
                             change={setInputCep} register={register} errors={errors} />

@@ -5,6 +5,7 @@ import { Route, Redirect } from "react-router-dom"
 // component eh o componente que desejamos renderizar,
 // ...rest sao quaisquer outros parametros passados para o componente
 function ProtectedRoute({ isAuth: isAuth, component: Component, ...rest }) {
+    
     return(
         // Route eh a route padrao, render ira renderizar o componente ou o redirect, de acordo com a condicao
         <Route {...rest} render={(props) => {

@@ -26,6 +26,7 @@ import NewPasswordForm from "./components/macro/Forms/FormForgotPassword/NewPass
 import NewPassword from "./pages/ForgotPassword/NewPassword"
 import ProtectedRoute from "./ProtectedRoute"
 import api from "./services/api"
+import OrderSummaryRoute from "./components/macro/Route/OrderSummaryRoute"
 
 export const Routes = () => {
 
@@ -87,6 +88,7 @@ export const Routes = () => {
             <Route path="/login" component={Login} />
             <Route path="/product/:id" component={Product} />
             <Route path="/register" component={Register} />
+        
             <Route path="/catalog/:category" component={Catalog} />
             <Route path="/sales" component={Sales} />
             <Route path="/search/:text" component={Search} />
@@ -95,10 +97,16 @@ export const Routes = () => {
             <Route path="/contact" component={Contact} />
             <Route path="/productnotfound" component={ProductNotFound} />
             <Route path="/cart" component={Cart} exact/>
+            <Route path="/newpassword" component={NewPassword}/>
+            <Route path="/category" component={Category} />
+            <Route path="/newpasswordform" component={NewPasswordForm}/>
+            {/* <OrderSummaryRoute path="/checkout" component={Checkout} /> */}
             <ProtectedRoute path="/checkout" component={Checkout} isAuth={isLogged} />
             <ProtectedRoute path="/dashboard" component={Dashboard} isAuth={isLogged} />
-            <ProtectedRoute path="/success" component={Success} isAuth={isLogged} />
-            <ProtectedRoute path="/order" component={OrderSummary} isAuth={isLogged} />
+            {/* <ProtectedRoute path="/success" component={Success} isAuth={isLogged} /> */}
+            {/* <ProtectedRoute path="/order" component={OrderSummary} isAuth={isLogged} /> */}
+            <OrderSummaryRoute path="/success" component={Success} />
+            <OrderSummaryRoute path="/order" component={OrderSummary} />
             <ProtectedRoute path="/addressform" component={Address} isAuth={isLogged} />
             <ProtectedRoute path="/formuser" component={FormUser} isAuth={isLogged} />
             <ProtectedRoute path="/myorder" component={MeusPedidos} isAuth={isLogged} />

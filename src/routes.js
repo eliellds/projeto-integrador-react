@@ -82,16 +82,11 @@ export const Routes = () => {
                 eh passado para a props isAuth o valor de isLogged para verificar se ira renderizar ou nao o componente
                 (Obs.: ProtectedRoute criado na src do projeto)
              */}
-            <Route path="/" component={Home} exact />
-            <Route path="/home" component={Home} exact />
-            <Route path="/cart" component={Cart} />
-            <Route path="/category" component={Category} />
-            <ProtectedRoute path="/checkout" component={Checkout} isAuth={isLogged} />
-            <ProtectedRoute path="/dashboard" component={Dashboard} isAuth={isLogged} />
+            <Route path="/" component={Home} exact/>
+            <Route path="/home" component={Home} exact/>
             <Route path="/login" component={Login} />
             <Route path="/product/:id" component={Product} />
             <Route path="/register" component={Register} />
-            <ProtectedRoute path="/success" component={Success} isAuth={isLogged} />
             <Route path="/catalog/:category" component={Catalog} />
             <Route path="/sales" component={Sales} />
             <Route path="/search/:text" component={Search} />
@@ -99,14 +94,18 @@ export const Routes = () => {
             <Route path="/forgotpassword" component={ForgotPassword} />
             <Route path="/contact" component={Contact} />
             <Route path="/productnotfound" component={ProductNotFound} />
+            <Route path="/cart" component={Cart} exact/>
+            <ProtectedRoute path="/checkout" component={Checkout} isAuth={isLogged} />
+            <ProtectedRoute path="/dashboard" component={Dashboard} isAuth={isLogged} />
+            <ProtectedRoute path="/success" component={Success} isAuth={isLogged} />
             <ProtectedRoute path="/order" component={OrderSummary} isAuth={isLogged} />
             <ProtectedRoute path="/addressform" component={Address} isAuth={isLogged} />
             <ProtectedRoute path="/formuser" component={FormUser} isAuth={isLogged} />
             <ProtectedRoute path="/myorder" component={MeusPedidos} isAuth={isLogged} />
             <Route path="/newpassword" component={NewPassword} />
             <Route path="/newpasswordform" component={NewPasswordForm} />
+
             <Route component={NotFound} />
-            
         </Switch>
     )
 }

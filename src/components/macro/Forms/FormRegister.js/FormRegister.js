@@ -76,9 +76,13 @@ function FormRegister(props) {
         if (!("erro" in conteudo)) {
             //Atualiza os campos com os valores.
             setAddress({ ...address, street: conteudo.logradouro, district: conteudo.bairro, city: conteudo.localidade, state: conteudo.uf })
+            clearErrors(["rua"])
+            clearErrors(["bairro"])
+            clearErrors(["cidade"])
             setValue("rua", conteudo.logradouro)
             setValue("bairro", conteudo.bairro)
             setValue("cidade", conteudo.localidade)
+            clearErrors(["rua"])
         } //end if.
         else {
             //CEP não Encontrado.
@@ -87,15 +91,22 @@ function FormRegister(props) {
         }
     }
 
+    /////////////////////////// FUNCAO DE VALIDAR CEP //////////////////////////
+
     function pesquisacep(e) {
 
-        const valor = e.target.value
+        clearErrors(["cep"])
+
+        const valor = e
 
         setValue("cep", valor)
 
+        var cep = ""
 
         //Nova variável "cep" somente com dígitos.
-        const cep = valor.replace(/\D/g, '');
+        if (valor) {
+            cep = valor.replace(/\D/g, '');
+        }
 
         //Verifica se campo cep possui valor informado.
         if (cep != "") {
@@ -112,24 +123,36 @@ function FormRegister(props) {
                 fetch(`https://viacep.com.br/ws/${cep}/json/`)
                     .then(res => res.json())
                     .then(data => meu_callback(data))
-
             } //end if.
             else {
                 //cep é inválido.
                 limpa_formulário_cep();
                 alert("Formato de CEP inválido.");
+                return false
             }
         } //end if.
         else {
             //cep sem valor, limpa formulário.
             limpa_formulário_cep();
+            return false
         }
     };
     /////////////////// FIM FUNCOES DE BUSCA E VALIDACAO DE CEP /////////////////////
 
 
     // desfragmentando as funcoes e objetos da biblioteca react-hook-form
-    const { register, handleSubmit, watch, formState: { errors }, reset, setValue, clearErrors, setError } = useForm();
+    const { register, handleSubmit, watch, formState: { errors }, reset, setValue, clearErrors, setError } = useForm({
+        mode: 'onChange',
+        reValidateMode: 'onChange',
+        defaultValues: {},
+        resolver: undefined,
+        context: undefined,
+        criteriaMode: "firstError",
+        shouldFocusError: true,
+        shouldUnregister: false,
+        shouldUseNativeValidation: false,
+        delayError: undefined
+      });
 
     const [user, setUser] = useState(initial)
     const [passwordConfirm, setConfirm] = useState("")
@@ -288,9 +311,8 @@ function FormRegister(props) {
     /////////// INICIO DA FUNCAO DE VALIDACAO DE CPF /////////////
 
     // @see https://incom.in.gov.br/js/util.js
-    function checarCPF(e) {
+    function checarCPF(cpf) {
         setValid({ ...isValid, cpfCheck: true, cpf: true })
-        var cpf = e.target.value;
         cpf = cpf.toString().replace(/[^0-9]/g, ""); // transforma os valores digitados para apenas numeros
 
         let booleano = true
@@ -345,7 +367,7 @@ function FormRegister(props) {
         setValid({ ...isValid, cpf: true })
         setUser({ ...user, cpf: cpf })
         clearErrors(["cpf"]) // limpa o erro ao clicar no campo CPF quando este exibe erro
-        return cpf;
+        return true;
     }
 
     function ValidarTel(e) {
@@ -357,6 +379,10 @@ function FormRegister(props) {
     }
 
     // limpam o vaor do input ao alterar o campo quando o mesmo tem erro
+    function LimparCPF(e) {
+        clearErrors(["cpf"])
+        setValid({...isValid, cpfCheck: true})
+    }
     function LimparNome(e) {
         clearErrors(["nome"])
     }
@@ -386,6 +412,7 @@ function FormRegister(props) {
     function LimparNumero(e) {
         clearErrors(["numero"])
         setAddress({ ...address, number: e.target.value })
+        setValue("numero", e.target.value)
     }
     function LimparBairro(e) {
         clearErrors(["bairro"])
@@ -467,19 +494,21 @@ function FormRegister(props) {
                         <InputHook // hook eh a props para input padrao com a verificacao
                             name="cpf" // name sera utilizado no componente para fazer as comparacoes
                             register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
-                            required={user.cpf == "" ? <><span className="text-danger">Campo inválido!</span><br /></> : ""} // mensagem de erro que sera exibida caso o campo nao seja valido
+                            message={<span className="text-danger">Digite um CPF válido!</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
+                            required={<span className="text-danger">Digite um CPF válido!</span>}
                             maxlength={14} // tamanho maximo do campo
                             minlength={11} // tamanho minimo do campo
                             pattern={/([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})/u}
                             errors={errors}
-                            change={checarCPF}
+                            change={LimparCPF}
+                            validation={checarCPF} // funcao que ira ser utilizada como validador do campo
                             mask="999.999.999-99" // mascara que sera aplicada
                             value={user.cpf}
                             label="CPF"
                             type="text"
                             className="form-input col-12"
                             placeholder="000.000.000-00" />
-                        {isValid.cpf ? "" : <span className="text-danger">Digite um CPF válido! </span>}
+                        {/* {isValid.cpf ? "" : <span className="text-danger">Digite um CPF válido! </span>} */}
                         {isValid.cpfCheck ? "" : <span className="text-danger">CPF já cadastrado!</span>}
 
                     </div>
@@ -534,7 +563,7 @@ function FormRegister(props) {
                             required={<span className="text-danger">Campo inválido!</span>}
                             blur={pesquisacep}
                             label="CEP" type="text" id="cep" className="form-input col-12"
-                            placeholder="00000-000"
+                            placeholder="00000-000" validation={pesquisacep}
                             change={setInputCep} register={register} errors={errors} />
                     </div>
 
@@ -544,7 +573,6 @@ function FormRegister(props) {
                             register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
                             required={<span className="text-danger">Campo inválido!</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
                             errors={errors}
-                            minlength={1}
                             change={LimparRua}
                             label="Logradouro"
                             type="text"
@@ -561,7 +589,6 @@ function FormRegister(props) {
                             register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
                             required={<span className="text-danger">Campo inválido!</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
                             errors={errors}
-                            minlength={1}
                             change={LimparNumero}
                             label="Número"
                             type="text"
@@ -583,7 +610,6 @@ function FormRegister(props) {
                             register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
                             required={<span className="text-danger">Campo inválido!</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
                             errors={errors}
-                            minlength={1}
                             change={LimparBairro}
                             label="Bairro"
                             type="text"

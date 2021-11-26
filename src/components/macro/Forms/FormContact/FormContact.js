@@ -112,7 +112,7 @@ function FormContact(props) {
                             pattern={/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u}
                             errors={errors}
                             clear={clearErrors}
-                            label="Nome:"
+                            label="Nome"
                             type="text"
                             className="form-input col-12"
                             placeholder="Digite seu nome..." 

@@ -134,7 +134,9 @@ function Address(props) {
 
     function pesquisacep(e) {
 
-        const valor = e.target.value
+        clearErrors(["cep"])
+
+        const valor = e
 
         //Nova variável "cep" somente com dígitos.
         const cep = valor.replace(/\D/g, '');
@@ -192,7 +194,7 @@ function Address(props) {
                             name="cep" pattern={/^\d{5}-\d{3}$/}
                             mask={[/[0-9]/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]}
                             required={<span className="text-danger">Campo inválido!</span>}
-                            blur={pesquisacep}
+                            blur={pesquisacep} validation={pesquisacep}
                             label="CEP" type="text" id="cep" className="form-input col-12"
                             placeholder="00000-000" value={address.cep} disabled={show}
                             change={setInputCep} register={register} errors={errors} />

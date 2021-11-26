@@ -13,6 +13,8 @@ import { MoipValidator } from "moip-sdk-js";
 import { useForm } from "react-hook-form"; // lembrar de fazer npm install para instalar a biblioteca react-hook-form
 import { ErrorMessage } from "@hookform/error-message"; // lembrar de fazer npm install para instalar a biblioteca error-message
 import InputHook from "../../../micro/Forms/Input/InputHook"
+import { Redirect } from "react-router-dom";
+import Loading from "../../../../assets/images/success/loading.gif"
 
 const initial = {
 
@@ -62,6 +64,8 @@ const pwd = 'qwertjose'
 
 function FormShippigAddress(props) {
 
+    const [success, setSuccess] = useState(false)
+
     function criptCard(num) {
 
         var text = num
@@ -94,7 +98,18 @@ function FormShippigAddress(props) {
     const [inputMonth, setInputMonth] = useState("");
     const [inputYear, setInputYear] = useState("");
     // desfragmentando as funcoes e objetos da biblioteca react-hook-form
-    const { register, handleSubmit, formState: { errors }, reset, clearErrors, setError, setValue } = useForm();
+    const { register, handleSubmit, formState: { errors }, reset, clearErrors, setError, setValue } = useForm({
+        mode: 'onChange',
+        reValidateMode: 'onChange',
+        defaultValues: {},
+        resolver: undefined,
+        context: undefined,
+        criteriaMode: "firstError",
+        shouldFocusError: true,
+        shouldUnregister: false,
+        shouldUseNativeValidation: false,
+        delayError: undefined
+      });
 
 
     const getAddress = () => {
@@ -141,10 +156,20 @@ function FormShippigAddress(props) {
         
         tempOrder =({...tempOrder, card: { ...tempOrder.card, cardNumber: criptCard(tempOrder.card.cardNumber).toString(), dueDate: inputYear + "-" + inputMonth + "-01" }})
         
+        setOrder(tempOrder)
+
         let orderJson = JSON.stringify(tempOrder)
 
         localStorage.setItem('order', orderJson)
-        window.location.href = "/order"
+
+        setDisable(true)
+    }
+
+    function changeRedirect() {
+        setTimeout(function () {
+            setSuccess(true)
+            
+        }, 5000)
     }
 
     function authCard(e) {
@@ -193,6 +218,8 @@ function FormShippigAddress(props) {
 
             if (MoipValidator.isExpiryDateValid(inputMonth, inputYear) == true) {
                 postOrder()
+                changeRedirect()
+
             } else {
                 console.log("data inválida");
             }
@@ -200,6 +227,13 @@ function FormShippigAddress(props) {
             window.alert("Data de nascimento do titular do cartão invalida!"  )
             
         }
+    }
+    
+    function callRedirect() {
+        if (success) {
+            return <Redirect to={{pathname: "/order", state: {...order}}} />
+        }
+        return 
     }
 
     function authCodeCard() {
@@ -293,7 +327,9 @@ function FormShippigAddress(props) {
 
     function buscarCep(e) {
 
-        const valor = e.target.value
+        clearErrors(["cep"])
+
+        const valor = e
         setValue('cep',valor)
         //Nova variável "cep" somente com dígitos.
         const cep = valor.replace(/\D/g, '');
@@ -401,6 +437,14 @@ function FormShippigAddress(props) {
 
     const [cpfCheck, setCheck] = useState(true)
     const [cpfValue, setCpf] = useState("")
+
+    // desabilita botão finalizar apos o click
+    const [disable, setDisable] = React.useState(false);
+
+    function renderLoading() {
+        return <img className="img-loading-btn" src={Loading} alt="Gerando pedido" />
+    }
+
     return (
         <>
             <FormDefault id="address" title="Dados de entrega" action="/order">
@@ -423,7 +467,7 @@ function FormShippigAddress(props) {
                             required={<span className="text-danger">Campo inválido!</span>}
                             blur={buscarCep}
                             label="CEP" type="text" id="cep" className="form-input col-12"
-                            placeholder="00000-000"
+                            placeholder="00000-000" validation={buscarCep}
                             change={e =>setOrder({ ...order, address: { ...order.address, cep: e.target.value } }) } register={register} errors={errors}
                             value={order.address.cep} />
                             {/* <InputCep className="form-input col-12 form-label" length="9" blur={buscarCep} value={order.address.cep} label="CEP" type="text" id="cep" className="form-input col-12" placeholder="Digite seu CEP..." change={e => setOrder({ ...order, address: { ...order.address, cep: e.target.value } })} /> */}
@@ -503,7 +547,7 @@ function FormShippigAddress(props) {
                             <InputHook // hook eh a props para input padrao com a verificacao
                                 name="cpf" // name sera utilizado no componente para fazer as comparacoes
                                 register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
-                                required={cpfValue == "" ? <><span className="text-danger">Campo inválido!</span><br/></> : ""} // mensagem de erro que sera exibida caso o campo nao seja valido
+                                required={cpfValue == "" ? <><span className="text-danger">Digite um CPF a válido!</span><br/></> : ""} // mensagem de erro que sera exibida caso o campo nao seja valido
                                 maxlength={14} // tamanho maximo do campo
                                 minlength={11} // tamanho minimo do campo
                                 pattern={/([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})/u}
@@ -515,7 +559,7 @@ function FormShippigAddress(props) {
                                 type="text"
                                 className="form-input col-12"
                                 placeholder="000.000.000-00" />
-                            {cpfCheck ? "" : <span className="text-danger">Digite um CPF a válido! </span>}
+                            {/* {cpfCheck ? "" : <span className="text-danger">Digite um CPF a válido! </span>} */}
 
                         </div>
 
@@ -563,10 +607,13 @@ function FormShippigAddress(props) {
 
                 <div className="row justify-content-around py-4">
                     <Button label="Voltar" onclick={backToCart} class="btn-retorno" />
-                    <Button onclick={handleSubmit(authDateCard)} label="Finalizar" class="btn-confirmacao" type="submit" />
+                    <Button onclick={handleSubmit(authDateCard)} label={disable?renderLoading():"Finalizar"} class="btn-confirmacao" type="submit" />
                 </div>
 
-            </FormDefault>
+            </FormDefault> 
+
+            {callRedirect()}
+
         </>
     )
 }

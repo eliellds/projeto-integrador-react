@@ -137,6 +137,7 @@ function FormShippigAddress(props) {
                 setValue('telefone', res.data.telephone.number)
                 setValue('cep', cepTemp)
                 setValue("E-mail", res.data.email)
+                setValue('numero', addressRes.number)
 
                 console.log(cepTemp)
 
@@ -601,6 +602,7 @@ function FormShippigAddress(props) {
                                 errors={errors}
                                 clear={clearErrors}
                                 change={LimparNumero}
+                                value={order.address.number}
                                 label="Número"
                                 type="text"
                                 className="form-input col-12"

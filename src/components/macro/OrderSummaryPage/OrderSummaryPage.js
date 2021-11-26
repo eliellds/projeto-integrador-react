@@ -4,6 +4,7 @@ import Button from "../../micro/Button/Button"
 import "./OrderSummaryPage.css"
 import api from "../../../services/api";
 import ProductSuccessOrder from "../../micro/productsSucess/productSuccessOrder";
+import Loading from "../../../assets/images/success/loading.gif"
 
 let initial = JSON.parse(localStorage.getItem('order'))
 const cart = JSON.parse(localStorage.getItem('cart'))
@@ -13,6 +14,10 @@ const alg = 'aes-256-ctr'
 const pwd = 'qwertjose'
 
 function OrderSummaryPage(props) {
+
+    function renderLoading() {
+        return <img className="img-loading-btn" src={Loading} alt="Gerando pedido" />
+    }
 
     function uncriptCard(cript) {
         var decipher = crypto.createDecipher(alg, pwd)
@@ -102,29 +107,32 @@ function OrderSummaryPage(props) {
 
     function postItemOrder(order) {
         let i = 0
-        localStorageRemoveOrder()
         return cart.map(function (item) {
             setTimeout(function () {
                 api.post("/itemsOrder", {
                     productsDTO: { id: item.id },
                     compositeKey: { orderDTO: order, idItem: ++i },
-                    quantity: setQtyItem(item.id),
+                    quantity: item.qty,
                     unityDiscount: calcUnityDiscount(item.id),
                     totalDiscount: calcTotalDiscount(item.id),
                     totalPrice: calcTotalPrice(item.id)
                 }).then(result => {
-                    if (i == cart.length) {
+                    if (result.data.compositeKey.idItem == cart.length) {
+                        localStorageRemoveOrder()
+                        alert("Pedido gerado com sucesso!")
                         window.location.href = "/success"
                     }
-                    console.log(result)
-                }).catch(err => { console.log("Erro ao gravar item" + err) });
-            }, 1
+                }).catch(err => { 
+                    console.log("Erro ao gravar item" + err) 
+                    setDisable(false)
+                });
+            }, 20
             )
         })
     }
+
     function goToSucces() {
         postOrder()
-        alert("Pedido criado com sucesso!!")
     }
 
     useEffect(() => {
@@ -139,10 +147,8 @@ function OrderSummaryPage(props) {
 
 
         api.get(`/flags/${order.card.flag.id}`).then((result) => {
-            console.log(order)
 
             initial = { ...initial, card: { ...initial.card, flag: result.data } }
-            console.log(order)
             setOrder(initial)
 
         }).catch((err) => {
@@ -156,9 +162,7 @@ function OrderSummaryPage(props) {
     function getPayments() {
         api.get(`/payments/${order.payment.id}`).then((result) => {
 
-            console.log(order)
             initial = { ...initial, payment: result.data }
-            console.log(order)
             setOrder(initial)
 
         }).catch((err) => { console.log("Falha ao consumir api" + err) })
@@ -229,9 +233,12 @@ function OrderSummaryPage(props) {
         return sub
     }
 
+    // desabilita botão finalizar apos o click
+    const [disable, setDisable] = React.useState(false);
 
-    console.log(order)
     function postOrder() {
+
+        setDisable(true)
 
         api.post(`/orders`, {
             ...order,
@@ -246,11 +253,13 @@ function OrderSummaryPage(props) {
             postItemOrder(order)
 
 
-        }).catch(error => { console.log("Erro ao consumir api de post order" + error) })
+        }).catch(error => {
+            console.log("Erro ao consumir api de post order" + error)
+            setDisable(false)
+        })
 
     }
 
-    console.log(order)
 
     return (
         <>
@@ -288,7 +297,7 @@ function OrderSummaryPage(props) {
                 <div className="d-flex justify-content-between">
 
                     <Button navigation route="/checkout" class="btn-retorno align-self-center" label="voltar" />
-                    <Button onclick={goToSucces} class="btn-comprar " label="Finalizar" />
+                    <Button onclick={goToSucces} disabled={disable} class="btn-comprar " label={disable?renderLoading():"Finalizar"} />
 
                 </div>
 

@@ -72,6 +72,7 @@ function FormShippigAddress(props) {
 
     }
 
+
     function uncriptCard(cript) {
         var text = "1234789001234"
         var cipher = crypto.createCipher(alg, pwd)
@@ -100,6 +101,7 @@ function FormShippigAddress(props) {
         api.get(`/userAddress/myAddress/${user.value.id}`).then(
             res => {
                 getTelephone(res.data[0].address)
+                // CepRun(res.data[0].address.cep)
             })
             .catch((err) => {
                 console.error("Erro ao consumir api de Address" + err)
@@ -114,8 +116,11 @@ function FormShippigAddress(props) {
     const getTelephone = (addressRes) => {
         api.get(`/user/${user.value.id}`).then(
             res => {
+                var cepTemp = addressRes.cep.substring(0, 5) + "-" + addressRes.cep.substring(5);
+                setOrder({ ...order, myUser: { email: res.data.email, id: res.data.id }, telephone: { ...res.data.telephone }, address: { ...addressRes, cep: cepTemp } })
 
-                setOrder({ ...order, myUser: { email: res.data.email, id: res.data.id }, telephone: { ...res.data.telephone }, address: { ...addressRes } })
+                setValue('cep', cepTemp)
+                console.log(cepTemp)
 
             })
             .catch((err) => {
@@ -127,8 +132,6 @@ function FormShippigAddress(props) {
     const getUfs = () => {
         return ufs
     }
-
-    console.log(order)
 
     function postOrder() {
         if (cpfCheck == false) {
@@ -191,18 +194,25 @@ function FormShippigAddress(props) {
     const [cvv, setCvv] = useState("");
 
     function authDateCard(data) {
+        var dataCurrente = new Date();
+        var dateCurrent = (dataCurrente.getFullYear()-10)+"-"+dataCurrente.getMonth()+"-"+dataCurrente.getDate()
 
+        if (dateCurrent > order.card.birthDate) {
 
-        if (MoipValidator.isSecurityCodeValid(data.CardNum, data.cvv) == true) {
-            if (MoipValidator.isExpiryDateValid(inputMonth, inputYear) == true) {
-                postOrder()
+            if (MoipValidator.isSecurityCodeValid(data.CardNum, data.cvv) == true) {
+                if (MoipValidator.isExpiryDateValid(inputMonth, inputYear) == true) {
+                    postOrder()
+                } else {
+                    console.log("data inválida");
+                    return alert("Preencha os dados de pagamento corretamente")
+                }
             } else {
-                console.log("data inválida");
+                console.log("cvv inválida");
                 return alert("Preencha os dados de pagamento corretamente")
             }
         } else {
-            console.log("cvv inválida");
-            return alert("Preencha os dados de pagamento corretamente")
+            window.alert("Data de nascimento do titular do cartão invalida!")
+
         }
 
     }
@@ -215,39 +225,12 @@ function FormShippigAddress(props) {
     const [buttons, setButtons] = useState(
         <>
             <Button class="col-4 cartao forma-pagamento selected-button" label={<H2 h2="Cartão" />}></Button>
-            <Button onclick={changeComponent} class="col-4 forma-pagamento boleto disabled-button" label={<H2 h2="Boleto" />}></Button>
+            {/* <Button onclick={changeComponent} class="col-4 forma-pagamento boleto disabled-button" label={<H2 h2="Boleto" />}></Button> */}
         </>
     )
     let change = false
     const history = useHistory()
 
-    function changeComponent() {
-        if (change) {
-            setButtons(
-                <>
-                    <Button class="col-4 cartao forma-pagamento selected-button" label={<H2 h2="Cartão" />}></Button>
-                    <Button onclick={changeComponent} class="col-4 forma-pagamento boleto disabled-button" label={<H2 h2="Boleto" />}></Button>
-                </>
-            )
-            change = false
-            setDisplayNoneB("d-none")
-            setDisplayNoneC("")
-            console.log("noneC")
-            console.log(change)
-        } else {
-            setButtons(
-                <>
-                    <Button onclick={changeComponent} class="col-4 cartao forma-pagamento disabled-button" label={<H2 h2="Cartão" />}></Button>
-                    <Button class="col-4 forma-pagamento boleto selected-button" label={<H2 h2="Boleto" />}></Button>
-                </>
-            )
-            change = true
-            setDisplayNoneB("")
-            setDisplayNoneC("d-none")
-            console.log("noneB")
-            console.log(change)
-        }
-    }
 
     const [paymentMethod, setPaymentMethod] = useState("")
 
@@ -274,12 +257,12 @@ function FormShippigAddress(props) {
     }
 
     useEffect(() => {
+
         getListPayments()
         getListFlags()
 
     }, [])
 
-    // console.log(paymentMethod)
     function backToCart() {
         window.location.href = "/cart"
     }
@@ -305,7 +288,6 @@ function FormShippigAddress(props) {
     }
 
     function meu_callback(conteudo) {
-        console.log(conteudo)
         if (!("erro" in conteudo)) {
             //Atualiza os campos com os valores.
             setOrder({ ...order, address: { ...order.address, street: conteudo.logradouro, district: conteudo.bairro, city: conteudo.localidade, state: conteudo.uf } })
@@ -317,12 +299,14 @@ function FormShippigAddress(props) {
         }
     }
 
+
     function buscarCep(e) {
 
         const valor = e.target.value
-
+        setValue('cep', valor)
         //Nova variável "cep" somente com dígitos.
         const cep = valor.replace(/\D/g, '');
+
 
         //Verifica se campo cep possui valor informado.
         if (cep != "") {
@@ -424,6 +408,21 @@ function FormShippigAddress(props) {
         setOrder({ ...order, card: { ...order.card, birthDate: e.target.value } })
     }
 
+    function LimparTelefone(e) {
+        clearErrors(["telefone"])
+        setOrder({ ...order, telephone: { ...order.telephone, number: e.target.value } })
+    }
+
+    function LimparEmail(e) {
+        clearErrors(["E-mail"])
+        setOrder({ ...order, myUser: { ...order.myUser, email: e.target.value } })
+    }
+
+    function LimparNumero(e) {
+        clearErrors(["Número"])
+        setOrder({ ...order, address: { ...order.address, number: e.target.value } })
+    }
+
     const [cpfCheck, setCheck] = useState(true)
     const [cpfValue, setCpf] = useState("")
     return (
@@ -434,36 +433,87 @@ function FormShippigAddress(props) {
 
                     <div class="row ">
                         <div class=" col-6  col-sm-6 col-md-3">
-                            <Input value={order.telephone.number} change={e => setOrder({ ...order, telephone: { ...order.telephone, number: e.target.value } })} label="Telefone" className="form-input col-12 form-label" type="tel" name="telephone" placeholder="Telefone com DDD" />
+                            <InputHook hook // hook eh a props para input padrao com a verificacao
+                                name="telefone" // name sera utilizado no componente para fazer as comparacoes
+                                register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
+                                required={<span className="text-danger">Digite um telefone válido</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
+                                maxlength={15} // tamanho maximo do campo
+                                pattern={/^\(?[1-9]{2}\)? ?(?:[2-8]|9[1-9])[0-9]{3}\-?[0-9]{4}$/}
+                                errors={errors}
+                                clear={clearErrors}
+                                change={LimparTelefone}
+                                label="Telefone"
+                                type="tel"
+                                className="form-input col-12"
+                                placeholder="Telefone para contato com DDD" />
+
                         </div>
 
                         <div class=" col-6  col-sm-6 col-md-4">
-                            <Input value={order.myUser.email} change={e => setOrder({ ...order, myUser: { ...order.myUser, email: e.target.value } })} label="E-mail:" className="form-input col-12 form-label" type="mail" name="email" placeholder="E-mail para contato" />
+                            <InputHook hook // hook eh a props para input padrao com a verificacao
+                                name="E-mail" // name sera utilizado no componente para fazer as comparacoes
+                                register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
+                                required={<span className="text-danger">Digite um email válido</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
+                                maxlength={30} // tamanho maximo do campo
+                                pattern={/^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$/i}
+                                errors={errors}
+                                clear={clearErrors}
+                                change={LimparEmail}
+                                label="E-mail"
+                                type="mail"
+                                className="form-input col-12 form-label"
+                                placeholder="E-mail para contato" />
+
                         </div>
 
+
                         <div class=" col-6 col-sm-6 col-md-3">
-                            <InputCep className="form-input col-12 form-label" length="9" blur={buscarCep} value={order.address.cep} label="CEP" type="text" id="cep" className="form-input col-12" placeholder="Digite seu CEP..." change={e => setOrder({ ...order, address: { ...order.address, cep: e.target.value } })} />
+                            <InputHook hook // hook eh a props para input padrao com a verificacao
+                                name="Cep" // name sera utilizado no componente para fazer as comparacoes
+                                register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
+                                required={<span className="text-danger">Digite um CEP válido</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
+                                maxlength={9} // tamanho maximo do campo
+                                pattern={/[0-9]{5}-[0-9]{3}/}
+                                errors={errors}
+                                clear={clearErrors}
+                                change={buscarCep}
+                                label="CEP"
+                                type="text"
+                                className="form-input col-12"
+                                placeholder="Digite seu CEP..." />
+
                         </div>
 
                         <div class=" col-6 col-sm-6 col-md-2">
-                            <Select label="Estado" options={ufs} selected={order.address.state} change={e => setOrder({ ...order, address: { ...order.address, state: e.target.value } })} default="Estado:" />
+                            <Select label="Estado" disabled={true} options={ufs} selected={order.address.state} change={e => setOrder({ ...order, address: { ...order.address, state: e.target.value } })} default="Estado:" />
                         </div>
 
                         <div class=" col-6 col-sm-6 col-md-4">
-                            <Input value={order.address.city} change={e => setOrder({ ...order, address: { ...order.address, city: e.target.value } })} label="Cidade" className="form-input col-12 form-label" type="text" name="city" placeholder="Digite a cidade..." />
+                            <Input value={order.address.city} disabled={true} change={e => setOrder({ ...order, address: { ...order.address, city: e.target.value } })} label="Cidade" className="form-input col-12 form-label" type="text" name="city" placeholder="Digite a cidade..." />
                         </div>
 
-
                         <div class=" col-9 col-md-6">
-                            <Input value={order.address.street} change={e => setOrder({ ...order, address: { ...order.address, street: e.target.value } })} label="Logradouro" className="form-input col-12 form-label" type="text" name="street" placeholder="Digite o logradouro..." />
+                            <Input value={order.address.street} disabled={true} change={e => setOrder({ ...order, address: { ...order.address, street: e.target.value } })} label="Logradouro" className="form-input col-12 form-label" type="text" name="street" placeholder="Digite o logradouro..." />
                         </div>
 
                         <div class=" col-3  col-md-2">
-                            <Input value={order.address.number} change={e => setOrder({ ...order, address: { ...order.address, number: e.target.value } })} label="Numero" className="form-input col-12 form-label" type="text" name="number" placeholder="Digite o número..." />
+                            <InputHook hook // hook eh a props para input padrao com a verificacao
+                                name="Número" // name sera utilizado no componente para fazer as comparacoes
+                                register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
+                                required={<span className="text-danger">Digite um número válido</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
+                                maxlength={5} // tamanho maximo do campo
+                                pattern={/(\d)/}
+                                errors={errors}
+                                clear={clearErrors}
+                                change={LimparNumero}
+                                label="Número"
+                                type="text"
+                                className="form-input col-12"
+                                placeholder="Digite o número..." />
                         </div>
 
                         <div class=" col-6 col-md-4">
-                            <Input value={order.address.district} change={e => setOrder({ ...order, address: { ...order.address, district: e.target.value } })} label="Bairro" className="form-input col-12 form-label" type="text" name="district" placeholder="Digite o Bairro..." />
+                            <Input value={order.address.district} disabled={true} change={e => setOrder({ ...order, address: { ...order.address, district: e.target.value } })} label="Bairro" className="form-input col-12 form-label" type="text" name="district" placeholder="Digite o Bairro..." />
                         </div>
 
                         <div class=" col-6  col-md-4">
@@ -519,7 +569,7 @@ function FormShippigAddress(props) {
                             <InputHook // hook eh a props para input padrao com a verificacao
                                 name="cpf" // name sera utilizado no componente para fazer as comparacoes
                                 register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
-                                required={cpfValue == "" ? <span className="text-danger">Digite um CPF válido!</span> : ""} // mensagem de erro que sera exibida caso o campo nao seja valido
+                                required={cpfValue == "" ? <><span className="text-danger">Campo inválido!</span><br /></> : ""} // mensagem de erro que sera exibida caso o campo nao seja valido
                                 maxlength={14} // tamanho maximo do campo
                                 minlength={11} // tamanho minimo do campo
                                 pattern={/([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})/u}
@@ -531,7 +581,7 @@ function FormShippigAddress(props) {
                                 type="text"
                                 className="form-input col-12"
                                 placeholder="000.000.000-00" />
-                            {cpfCheck ? "" : <span className="text-danger">Digite um CPF válido! </span>}
+                            {cpfCheck ? "" : <span className="text-danger">Digite um CPF a válido! </span>}
 
                         </div>
 
@@ -626,7 +676,7 @@ function FormShippigAddress(props) {
 
 
                         <div className=" col-6 col-md-3">
-                            <SelectCard required label="Forma de Pagamento:" paymentMethod={paymentMethod} change={e => setOrder({ ...order, payment: { id: e.target.value } })} />
+                            <SelectCard label="Forma de Pagamento:" paymentMethod={paymentMethod} change={e => setOrder({ ...order, payment: { id: e.target.value } })} />
                         </div>
 
                     </div>

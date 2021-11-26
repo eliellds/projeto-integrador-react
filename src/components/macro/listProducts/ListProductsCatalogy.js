@@ -16,7 +16,6 @@ function ListProductsCatalogy(props){
 
     function listProducts(){
         return products.map(product =>{
-            console.log(products)
             return <>
             <CardProduct
             id={product.product.id}

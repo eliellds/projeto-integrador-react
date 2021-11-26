@@ -88,10 +88,12 @@ function SuccessPage(props) {
     const dateInput = order.deliveryDate
     const data = new Date(dateInput);
     const dataFormatada = data.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
-
+    const subTotal = (order.amount+order.totalDiscounts)
     const amountFormated = order.amount.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
     const deliveryFormated = order.deliveryValue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-
+    const totalDiscount = order.totalDiscounts.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+    const installmentsPrice = order.amount / order.payment.installments
+    const cepFormated =  order.address.cep.substring(0,5)+  "-"+ order.address.cep.substring(5);
 
     function getOrder() {
         api
@@ -140,9 +142,12 @@ function SuccessPage(props) {
                         <h4>Itens</h4>
 
                         <ProductSuccess
+                            subTotal={subTotal}
                             products={orderProduct}
                             frete={deliveryFormated}
-                            finalPrice={amountFormated} />
+                            finalPrice={amountFormated} 
+                            discount={totalDiscount}
+                            />
 
                     </ul>
 
@@ -154,7 +159,7 @@ function SuccessPage(props) {
                                     primeiraLinha={order.payment.description + " - " + order.card.flag.description} 
                                     segundaLinha={uncriptCard(order.card.cardNumber)} 
                                     terceiraLinha={order.payment.installments >= 2 ? order.payment.installments + " x de" : order.payment.installments } 
-                                    terceiraLinha1={order.payment.installments }
+                                    terceiraLinha1={order.payment.installments >= 2 ? installmentsPrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) :amountFormated}
                                     quartaLinha={"Total: " + amountFormated}
                                      />
 
@@ -166,7 +171,7 @@ function SuccessPage(props) {
                         <OrderInfo titulo="Endereço de entrega"
                                     primeiraLinha={order.address.street + ","} primeiraLinha1={order.address.number + "."} primeiraLinha2={"Comp: " + order.address.complement}
                                     segundaLinha={order.address.district + " - "} segundaLinha1={order.address.city + " - "} segundaLinha2={order.address.state}
-                                    terceiraLinha={"CEP: " + order.address.cep} quartaLinha={"Referência: " + order.address.reference} />
+                                    terceiraLinha={"CEP: " + cepFormated} quartaLinha={"Referência: " + order.address.reference} />
 
                     </div>
 

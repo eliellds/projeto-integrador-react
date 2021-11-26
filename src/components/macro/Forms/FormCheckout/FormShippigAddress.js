@@ -13,6 +13,9 @@ import { MoipValidator } from "moip-sdk-js";
 import { useForm } from "react-hook-form"; // lembrar de fazer npm install para instalar a biblioteca react-hook-form
 import { ErrorMessage } from "@hookform/error-message"; // lembrar de fazer npm install para instalar a biblioteca error-message
 import InputHook from "../../../micro/Forms/Input/InputHook"
+import { Redirect } from "react-router-dom";
+import Loading from "../../../../assets/images/success/loading.gif"
+import InputCard from "../../../micro/Forms/Input/InputCard";
 
 const initial = {
 
@@ -62,6 +65,8 @@ const pwd = 'qwertjose'
 
 function FormShippigAddress(props) {
 
+    const [success, setSuccess] = useState(false)
+
     function criptCard(num) {
 
         var text = num
@@ -94,7 +99,18 @@ function FormShippigAddress(props) {
     const [inputMonth, setInputMonth] = useState("");
     const [inputYear, setInputYear] = useState("");
     // desfragmentando as funcoes e objetos da biblioteca react-hook-form
-    const { register, handleSubmit, formState: { errors }, reset, clearErrors, setError, setValue } = useForm();
+    const { register, handleSubmit, formState: { errors }, reset, clearErrors, setError, setValue } = useForm({
+        mode: 'onChange',
+        reValidateMode: 'onChange',
+        defaultValues: {},
+        resolver: undefined,
+        context: undefined,
+        criteriaMode: "firstError",
+        shouldFocusError: true,
+        shouldUnregister: false,
+        shouldUseNativeValidation: false,
+        delayError: undefined
+    });
 
 
     const getAddress = () => {
@@ -116,11 +132,12 @@ function FormShippigAddress(props) {
     const getTelephone = (addressRes) => {
         api.get(`/user/${user.value.id}`).then(
             res => {
-                var cepTemp =  addressRes.cep.substring(0,5)+"-"+addressRes.cep.substring(5);
-                setOrder({ ...order, myUser: { email: res.data.email, id: res.data.id }, telephone: { ...res.data.telephone }, address: { ...addressRes, cep:cepTemp } })
-                setValue('telefone',res.data.telephone.number)
-                setValue('cep',cepTemp )
-                setValue("E-mail",res.data.email)
+                var cepTemp = addressRes.cep.substring(0, 5) + "-" + addressRes.cep.substring(5);
+                setOrder({ ...order, myUser: { email: res.data.email, id: res.data.id }, telephone: { ...res.data.telephone }, address: { ...addressRes, cep: cepTemp } })
+                setValue('telefone', res.data.telephone.number)
+                setValue('cep', cepTemp)
+                setValue("E-mail", res.data.email)
+                setValue('numero', addressRes.number)
 
                 console.log(cepTemp)
 
@@ -150,46 +167,68 @@ function FormShippigAddress(props) {
         let orderJson = JSON.stringify(tempOrder)
 
         localStorage.setItem('order', orderJson)
-        window.location.href = "/order"
+
+        setDisable(true)
     }
 
+    function changeRedirect() {
+        setTimeout(function () {
+            setSuccess(true)
+
+        }, 5000)
+    }
+
+    const [mask, setMask] = useState([/[0-9]/, /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/, /\d/, /\d/])
+
     function authCard(e) {
-        var cardNumber = e.target.value
-        setCardNumber(cardNumber);
+        clearErrors(["CardNum"])
+        var card = e
 
-        if (MoipValidator.isValidNumber(cardNumber) == true) {
 
-            console.log(MoipValidator.cardType(cardNumber))
 
-            switch (MoipValidator.cardType(cardNumber).brand) {
+        if (MoipValidator.isValidNumber(card) == true) {
+
+            console.log(MoipValidator.cardType(card))
+
+            switch (MoipValidator.cardType(card).brand) {
                 case "VISA":
                     setOrder({ ...order, card: { ...order.card, flag: { id: 2 }, cardNumber: cardNumber } })
-                    return setInputBrand("VISA")
+                    setInputBrand("VISA")
+                    return true 
                     break;
                 case "MASTERCARD":
                     setOrder({ ...order, card: { ...order.card, flag: { id: 1 }, cardNumber: cardNumber } })
-                    return setInputBrand("MASTERCARD");
+                    setInputBrand("MASTERCARD");
+                    return true 
                     break;
                 case "AMEX":
                     setOrder({ ...order, card: { ...order.card, flag: { id: 3 }, cardNumber: cardNumber } })
-                    return setInputBrand("AMERICAN EXPRESS");
+                    setMask([/[0-9]/, /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/, /\d/])
+                    // setValue("CardNum", cardNumber)
+                    clearErrors(["CardNum"])
+                    setInputBrand("AMERICAN EXPRESS");
+                    return true
                     break;
                 case "ELO":
                     setOrder({ ...order, card: { ...order.card, flag: { id: 4 }, cardNumber: cardNumber } })
-                    return setInputBrand("ELO");
+                    setInputBrand("ELO");
+                    return true 
                     break;
                 case "HIPERCARD":
                     setOrder({ ...order, card: { ...order.card, flag: { id: 5 }, cardNumber: cardNumber } })
-                    return setInputBrand("HIPERCARD");
+                    setInputBrand("HIPERCARD");
+                    return true 
                     break;
                 case "DINERS":
                     setOrder({ ...order, card: { ...order.card, flag: { id: 6 }, cardNumber: cardNumber } })
-                    return setInputBrand("DINERS CLUB");
+                    setInputBrand("DINERS CLUB");
+                    return true 
                     break;
                 default:
                     return setInputBrand("Cartão não aceito!")
             }
-        }
+        } 
+        return false
     }
 
     const [cardNumber, setCardNumber] = useState("");
@@ -197,13 +236,14 @@ function FormShippigAddress(props) {
 
     function authDateCard(data) {
         var dataCurrente = new Date();
-        var dateCurrent = (dataCurrente.getFullYear()-10)+"-"+dataCurrente.getMonth()+"-"+dataCurrente.getDate()
+        var dateCurrent = (dataCurrente.getFullYear() - 10) + "-" + dataCurrente.getMonth() + "-" + dataCurrente.getDate()
 
         if (dateCurrent > order.card.birthDate) {
 
             if (MoipValidator.isSecurityCodeValid(data.CardNum, data.cvv) == true) {
                 if (MoipValidator.isExpiryDateValid(inputMonth, inputYear) == true) {
                     postOrder()
+                    changeRedirect()
                 } else {
                     console.log("data inválida");
                     return alert("Preencha os dados de pagamento corretamente")
@@ -216,8 +256,15 @@ function FormShippigAddress(props) {
             window.alert("Data de nascimento do titular do cartão invalida!")
 
         }
-
     }
+
+    function callRedirect() {
+        if (success) {
+            return <Redirect to={{ pathname: "/order", state: { ...order } }} />
+        }
+        return
+    }
+
 
 
 
@@ -266,7 +313,7 @@ function FormShippigAddress(props) {
     }, [])
 
     function backToCart() {
-       history.goBack()
+        history.goBack()
     }
 
     const [ufs, setUfs] = useState([
@@ -304,7 +351,9 @@ function FormShippigAddress(props) {
 
     function buscarCep(e) {
 
-        const valor = e.target.value
+        clearErrors(["cep"])
+
+        const valor = e
         setValue('cep', valor)
         //Nova variável "cep" somente com dígitos.
         const cep = valor.replace(/\D/g, '');
@@ -347,7 +396,7 @@ function FormShippigAddress(props) {
         setCheck(true)
         setCpf(true)
         clearErrors(["cpf"]) // limpa o erro ao clicar no campo CPF quando este exibe erro
-        var cpf = e.target.value;
+        var cpf = e;
         cpf = cpf.toString().replace(/[^0-9]/g, ""); // transforma os valores digitados para apenas numeros
 
         let booleano = true
@@ -393,7 +442,7 @@ function FormShippigAddress(props) {
         clearErrors(["cpf"]) // limpa o erro ao clicar no campo CPF quando este exibe erro
         setCheck(true)
         setCpf(cpf)
-        return cpf;
+        return true;
     }
 
     /////////////////// FIM FUNCAO DE VALIDAÇÃO DE CPF /////////////////////
@@ -427,6 +476,54 @@ function FormShippigAddress(props) {
 
     const [cpfCheck, setCheck] = useState(true)
     const [cpfValue, setCpf] = useState("")
+
+    // desabilita botão finalizar apos o click
+    const [disable, setDisable] = React.useState(false);
+
+    function renderLoading() {
+        return <img className="img-loading-btn" src={Loading} alt="Gerando pedido" />
+    }
+
+    function LimpaCartao(e) {
+        clearErrors(["CardNum"])
+        var cartao = e.target.value.toString()
+        console.log(cartao)
+        console.log('aqui')
+        setCardNumber(cartao)
+        setValue("CardNum", cartao)
+        var validacoes = [
+        {  flag: 'Amex', regex: /^3[47][0-9]{13, 14}$/}
+        ,{ flag: 'Aura', regex: /^((?!504175))^((?!5067))(^50[0-9])/}
+        ,{ flag: 'BaneseCard', regex: /'^636117'/}
+        ,{ flag: 'Cabal', regex: /'(60420[1-9]|6042[1-9][0-9]|6043[0-9]{2}|604400)'/}
+        ,{ flag: 'Diners', regex: /'(36[0-8][0-9]{3}|369[0-8][0-9]{2}|3699[0-8][0-9]|36999[0-9])/}
+        ,{ flag: 'Discover', regex: /^6(?:011|5[0-9]{2})[0-9]{12}/}
+        ,{ flag: 'Elo', regex: /^4011(78|79)|^43(1274|8935)|^45(1416|7393|763(1|2))|^50(4175|6699|67[0-6][0-9]|677[0-8]|9[0-8][0-9]{2}|99[0-8][0-9]|999[0-9])|^627780|^63(6297|6368|6369)|^65(0(0(3([1-3]|[5-9])|4([0-9])|5[0-1])|4(0[5-9]|[1-3][0-9]|8[5-9]|9[0-9])|5([0-2][0-9]|3[0-8]|4[1-9]|[5-8][0-9]|9[0-8])|7(0[0-9]|1[0-8]|2[0-7])|9(0[1-9]|[1-6][0-9]|7[0-8]))|16(5[2-9]|[6-7][0-9])|50(0[0-9]|1[0-9]|2[1-9]|[3-4][0-9]|5[0-8]))/}
+        ,{ flag: 'FortBrasil', regex: /'^628167'/}
+        ,{ flag: 'GrandCard', regex: /'^605032'/}
+        ,{ flag: 'Hipercard', regex: /^ 606282 |^ 3841(?: [0 | 4 | 6]{ 1})0/}
+        ,{ flag: 'JCB', regex: /^(?:2131|1800|35\d{3})\d{11}/}
+        ,{ flag: 'Mastercard', regex: /^ ((5(([1 - 2] | [4 - 5])[0 - 9]{ 8} | 0((1 | 6)([0 - 9]{ 7})) | 3(0(4((0 | [2 - 9])[0 - 9]{ 5}) | ([0 - 3] | [5 - 9])[0 - 9]{ 6}) | [1 - 9][0 - 9]{ 7}))) | ((508116) \\d{ 4, 10 })| ((502121) \\d{ 4, 10 })| ((589916) \\d{ 4, 10 })| (2[0 - 9]{ 15 })| (67[0 - 9]{ 14 })| (506387) \\d{ 4, 10 })/}
+        ,{ flag: 'PersonalCard', regex: /'^636085'/}
+        ,{ flag: 'Sorocred', regex: /'^627892|^636414'/}
+        ,{ flag: 'Valecard', regex: /'^606444|^606458|^606482'/}
+        ,{ flag: 'Visa', regex: /^ 4[0 - 9]{ 15 } $/}
+        ]
+
+        validacoes.map(item => {
+            console.log(item)
+            if (item.regex.test(cartao)) {
+                
+                setInputBrand(item.flag)
+                console.log("doi")
+            }
+        })
+    }
+
+    function LimparCpf(e) {
+        clearErrors(["cpf"])
+    }
+
     return (
         <>
             <FormDefault id="address" title="Dados de entrega" action="/order">
@@ -461,6 +558,7 @@ function FormShippigAddress(props) {
                                 errors={errors}
                                 clear={clearErrors}
                                 change={LimparEmail}
+                                disabled={true}
                                 label="E-mail"
                                 type="mail"
                                 className="form-input col-12 form-label"
@@ -470,28 +568,28 @@ function FormShippigAddress(props) {
 
 
                         <div class=" col-6 col-sm-6 col-md-3">
-                        <InputCep
-                            name="cep" pattern={/^\d{5}-\d{3}$/}
-                            mask={[/[0-9]/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]}
-                            required={<span className="text-danger">Campo inválido!</span>}
-                            blur={buscarCep}
-                            label="CEP" type="text" id="cep" className="form-input col-12"
-                            placeholder="00000-000"
-                            change={e =>setOrder({ ...order, address: { ...order.address, cep: e.target.value } }) } register={register} errors={errors}
-                            value={order.address.cep} />
+                            <InputCep
+                                name="cep" pattern={/^\d{5}-\d{3}$/}
+                                mask={[/[0-9]/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]}
+                                required={<span className="text-danger">Campo inválido!</span>}
+                                blur={buscarCep}
+                                label="CEP" type="text" id="cep" className="form-input col-12"
+                                placeholder="00000-000" validation={buscarCep}
+                                change={e => setOrder({ ...order, address: { ...order.address, cep: e.target.value } })} register={register} errors={errors}
+                                value={order.address.cep} />
                             {/* <InputCep className="form-input col-12 form-label" length="9" blur={buscarCep} value={order.address.cep} label="CEP" type="text" id="cep" className="form-input col-12" placeholder="Digite seu CEP..." change={e => setOrder({ ...order, address: { ...order.address, cep: e.target.value } })} /> */}
                         </div>
 
                         <div class=" col-6 col-sm-6 col-md-2">
-                            <Select label="Estado" disabled={true} options={ufs} selected={order.address.state} change={e => setOrder({ ...order, address: { ...order.address, state: e.target.value } })} default="Estado:" />
+                            <Select label="Estado" disabled={false} options={ufs} selected={order.address.state} change={e => setOrder({ ...order, address: { ...order.address, state: e.target.value } })} default="Estado:" />
                         </div>
 
                         <div class=" col-6 col-sm-6 col-md-4">
-                            <Input value={order.address.city} disabled={true} change={e => setOrder({ ...order, address: { ...order.address, city: e.target.value } })} label="Cidade" className="form-input col-12 form-label" type="text" name="city" placeholder="Digite a cidade..." />
+                            <Input value={order.address.city} disabled={false} change={e => setOrder({ ...order, address: { ...order.address, city: e.target.value } })} label="Cidade" className="form-input col-12 form-label" type="text" name="city" placeholder="Digite a cidade..." />
                         </div>
 
                         <div class=" col-9 col-md-6">
-                            <Input value={order.address.street} disabled={true} change={e => setOrder({ ...order, address: { ...order.address, street: e.target.value } })} label="Logradouro" className="form-input col-12 form-label" type="text" name="street" placeholder="Digite o logradouro..." />
+                            <Input value={order.address.street} disabled={false} change={e => setOrder({ ...order, address: { ...order.address, street: e.target.value } })} label="Logradouro" className="form-input col-12 form-label" type="text" name="street" placeholder="Digite o logradouro..." />
                         </div>
 
                         <div class=" col-3  col-md-2">
@@ -504,6 +602,7 @@ function FormShippigAddress(props) {
                                 errors={errors}
                                 clear={clearErrors}
                                 change={LimparNumero}
+                                value={order.address.number}
                                 label="Número"
                                 type="text"
                                 className="form-input col-12"
@@ -511,7 +610,7 @@ function FormShippigAddress(props) {
                         </div>
 
                         <div class=" col-6 col-md-4">
-                            <Input value={order.address.district} disabled={true} change={e => setOrder({ ...order, address: { ...order.address, district: e.target.value } })} label="Bairro" className="form-input col-12 form-label" type="text" name="district" placeholder="Digite o Bairro..." />
+                            <Input value={order.address.district} disabled={false} change={e => setOrder({ ...order, address: { ...order.address, district: e.target.value } })} label="Bairro" className="form-input col-12 form-label" type="text" name="district" placeholder="Digite o Bairro..." />
                         </div>
 
                         <div class=" col-6  col-md-4">
@@ -567,19 +666,22 @@ function FormShippigAddress(props) {
                             <InputHook // hook eh a props para input padrao com a verificacao
                                 name="cpf" // name sera utilizado no componente para fazer as comparacoes
                                 register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
-                                required={cpfValue == "" ? <><span className="text-danger">Campo inválido!</span><br /></> : ""} // mensagem de erro que sera exibida caso o campo nao seja valido
+                                required={cpfValue == "" ? <><span className="text-danger">Digite um CPF válido!</span><br /></> : ""} // mensagem de erro que sera exibida caso o campo nao seja valido
+                                message={cpfValue == "" ? <><span className="text-danger">Digite um CPF válido!</span><br /></> : ""} // mensagem de erro que sera exibida caso o campo nao seja valido
+
                                 maxlength={14} // tamanho maximo do campo
                                 minlength={11} // tamanho minimo do campo
                                 pattern={/([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})/u}
                                 errors={errors}
-                                change={checarCPF}
+                                change={LimparCpf}
+                                validation={checarCPF}
                                 mask="999.999.999-99" // mascara que sera aplicada
                                 value={cpfValue}
                                 label="CPF Titular"
                                 type="text"
                                 className="form-input col-12"
                                 placeholder="000.000.000-00" />
-                            {cpfCheck ? "" : <span className="text-danger">Digite um CPF a válido! </span>}
+                            {/* {cpfCheck ? "" : <span className="text-danger">Digite um CPF a válido! </span>} */}
 
                         </div>
 
@@ -598,18 +700,21 @@ function FormShippigAddress(props) {
                         </div>
 
                         <div className=" col-12 col-md-4">
-                            <InputHook hook
+                            <InputCard
                                 name="CardNum" // name sera utilizado no componente para fazer as comparacoes
                                 register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
-                                required // mensagem de erro que sera exibida caso o campo nao seja valido
+                                message={<span className="text-danger">Insira um número de cartão válido!</span>}
+                                required={<span className="text-danger">Insira um número de cartão válido!</span>}
                                 errors={errors}
-                                change={authCard}
-                                mask="9999 9999 9999 9999"
+                                change={LimpaCartao}
+                                validation={authCard}
+                                mask={mask}
+                                // value={cardNumber}
                                 label="Número do cartão"
                                 type="text"
                                 className="form-input col-12"
                                 placeholder="1234 1234 1234 1234" />
-                            {MoipValidator.isValidNumber(cardNumber) ? "" : <span className="text-danger">Insira um número de cartão válido!</span>}
+                            {/* {MoipValidator.isValidNumber(cardNumber) ? "" : <span className="text-danger">Insira um número de cartão válido!</span>} */}
                             {/* <Input change={authCard} label="Numero do Cartão" className="form-input col-12 form-label" type="text" name="cardNumber" placeholder="Ex.: 0000 1111 2222 3333." /> */}
                         </div>
 
@@ -638,8 +743,7 @@ function FormShippigAddress(props) {
 
                         <div className=" col-6 col-md-2">
                             <div className="row">
-                            <div className="col-6">
-                                <InputHook
+                                {/* <InputHook
                                     name="MM" // name sera utilizado no componente para fazer as comparacoes
                                     register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
                                     required // mensagem de erro que sera exibida caso o campo nao seja valido
@@ -650,12 +754,11 @@ function FormShippigAddress(props) {
                                     label="Mês"
                                     type="text"
                                     classCustom="col-6"
-                                    placeholder="12" />
-                                    </div>
+                                    placeholder="12" /> */}
 
-                                <div className="col-6">
+                                {/* <div className="col-6"> */}
 
-                                <InputHook
+                                {/* <InputHook
                                     name="ano" // name sera utilizado no componente para fazer as comparacoes
                                     register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
                                     required // mensagem de erro que sera exibida caso o campo nao seja valido
@@ -666,13 +769,12 @@ function FormShippigAddress(props) {
                                     label="Ano"
                                     type="text"
                                     classCustom="col-6"
-                                    placeholder="12" />
+                                    placeholder="12" /> */}
 
-                                    {MoipValidator.isExpiryDateValid(cardNumber, cvv) ? "" : <span className="text-danger">Insira uma data válida!</span>}
-                                </div>
+                                {/* {MoipValidator.isExpiryDateValid(cardNumber, cvv) ? "" : <span className="text-danger">Insira uma data válida!</span>} */}
 
-                                {/* <Input change={e => setInputMonth(e.target.value)} label="Mês" classCustom="col-6" type="text" placeholder="MM" />
-                                <Input change={e => setInputYear(e.target.value)} label="Ano" classCustom="col-6" type="text" placeholder="AA" /> */}
+                                <Input change={e => setInputMonth(e.target.value)} label="Mês" classCustom="col-6" type="text" placeholder="MM" />
+                                <Input change={e => setInputYear(e.target.value)} label="Ano" classCustom="col-6" type="text" placeholder="AA" />
                             </div>
                         </div>
 
@@ -686,10 +788,13 @@ function FormShippigAddress(props) {
 
                 <div className="row justify-content-around py-4">
                     <Button label="Voltar" onclick={backToCart} class="btn-retorno" />
-                    <Button onclick={handleSubmit(authDateCard)} label="Finalizar" class="btn-confirmacao" type="submit" />
+                    <Button onclick={handleSubmit(authDateCard)} label={disable ? renderLoading() : "Finalizar"} class="btn-confirmacao" type="submit" />
                 </div>
 
             </FormDefault>
+
+            {callRedirect()}
+
         </>
     )
 }

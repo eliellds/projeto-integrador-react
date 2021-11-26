@@ -68,14 +68,11 @@ function Header(props) {
                     // e returna null
                     localStorage.removeItem(key)
                     localStorage.removeItem("user")
-                    window.location.reload()
                     return null
                 }
             })
             .catch(err => {
-                localStorage.removeItem(key)
-                localStorage.removeItem("user")
-                window.location.reload()
+                console.log(err)
                 return null
             })
 
@@ -84,7 +81,6 @@ function Header(props) {
     }
 
     function getPerfil() {
-        getWithExpiry("token")
         return perfil
     }
 

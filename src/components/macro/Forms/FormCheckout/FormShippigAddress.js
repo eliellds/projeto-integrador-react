@@ -459,18 +459,6 @@ function FormShippigAddress(props) {
 
 
                         <div class=" col-6 col-sm-6 col-md-3">
-<<<<<<< HEAD
-                        <InputCep
-                            name="cep" pattern={/^\d{5}-\d{3}$/}
-                            mask={[/[0-9]/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]}
-                            required={<span className="text-danger">Campo inválido!</span>}
-                            blur={buscarCep}
-                            label="CEP" type="text" id="cep" className="form-input col-12"
-                            placeholder="00000-000"
-                            change={e =>setOrder({ ...order, address: { ...order.address, cep: e.target.value } }) } register={register} errors={errors}
-                            value={order.address.cep} />
-                            {/* <InputCep className="form-input col-12 form-label" length="9" blur={buscarCep} value={order.address.cep} label="CEP" type="text" id="cep" className="form-input col-12" placeholder="Digite seu CEP..." change={e => setOrder({ ...order, address: { ...order.address, cep: e.target.value } })} /> */}
-=======
                         <InputHook hook // hook eh a props para input padrao com a verificacao
                                 name="Cep" // name sera utilizado no componente para fazer as comparacoes
                                 register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
@@ -485,7 +473,6 @@ function FormShippigAddress(props) {
                                 className="form-input col-12"
                                 placeholder="Digite seu CEP..."/>
                     
->>>>>>> 1b5e10656e4f99ae05e5385198fede44ce725bf7
                         </div>
 
                         <div class=" col-6 col-sm-6 col-md-2">

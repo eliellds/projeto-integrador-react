@@ -8,7 +8,6 @@ export default function OrderProducts(props) {
      
         return props.options.map(
             function (item) {
-                console.log(item)
                 return (
                     <>
                     <li key={item.id} className="col-12 meu-pedido-item item-pedido-box p-2 mb-2">

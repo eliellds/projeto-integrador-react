@@ -38,7 +38,6 @@ function MeusPedidos(props) {
 
         return pedido.map(
             function (item) {
-                console.log(item)
 
                 const data = new Date(item.date)
                 const dataFormatada = data.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
@@ -92,7 +91,6 @@ function MeusPedidos(props) {
 
         return pedido.map(
             function (item) {
-                console.log(item)
 
                 if (show == "1") {
                     show = "0"

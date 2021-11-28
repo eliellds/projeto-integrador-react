@@ -57,7 +57,6 @@ function CartItemsComp(props) {
         e.preventDefault()
         props.click()
         window.location.href = props.logged ? "/login" : "/checkout";
-        // setSuccess(true)
 
     }
     return (
@@ -113,10 +112,6 @@ function CartItemsComp(props) {
                 </div>
 
             </div> 
-            {/* {success
-                ? <Redirect to={{pathname: "/checkout", state: {...cartItems}}} />
-                : ""
-            } */}
         </>
     )
 }

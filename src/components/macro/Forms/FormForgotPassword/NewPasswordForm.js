@@ -61,7 +61,7 @@ function NewPasswordForm(props) {
             .then((response) => {
                 alert("Senha redefinida com sucesso!")
                 console.log(response)
-                window.location.href = "/home";
+                window.location.href = "/login";
             })
             .catch((err) => {
                 console.error("Erro erro ao relizar definição de senha" + err)

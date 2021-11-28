@@ -20,7 +20,7 @@ function FormForgotPassword(props) {
 
     // imagem de loading
     function renderLoading() {
-        return <img className="img-loading-btn" src={Loading} alt="Gerando pedido" />
+        return <img className="img-loading-btn" src={Loading} alt="Enviando requisição" />
     }
 
     function postEmail(data) {

@@ -97,7 +97,7 @@ export const Routes = () => {
             <Route path="/contact" component={Contact} />
             <Route path="/productnotfound" component={ProductNotFound} />
             <Route path="/cart" component={Cart} exact/>
-            <Route path="/newpassword" component={NewPassword}/>
+            <Route path="/newpassword/:token" component={NewPassword}/>
             <Route path="/category" component={Category} />
             <Route path="/newpasswordform" component={NewPasswordForm}/>
             <Route path="/category" component={Category}/>

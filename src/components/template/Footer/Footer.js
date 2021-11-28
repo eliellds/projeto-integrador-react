@@ -51,7 +51,7 @@ function Footer(props) {
                     </div>
 
                     <div className="col-md-12 last-footer px-0">
-                        Velho Luxo Antiquário® - Todos os direitos reservaos
+                        Velho Luxo Antiquário® - Todos os direitos reservados
                     </div>
 
                 </div>

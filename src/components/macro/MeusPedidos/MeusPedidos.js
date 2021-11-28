@@ -74,7 +74,7 @@ function MeusPedidos(props) {
                                     <div className=" row container justify-content-between containerValues align-items-end d-flex m-0 mt-3 p-0">
                                         
                                         <div className="row  mx-2 mb-1 ">
-                                        <div className="col-6 text-start">Entrega: {deliveryDateForm}</div>
+                                        <div className="col-6 text-start">Previsão de Entrega: {deliveryDateForm}</div>
                                             <div className="col-6 text-end">Total: {amountFormated}</div>
                                         </div>
                                         <div className="row  mx-2 mb-1 ">

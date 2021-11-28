@@ -262,7 +262,8 @@ function OrderSummaryPage(props) {
             amount: somar(),
             qtyTotal: calcularItens(),
             totalDiscounts: calcularDescontos(),
-            card: { ...order.card, dueDate: "2021-12-10" }
+            card: { ...order.card, dueDate: "2021-12-10" },
+            idStore: 1
         }).then(response => {
 
             localStorage.setItem('idOrderLastCreated', response.data.id)

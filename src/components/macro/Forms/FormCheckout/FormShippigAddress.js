@@ -124,7 +124,28 @@ function FormShippigAddress(props) {
             res => {
                 var cepTemp = addressRes.cep.substring(0, 5) + "-" + addressRes.cep.substring(5);
                 setOrder({ ...order, myUser: { email: res.data.email, id: res.data.id }, telephone: { ...res.data.telephone }, address: { ...addressRes, cep: cepTemp } })
-                setValue('telefone', res.data.telephone.number)
+                if (res.data.telephone.number.charAt(2) == 9) {
+                    var number = res.data.telephone.number.toString()
+
+                    const parte1 = number.charAt(0) + number.charAt(1)
+                    const parte2 = number.slice(2,7)
+                    const parte3 = number.slice(7,11)
+
+                    const numeroAjustado = "(" + parte1 + ") " + parte2 + "-" + parte3
+
+                    setValue('telefone', numeroAjustado, { shouldValidate: true })
+                } else {
+                    var number = res.data.telephone.number.toString()
+                    
+                    const parte1 = number.charAt(0) + number.charAt(1)
+                    const parte2 = number.slice(2,6)
+                    const parte3 = number.slice(6,10)
+
+                    const numeroAjustado = "(" + parte1 + ") " + parte2 + "-" + parte3
+
+                    setValue('telefone', numeroAjustado, { shouldValidate: true })
+                }
+                // setValue('telefone', res.data.telephone.number)
                 setValue('cep', cepTemp)
                 setValue("E-mail", res.data.email)
                 setValue('numero', addressRes.number)
@@ -149,7 +170,9 @@ function FormShippigAddress(props) {
  
         var tempOrder = { ...order }
 
-        tempOrder = ({ ...tempOrder, card: { ...tempOrder.card, cardNumber: criptCard(tempOrder.card.cardNumber), dueDate: inputYear + "-" + inputMonth + "-01" } })
+        tempOrder = ({ ...tempOrder, 
+            telephone: { ...tempOrder.telephone, number: tempOrder.telephone.number.toString().replace(/[^0-9]/g, "")}, 
+            card: { ...tempOrder.card, cardNumber: criptCard(tempOrder.card.cardNumber), dueDate: inputYear + "-" + inputMonth + "-01" } })
 
         let orderJson = JSON.stringify(tempOrder)
 
@@ -514,7 +537,7 @@ function FormShippigAddress(props) {
 
                     <div class="row ">
                         <div class=" col-6  col-sm-6 col-md-3">
-                            <InputHook hook // hook eh a props para input padrao com a verificacao
+                            <InputHook  // hook eh a props para input padrao com a verificacao
                                 name="telefone" // name sera utilizado no componente para fazer as comparacoes
                                 register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
                                 required={<span className="text-danger">Digite um telefone válido</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
@@ -523,6 +546,7 @@ function FormShippigAddress(props) {
                                 errors={errors}
                                 clear={clearErrors}
                                 change={LimparTelefone}
+                                mask={order.telephone.number.charAt(2) == 9 ? "(99) 99999-9999" : "(99) 9999-9999"}
                                 label="Telefone"
                                 type="tel"
                                 className="form-input col-12"

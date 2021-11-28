@@ -33,6 +33,7 @@ export default function Catalog(props) {
 
     useEffect(() => {
         renderProduct()
+        window.scrollTo(0, 0);
     }, []);
 
     // Preço ordem alfabética

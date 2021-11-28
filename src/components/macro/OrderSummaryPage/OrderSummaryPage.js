@@ -153,6 +153,7 @@ function OrderSummaryPage(props) {
     }
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         getFlagByid(getPayments)
 
         setOrder(initial)

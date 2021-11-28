@@ -114,6 +114,7 @@ function FormShippigAddress(props) {
     }
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         getAddress();
         getUfs();
     }, []);

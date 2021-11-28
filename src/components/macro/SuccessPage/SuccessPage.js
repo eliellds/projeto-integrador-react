@@ -118,7 +118,8 @@ function SuccessPage(props) {
     }
 
     useEffect(() => {
-       getOrder()
+        window.scrollTo(0, 0);
+        getOrder()
 
     }, []);
 

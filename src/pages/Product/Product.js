@@ -49,7 +49,7 @@ function Product(props) {
     }
     useEffect(() => {
         chargeProduct()
-
+        window.scrollTo(0, 0);
     }, []);
 
     const [item, setItem] = useState();
@@ -107,7 +107,6 @@ function Product(props) {
             }
             let cartString = JSON.stringify(cartList)
             localStorage.setItem("cart", cartString)
-            localStorage.setItem('qtyCart', JSON.stringify(cartList.length))
             window.location.href = "/cart";
     
         }

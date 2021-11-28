@@ -8,24 +8,33 @@ import { Link } from 'react-router-dom';
 import CardProduct from '../Cards/Products/CardProduct';
 import { Redirect } from "react-router-dom";
 
+const initialCart = 0
 
 
 function CartItemsComp(props) {
     const history = useHistory()
-    const [qtyCart, setQty] = useState(JSON.parse(localStorage.getItem('qtyCart')))
+    const [qtyCart, setQty] = useState(initialCart)
     const [cartItems, setCartItems] = useState(JSON.parse(localStorage.getItem('cart')
     ))
     const [total, setTotal] = useState(0)
 
     function setQtyCart() {
-        return qtyCart
+        var qty = 0
+        if (cartItems) {
+            cartItems.map(item => {
+                qty = qty + item.qty
+            })
+        }
+        localStorage.setItem('qtyCart', qty)
+        setQty(qty)
+        return qty
     }
 
     // const [success, setSuccess] = useState(false)
     
 
     useEffect(() => {
-        setQty(JSON.parse(localStorage.getItem('qtyCart')))
+        setQtyCart()
         setCartItems(JSON.parse(localStorage.getItem('cart')))
         somar()
     }, [])
@@ -87,7 +96,7 @@ function CartItemsComp(props) {
                         <h4 className="texto-total">Frete: R$<span className="numero total">150,00</span></h4>
                     </div>
                     <div className="col-5 mb-3 mt-3">
-                        <h4 className="texto-total">Quantidade: <span className="numero total">{qtyCart} </span> - Total:R$ <span className="numero total">{total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span></h4>
+                        <h4 className="texto-total">Quantidade: <span className="numero total">{qtyCart} </span> - Total:R$ <span className="numero total">{(total + 150).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span></h4>
                     </div>
 
                 </div> : ""}

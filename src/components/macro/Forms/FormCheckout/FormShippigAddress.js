@@ -251,15 +251,20 @@ function FormShippigAddress(props) {
 
         if (dateCurrent > order.card.birthDate) {
 
-            if (MoipValidator.isSecurityCodeValid(data.CardNum, data.cvv) == true) {
-                if (MoipValidator.isExpiryDateValid(inputMonth, inputYear) == true) {
-                    postOrder()
+            if(MoipValidator.isValidNumber(data.CardNum) == true) {
+                if (MoipValidator.isSecurityCodeValid(data.CardNum, data.cvv) == true) {
+                    if (MoipValidator.isExpiryDateValid(inputMonth, inputYear) == true) {
+                        postOrder()
+                    } else {
+                        window.alert("Preencha a validade do cartão corretamente")
+                    }
                 } else {
-                    return alert("Preencha os dados de pagamento corretamente")
+                   window.alert("Preencha o CVV corretamente")
                 }
             } else {
-                return alert("Preencha os dados de pagamento corretamente")
+                window.alert("Preencha o número do cartão corretamente")
             }
+
         } else {
             window.alert("Data de nascimento do titular do cartão invalida!")
 
@@ -709,7 +714,6 @@ function FormShippigAddress(props) {
                             <InputCard
                                 name="CardNum" // name sera utilizado no componente para fazer as comparacoes
                                 register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
-                                message={<span className="text-danger">Insira um número de cartão válido!</span>}
                                 required={<span className="text-danger">Insira um número de cartão válido!</span>}
                                 errors={errors}
                                 change={LimpaCartao}
@@ -719,25 +723,24 @@ function FormShippigAddress(props) {
                                 label="Número do cartão"
                                 type="text"
                                 className="form-input col-12"
-                                placeholder="1234 1234 1234 1234" />
+                                placeholder="0000 0000 0000 0000" />
                             {/* {MoipValidator.isValidNumber(cardNumber) ? "" : <span className="text-danger">Insira um número de cartão válido!</span>} */}
                             {/* <Input change={authCard} label="Numero do Cartão" className="form-input col-12 form-label" type="text" name="cardNumber" placeholder="Ex.: 0000 1111 2222 3333." /> */}
                         </div>
 
                         <div className=" col-6 col-md-1">
-                            <InputHook
+                            <InputHook hook
                                 name="cvv" // name sera utilizado no componente para fazer as comparacoes
                                 register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
                                 required // mensagem de erro que sera exibida caso o campo nao seja valido
                                 errors={errors}
                                 change={e => { setCvv(e.target.value) }}
-                                maxlength={3}
-                                mask="999"
+                                maxlength={4}
                                 label="CVV"
                                 type="text"
                                 value={cvv}
                                 className="form-input col-12"
-                                placeholder="123" />
+                                placeholder="CVV" />
                        
                         </div>
 
@@ -779,8 +782,8 @@ function FormShippigAddress(props) {
 
                                 {/* {MoipValidator.isExpiryDateValid(cardNumber, cvv) ? "" : <span className="text-danger">Insira uma data válida!</span>} */}
 
-                                <Input change={e => setInputMonth(e.target.value)} label="Mês" classCustom="col-6" type="text" placeholder="MM" />
-                                <Input change={e => setInputYear(e.target.value)} label="Ano" classCustom="col-6" type="text" placeholder="AA" />
+                                <Input change={e => setInputMonth(e.target.value)} label="Mês" classCustom="col-6" type="text" placeholder="MM" maxlength={2}/>
+                                <Input change={e => setInputYear(e.target.value)} label="Ano" classCustom="col-6" type="text" placeholder="AA" maxlength={2}/>
                             </div>
                         </div>
 

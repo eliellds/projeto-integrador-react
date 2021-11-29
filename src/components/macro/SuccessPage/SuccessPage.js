@@ -64,7 +64,6 @@ function SuccessPage(props) {
     function uncriptCard(cript) {
         var decipher = crypto.createDecipher(alg,pwd)
         var uncrypted = decipher.update(cript, 'hex', 'utf8')
-        console.log(uncrypted)
         let c = ""             
         for (let index = 0; index < uncrypted.length; index++) {
             
@@ -100,7 +99,6 @@ function SuccessPage(props) {
             .get(`/orders/${localStorage.getItem('idOrderLastCreated')}`)
             .then((response) => {
                 setOrder(response.data)
-                console.log(response.data)
                 getItemOrder(response.data.id)
             })
             .catch((err) => {
@@ -123,7 +121,6 @@ function SuccessPage(props) {
 
     }, []);
 
-    console.log(order)
 
     return (
         <>

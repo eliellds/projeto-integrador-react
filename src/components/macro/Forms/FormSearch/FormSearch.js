@@ -8,7 +8,9 @@ function FormSearch(props) {
     return (
         <>
             <form action="/search" onSubmit={e => {e.preventDefault()
-                window.location.href="/search/"+word}}>
+                word != undefined
+                ?window.location.href="/search/"+word
+                :setWord(undefined)}}>
                 <div className="container">
                     <div className="row">
                         <div className="pesquisa-btn mx-0 col-11">

@@ -3,7 +3,6 @@ import React from 'react'
 function SelectByFilter(props) {
     const options = props.options || []
 
-    console.log(options)
 
     function getOptions(){
         return options.map(

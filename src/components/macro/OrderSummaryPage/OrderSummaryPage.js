@@ -24,7 +24,6 @@ function OrderSummaryPage(props) {
         }
         } || {}
 
-    console.log(props)
     
     const [success, setSuccess] = useState(false)
     const [back, setBack] = useState(false)
@@ -260,6 +259,7 @@ function OrderSummaryPage(props) {
 
         api.post(`/orders`, {
             ...order,
+            address: { ...order.address, cep: order.address.cep.toString().replace(/[^0-9]/g, "") },
             amount: somar(),
             qtyTotal: calcularItens(),
             totalDiscounts: calcularDescontos(),

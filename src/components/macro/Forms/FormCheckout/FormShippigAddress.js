@@ -474,7 +474,7 @@ function FormShippigAddress(props) {
 
     function LimparTelefone(e) {
         clearErrors(["telefone"])
-        setOrder({ ...order, telephone: { ...order.telephone, number: e.target.value } })
+        setOrder({ ...order, telephone: { ...order.telephone, id: null, number: e.target.value } })
     }
 
     function LimparEmail(e) {
@@ -484,7 +484,7 @@ function FormShippigAddress(props) {
 
     function LimparNumero(e) {
         clearErrors(["Número"])
-        setOrder({ ...order, address: { ...order.address, number: e.target.value } })
+        setOrder({ ...order, address: { ...order.address, id: null, number: e.target.value } })
     }
 
     const [cpfCheck, setCheck] = useState(true)
@@ -586,21 +586,21 @@ function FormShippigAddress(props) {
                                 blur={buscarCep}
                                 label="CEP" type="text" id="cep" className="form-input col-12"
                                 placeholder="00000-000" validation={buscarCep}
-                                change={e => setOrder({ ...order, address: { ...order.address, cep: e.target.value } })} register={register} errors={errors}
+                                change={e => setOrder({ ...order, address: { ...order.address, id: null, cep: e.target.value } })} register={register} errors={errors}
                                 value={order.address.cep} />
                             {/* <InputCep className="form-input col-12 form-label" length="9" blur={buscarCep} value={order.address.cep} label="CEP" type="text" id="cep" className="form-input col-12" placeholder="Digite seu CEP..." change={e => setOrder({ ...order, address: { ...order.address, cep: e.target.value } })} /> */}
                         </div>
 
                         <div class=" col-6 col-sm-6 col-md-2">
-                            <Select label="Estado" disabled={false} options={ufs} selected={order.address.state} change={e => setOrder({ ...order, address: { ...order.address, state: e.target.value } })} default="Estado:" />
+                            <Select label="Estado" disabled={false} options={ufs} selected={order.address.state} change={e => setOrder({ ...order, address: { ...order.address, id: null, state: e.target.value } })} default="Estado:" />
                         </div>
 
                         <div class=" col-6 col-sm-6 col-md-4">
-                            <Input value={order.address.city} disabled={false} change={e => setOrder({ ...order, address: { ...order.address, city: e.target.value } })} label="Cidade" className="form-input col-12 form-label" type="text" name="city" placeholder="Digite a cidade..." />
+                            <Input value={order.address.city} disabled={false} change={e => setOrder({ ...order, address: { ...order.address, id: null, city: e.target.value } })} label="Cidade" className="form-input col-12 form-label" type="text" name="city" placeholder="Digite a cidade..." />
                         </div>
 
                         <div class=" col-9 col-md-6">
-                            <Input value={order.address.street} disabled={false} change={e => setOrder({ ...order, address: { ...order.address, street: e.target.value } })} label="Logradouro" className="form-input col-12 form-label" type="text" name="street" placeholder="Digite o logradouro..." />
+                            <Input value={order.address.street} disabled={false} change={e => setOrder({ ...order, address: { ...order.address, id: null, street: e.target.value } })} label="Logradouro" className="form-input col-12 form-label" type="text" name="street" placeholder="Digite o logradouro..." />
                         </div>
 
                         <div class=" col-3  col-md-2">
@@ -621,15 +621,15 @@ function FormShippigAddress(props) {
                         </div>
 
                         <div class=" col-6 col-md-4">
-                            <Input value={order.address.district} disabled={false} change={e => setOrder({ ...order, address: { ...order.address, district: e.target.value } })} label="Bairro" className="form-input col-12 form-label" type="text" name="district" placeholder="Digite o Bairro..." />
+                            <Input value={order.address.district} disabled={false} change={e => setOrder({ ...order, address: { ...order.address, id: null, district: e.target.value } })} label="Bairro" className="form-input col-12 form-label" type="text" name="district" placeholder="Digite o Bairro..." />
                         </div>
 
                         <div class=" col-6  col-md-4">
-                            <Input value={order.address.complement} change={e => setOrder({ ...order, address: { ...order.address, complement: e.target.value } })} label="Complemento" className="form-input col-12 form-label" type="text" name="complement" placeholder="Digite o complemento..." />
+                            <Input value={order.address.complement} change={e => setOrder({ ...order, address: { ...order.address, id: null, complement: e.target.value } })} label="Complemento" className="form-input col-12 form-label" type="text" name="complement" placeholder="Digite o complemento..." />
                         </div>
 
                         <div class=" col-6 col-md-4">
-                            <Input value={order.address.reference} change={e => setOrder({ ...order, address: { ...order.address, reference: e.target.value } })} label="Referencia" className="form-input col-12 form-label" type="text" name="reference" placeholder="Digite um ponto de referência" />
+                            <Input value={order.address.reference} change={e => setOrder({ ...order, address: { ...order.address, id: null, reference: e.target.value } })} label="Referencia" className="form-input col-12 form-label" type="text" name="reference" placeholder="Digite um ponto de referência" />
 
                         </div>
 

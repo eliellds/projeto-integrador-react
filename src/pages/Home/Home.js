@@ -23,6 +23,7 @@ function Home(props) {
         api.get("/products/recentlyAdd").then((response) => {setNews(response.data)}).catch((error) => console.log("Erro ao carregar newer "+ error))
     }
     useEffect(() => {
+        window.scroll(0, 0)
         offersData()
         newlestData()
         emphasisRender()

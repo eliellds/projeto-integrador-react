@@ -105,7 +105,7 @@ function CartItemsComp(props) {
                 </div>
 
                 <div className="d-flex justify-content-between mb-5">
-                    <Button onclick={history.goBack} class="btn-retorno" label="Continuar Compra" />
+                    <Button navigation route={"/home"} class="btn-retorno" label="Continuar Compra" />
                     {qtyCart >= 1 ? <Link onClick={(e) => preventDefault(e)} class="btn-custom-default btn-comprar align-self-center" label="">
                         FINALIZAR
                     </Link> : ""}

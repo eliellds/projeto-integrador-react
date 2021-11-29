@@ -11,7 +11,7 @@ export default function OrderProducts(props) {
                 return (
                     <>
                     <li key={item.id} className="col-12 meu-pedido-item item-pedido-box p-2 mb-2">
-                   <EachItemOrderProduct key={item.id} item = {item}/>
+                   <EachItemOrderProduct key={item.productsDTO.id} item = {item}/>
 
                     </li>
                     </>

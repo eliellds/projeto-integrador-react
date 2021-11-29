@@ -49,7 +49,6 @@ export default function Catalog(props) {
         })
 
         setProducts(productTemp)
-        console.log(products)
     }
 
     // Preço menor para o maior
@@ -65,7 +64,6 @@ export default function Catalog(props) {
         })
 
         setProducts(productTemp)
-        console.log(products)
     }
 
     // Preço maior para o menor
@@ -80,7 +78,6 @@ export default function Catalog(props) {
             }
         })
         setProducts(productTemp)
-        console.log(products)
     }
 
     // Promoções
@@ -95,7 +92,6 @@ export default function Catalog(props) {
             }
         })
         setProducts(productTemp)
-        console.log(products)
     }
 
     function setProductBy(e) {
@@ -127,7 +123,6 @@ export default function Catalog(props) {
         // }
     }
 
-    console.log(filter)
 
     return (
         <>

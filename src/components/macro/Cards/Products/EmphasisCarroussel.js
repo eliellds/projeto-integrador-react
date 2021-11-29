@@ -16,7 +16,8 @@ function CarrousselEmphasis(props) {
             year={product.product.year}
             price={(product.price)}
             salePrice={(product.salePrice)}
-            qty={(product.qty)} />
+            qty={(product.qty)}
+            key={product.product.id} />
         }))
 
 

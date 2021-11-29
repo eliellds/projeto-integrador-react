@@ -13,7 +13,6 @@ function ProductSuccess(props) {
     }
     function imageRender(image) {
         var imgSrc = require(`../../../assets/images/products/${image}`);
-        console.log(imgSrc)
         return <img className="imageSuccess" src={`${imgSrc.default}`} />
     }
 
@@ -57,7 +56,6 @@ function ProductSuccess(props) {
     return (
         <>
             {listProducts()}
-            {console.log(total)}
             <div class="valor-total">Sub Total: &nbsp;<b>{(props.subTotal).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</b></div>
 
             <div class="valor-total">Descontos total: &nbsp;<b>{props.discount}</b></div>

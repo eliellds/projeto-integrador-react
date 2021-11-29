@@ -8,15 +8,13 @@ import ProductNotFoundComp from "../../components/macro/ProductNotFoundComp/Prod
 
 export default function Search(props) {
     const text = props.match.params.text;
-    console.log(props)
 
     const [search, setSearch] = useState()
     const [filter, setFilter] = useState([
         { id: 1, subjectDescription: "Menor Valor" },
         { id: 2, subjectDescription: "Maior Valor" },
         { id: 3, subjectDescription: "Maior Desconto" },
-        // { id: 4, subjectDescription: "Mais Antigo" },
-        // { id: 5, subjectDescription: "Mais Novo" },
+   
     ])
 
     useEffect(() => {
@@ -24,14 +22,12 @@ export default function Search(props) {
             .get("/search/product?description=" + text)
             .then((response) => {
                 setSearch(response.data)
-                // console.log(response)
             })
             .catch((err) => {
                 console.error("Erro ao consumir api de search" + err);
             });
     }, []);
 
-    // console.log(search)
 
     function setTag() {
         if (search != 0) {

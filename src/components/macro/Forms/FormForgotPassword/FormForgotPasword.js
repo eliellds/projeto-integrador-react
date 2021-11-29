@@ -27,7 +27,6 @@ function FormForgotPassword(props) {
         api.post("/forgotpassword", data)
             .then((response) => {
                 alert("Link de redefinição de senha enviado, cheque seu e-mail.")
-                console.log(response)
                 window.location.href = "/login";
             })
             .catch((err) => {

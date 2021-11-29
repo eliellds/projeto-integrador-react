@@ -35,7 +35,6 @@ function OrderSummaryPage(props) {
     function uncriptCard(cript) {
         var decipher = crypto.createDecipher(alg, pwd)
         var uncrypted = decipher.update(cript, 'hex', 'utf8')
-        console.log(uncrypted)
         let c = ""
         for (let index = 0; index < uncrypted.length; index++) {
 

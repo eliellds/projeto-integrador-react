@@ -24,9 +24,8 @@ function MeusPedidos(props) {
 
     function getOrder() {
         api.get(`/itemsOrder/user/${user.value.id}`).then(res => {
-            console.log(res.data)
             setPedido(res.data)
-        })
+        }).catch((error) =>console.error("Falha ao consumir api de orders"+error))
     }
 
     useEffect(() => {

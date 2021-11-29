@@ -7,6 +7,7 @@ function Contact(props) {
     const [options, setOptions] = useState()
 
     useEffect(() => {
+        window.scroll(0, 0)
         api.get("/subjects").then((response) => setOptions(response.data)).catch((err) => {
             console.error("Erro ao consumir api de subjects" + err)
         })

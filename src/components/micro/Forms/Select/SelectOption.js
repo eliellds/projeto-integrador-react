@@ -7,7 +7,7 @@ function SelectOptions(props) {
         return options.map(
             function(option){
                 if (props.selected == option.id) {
-                    return <option selected="selected" value={props.value} key={option.id} value={option.id}>{option.subjectDescription}</option>
+                    return <option selected="selected" key={option.id} value={option.id}>{option.subjectDescription}</option>
                 } else {
                     return <option key={option.id} value={option.id}>{option.subjectDescription}</option>
                 }

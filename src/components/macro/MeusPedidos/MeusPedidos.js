@@ -24,12 +24,13 @@ function MeusPedidos(props) {
 
     function getOrder() {
         api.get(`/itemsOrder/user/${user.value.id}`).then(res => {
+            console.log(res.data)
             setPedido(res.data)
         })
     }
 
     useEffect(() => {
-
+        window.scrollTo(0, 0);
         getOrder();
 
     }, []);
@@ -38,10 +39,12 @@ function MeusPedidos(props) {
 
         return pedido.map(
             function (item) {
-                console.log(item)
 
                 const data = new Date(item.date)
                 const dataFormatada = data.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
+                const dataDeliveryRaw = new Date(item.deliveryDate)
+                const deliveryDateForm =   dataDeliveryRaw.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
+                
                 const amountFormated = item.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
                 if (orderNumber == item.orderNumber) {
@@ -67,10 +70,11 @@ function MeusPedidos(props) {
 
                                         </div>
                                     </div>
-                                    <div className="container justify-content-end containerValues align-items-end d-flex m-0 mt-3 p-0">
+                                    <div className=" row container justify-content-between containerValues align-items-end d-flex m-0 mt-3 p-0">
                                         
                                         <div className="row  mx-2 mb-1 ">
-                                            <div className="col-6">Total: {amountFormated}</div>
+                                        <div className="col-6 text-start">Previsão de Entrega: {deliveryDateForm}</div>
+                                            <div className="col-6 text-end">Total: {amountFormated}</div>
                                         </div>
                                         <div className="row  mx-2 mb-1 ">
                                         
@@ -92,7 +96,6 @@ function MeusPedidos(props) {
 
         return pedido.map(
             function (item) {
-                console.log(item)
 
                 if (show == "1") {
                     show = "0"

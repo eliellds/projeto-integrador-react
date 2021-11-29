@@ -22,7 +22,6 @@ function Emphasis(props) {
             ? JSON.parse(localStorage.getItem("cart"))
             : []
         
-        console.log(cartList)
         if (cartList.length >0) {
             for (var i = 0; i <= cartList.length; ++i) {
                 if (cartList[i].id == product.id) {
@@ -58,7 +57,6 @@ function Emphasis(props) {
         }
         let cartString = JSON.stringify(cartList)
         localStorage.setItem("cart", cartString)
-        localStorage.setItem('qtyCart', JSON.stringify(cartList.length))
         window.location.href = "/cart";
 
     }

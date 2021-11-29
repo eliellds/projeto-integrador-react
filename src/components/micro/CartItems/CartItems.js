@@ -12,14 +12,12 @@ function CartItems(props) {
 
     function imageRender(image) {
         var imgSrc = require(`../../../assets/images/products/${image}`);
-        console.log(imgSrc)
         return <img className="imagem-carrinho" src={`${imgSrc.default}`} />
     }
 
     function listCartItem() {
 
         return productItems.map(product => {
-            console.log(product)
             let qtd = 0
             return (
                 <CartCard

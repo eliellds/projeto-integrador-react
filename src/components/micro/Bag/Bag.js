@@ -1,13 +1,30 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Sacola from "../../../assets/images/headers/sacola.png"
 import "./Bag.css"
 
+const initialCart = 0
+
 function Bag(props) {
-    const[qtyCart, setQty]  = useState(JSON.parse(localStorage.getItem('qtyCart')))
+    const[qtyCart, setQty]  = useState(initialCart)
+    const [cartItems, setCartItems] = useState(JSON.parse(localStorage.getItem('cart')
+    ))
 
     function setQtyCart() {
-        return qtyCart
+        var qty = 0
+        if (cartItems) {
+            cartItems.map(item => {
+                qty = qty + item.qty
+            })
+        }
+        localStorage.setItem('qtyCart', qty)
+        setQty(qty)
+        return qty
     }
+
+    useEffect(() => {
+        setQtyCart()
+        setCartItems(JSON.parse(localStorage.getItem('cart')))
+    }, [])
 
     return (
         <>

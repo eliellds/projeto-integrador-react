@@ -14,7 +14,7 @@ export default function Catalog(props) {
         { id: 1, subjectDescription: "Menor Valor" },
         { id: 2, subjectDescription: "Maior Valor" },
         { id: 3, subjectDescription: "Maior Desconto" },
-        { id: 4, subjectDescription: "Por Nome" },
+        { id: 4, subjectDescription: "Por Nome A-Z" },
         // { id: 5, subjectDescription: "Mais Novo" },
     ])
     const [renderList, setRenderList] = useState(<ListProductsCatalogy products={products} />)
@@ -33,6 +33,7 @@ export default function Catalog(props) {
 
     useEffect(() => {
         renderProduct()
+        window.scrollTo(0, 0);
     }, []);
 
     // Preço ordem alfabética

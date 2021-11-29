@@ -12,7 +12,7 @@ export default function Sales(props) {
         { id: 1, subjectDescription: "Menor Valor" },
         { id: 2, subjectDescription: "Maior Valor" },
         { id: 3, subjectDescription: "Maior Desconto" },
-        { id: 4, subjectDescription: "Por Nome" },
+        { id: 4, subjectDescription: "Nome A-Z" },
         // { id: 5, subjectDescription: "Mais Novo" },
     ])
     const [renderList, setRenderList] = useState(<ListProductsCatalogy products={products} />)
@@ -47,7 +47,6 @@ export default function Sales(props) {
         })
 
         setProducts(productTemp)
-        console.log(products)
     }
 
     // Preço menor para o maior
@@ -63,7 +62,6 @@ export default function Sales(props) {
         })
 
         setProducts(productTemp)
-        console.log(products)
     }
 
     // Preço maior para o menor
@@ -78,7 +76,6 @@ export default function Sales(props) {
             }
         })
         setProducts(productTemp)
-        console.log(products)
     }
 
     // Promoções
@@ -93,7 +90,6 @@ export default function Sales(props) {
             }
         })
         setProducts(productTemp)
-        console.log(products)
     }
 
     function setProductBy(e) {
@@ -118,14 +114,9 @@ export default function Sales(props) {
             renderProduct()
             return setRenderList(<ListProductsCatalogy products={products} />)
         }
-        // } else if (filter.id == 4){
-
-        // } else if (filter.id == 5){
-
-        // }
+    
     }
 
-    // console.log(filter)
 
 
     return (
@@ -152,10 +143,7 @@ export default function Sales(props) {
                 {renderList}
             </div>
 
-            {/* <div className="ver-mais row justify-content-center tamanho pb-3">
-            <a href="" className="btn-ver-mais col-6 mb-3">VER MAIS</a>
-        </div> */}
-
+      
         </>
     )
 

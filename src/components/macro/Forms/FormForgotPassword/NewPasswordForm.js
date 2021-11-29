@@ -60,7 +60,6 @@ function NewPasswordForm(props) {
         api.post(url, newPasswordInfo)
             .then((response) => {
                 alert("Senha redefinida com sucesso!")
-                console.log(response)
                 window.location.href = "/login";
             })
             .catch((err) => {

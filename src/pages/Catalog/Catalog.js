@@ -14,7 +14,7 @@ export default function Catalog(props) {
         { id: 1, subjectDescription: "Menor Valor" },
         { id: 2, subjectDescription: "Maior Valor" },
         { id: 3, subjectDescription: "Maior Desconto" },
-        { id: 4, subjectDescription: "Por Nome A-Z" },
+        { id: 4, subjectDescription: "Nome A-Z" },
         // { id: 5, subjectDescription: "Mais Novo" },
     ])
     const [renderList, setRenderList] = useState(<ListProductsCatalogy products={products} />)
@@ -49,7 +49,6 @@ export default function Catalog(props) {
         })
 
         setProducts(productTemp)
-        console.log(products)
     }
 
     // Preço menor para o maior
@@ -65,7 +64,6 @@ export default function Catalog(props) {
         })
 
         setProducts(productTemp)
-        console.log(products)
     }
 
     // Preço maior para o menor
@@ -80,7 +78,6 @@ export default function Catalog(props) {
             }
         })
         setProducts(productTemp)
-        console.log(products)
     }
 
     // Promoções
@@ -95,7 +92,6 @@ export default function Catalog(props) {
             }
         })
         setProducts(productTemp)
-        console.log(products)
     }
 
     function setProductBy(e) {
@@ -127,7 +123,6 @@ export default function Catalog(props) {
         // }
     }
 
-    console.log(filter)
 
     return (
         <>

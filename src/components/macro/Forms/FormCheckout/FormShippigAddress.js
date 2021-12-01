@@ -16,6 +16,9 @@ import InputHook from "../../../micro/Forms/Input/InputHook"
 import { Redirect } from "react-router-dom";
 import Loading from "../../../../assets/images/success/loading.gif"
 import InputCard from "../../../micro/Forms/Input/InputCard";
+import MoreAddresses from "../../moreAddress/MoreAddress";
+import Modal from 'react-bootstrap/Modal'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const initial = {
 
@@ -100,6 +103,19 @@ function FormShippigAddress(props) {
         shouldUseNativeValidation: false,
         delayError: undefined
     });
+    const { register : register2, handleSubmit: handleSubmit2 , formState: { errors : errors2 }, reset: reset2, clearErrors: clean2, setError: setErr, setValue : setValue2 } = useForm({
+        mode: 'onChange',
+        reValidateMode: 'onChange',
+        defaultValues: {},
+        resolver: undefined,
+        context: undefined,
+        criteriaMode: "firstError",
+        shouldFocusError: true,
+        shouldUnregister: false,
+        shouldUseNativeValidation: false,
+        delayError: undefined
+    });
+
 
 
     const getAddress = () => {
@@ -128,22 +144,22 @@ function FormShippigAddress(props) {
                     var number = res.data.telephone.number.toString()
 
                     const parte1 = number.charAt(0) + number.charAt(1)
-                    const parte2 = number.slice(2,7)
-                    const parte3 = number.slice(7,11)
+                    const parte2 = number.slice(2, 7)
+                    const parte3 = number.slice(7, 11)
 
                     const numeroAjustado = "(" + parte1 + ") " + parte2 + "-" + parte3
 
                     setValue('telefone', numeroAjustado, { shouldValidate: true })
                 } else {
                     var number = res.data.telephone.number.toString()
-                    
+
                     const parte1 = number.charAt(0) + number.charAt(1)
-                    const parte2 = number.slice(2,6)
-                    const parte3 = number.slice(6,10)
+                    const parte2 = number.slice(2, 6)
+                    const parte3 = number.slice(6, 10)
 
                     const numeroAjustado = "(" + parte1 + ") " + parte2 + "-" + parte3
 
-                    setValue('telefone', numeroAjustado, { shouldValidate: true })
+                    setValue('telefone', numeroAjustado, { shouldValidate: true})
                 }
                 // setValue('telefone', res.data.telephone.number)
                 setValue('cep', cepTemp)
@@ -167,12 +183,14 @@ function FormShippigAddress(props) {
             return alert("Preencha os dados corretamente")
         }
 
- 
+
         var tempOrder = { ...order }
 
-        tempOrder = ({ ...tempOrder, 
-            telephone: { ...tempOrder.telephone, number: tempOrder.telephone.number.toString().replace(/[^0-9]/g, "")}, 
-            card: { ...tempOrder.card, cardNumber: criptCard(tempOrder.card.cardNumber), dueDate: inputYear + "-" + inputMonth + "-01" } })
+        tempOrder = ({
+            ...tempOrder,
+            telephone: { ...tempOrder.telephone, number: tempOrder.telephone.number.toString().replace(/[^0-9]/g, "") },
+            card: { ...tempOrder.card, cardNumber: criptCard(tempOrder.card.cardNumber), dueDate: inputYear + "-" + inputMonth + "-01" }
+        })
 
         let orderJson = JSON.stringify(tempOrder)
 
@@ -205,12 +223,12 @@ function FormShippigAddress(props) {
                 case "VISA":
                     setOrder({ ...order, card: { ...order.card, flag: { id: 2 }, cardNumber: card } })
                     setInputBrand("VISA")
-                    return true 
+                    return true
                     break;
                 case "MASTERCARD":
                     setOrder({ ...order, card: { ...order.card, flag: { id: 1 }, cardNumber: card } })
                     setInputBrand("MASTERCARD");
-                    return true 
+                    return true
                     break;
                 case "AMEX":
                     setOrder({ ...order, card: { ...order.card, flag: { id: 3 }, cardNumber: card } })
@@ -223,22 +241,22 @@ function FormShippigAddress(props) {
                 case "ELO":
                     setOrder({ ...order, card: { ...order.card, flag: { id: 4 }, cardNumber: card } })
                     setInputBrand("ELO");
-                    return true 
+                    return true
                     break;
                 case "HIPERCARD":
                     setOrder({ ...order, card: { ...order.card, flag: { id: 5 }, cardNumber: card } })
                     setInputBrand("HIPERCARD");
-                    return true 
+                    return true
                     break;
                 case "DINERS":
                     setOrder({ ...order, card: { ...order.card, flag: { id: 6 }, cardNumber: card } })
                     setInputBrand("DINERS CLUB");
-                    return true 
+                    return true
                     break;
                 default:
                     return setInputBrand("Cartão não aceito!")
             }
-        } 
+        }
         return false
     }
 
@@ -251,7 +269,7 @@ function FormShippigAddress(props) {
 
         if (dateCurrent > order.card.birthDate) {
 
-            if(MoipValidator.isValidNumber(data.CardNum) == true) {
+            if (MoipValidator.isValidNumber(data.CardNum) == true) {
                 if (MoipValidator.isSecurityCodeValid(data.CardNum, data.cvv) == true) {
                     if (MoipValidator.isExpiryDateValid(inputMonth, inputYear) == true) {
                         postOrder()
@@ -259,7 +277,7 @@ function FormShippigAddress(props) {
                         window.alert("Preencha a validade do cartão corretamente")
                     }
                 } else {
-                   window.alert("Preencha o CVV corretamente")
+                    window.alert("Preencha o CVV corretamente")
                 }
             } else {
                 window.alert("Preencha o número do cartão corretamente")
@@ -346,13 +364,13 @@ function FormShippigAddress(props) {
 
     function limpa_formulário_cep() {
         //Limpa valores do formulário de cep.
-        setOrder({ ...order, address: { ...order.address, street: "", district: "", city: "", state: "", number: "", complement: "", reference: "" } });
+        setAddressToLink({ ...newAddressToLink, street: "", district: "", city: "", state: "", number: "", complement: "", reference: "" } );
     }
 
     function meu_callback(conteudo) {
         if (!("erro" in conteudo)) {
             //Atualiza os campos com os valores.
-            setOrder({ ...order, address: { ...order.address, street: conteudo.logradouro, district: conteudo.bairro, city: conteudo.localidade, state: conteudo.uf } })
+            setAddressToLink({ ...newAddressToLink, street: conteudo.logradouro, district: conteudo.bairro, city: conteudo.localidade, state: conteudo.uf  })
         } //end if.
         else {
             //CEP não Encontrado.
@@ -364,10 +382,10 @@ function FormShippigAddress(props) {
 
     function buscarCep(e) {
 
-        clearErrors(["cep"])
+        clean2(["cep"])
 
         const valor = e
-        setValue('cep', valor)
+        setValue2('cep', valor)
         //Nova variável "cep" somente com dígitos.
         const cep = valor.replace(/\D/g, '');
 
@@ -382,7 +400,7 @@ function FormShippigAddress(props) {
             if (validacep.test(cep)) {
 
                 //Preenche os campos com "..." enquanto consulta webservice.
-                setOrder({ ...order, address: { ...order.address, street: "...", district: "...", city: "...", state: "...", number: "", complement: "", reference: "" } });
+                setAddressToLink({ ...newAddressToLink, street: "...", district: "...", city: "...", state: "...", number: "", complement: "", reference: ""  });
 
                 fetch(`https://viacep.com.br/ws/${cep}/json/`)
                     .then(res => res.json())
@@ -409,9 +427,9 @@ function FormShippigAddress(props) {
         setCheck(true)
         setCpf(true)
         clearErrors(["cpf"]) // limpa o erro ao clicar no campo CPF quando este exibe erro
-        var cpf = e;          
+        var cpf = e;
         cpf = cpf.toString().replace(/[^0-9]/g, ""); // transforma os valores digitados para apenas numeros
-        setOrder({...order, card:{...order.card, cpf: cpf }})
+        setOrder({ ...order, card: { ...order.card, cpf: cpf } })
         let booleano = true
         if (cpf == "") {
             // setCheck(false)
@@ -483,8 +501,8 @@ function FormShippigAddress(props) {
     }
 
     function LimparNumero(e) {
-        clearErrors(["Número"])
-        setOrder({ ...order, address: { ...order.address, id: null, number: e.target.value } })
+        clean2(["Número"])
+        setAddressToLink({ ...newAddressToLink, number: e.target.value } )
     }
 
     const [cpfCheck, setCheck] = useState(true)
@@ -503,27 +521,27 @@ function FormShippigAddress(props) {
 
         setValue("CardNum", cartao)
         var validacoes = [
-        {  flag: 'Amex', regex: /^3[47][0-9]{13, 14}$/}
-        ,{ flag: 'Aura', regex: /^((?!504175))^((?!5067))(^50[0-9])/}
-        ,{ flag: 'BaneseCard', regex: /'^636117'/}
-        ,{ flag: 'Cabal', regex: /'(60420[1-9]|6042[1-9][0-9]|6043[0-9]{2}|604400)'/}
-        ,{ flag: 'Diners', regex: /'(36[0-8][0-9]{3}|369[0-8][0-9]{2}|3699[0-8][0-9]|36999[0-9])/}
-        ,{ flag: 'Discover', regex: /^6(?:011|5[0-9]{2})[0-9]{12}/}
-        ,{ flag: 'Elo', regex: /^4011(78|79)|^43(1274|8935)|^45(1416|7393|763(1|2))|^50(4175|6699|67[0-6][0-9]|677[0-8]|9[0-8][0-9]{2}|99[0-8][0-9]|999[0-9])|^627780|^63(6297|6368|6369)|^65(0(0(3([1-3]|[5-9])|4([0-9])|5[0-1])|4(0[5-9]|[1-3][0-9]|8[5-9]|9[0-9])|5([0-2][0-9]|3[0-8]|4[1-9]|[5-8][0-9]|9[0-8])|7(0[0-9]|1[0-8]|2[0-7])|9(0[1-9]|[1-6][0-9]|7[0-8]))|16(5[2-9]|[6-7][0-9])|50(0[0-9]|1[0-9]|2[1-9]|[3-4][0-9]|5[0-8]))/}
-        ,{ flag: 'FortBrasil', regex: /'^628167'/}
-        ,{ flag: 'GrandCard', regex: /'^605032'/}
-        ,{ flag: 'Hipercard', regex: /^ 606282 |^ 3841(?: [0 | 4 | 6]{ 1})0/}
-        ,{ flag: 'JCB', regex: /^(?:2131|1800|35\d{3})\d{11}/}
-        ,{ flag: 'Mastercard', regex: /^ ((5(([1 - 2] | [4 - 5])[0 - 9]{ 8} | 0((1 | 6)([0 - 9]{ 7})) | 3(0(4((0 | [2 - 9])[0 - 9]{ 5}) | ([0 - 3] | [5 - 9])[0 - 9]{ 6}) | [1 - 9][0 - 9]{ 7}))) | ((508116) \\d{ 4, 10 })| ((502121) \\d{ 4, 10 })| ((589916) \\d{ 4, 10 })| (2[0 - 9]{ 15 })| (67[0 - 9]{ 14 })| (506387) \\d{ 4, 10 })/}
-        ,{ flag: 'PersonalCard', regex: /'^636085'/}
-        ,{ flag: 'Sorocred', regex: /'^627892|^636414'/}
-        ,{ flag: 'Valecard', regex: /'^606444|^606458|^606482'/}
-        ,{ flag: 'Visa', regex: /^ 4[0 - 9]{ 15 } $/}
+            { flag: 'Amex', regex: /^3[47][0-9]{13, 14}$/ }
+            , { flag: 'Aura', regex: /^((?!504175))^((?!5067))(^50[0-9])/ }
+            , { flag: 'BaneseCard', regex: /'^636117'/ }
+            , { flag: 'Cabal', regex: /'(60420[1-9]|6042[1-9][0-9]|6043[0-9]{2}|604400)'/ }
+            , { flag: 'Diners', regex: /'(36[0-8][0-9]{3}|369[0-8][0-9]{2}|3699[0-8][0-9]|36999[0-9])/ }
+            , { flag: 'Discover', regex: /^6(?:011|5[0-9]{2})[0-9]{12}/ }
+            , { flag: 'Elo', regex: /^4011(78|79)|^43(1274|8935)|^45(1416|7393|763(1|2))|^50(4175|6699|67[0-6][0-9]|677[0-8]|9[0-8][0-9]{2}|99[0-8][0-9]|999[0-9])|^627780|^63(6297|6368|6369)|^65(0(0(3([1-3]|[5-9])|4([0-9])|5[0-1])|4(0[5-9]|[1-3][0-9]|8[5-9]|9[0-9])|5([0-2][0-9]|3[0-8]|4[1-9]|[5-8][0-9]|9[0-8])|7(0[0-9]|1[0-8]|2[0-7])|9(0[1-9]|[1-6][0-9]|7[0-8]))|16(5[2-9]|[6-7][0-9])|50(0[0-9]|1[0-9]|2[1-9]|[3-4][0-9]|5[0-8]))/ }
+            , { flag: 'FortBrasil', regex: /'^628167'/ }
+            , { flag: 'GrandCard', regex: /'^605032'/ }
+            , { flag: 'Hipercard', regex: /^ 606282 |^ 3841(?: [0 | 4 | 6]{ 1})0/ }
+            , { flag: 'JCB', regex: /^(?:2131|1800|35\d{3})\d{11}/ }
+            , { flag: 'Mastercard', regex: /^ ((5(([1 - 2] | [4 - 5])[0 - 9]{ 8} | 0((1 | 6)([0 - 9]{ 7})) | 3(0(4((0 | [2 - 9])[0 - 9]{ 5}) | ([0 - 3] | [5 - 9])[0 - 9]{ 6}) | [1 - 9][0 - 9]{ 7}))) | ((508116) \\d{ 4, 10 })| ((502121) \\d{ 4, 10 })| ((589916) \\d{ 4, 10 })| (2[0 - 9]{ 15 })| (67[0 - 9]{ 14 })| (506387) \\d{ 4, 10 })/ }
+            , { flag: 'PersonalCard', regex: /'^636085'/ }
+            , { flag: 'Sorocred', regex: /'^627892|^636414'/ }
+            , { flag: 'Valecard', regex: /'^606444|^606458|^606482'/ }
+            , { flag: 'Visa', regex: /^ 4[0 - 9]{ 15 } $/ }
         ]
 
         validacoes.map(item => {
             if (item.regex.test(cartao)) {
-                
+
                 setInputBrand(item.flag)
 
             }
@@ -533,11 +551,178 @@ function FormShippigAddress(props) {
     function LimparCpf(e) {
         clearErrors(["cpf"])
     }
+    const [modalState, setStateModal] = useState(false)
 
+    function setOpenModal() {
+        setStateModal(true)
+
+    }
+    function closeModal(){
+        setStateModal(false)
+
+    }
+
+    function postAddressUser(){
+        var idUser = JSON.parse(localStorage.getItem('user'))
+        api.post('/userAddress',{id:{idUser:idUser.value.id},address:{...newAddressToLink},description:addressAlias}).then(response => {
+            console.log(response)
+            window.alert("Endereço Salvo")
+            closeModal()
+            //chamar a atualização do comp de reder address
+
+        }).catch(err => {console.log("Falha ao vincular usuario endereço"+err) 
+        window.alert("Erro ao salvar Endereço")
+
+        });
+
+    }
+    const [newAddressToLink, setAddressToLink] = useState( { cep:"", street: "", district: "", city: "", state: "", number: "", complement: "", reference: "" })
+    const [addressAlias, setAliasAddress] = useState()
     return (
         <>
-            <FormDefault id="address" title="Dados de entrega" action="/order">
+   
 
+            <FormDefault id="address" title="Dados de entrega" action="/order">
+                <MoreAddresses function={setOpenModal} />
+
+                <Modal
+                show={modalState}
+                onHide={() => setStateModal(false)}
+                dialogClassName="modal-90w"
+                aria-labelledby="example-custom-modal-styling-title"
+            >
+
+                <Modal.Header closeButton>
+                    <Modal.Title id="example-custom-modal-styling-title">
+                        Adicionar um novo endereço
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+
+                    <div class="row  justify-content-center mb-3">
+
+                        <div class="row ">
+                          
+
+                        
+                            <div class=" col-6 col-sm-6 col-md-4">
+                                <InputCep
+                                    name="cep" pattern={/^\d{5}-\d{3}$/}
+                                    mask={[/[0-9]/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]}
+                                    required={<span className="text-danger">Campo inválido!</span>}
+                                    blur={buscarCep}
+                                    label="CEP" type="text" id="cep" className="form-input col-12"
+                                    placeholder="00000-000" validation={buscarCep}
+                                    change={e => setAddressToLink({  ...newAddressToLink, cep: e.target.value  })} register={register2} errors={errors2}
+                                    value={newAddressToLink.cep} />
+                                {/* <InputCep className="form-input col-12 form-label" length="9" blur={buscarCep} value={order.address.cep} label="CEP" type="text" id="cep" className="form-input col-12" placeholder="Digite seu CEP..." change={e => setOrder({ ...order, address: { ...order.address, cep: e.target.value } })} /> */}
+                            </div>
+
+                            <div class=" col-6 col-sm-6 col-md-2">
+                                <Select label="Estado" disabled={true} options={ufs} selected={newAddressToLink.state} change={e => setAddressToLink({ ...newAddressToLink,   state: e.target.value })} default="Estado:" />
+                            </div>
+
+                            <div class=" col-6 col-sm-6 col-md-5">
+                                <Input value={newAddressToLink.city} disabled={false} change={e => setAddressToLink({ ...newAddressToLink,  city: e.target.value  })} label="Cidade" className="form-input col-12 form-label" type="text" name="city" placeholder="Digite a cidade..." />
+                            </div>
+
+                            <div class=" col-9 col-md-6">
+                                <Input value={newAddressToLink.street} disabled={false} change={e => setAddressToLink({ ...newAddressToLink,   street: e.target.value } )} label="Logradouro" className="form-input col-12 form-label" type="text" name="street" placeholder="Digite o logradouro..." />
+                            </div>
+
+                            <div class=" col-3  col-md-2">
+                                <InputHook hook // hook eh a props para input padrao com a verificacao
+                                    name="Número" // name sera utilizado no componente para fazer as comparacoes
+                                    register={register2} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
+                                    required={<span className="text-danger">Digite um número válido</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
+                                    maxlength={5} // tamanho maximo do campo
+                                    pattern={/(\d)/}
+                                    errors={errors2}
+                                    clear={clean2}
+                                    change={LimparNumero}
+                                    value={newAddressToLink.number}
+                                    label="Número"
+                                    type="text"
+                                    className="form-input col-12"
+                                    placeholder="Digite o número..." />
+                            </div>
+
+                            <div class=" col-6 col-md-4">
+                                <Input value={newAddressToLink.district} disabled={false} change={e => setAddressToLink({ ...newAddressToLink, district: e.target.value } )} label="Bairro" className="form-input col-12 form-label" type="text" name="district" placeholder="Digite o Bairro..." />
+                            </div>
+
+                            <div class=" col-6  col-md-4">
+                                <Input value={newAddressToLink.complement} change={e => setAddressToLink({ ...newAddressToLink, complement: e.target.value } )} label="Complemento" className="form-input col-12 form-label" type="text" name="complement" placeholder="Digite o complemento..." />
+                            </div>
+
+                            <div class=" col-6 col-md-4">
+                                <Input value={newAddressToLink.reference} change={e =>setAddressToLink({ ...newAddressToLink, reference: e.target.value } )} label="Referencia" className="form-input col-12 form-label" type="text" name="reference" placeholder="Digite um ponto de referência" />
+
+                            </div>
+
+                            <div class=" col-6 col-md-4">
+                                <Input   value={addressAlias} change={e => setAliasAddress( e.target.value )} label="Apelido do Endereço" className="form-input col-12 form-label" type="text" name="aliasAddress" placeholder="Ex.: Minha Casa" />
+                            </div>
+
+
+                        </div>
+
+                        <div className="col-10 d-flex justify-content-between mt-3">    
+
+                            <Button label="Fechar" onclick={closeModal} class="btn-retorno" />
+                            <Button onclick={handleSubmit2(postAddressUser)} label={disable ? renderLoading() : "Salvar"} class="btn-confirmacao" type="submit" />
+                        </div>
+                   
+                    </div>
+
+                </Modal.Body>
+            </Modal>
+            <div class="row justify-content-center my-3">
+                    <h2>Dados de contato:</h2>
+
+                     <div class=" col-6  col-sm-6 col-md-3">
+                                <InputHook  // hook eh a props para input padrao com a verificacao
+                                    name="telefone" // name sera utilizado no componente para fazer as comparacoes
+                                    register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
+                                    required={<span className="text-danger">Digite um telefone válido</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
+                                    maxlength={15} // tamanho maximo do campo
+                                    pattern={/^\(?[1-9]{2}\)? ?(?:[2-8]|9[1-9])[0-9]{3}\-?[0-9]{4}$/}
+                                    errors={errors}
+                                    clear={clearErrors}
+                                    change={LimparTelefone}
+                                    mask={order.telephone.number.charAt(2) == 9 ? "(99) 99999-9999" : "(99) 9999-9999"}
+                                    label="Telefone"
+                                    type="tel"
+                                    className="form-input col-12"
+                                    placeholder="Telefone para contato com DDD" 
+                                   />
+                                   
+
+                            </div>
+                            <div class=" col-6  col-sm-6 col-md-4">
+                            <InputHook hook // hook eh a props para input padrao com a verificacao
+                                name="E-mail" // name sera utilizado no componente para fazer as comparacoes
+                                register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
+                                required={<span className="text-danger">Digite um email válido</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
+                                maxlength={30} // tamanho maximo do campo
+                                pattern={/^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$/i}
+                                errors={errors}
+                                clear={clearErrors}
+                                change={LimparEmail}
+                                disabled={true}
+                                label="E-mail"
+                                type="mail"
+                                className="form-input col-12 form-label"
+                                placeholder="E-mail para contato" />
+
+                        </div>
+
+
+
+            </div>
+
+
+{/* 
                 <div class="row  justify-content-center mb-3">
 
                     <div class="row ">
@@ -589,7 +774,7 @@ function FormShippigAddress(props) {
                                 change={e => setOrder({ ...order, address: { ...order.address, id: null, cep: e.target.value } })} register={register} errors={errors}
                                 value={order.address.cep} />
                             {/* <InputCep className="form-input col-12 form-label" length="9" blur={buscarCep} value={order.address.cep} label="CEP" type="text" id="cep" className="form-input col-12" placeholder="Digite seu CEP..." change={e => setOrder({ ...order, address: { ...order.address, cep: e.target.value } })} /> */}
-                        </div>
+                        {/* </div>
 
                         <div class=" col-6 col-sm-6 col-md-2">
                             <Select label="Estado" disabled={false} options={ufs} selected={order.address.state} change={e => setOrder({ ...order, address: { ...order.address, id: null, state: e.target.value } })} default="Estado:" />
@@ -635,7 +820,7 @@ function FormShippigAddress(props) {
 
                     </div>
 
-                </div>
+                </div> */} 
 
             </FormDefault>
 
@@ -741,7 +926,7 @@ function FormShippigAddress(props) {
                                 value={cvv}
                                 className="form-input col-12"
                                 placeholder="CVV" />
-                       
+
                         </div>
 
                         <div className=" col-6 col-md-2">
@@ -782,8 +967,8 @@ function FormShippigAddress(props) {
 
                                 {/* {MoipValidator.isExpiryDateValid(cardNumber, cvv) ? "" : <span className="text-danger">Insira uma data válida!</span>} */}
 
-                                <Input change={e => setInputMonth(e.target.value)} label="Mês" classCustom="col-6" type="text" placeholder="MM" maxlength={2}/>
-                                <Input change={e => setInputYear(e.target.value)} label="Ano" classCustom="col-6" type="text" placeholder="AA" maxlength={2}/>
+                                <Input change={e => setInputMonth(e.target.value)} label="Mês" classCustom="col-6" type="text" placeholder="MM" maxlength={2} />
+                                <Input change={e => setInputYear(e.target.value)} label="Ano" classCustom="col-6" type="text" placeholder="AA" maxlength={2} />
                             </div>
                         </div>
 

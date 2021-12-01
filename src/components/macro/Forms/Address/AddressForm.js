@@ -9,6 +9,8 @@ import InputCep from "../../../micro/Forms/Input/InputCep";
 import { useForm } from "react-hook-form"; // lembrar de fazer npm install para instalar a biblioteca react-hook-form
 import { ErrorMessage } from "@hookform/error-message"; // lembrar de fazer npm install para instalar a biblioteca error-message
 import InputHook from "../../../micro/Forms/Input/InputHook"
+import RadioButton from "../../../micro/Forms/Radio/RadioButton";
+import UserAddress from "../../Address/UserAddress";
 
 const initial = {
     id: 0,
@@ -61,6 +63,13 @@ function Address(props) {
 
     const user = JSON.parse(localStorage.getItem("user"));
 
+    const [userA, setUserA] = useState(<UserAddress/>)
+
+    function getAllAddressess(addressList) {
+        
+        setUserA(<UserAddress userAddress={addressList}/>)      
+    }
+
     const getAddress = () => {
         api.get(`/userAddress/myAddress/${user.value.id}`).then(
             res => {
@@ -75,6 +84,7 @@ function Address(props) {
                 setValue("bairro", res.data[0].address.district, { shouldValidate: true })
                 setValue("estado", res.data[0].address.state, { shouldValidate: true })
                 setValue("numero", res.data[0].address.number, { shouldValidate: true })
+                getAllAddressess(res.data)
             })
             .catch((err) => {
                 console.error("Erro ao consumir api de Address" + err)
@@ -218,6 +228,9 @@ function Address(props) {
     return (
         <>
             <FormDefault title="Endereços" className="container custom-form-box mx-3 mx-sm-1 mx-lg-4 px-5 px-sm-1 px-lg-4">
+
+                {userA}
+
 
                 <div className="row custom-form d-flex justify-content-center">
                     <div className=" col-12 col-md-3" value={address.id}>

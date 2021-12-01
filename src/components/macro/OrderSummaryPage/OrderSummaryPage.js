@@ -249,6 +249,20 @@ function OrderSummaryPage(props) {
         return sub
     }
 
+    function somarTotal() {
+        let tot = 0
+        if (cart) {
+            cart.map(product => {
+                {
+                tot 
+                ? tot = product.salePrice * product.qty
+                : tot = product.price * product.qty
+            }
+            })
+        }
+        return tot
+    }
+
     // desabilita botão finalizar apos o click
     const [disable, setDisable] = React.useState(false);
 
@@ -291,7 +305,7 @@ function OrderSummaryPage(props) {
                     <ul className="container col-12 col-lg-6 mx-0 d-flex flex-column">
                         <h4>Itens</h4>
 
-                        <ProductSuccessOrder desconto={calcularDescontos} total={somar} sub={somarSubTotal} frete={150} />
+                        <ProductSuccessOrder desconto={calcularDescontos} total={somar} sub={somarSubTotal} frete={150} tot={somarTotal}/>
 
                     </ul>
 

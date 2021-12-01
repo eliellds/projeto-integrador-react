@@ -242,7 +242,8 @@ function OrderSummaryPage(props) {
         if (cart) {
             cart.map(product => {
 
-                sub = sub + (product.price * product.qty)
+                product.salePrice  ? sub = sub + (product.salePrice * product.qty ) 
+                                    : sub = sub + (product.price * product.qty)
 
             })
         }

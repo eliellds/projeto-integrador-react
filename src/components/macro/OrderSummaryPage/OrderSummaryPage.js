@@ -16,15 +16,15 @@ const pwd = 'qwertjose'
 
 function OrderSummaryPage(props) {
 
-    let initial = { 
-        ...JSON.parse(localStorage.getItem('order')), 
-        payment: { 
+    let initial = {
+        ...JSON.parse(localStorage.getItem('order')),
+        payment: {
             ...JSON.parse(localStorage.getItem('order')).payment,
-            description: "" 
+            description: ""
         }
-        } || {}
+    } || {}
 
-    
+
     const [success, setSuccess] = useState(false)
     const [back, setBack] = useState(false)
 
@@ -130,14 +130,14 @@ function OrderSummaryPage(props) {
                     totalPrice: calcTotalPrice(item.id)
                 }).then(result => {
                     if (result.data.compositeKey.idItem == cart.length) {
-                        
+
                         setSuccess(true)
                         alert("Pedido gerado com sucesso!")
                         localStorageRemoveOrder()
                         // window.location.href = "/success"
                     }
-                }).catch(err => { 
-                    console.log("Erro ao gravar item" + err) 
+                }).catch(err => {
+                    console.log("Erro ao gravar item" + err)
                     setDisable(false)
                     setSuccess(false)
                 });
@@ -204,7 +204,7 @@ function OrderSummaryPage(props) {
                     product.salePrice
                         ? valor = valor + (product.salePrice * product.qty)
                         : valor = valor + (product.price * product.qty)
-                       
+
                 }
             })
         }
@@ -291,7 +291,7 @@ function OrderSummaryPage(props) {
                     <ul className="container col-12 col-lg-6 mx-0 d-flex flex-column">
                         <h4>Itens</h4>
 
-                        <ProductSuccessOrder desconto={calcularDescontos} total={somar} sub={somarSubTotal} frete={150} />
+                        <ProductSuccessOrder prazo={order.address.state} desconto={calcularDescontos} total={somar} sub={somarSubTotal} frete={150} />
 
                     </ul>
 
@@ -315,15 +315,15 @@ function OrderSummaryPage(props) {
                 <div className="d-flex justify-content-between">
 
                     <Button navigation route="/checkout" class="btn-retorno align-self-center" label="voltar" />
-                    <Button onclick={goToSucces} disabled={disable} class="btn-comprar " label={disable?renderLoading():"Finalizar"} />
+                    <Button onclick={goToSucces} disabled={disable} class="btn-comprar " label={disable ? renderLoading() : "Finalizar"} />
 
                 </div>
 
 
 
-            </div> 
+            </div>
             {success
-                ? <Redirect to={{pathname: "/success", state: {...order}}} />
+                ? <Redirect to={{ pathname: "/success", state: { ...order } }} />
                 : ""
             }
         </>

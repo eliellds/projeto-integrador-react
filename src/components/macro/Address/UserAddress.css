@@ -1,0 +1,10 @@
+.new-address{
+    margin: auto !important;
+    border: 1px solid #bc4c2a !important;
+    padding: 2px ;
+}
+
+.new-address p {
+    font-size: 1rem !important;
+    margin: 0;  
+}

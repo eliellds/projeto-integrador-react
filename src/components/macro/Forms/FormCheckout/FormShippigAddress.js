@@ -20,6 +20,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Form from 'react-bootstrap/Form'
 import "./FormShippingAddress.css"
 import cardValidator from "card-validator";
+import RadioButton from "../../../micro/Forms/Radio/RadioButton";
+import UserAddress from "../../Address/UserAddress";
 
 const initial = {
 
@@ -104,18 +106,26 @@ function FormShippigAddress(props) {
         shouldUseNativeValidation: false,
         delayError: undefined
     });
+    
+    const [userA, setUserA] = useState(<UserAddress/>)
 
+    function getAllAddressess(addressList) {
+        
+        setUserA(<UserAddress userAddress={addressList}/>)      
+    }
 
     const getAddress = () => {
         api.get(`/userAddress/myAddress/${user.value.id}`).then(
             res => {
                 getTelephone(res.data[0].address)
+                getAllAddressess(res.data)
                 // CepRun(res.data[0].address.cep)
             })
             .catch((err) => {
                 console.error("Erro ao consumir api de Address" + err)
             })
     }
+    
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -636,40 +646,8 @@ function FormShippigAddress(props) {
 
             <FormDefault id="address" title="Dados de entrega" action="/order">
 
-                <div className="container">
-                    {['radio'].map((type) => (
-                        <div key={`inline-${type}`} className="mb-3 row">
-                            <Form.Check className="col-3 new-address"
-                                inline
-                                label="Endereço 1"
-                                name="group1"
-                                type={type}
-                                id={`inline-${type}-1`}
-                            />
-                            
-                            <Form.Check className=" col-3 new-address"
-                                inline
-                                label="Endereço 2"
-                                name="group1"
-                                type={type}
-                                id={`inline-${type}-2`}
-                            />
-                            
-                            <Form.Check className=" col-3 new-address"
-                                inline
-                                label="Endereço 3"
-                                name="group1"
-                                type={type}
-                                id={`inline-${type}-3`}
-                            />
-                        </div>
-
-                    ))}
-
-                </div>
-
-
-
+                {userA}
+                
                 <div class="row  justify-content-center mb-3">
 
                     <div class="row ">

@@ -32,7 +32,7 @@ function SelectCard(props) {
     function getPaymentMethod() {
         return paymentMethod.map(
             option =>  { 
-                if(option.id>1 && option.id<=3){
+                if(option.id==3){
                     return <option key={option.id} value={option.id}>{option.description} {option.installmentsPrice} {somar().toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</option>
                 }
 

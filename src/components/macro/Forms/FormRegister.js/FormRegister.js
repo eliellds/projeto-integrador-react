@@ -216,13 +216,13 @@ function FormRegister(props) {
 
         if (isValid.cpf == false) {
             setDisable(false)
-            return alert("CPF inválido!")
+            return window.alert("CPF inválido!")
         } else if (checkMail(data.email)) {
             setDisable(false)
-            return alert("E-mail já cadastrado!")
+            return window.alert("E-mail já cadastrado!")
         } else if (checkCPF(user.cpf.toString().replace(/[^0-9]/g, ""))) {
             setDisable(false)
-            return alert("CPF já cadastrado!")
+            return window.alert("CPF já cadastrado!")
         }
         // objeto newUser recebendo os valores de register 
         // (register guarda os valores dos inputs atraves do props name)
@@ -505,8 +505,6 @@ function FormRegister(props) {
                             type="text"
                             className="form-input col-12"
                             placeholder="000.000.000-00" />
-                        {/* {isValid.cpf ? "" : <span className="text-danger">Digite um CPF válido! </span>} */}
-                        {isValid.cpfCheck ? "" : <span className="text-danger">CPF já cadastrado!</span>}
 
                     </div>
 

@@ -4,6 +4,9 @@
   
 }
 
+.ajuste-btn-retorno {
+    font-size: 18px !important;
+}
 
 .card-image{
     object-fit: cover;

@@ -2,6 +2,7 @@ import React from 'react'
 import './Input.css'
 import { useForm } from "react-hook-form";
 import MaskedInput from 'react-text-mask'
+import InputMask from "react-input-mask";
 import { ErrorMessage } from "@hookform/error-message";
 
 function InputCard(props) {
@@ -10,7 +11,7 @@ function InputCard(props) {
         <>
             <div className="input-container">
                 <label>{props.label}:</label>
-                <input {...props.register(props.name, {onChange: e => props.change(e),
+                <InputMask value={props.value} maskChar={props.maskchar} mask={props.mask} {...props.register(props.name, {onChange: e => props.change(e),
                     // validate vai executar uma arrow function com o valor do input como parametro (value)
                     validate: value => {
                         // retorna a funcao definida na props validation passando o valor do input como parametro 

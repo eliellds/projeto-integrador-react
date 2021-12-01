@@ -10,7 +10,7 @@ function FormLogin(props) {
     const history = useHistory()
 
     function test() {
-        return history.goBack();
+        return window.location.href= "/cart";
     }
 
     const addUser = (userMail) => {

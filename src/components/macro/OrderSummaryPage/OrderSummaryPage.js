@@ -241,13 +241,32 @@ function OrderSummaryPage(props) {
         let sub = 0
         if (cart) {
             cart.map(product => {
-
-                product.salePrice  ? sub = sub + (product.salePrice * product.qty ) 
-                                    : sub = sub + (product.price * product.qty)
+                
+                {
+                    product.salePrice 
+                    ? sub = sub + (product.salePrice * product.qty)
+                    : sub = sub + (product.price * product.qty)
+                }
 
             })
         }
         return sub
+    }
+
+    function somarTotal(id) {
+        let tot = 0
+        if (cart) {
+            cart.map(product => {
+               if (product.id == id ) {
+                {
+                product.salePrice 
+                ? tot = tot + (product.salePrice * product.qty)
+                : tot = tot + (product.price * product.qty)
+            }
+            }
+            })
+        }
+        return tot
     }
 
     // desabilita botão finalizar apos o click
@@ -292,7 +311,7 @@ function OrderSummaryPage(props) {
                     <ul className="container col-12 col-lg-6 mx-0 d-flex flex-column">
                         <h4>Itens</h4>
 
-                        <ProductSuccessOrder desconto={calcularDescontos} total={somar} sub={somarSubTotal} frete={150} />
+                        <ProductSuccessOrder desconto={calcularDescontos} total={somar} sub={somarSubTotal} frete={order.deliveryValue} tot={somarTotal}/>
 
                     </ul>
 

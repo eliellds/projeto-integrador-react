@@ -21,7 +21,7 @@ function ProductSuccessOrder(props) {
 
     const [prazo, setPrazo] = useState("")
 
-    function setRegion(abobrinha) {
+    function setRegion(uf) {
 
         var today = new Date()
         var deliveryDate = new Date()
@@ -30,13 +30,13 @@ function ProductSuccessOrder(props) {
         var year = ""
         var dataBack = ""
 
-        api.get("/deliveryDate/" + abobrinha)
+        api.get("/deliveryDate/" + uf)
         .then(res => {
             deliveryDate.setDate(today.getDate() + res.data.addDate)
-            day = String(deliveryDate.getUTCDate()).padStart(2, '0')
-            month = String(deliveryDate.getUTCMonth() + 1).padStart(2, '0')
+            day = String(deliveryDate.getUTCDate()).padStart(2, '0') // padStart(2, '0') para quando for mes de um unico numero, adicionar 0 a esquerda
+            month = String(deliveryDate.getUTCMonth() + 1).padStart(2, '0') // month + 1 pois o mes inicia em 0 no Date do JS
             year = deliveryDate.getUTCFullYear()
-            dataBack = year + "-" + month + "-" + day
+            dataBack = year + "-" + month + "-" + day // formatando a data para mandar para o back
             setPrazo(deliveryDate.toLocaleDateString('pt-BR', { timeZone: 'UTC' }));
             props.func(dataBack)
         })

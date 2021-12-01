@@ -387,7 +387,7 @@ function FormShippigAddress(props) {
     }, [])
 
     function backToCart() {
-        history.goBack()
+        window.location.href = "/cart"
     }
 
     const [ufs, setUfs] = useState([

@@ -681,7 +681,6 @@ function FormShippigAddress(props) {
                                 placeholder="00000-000" validation={buscarCep}
                                 change={e => setOrder({ ...order, address: { ...order.address, id: null, cep: e.target.value } })} register={register} errors={errors}
                                 value={order.address.cep} />
-                            {/* <InputCep className="form-input col-12 form-label" length="9" blur={buscarCep} value={order.address.cep} label="CEP" type="text" id="cep" className="form-input col-12" placeholder="Digite seu CEP..." change={e => setOrder({ ...order, address: { ...order.address, cep: e.target.value } })} /> */}
                         </div>
 
                         <div class=" col-6 col-sm-6 col-md-2">
@@ -776,7 +775,6 @@ function FormShippigAddress(props) {
                                     type="text"
                                     className="form-input col-12"
                                     placeholder="000.000.000-00" />
-                                {/* {cpfCheck ? "" : <span className="text-danger">Digite um CPF a válido! </span>} */}
 
                             </div>
 
@@ -812,7 +810,6 @@ function FormShippigAddress(props) {
                             </div>
 
                             <div className=" col-6 col-md-2">
-                                {/* <Input label="Bandeira" Flags={flags} change={e => setOrder({ ...order, card: { ...order.card, flag: { ...order.card.flag, id: e.target.value } } })} /> */}
                                 <Input label="Bandeira" disabled value={inputBrand} />
                             </div>
 
@@ -863,7 +860,6 @@ function FormShippigAddress(props) {
                                     register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
                                     required={cpfValue == "" ? <><span className="text-danger">Digite um CPF válido!</span><br /></> : ""} // mensagem de erro que sera exibida caso o campo nao seja valido
                                     message={cpfValue == "" ? <><span className="text-danger">Digite um CPF válido!</span><br /></> : ""} // mensagem de erro que sera exibida caso o campo nao seja valido
-
                                     maxlength={14} // tamanho maximo do campo
                                     minlength={11} // tamanho minimo do campo
                                     pattern={/([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})/u}
@@ -876,7 +872,6 @@ function FormShippigAddress(props) {
                                     type="text"
                                     className="form-input col-12"
                                     placeholder="000.000.000-00" />
-                                {/* {cpfCheck ? "" : <span className="text-danger">Digite um CPF a válido! </span>} */}
 
                             </div>
 
@@ -904,13 +899,10 @@ function FormShippigAddress(props) {
                                     validation={validateCard}
                                     maskchar={null}
                                     mask={mask}
-                                    // value={cardNumber}
                                     label="Número do cartão"
                                     type="text"
                                     className="form-input col-12"
                                     placeholder="0000 0000 0000 0000" />
-                                {/* {MoipValidator.isValidNumber(cardNumber) ? "" : <span className="text-danger">Insira um número de cartão válido!</span>} */}
-                                {/* <Input change={authCard} label="Numero do Cartão" className="form-input col-12 form-label" type="text" name="cardNumber" placeholder="Ex.: 0000 1111 2222 3333." /> */}
                             </div>
 
                             <div className=" col-6 col-md-1">
@@ -930,42 +922,12 @@ function FormShippigAddress(props) {
                             </div>
 
                             <div className=" col-6 col-md-2">
-                                {/* <Input label="Bandeira" Flags={flags} change={e => setOrder({ ...order, card: { ...order.card, flag: { ...order.card.flag, id: e.target.value } } })} /> */}
                                 <Input label="Bandeira" disabled value={inputBrand} />
                             </div>
 
 
                             <div className=" col-6 col-md-2">
                                 <div className="row">
-                                    {/* <InputHook
-                                    name="MM" // name sera utilizado no componente para fazer as comparacoes
-                                    register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
-                                    required // mensagem de erro que sera exibida caso o campo nao seja valido
-                                    errors={errors}
-                                    change={e => { setInputMonth(e.target.value) }}
-                                    maxlength={2}
-                                    mask="99"
-                                    label="Mês"
-                                    type="text"
-                                    classCustom="col-6"
-                                    placeholder="12" /> */}
-
-                                    {/* <div className="col-6"> */}
-
-                                    {/* <InputHook
-                                    name="ano" // name sera utilizado no componente para fazer as comparacoes
-                                    register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
-                                    required // mensagem de erro que sera exibida caso o campo nao seja valido
-                                    errors={errors}
-                                    change={e => { setInputYear(e.target.value) }}
-                                    maxlength={2}
-                                    mask="99"
-                                    label="Ano"
-                                    type="text"
-                                    classCustom="col-6"
-                                    placeholder="12" /> */}
-
-                                    {/* {MoipValidator.isExpiryDateValid(cardNumber, cvv) ? "" : <span className="text-danger">Insira uma data válida!</span>} */}
 
                                     <Input change={e => setInputMonth(e.target.value)} label="Mês" classCustom="col-6" type="text" placeholder="MM" maxlength={2} />
                                     <Input change={e => setInputYear(e.target.value)} label="Ano" classCustom="col-6" type="text" placeholder="AA" maxlength={2} />

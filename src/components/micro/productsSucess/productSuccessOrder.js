@@ -34,7 +34,7 @@ function ProductSuccessOrder(props) {
                             <div className="atributos atributo-qtd col-9 col-sm-9">{product.qty}</div>
 
                             <div className="atributos tipo-atributo col-3  d-sm-flex">Valor Total:</div>
-                            <div className="atributos atributo-qtd col-9 col-sm-9">{somarTotal}</div>
+                            <div className="atributos atributo-qtd col-9 col-sm-9">{props.tot(product.id).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</div>
                         </div>
                     </div>
 
@@ -55,7 +55,7 @@ function ProductSuccessOrder(props) {
 
             <div className="valor-total">Sub Total: &nbsp;<b>{subTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</b></div>
 
-            <div className="valor-total">Desconto total: -&nbsp;<b>{discount.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</b></div>
+        
             <div className="valor-total">Frete: &nbsp;<b>{props.frete.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</b></div>
             <div className="valor-total">Total: &nbsp;<b> {(total).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</b></div>
         </>

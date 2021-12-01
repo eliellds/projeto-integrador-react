@@ -16,15 +16,15 @@ const pwd = 'qwertjose'
 
 function OrderSummaryPage(props) {
 
-    let initial = { 
-        ...JSON.parse(localStorage.getItem('order')), 
-        payment: { 
+    let initial = {
+        ...JSON.parse(localStorage.getItem('order')),
+        payment: {
             ...JSON.parse(localStorage.getItem('order')).payment,
-            description: "" 
+            description: ""
         }
-        } || {}
+    } || {}
 
-    
+
     const [success, setSuccess] = useState(false)
     const [back, setBack] = useState(false)
 
@@ -130,14 +130,14 @@ function OrderSummaryPage(props) {
                     totalPrice: calcTotalPrice(item.id)
                 }).then(result => {
                     if (result.data.compositeKey.idItem == cart.length) {
-                        
+
                         setSuccess(true)
                         alert("Pedido gerado com sucesso!")
                         localStorageRemoveOrder()
                         // window.location.href = "/success"
                     }
-                }).catch(err => { 
-                    console.log("Erro ao gravar item" + err) 
+                }).catch(err => {
+                    console.log("Erro ao gravar item" + err)
                     setDisable(false)
                     setSuccess(false)
                 });
@@ -155,7 +155,7 @@ function OrderSummaryPage(props) {
         getFlagByid(getPayments)
 
         setOrder(initial)
-
+        
 
     }, [])
 
@@ -204,7 +204,7 @@ function OrderSummaryPage(props) {
                     product.salePrice
                         ? valor = valor + (product.salePrice * product.qty)
                         : valor = valor + (product.price * product.qty)
-                       
+
                 }
             })
         }
@@ -283,6 +283,7 @@ function OrderSummaryPage(props) {
             qtyTotal: calcularItens(),
             totalDiscounts: calcularDescontos(),
             card: { ...order.card, dueDate: "2021-12-10" },
+            deliveryDate: prazo,
             idStore: 1
         }).then(response => {
 
@@ -298,6 +299,13 @@ function OrderSummaryPage(props) {
 
     }
 
+    const [prazo, setPrazo] = useState()
+
+
+    const getPrazo = (prazo) => {
+        setPrazo(prazo)
+    }
+
 
     return (
         <>
@@ -311,7 +319,7 @@ function OrderSummaryPage(props) {
                     <ul className="container col-12 col-lg-6 mx-0 d-flex flex-column">
                         <h4>Itens</h4>
 
-                        <ProductSuccessOrder desconto={calcularDescontos} total={somar} sub={somarSubTotal} frete={order.deliveryValue} tot={somarTotal}/>
+                        <ProductSuccessOrder func={getPrazo} prazo={order.address.state} desconto={calcularDescontos} total={somar} sub={somarSubTotal} frete={order.deliveryValue} tot={somarTotal}/>
 
                     </ul>
 
@@ -335,15 +343,15 @@ function OrderSummaryPage(props) {
                 <div className="d-flex justify-content-between">
 
                     <Button navigation route="/checkout" class="btn-retorno align-self-center" label="voltar" />
-                    <Button onclick={goToSucces} disabled={disable} class="btn-comprar " label={disable?renderLoading():"Finalizar"} />
+                    <Button onclick={goToSucces} disabled={disable} class="btn-comprar " label={disable ? renderLoading() : "Finalizar"} />
 
                 </div>
 
 
 
-            </div> 
+            </div>
             {success
-                ? <Redirect to={{pathname: "/success", state: {...order}}} />
+                ? <Redirect to={{ pathname: "/success", state: { ...order } }} />
                 : ""
             }
         </>

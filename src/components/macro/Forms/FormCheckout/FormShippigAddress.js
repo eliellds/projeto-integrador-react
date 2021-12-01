@@ -16,7 +16,8 @@ import InputHook from "../../../micro/Forms/Input/InputHook"
 import { Redirect } from "react-router-dom";
 import Loading from "../../../../assets/images/success/loading.gif"
 import InputCard from "../../../micro/Forms/Input/InputCard";
-import OrderInfo from "../../../micro/productsSucess/orderInfo"
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Form from 'react-bootstrap/Form'
 import "./FormShippingAddress.css"
 
 const initial = {
@@ -544,11 +545,38 @@ function FormShippigAddress(props) {
 
             <FormDefault id="address" title="Dados de entrega" action="/order">
 
-                <div class="container col-12 col-lg-5 mx-0 new-address">
+                <div className="container">
+                    {['radio'].map((type) => (
+                        <div key={`inline-${type}`} className="mb-3 row">
+                            <Form.Check className="col-3 new-address"
+                                inline
+                                label="Endereço 1"
+                                name="group1"
+                                type={type}
+                                id={`inline-${type}-1`}
+                            />
+                            
+                            <Form.Check className=" col-3 new-address"
+                                inline
+                                label="Endereço 2"
+                                name="group1"
+                                type={type}
+                                id={`inline-${type}-2`}
+                            />
+                            
+                            <Form.Check className=" col-3 new-address"
+                                inline
+                                label="Endereço 3"
+                                name="group1"
+                                type={type}
+                                id={`inline-${type}-3`}
+                            />
+                        </div>
 
-                    teste
+                    ))}
 
                 </div>
+
 
 
                 <div class="row  justify-content-center mb-3">

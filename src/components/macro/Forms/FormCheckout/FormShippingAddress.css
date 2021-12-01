@@ -1,3 +1,9 @@
 .new-address{
-    border: 1px solid #bc4c2a !important
+    margin: auto !important;
+    border: 1px solid #bc4c2a !important;
+    padding: 2px ;
+}
+
+* {
+    box-sizing: border-box;
 }

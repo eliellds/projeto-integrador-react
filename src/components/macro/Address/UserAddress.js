@@ -11,19 +11,20 @@ function UserAddress(props) {
             console.log(userAddress)
          
             return <RadioButton 
-                className="col-3 new-address"
+                className="col-lg-3 col-md-5 col-10 new-address "
+                class="custom-cep-radio"
                 name="radioDefault"
                 inline
                 id={userAddress.id.idAddress}
                 for={userAddress.id.idAddress}
                 label={userAddress.description}
                 street={userAddress.address.street + ", "}
-                number={userAddress.address.number}
+                number={userAddress.address.number + " - "}
                 complement={userAddress.address.complement}
                 district={userAddress.address.district + ",  "}
                 city={userAddress.address.city + " - "}
                 state={userAddress.address.state}
-                cep={"CEP: " + userAddress.address.cep}
+                cep={userAddress.address.cep}
                 reference={"Referência: " + userAddress.address.reference}
 
             />
@@ -32,8 +33,7 @@ function UserAddress(props) {
 
     return <div className="container">
 
-        <div className="mb-3 row">
-
+        <div className="mb-3 mt-3 row d-flex justify-content-around">
 
             {renderUserAddress()}
 

@@ -645,10 +645,10 @@ function FormShippigAddress(props) {
         <>
 
             <FormDefault id="address" title="Dados de entrega" action="/order">
-
-                {userA}
                 
-                <div class="row  justify-content-center mb-3">
+                <div class="row mt-2 justify-content-center mb-3">
+                    
+                        {userA}
 
                     <div class="row ">
                         <div class=" col-6  col-sm-6 col-md-3">

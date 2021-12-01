@@ -9,7 +9,7 @@ function RadioButton(props) {
             <label for={props.id}>{props.label}</label>
             <p>{props.street} {props.number} {props.complement}</p>
             <p>{props.district} {props.city} {props.state}</p>
-            <p>{props.cep}</p>
+            <p>CEP: <span className={props.class}>{props.cep}</span></p>
             <p>{props.reference}</p>
         </div>
     )

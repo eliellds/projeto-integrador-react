@@ -210,7 +210,7 @@ function OrderSummaryPage(props) {
 
     // funcao que soma o valor total do pedido e retorna valor
     function somar() {
-        let valor = 150
+        let valor = 0
         if (cart) {
             cart.map(product => {
                 {
@@ -292,7 +292,7 @@ function OrderSummaryPage(props) {
         api.post(`/orders`, {
             ...order,
             address: { ...order.address, cep: order.address.cep.toString().replace(/[^0-9]/g, "") },
-            amount: somar(),
+            amount: (somar() + frete),
             qtyTotal: calcularItens(),
             totalDiscounts: calcularDescontos(),
             card: { ...order.card, dueDate: "2021-12-10" },

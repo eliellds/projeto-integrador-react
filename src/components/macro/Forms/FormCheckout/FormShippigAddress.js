@@ -20,6 +20,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Form from 'react-bootstrap/Form'
 import "./FormShippingAddress.css"
 import cardValidator from "card-validator";
+import  Code  from "../../../../assets/images/pix/code.jpg"
 
 const initial = {
 
@@ -251,6 +252,7 @@ function FormShippigAddress(props) {
         var dataCurrente = new Date();
         var dateCurrent = (dataCurrente.getFullYear() - 10) + "-" + dataCurrente.getMonth() + "-" + dataCurrente.getDate()
 
+        if (displayNoneE.display == "d-none"){
         if (dateCurrent > order.card.birthDate) {
 
             if (inputBrand != "Cartão não aceito") {
@@ -282,8 +284,10 @@ function FormShippigAddress(props) {
 
         } else {
             window.alert("Data de nascimento do titular do cartão invalida!")
-
         }
+    }else{
+        return postOrder(13);
+    }
     }
 
     function callRedirect() {
@@ -300,11 +304,15 @@ function FormShippigAddress(props) {
         setDisplayNoneD({
             display: "d-none"
         })
+
+        setDisplayNoneE({
+            display: "d-none"
+        })
         setButtons(
             <>
                 <Button onclick={changeC} class={"col-4 cartao forma-pagamento selected-button"} label={<H2 h2="Crédito" />}></Button>
                 <Button onclick={changeD} class={"col-4 forma-pagamento cartao disabled-button"} label={<H2 h2="Débito" />}></Button>
-                {/* <Button onclick={changeComponent} class="col-4 forma-pagamento boleto disabled-button" label={<H2 h2="Boleto" />}></Button> */}
+                <Button onclick={changeE} class="col-4 forma-pagamento boleto disabled-button" label={<H2 h2="Pix" />}></Button>
             </>
         )
     }
@@ -316,29 +324,57 @@ function FormShippigAddress(props) {
         setDisplayNoneC({
             display: "d-none"
         })
+
+        setDisplayNoneE({
+            display: "d-none"
+        })
         setButtons(
             <>
                 <Button onclick={changeC} class={"col-4 cartao forma-pagamento disabled-button"} label={<H2 h2="Crédito" />}></Button>
                 <Button onclick={changeD} class={"col-4 forma-pagamento cartao selected-button"} label={<H2 h2="Débito" />}></Button>
-                {/* <Button onclick={changeComponent} class="col-4 forma-pagamento boleto disabled-button" label={<H2 h2="Boleto" />}></Button> */}
+                <Button onclick={changeE} class="col-4 forma-pagamento pix disabled-button" label={<H2 h2="Pix" />}></Button>
+            </>
+        )
+    }
+
+    function changeE() {
+        setDisplayNoneE({
+            display: ""
+        })
+        setDisplayNoneD({
+            display: "d-none"
+        })
+
+        setDisplayNoneC({
+            display: "d-none"
+        })
+        setButtons(
+            <>
+                <Button onclick={changeC} class={"col-4 cartao forma-pagamento disabled-button"} label={<H2 h2="Crédito" />}></Button>
+                <Button onclick={changeD} class={"col-4 forma-pagamento cartao disabled-button"} label={<H2 h2="Débito" />}></Button>
+                <Button onclick={changeE} class="col-4 forma-pagamento pix selected-button" label={<H2 h2="Pix" />}></Button>
             </>
         )
     }
 
 
+
     const [displayNoneB, setDisplayNoneB] = useState("d-none")
     const [displayNoneD, setDisplayNoneD] = useState({
         display: "d-none"
+
     })
-    const [displayNoneC, setDisplayNoneC] = useState({
-        display: ""
+    const [displayNoneC, setDisplayNoneC] = useState("d-none")
+    const [displayNoneE, setDisplayNoneE] = useState({
+        display: "d-none"
+
     })
     const [dueDate, setDueDate] = useState("")
     const [buttons, setButtons] = useState(
         <>
             <Button onclick={changeC} class={"col-4 cartao forma-pagamento selected-button"} label={<H2 h2="Crédito" />}></Button>
             <Button onclick={changeD} class={"col-4 forma-pagamento cartao disabled-button"} label={<H2 h2="Débito" />}></Button>
-            {/* <Button onclick={changeComponent} class="col-4 forma-pagamento boleto disabled-button" label={<H2 h2="Boleto" />}></Button> */}
+            <Button onclick={changeE} class="col-4 forma-pagamento pix disabled-button" label={<H2 h2="Pix" />}></Button>
         </>
     )
     let change = false
@@ -646,7 +682,7 @@ function FormShippigAddress(props) {
                                 type={type}
                                 id={`inline-${type}-1`}
                             />
-                            
+
                             <Form.Check className=" col-3 new-address"
                                 inline
                                 label="Endereço 2"
@@ -654,7 +690,7 @@ function FormShippigAddress(props) {
                                 type={type}
                                 id={`inline-${type}-2`}
                             />
-                            
+
                             <Form.Check className=" col-3 new-address"
                                 inline
                                 label="Endereço 3"
@@ -865,12 +901,13 @@ function FormShippigAddress(props) {
                 </div>
 
 
-                {/* <div className={`row pagamento justify-content-center ${displayNoneB}`}>
-                    <div className="col-8 justify-content-center text-center ">
-                        <input type="text" readonly className="form-control-plaintext justifi-content-center text-center" id="staticEmail"
-                            value="Número do boleto: 000000 000000 000000 000000 000000" />
-                    </div>
-                </div> */}
+                <div className="row pagamento justify-content-center"> {displayNoneE.display != "d-none" ?
+                <div>
+                        <h2 class="home-titles mt-4">O PIX será gerado na próxima página, por gentileza clicar no botão "Finalizar"</h2>
+                 
+ </div>
+                    : ""}
+                </div>
 
 
                 <div className={"row justify-content-center"}>

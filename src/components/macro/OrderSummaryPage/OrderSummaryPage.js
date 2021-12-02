@@ -252,7 +252,7 @@ function OrderSummaryPage(props) {
         }
         return sub
     }
-
+    
     function somarTotal(id) {
         let tot = 0
         if (cart) {

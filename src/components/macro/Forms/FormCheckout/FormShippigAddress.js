@@ -568,7 +568,7 @@ function FormShippigAddress(props) {
             console.log(response)
             window.alert("Endereço Salvo")
             closeModal()
-            //chamar a atualização do comp de reder address
+            //chamar a atualização do comp de reder
 
         }).catch(err => {console.log("Falha ao vincular usuario endereço"+err) 
         window.alert("Erro ao salvar Endereço")

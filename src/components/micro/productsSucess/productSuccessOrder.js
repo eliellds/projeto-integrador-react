@@ -20,6 +20,7 @@ function ProductSuccessOrder(props) {
     }, [])
 
     const [prazo, setPrazo] = useState("")
+    const [frete, setFrete] = useState("")
 
     function setRegion(uf) {
 
@@ -38,7 +39,9 @@ function ProductSuccessOrder(props) {
             year = deliveryDate.getUTCFullYear()
             dataBack = year + "-" + month + "-" + day // formatando a data para mandar para o back
             setPrazo(deliveryDate.toLocaleDateString('pt-BR', { timeZone: 'UTC' }));
-            props.func(dataBack)
+            setFrete(res.data.deliveryPrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }))
+            props.funcPrazo(dataBack)
+            props.funcFrete(res.data.deliveryPrice)
         })
         .catch(err => {
             console.error("Erro ao buscar prazo", err)
@@ -87,7 +90,7 @@ function ProductSuccessOrder(props) {
             <div className="valor-total">Sub Total: &nbsp;<b>{subTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</b></div>
 
         
-            <div className="valor-total">Frete: &nbsp;<b>{props.frete.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</b></div>
+            <div className="valor-total">Frete: &nbsp;<b>{frete}</b></div>
             <div className="valor-total">Total: &nbsp;<b> {(total).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</b></div>
             <div className="valor-total mt-3">Prazo estimado para entrega: <b>{prazo}</b></div>
         </>

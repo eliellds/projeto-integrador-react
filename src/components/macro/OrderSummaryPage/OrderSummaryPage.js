@@ -297,6 +297,7 @@ function OrderSummaryPage(props) {
             totalDiscounts: calcularDescontos(),
             card: { ...order.card, dueDate: "2021-12-10" },
             deliveryDate: prazo,
+            deliveryValue: frete,
             idStore: 1
         }).then(response => {
 
@@ -313,12 +314,16 @@ function OrderSummaryPage(props) {
     }
 
     const [prazo, setPrazo] = useState()
+    const [frete, setFrete] = useState()
 
 
     const getPrazo = (prazo) => {
         setPrazo(prazo)
     }
 
+    const getFrete = (frete) => {
+        setFrete(frete)
+    }
 
     return (
         <>
@@ -332,7 +337,7 @@ function OrderSummaryPage(props) {
                     <ul className="container col-12 col-lg-6 mx-0 d-flex flex-column">
                         <h4>Itens</h4>
 
-                        <ProductSuccessOrder func={getPrazo} prazo={order.address.state} desconto={calcularDescontos} total={somar} sub={somarSubTotal} frete={order.deliveryValue} tot={somarTotal}/>
+                        <ProductSuccessOrder funcPrazo={getPrazo} funcFrete={getFrete} prazo={order.address.state} desconto={calcularDescontos} total={somar} sub={somarSubTotal} frete={frete} tot={somarTotal}/>
 
                     </ul>
 

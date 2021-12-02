@@ -610,7 +610,7 @@ function FormShippigAddress(props) {
                 setOrder({ ...order, card: { ...order.card, flag: { id: 4 }, cardNumber: cartao } })
             } else if (numberValidator.card.type == 'hipercard') {
                 setMask("9999 9999 9999 9999")
-                setOrder({ ...order, card: { ...order.card, flag: { id: 4 }, cardNumber: cartao } })
+                setOrder({ ...order, card: { ...order.card, flag: { id: 5 }, cardNumber: cartao } })
             } else {
                 setMask("9999 9999 9999 9999")
                 setInputBrand("Cartão não aceito!")

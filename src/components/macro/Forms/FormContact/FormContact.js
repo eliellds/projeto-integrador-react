@@ -21,7 +21,7 @@ function FormContact(props) {
     const [email, setEmail] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
     const [subject, setSubject] = useState(1);
-    const {setValue, register, handleSubmit, formState: { errors }, clearErrors} = useForm();
+    const { setValue, register, handleSubmit, formState: { errors }, clearErrors } = useForm();
 
     function handleShow() {
         return show
@@ -73,34 +73,34 @@ function FormContact(props) {
             var user = JSON.parse(localStorage.getItem('user'))
             console.log(localStorage.getItem('user'))
             api.get("/user/" + user.value.id)
-            .then(res => {
-                setName(res.data.firstName)
-                setEmail(res.data.email)
-                setPhoneNumber(res.data.telephone.number)
-                setValue('nome', res.data.firstName)
-                setValue('email', res.data.email)
-                if (res.data.telephone.number.charAt(2) == 9) {
-                    var number = res.data.telephone.number.toString()
+                .then(res => {
+                    setName(res.data.firstName)
+                    setEmail(res.data.email)
+                    setPhoneNumber(res.data.telephone.number)
+                    setValue('nome', res.data.firstName)
+                    setValue('email', res.data.email)
+                    if (res.data.telephone.number.charAt(2) == 9) {
+                        var number = res.data.telephone.number.toString()
 
-                    const parte1 = number.charAt(0) + number.charAt(1)
-                    const parte2 = number.slice(2,7)
-                    const parte3 = number.slice(7,11)
+                        const parte1 = number.charAt(0) + number.charAt(1)
+                        const parte2 = number.slice(2, 7)
+                        const parte3 = number.slice(7, 11)
 
-                    const numeroAjustado = "(" + parte1 + ") " + parte2 + "-" + parte3
+                        const numeroAjustado = "(" + parte1 + ") " + parte2 + "-" + parte3
 
-                    setValue('telefone', numeroAjustado, { shouldValidate: true })
-                } else {
-                    var number = res.data.telephone.number.toString()
-                    
-                    const parte1 = number.charAt(0) + number.charAt(1)
-                    const parte2 = number.slice(2,6)
-                    const parte3 = number.slice(6,10)
+                        setValue('telefone', numeroAjustado, { shouldValidate: true })
+                    } else {
+                        var number = res.data.telephone.number.toString()
 
-                    const numeroAjustado = "(" + parte1 + ") " + parte2 + "-" + parte3
+                        const parte1 = number.charAt(0) + number.charAt(1)
+                        const parte2 = number.slice(2, 6)
+                        const parte3 = number.slice(6, 10)
 
-                    setValue('telefone', numeroAjustado, { shouldValidate: true })
-                }
-            })
+                        const numeroAjustado = "(" + parte1 + ") " + parte2 + "-" + parte3
+
+                        setValue('telefone', numeroAjustado, { shouldValidate: true })
+                    }
+                })
         }
     }
 
@@ -132,18 +132,21 @@ function FormContact(props) {
     }
 
     // desabilita botão apos o click
-    const [disable, setDisable] = React.useState(false);    
+    const [disable, setDisable] = React.useState(false);
 
+    // limitar caracteres
+    const [count, setCount] =useState(0);
+  
     return <>
         <FormDefault title="Contato" className="custom-form-box mx-3 mx-sm-1 mx-lg-4 px-5 px-sm-1 px-lg-4" >
             <div className="row forms-block justify-content-center">
                 <div className="row custom-form justify-content-center">
                     <div className="col-12 col-md-6">
 
-                    <InputHook hook 
-                            name="nome" 
-                            register={register} 
-                            required={<span className="text-danger">Digite um nome válido e sem números!</span>} 
+                        <InputHook hook
+                            name="nome"
+                            register={register}
+                            required={<span className="text-danger">Digite um nome válido e sem números!</span>}
                             maxlength={50}
                             pattern={/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u}
                             errors={errors}
@@ -152,8 +155,8 @@ function FormContact(props) {
                             value={name}
                             type="text"
                             className="form-input col-12"
-                            placeholder="Digite seu nome..." 
-                            change={LimparNome}/>
+                            placeholder="Digite seu nome..."
+                            change={LimparNome} />
                     </div>
 
                     <div className="col-12 col-md-5">
@@ -165,8 +168,8 @@ function FormContact(props) {
                 <div className="row custom-form justify-content-center">
                     <div className="col-12 col-sm-6 col-md-6">
 
-                    <InputHook hook
-                            name="email" 
+                        <InputHook hook
+                            name="email"
                             register={register}
                             required={<span className="text-danger">Digite o email corretamente!</span>}
                             maxlength={255}
@@ -183,11 +186,11 @@ function FormContact(props) {
                     </div>
 
                     <div className="col-12 col-sm-6 col-md-5">
-                    <InputHook 
-                            name="telefone" 
+                        <InputHook
+                            name="telefone"
                             register={register}
-                            maxlength={15} 
-                            minlength={11} 
+                            maxlength={15}
+                            minlength={11}
                             required={<span className="text-danger">Digite o campo com DDD e telefone!</span>}
                             pattern={/\([1-9]\d\)\s9?\d{4}-\d{4}/}
                             errors={errors}
@@ -207,7 +210,8 @@ function FormContact(props) {
                     <div className="col-12 col-md-11">
                         <label htmlFor="textarea" className="form-label col-12">Deixe sua mensagem:</label>
                         <textarea required className="textarea col-12" id="textarea" rows="5"
-                            placeholder=" Escreva sua mensagem..." onKeyDown={e => setContent(e.target.value)}></textarea>
+                            placeholder=" Escreva sua mensagem..." maxlength="300" onKeyDown={e => setContent(e.target.value)} onChange={e => setCount(e.target.value.length)}></textarea>
+                        <small className="counter">{count}/300</small>
                     </div>
                 </div>
             </div>
@@ -215,7 +219,7 @@ function FormContact(props) {
             <div className="row justify-content-center pt-3">
                 <Button label="Voltar" onclick={history.goBack} class="btn-retorno mx-5 my-1" />
                 <Button onclick={handleSubmit(postContact)} disabled={disable} label={disable ? renderLoading() : "Enviar"} class="btn-confirmacao mx-5 my-1" />
-              
+
             </div>
 
             <div className="row justify-content-around">

@@ -20,3 +20,6 @@
 .selected-button{
     cursor:default !important;
 }
+.modal-90w{
+    max-width: 80%!important;
+}

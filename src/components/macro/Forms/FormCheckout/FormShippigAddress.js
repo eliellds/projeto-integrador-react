@@ -111,7 +111,17 @@ function FormShippigAddress(props) {
 
     function getAllAddressess(addressList) {
         
-        setUserA(<UserAddress userAddress={addressList}/>)      
+        setUserA(<UserAddress userAddress={addressList} function={getSelectedAddress}/>)      
+    }
+
+    function getSelectedAddress(selectedAddress){
+        api.get(`/address/find/${selectedAddress}`)
+            .then( response => {
+                setOrder({...order, address: { ...response.data, id: null}})
+            })
+            .catch((err) => {
+                console.log("Erro ao consumir api de endereços selecionados" + err)
+            })
     }
 
     const getAddress = () => {

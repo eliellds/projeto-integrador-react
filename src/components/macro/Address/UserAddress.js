@@ -4,17 +4,27 @@ import "./UserAddress.css"
 
 function UserAddress(props) {
     const address = props.userAddress || []
+    const [ads, setAds] = useState();
+
+    const handleChange = e => {
+        const target = e.target;
+        if (target.checked) {
+            props.function(target.value)
+            setAds(target.value);
+        }
+    }
 
     function renderUserAddress() {
 
         return address.map(userAddress => {
-            console.log(userAddress)
-         
-            return <RadioButton 
+            return <RadioButton
                 className="col-lg-3 col-md-5 col-10 new-address "
-                class="custom-cep-radio"
                 name="radioDefault"
+                class="custom-cep-radio"
                 inline
+                value={userAddress.id.idAddress}
+                checked={ads == userAddress.id.idAddress}
+                onChange={handleChange}
                 id={userAddress.id.idAddress}
                 for={userAddress.id.idAddress}
                 label={userAddress.description}
@@ -26,10 +36,10 @@ function UserAddress(props) {
                 state={userAddress.address.state}
                 cep={userAddress.address.cep}
                 reference={"Referência: " + userAddress.address.reference}
-
             />
         })
     }
+    console.log(ads)
 
     return <div className="container">
 

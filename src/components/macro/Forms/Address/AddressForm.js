@@ -74,9 +74,17 @@ function Address(props) {
     function getSelectedAddress(selectedAddress) {
         api.get(`/address/find/${selectedAddress}`)
             .then(response => {
-                // setAddress({...address, address: {...response.data, id: null} })
-                // setId({ ...id, address: { ...response.data, id: null } })
+                setAddress({...response.data, id: selectedAddress} )
 
+                var cep = response.data.cep
+                cep = cep.substring(0, 5) + "-" + cep.substring(5, cep.length)
+                setAddress({ ...response.data, cep: cep })
+                setValue("cep", cep, { shouldValidate: true })
+                setValue("cidade", response.data.city, { shouldValidate: true })
+                setValue("rua", response.data.street, { shouldValidate: true })
+                setValue("bairro", response.data.district, { shouldValidate: true })
+                setValue("estado", response.data.state, { shouldValidate: true })
+                setValue("numero", response.data.number, { shouldValidate: true })
             })
             .catch((err) => {
                 console.log("Erro ao consumir api de endereços selecionados" + err)
@@ -86,19 +94,7 @@ function Address(props) {
     const getAddress = () => {
         api.get(`/userAddress/myAddress/${user.value.id}`).then(
             res => {
-                setAddress(res.data[0].address)
-                setId(res.data[0].address.id)
-                var cep = res.data[0].address.cep
-                cep = cep.substring(0, 5) + "-" + cep.substring(5, cep.length)
-                setAddress({ ...res.data[0].address, cep: cep })
-                setValue("cep", cep, { shouldValidate: true })
-                setValue("cidade", res.data[0].address.city, { shouldValidate: true })
-                setValue("rua", res.data[0].address.street, { shouldValidate: true })
-                setValue("bairro", res.data[0].address.district, { shouldValidate: true })
-                setValue("estado", res.data[0].address.state, { shouldValidate: true })
-                setValue("numero", res.data[0].address.number, { shouldValidate: true })
                 getAllAddressess(res.data)
-
                 console.log(res)
 
             })

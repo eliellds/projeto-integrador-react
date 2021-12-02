@@ -9,6 +9,8 @@ import InputCep from "../../../micro/Forms/Input/InputCep";
 import { useForm } from "react-hook-form"; // lembrar de fazer npm install para instalar a biblioteca react-hook-form
 import { ErrorMessage } from "@hookform/error-message"; // lembrar de fazer npm install para instalar a biblioteca error-message
 import InputHook from "../../../micro/Forms/Input/InputHook"
+import RadioButton from "../../../micro/Forms/Radio/RadioButton";
+import UserAddress from "../../Address/UserAddress";
 
 const initial = {
     id: 0,
@@ -47,8 +49,8 @@ function Address(props) {
     useEffect(() => { })
 
     function putAddress(data) {
-        setAddress({...address, cep : data.cep.replace(/\D/g, '')})
-        var newAddress = ({...address, cep: data.cep.replace(/\D/g, '')})
+        setAddress({ ...address, cep: data.cep.replace(/\D/g, '') })
+        var newAddress = ({ ...address, cep: data.cep.replace(/\D/g, '') })
         api.put("/address", newAddress)
             .then((response) => {
                 alert("Seu endereço foi alterado com sucesso!")
@@ -61,25 +63,46 @@ function Address(props) {
 
     const user = JSON.parse(localStorage.getItem("user"));
 
+    // buscar e mostrar endereços cadastrados 
+    const [userA, setUserA] = useState(<UserAddress />)
+
+    function getAllAddressess(addressList) {
+
+        setUserA(<UserAddress userAddress={addressList} function={getSelectedAddress} />)
+    }
+
+    function getSelectedAddress(selectedAddress) {
+        api.get(`/address/find/${selectedAddress}`)
+            .then(response => {
+                setAddress({...response.data, id: selectedAddress} )
+
+                var cep = response.data.cep
+                cep = cep.substring(0, 5) + "-" + cep.substring(5, cep.length)
+                setAddress({ ...response.data, cep: cep })
+                setValue("cep", cep, { shouldValidate: true })
+                setValue("cidade", response.data.city, { shouldValidate: true })
+                setValue("rua", response.data.street, { shouldValidate: true })
+                setValue("bairro", response.data.district, { shouldValidate: true })
+                setValue("estado", response.data.state, { shouldValidate: true })
+                setValue("numero", response.data.number, { shouldValidate: true })
+            })
+            .catch((err) => {
+                console.log("Erro ao consumir api de endereços selecionados" + err)
+            })
+    }
+
     const getAddress = () => {
         api.get(`/userAddress/myAddress/${user.value.id}`).then(
             res => {
-                setAddress(res.data[0].address)
-                setId(res.data[0].address.id)
-                var cep = res.data[0].address.cep
-                cep = cep.substring(0, 5) + "-" + cep.substring(5, cep.length)
-                setAddress({...res.data[0].address, cep : cep})
-                setValue("cep", cep, { shouldValidate: true })
-                setValue("cidade", res.data[0].address.city, { shouldValidate: true })
-                setValue("rua", res.data[0].address.street, { shouldValidate: true })
-                setValue("bairro", res.data[0].address.district, { shouldValidate: true })
-                setValue("estado", res.data[0].address.state, { shouldValidate: true })
-                setValue("numero", res.data[0].address.number, { shouldValidate: true })
+                getAllAddressess(res.data)
+
             })
             .catch((err) => {
                 console.error("Erro ao consumir api de Address" + err)
             })
     }
+
+    
 
     const getUfs = () => {
         return ufs
@@ -91,7 +114,7 @@ function Address(props) {
 
     }, []);
 
-   async function disableForm(data) {
+    async function disableForm(data) {
         bool = true
         setShow(bool)
         putAddress(data)
@@ -129,13 +152,13 @@ function Address(props) {
 
     function limpa_formulário_cep() {
         //Limpa valores do formulário de cep.
-        setAddress({...address,  street: "", district: "", city: "", state: "", number:"", complement: "", reference: ""});
+        setAddress({ ...address, street: "", district: "", city: "", state: "", number: "", complement: "", reference: "" });
     }
 
     function meu_callback(conteudo) {
         if (!("erro" in conteudo)) {
             //Atualiza os campos com os valores.
-            setAddress({...address, street: conteudo.logradouro, district: conteudo.bairro, city: conteudo.localidade, state: conteudo.uf})
+            setAddress({ ...address, street: conteudo.logradouro, district: conteudo.bairro, city: conteudo.localidade, state: conteudo.uf })
             setValue("rua", conteudo.logradouro)
             setValue("bairro", conteudo.bairro)
             setValue("cidade", conteudo.localidade)
@@ -165,8 +188,8 @@ function Address(props) {
             if (validacep.test(cep)) {
 
                 //Preenche os campos com "..." enquanto consulta webservice.
-                setAddress({...address, street: "...", district: "...", city: "...", state: "...", number:"", complement: "", reference: ""});
-                
+                setAddress({ ...address, street: "...", district: "...", city: "...", state: "...", number: "", complement: "", reference: "" });
+
                 fetch(`https://viacep.com.br/ws/${cep}/json/`)
                     .then(res => res.json())
                     .then(data => meu_callback(data))
@@ -192,7 +215,7 @@ function Address(props) {
         //Nova variável "cep" somente com dígitos.
         const cep = valor.replace(/\D/g, '');
 
-        setAddress({ ...address, cep: cep})
+        setAddress({ ...address, cep: cep })
     }
 
     function LimparNumero(e) {
@@ -200,24 +223,27 @@ function Address(props) {
         setAddress({ ...address, number: e.target.value })
     }
 
-    function LimparRua(e){
+    function LimparRua(e) {
         clearErrors(["rua"])
         setAddress({ ...address, street: e.target.value })
     }
 
-    function LimparBairro(e){
+    function LimparBairro(e) {
         clearErrors(["bairro"])
-        setAddress({...address, district: e.target.value})
+        setAddress({ ...address, district: e.target.value })
     }
 
-    function LimparCidade(e){
+    function LimparCidade(e) {
         clearErrors(["cidade"])
-        setAddress({...address, city: e.target.value})
+        setAddress({ ...address, city: e.target.value })
     }
 
     return (
         <>
             <FormDefault title="Endereços" className="container custom-form-box mx-3 mx-sm-1 mx-lg-4 px-5 px-sm-1 px-lg-4">
+
+                {userA}
+
 
                 <div className="row custom-form d-flex justify-content-center">
                     <div className=" col-12 col-md-3" value={address.id}>
@@ -236,7 +262,7 @@ function Address(props) {
                     </div>
 
                     <div className=" col-12 col-md-6">
-                    <InputHook hook // hook eh a props para input padrao com a verificacao
+                        <InputHook hook // hook eh a props para input padrao com a verificacao
                             name="rua" // name sera utilizado no componente para fazer as comparacoes
                             register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
                             required={<span className="text-danger">Campo inválido!</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
@@ -251,31 +277,31 @@ function Address(props) {
                     </div>
 
                     <div className=" col-12 col-md-2">
-                    <InputHook hook // hook eh a props para input padrao com a verificacao
-                                name="numero" // name sera utilizado no componente para fazer as comparacoes
-                                register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
-                                required={<span className="text-danger">Digite um número válido</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
-                                pattern={/(\d)/}
-                                errors={errors}
-                                clear={clearErrors}
-                                change={LimparNumero}
-                                value={address.number}
-                                label="Número"
-                                type="text"
-                                className="form-input col-12"
-                                placeholder="Digite o número..." disabled={show}/>
-                        </div>
+                        <InputHook hook // hook eh a props para input padrao com a verificacao
+                            name="numero" // name sera utilizado no componente para fazer as comparacoes
+                            register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
+                            required={<span className="text-danger">Digite um número válido</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
+                            pattern={/(\d)/}
+                            errors={errors}
+                            clear={clearErrors}
+                            change={LimparNumero}
+                            value={address.number}
+                            label="Número"
+                            type="text"
+                            className="form-input col-12"
+                            placeholder="Digite o número..." disabled={show} />
+                    </div>
 
                 </div>
 
                 <div className="row custom-form d-flex justify-content-center">
 
                     <div className="col-12 col-md-5">
-                        <Input input value={address.complement} disabled={show} label="Complemento" type="text" id="complemento" className="form-input col-12" placeholder="Digite o complemento..." change={e => setAddress({...address, complement: e.target.value})} />
+                        <Input input value={address.complement} disabled={show} label="Complemento" type="text" id="complemento" className="form-input col-12" placeholder="Digite o complemento..." change={e => setAddress({ ...address, complement: e.target.value })} />
                     </div>
 
                     <div className="col-12 col-md-6">
-                            <InputHook hook // hook eh a props para input padrao com a verificacao
+                        <InputHook hook // hook eh a props para input padrao com a verificacao
                             name="bairro" // name sera utilizado no componente para fazer as comparacoes
                             register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
                             required={<span className="text-danger">Campo inválido!</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
@@ -284,17 +310,17 @@ function Address(props) {
                             label="Bairro"
                             type="text"
                             placeholder="Digite o bairro..." disabled={show}
-                            value={address.district}/>
+                            value={address.district} />
                         {/* <Input input value={address.street} disabled={show} name="rua" label="Logradouro" type="text" id="rua" className="form-input col-12" placeholder="Digite o logradouro..." change={e => setAddress({ ...address, street: e.target.value })} /> */}
-                     </div>
+                    </div>
                 </div>
                 <div className="row custom-form d-flex justify-content-center">
                     <div className="col-12 col-md-4">
-                        <Input input value={address.reference} disabled={show} label="Ponto de referência" type="text" id="ponto-referencia" className="form-input col-12" placeholder="Digite um ponto de referência..." change={e => setAddress({...address, reference: e.target.value})} />
+                        <Input input value={address.reference} disabled={show} label="Ponto de referência" type="text" id="ponto-referencia" className="form-input col-12" placeholder="Digite um ponto de referência..." change={e => setAddress({ ...address, reference: e.target.value })} />
                     </div>
 
                     <div className="col-12 col-md-5">
-                    <InputHook hook // hook eh a props para input padrao com a verificacao
+                        <InputHook hook // hook eh a props para input padrao com a verificacao
                             name="cidade" // name sera utilizado no componente para fazer as comparacoes
                             register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
                             required={<span className="text-danger">Campo inválido!</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
@@ -303,12 +329,12 @@ function Address(props) {
                             label="Cidade"
                             type="text"
                             placeholder="Digite sua cidade..." disabled={show}
-                            value={address.city}/>
+                            value={address.city} />
                         {/* <Input input value={address.street} disabled={show} name="rua" label="Logradouro" type="text" id="rua" className="form-input col-12" placeholder="Digite o logradouro..." change={e => setAddress({ ...address, street: e.target.value })} /> */}
-                     </div>
+                    </div>
 
                     <div className="col-12 col-md-2">
-                        <Select disabled={show} label="Estado:" options={ufs} selected={address.state} change={e => setAddress({...address, state: e.target.value})} default="Estado" />
+                        <Select disabled={show} label="Estado:" options={ufs} selected={address.state} change={e => setAddress({ ...address, state: e.target.value })} default="Estado" />
                     </div>
 
                 </div>

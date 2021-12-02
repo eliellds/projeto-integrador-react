@@ -13,6 +13,7 @@ import InputCep from '../../micro/Forms/Input/InputCep';
 import { useForm } from "react-hook-form"; // lembrar de fazer npm install para instalar a biblioteca react-hook-form
 import { ErrorMessage } from "@hookform/error-message"; // lembrar de fazer npm install para instalar a biblioteca error-message
 import { render } from '@testing-library/react';
+import api from '../../../services/api';
 
 const initialCart = 0
 
@@ -110,33 +111,15 @@ function CartItemsComp(props) {
     const [freight, setFreight] = useState(0);
     const [CEP, setCEP] = useState("");
 
-    function setRegion(abobrinha) {
+    function setRegion(uf) {
 
-        if (abobrinha == "AC" || abobrinha == "AM" || abobrinha == "RO"|| abobrinha == "PA" || abobrinha == "RR" || abobrinha == "TO "|| abobrinha == "AP") {
-        
-            setFreight(300);
-            return 300;
-    
-        } else if (abobrinha == "MA"|| abobrinha == "CE" || abobrinha == "RN" || abobrinha == "PB" || abobrinha == "PI" || abobrinha == "BA" || abobrinha == "SE" || abobrinha == "AL" || abobrinha == "PE" ) {
-    
-            setFreight(250);
-            return 250;
-    
-        } else if (abobrinha == "MT" || abobrinha == "GO" || abobrinha == "DF" || abobrinha == "MS") {
-    
-            setFreight(150);
-            return 150;
-    
-        } else if (abobrinha == "MG" || abobrinha == "ES" || abobrinha == "RJ" || abobrinha == "SP"){
-    
-            setFreight(100);
-            return 100;
-    
-        } else {
-        
-            setFreight(150);
-            return 150;       
-        }
+        api.get("/deliveryDate/" + uf)
+        .then(res => {
+            setFreight(res.data.deliveryPrice)
+        })
+        .catch(err => {
+            console.error("Erro ao buscar endereço", err)
+        })
     }
 
     function setQtyCart() {
@@ -232,7 +215,7 @@ function CartItemsComp(props) {
                                 change={e => { setCEP(e.target.value) }}/>
                             </div>
                             <div className="col-6 mt-4 pt-2">
-                                {freight ? <h4 className="texto-total">Frete: R$ {freight}</h4> : ""}
+                                {freight ? <h4 className="texto-total">Frete: <span className="numero total">{freight.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span></h4> : ""}
                             </div>
                         </div>
                     </div>

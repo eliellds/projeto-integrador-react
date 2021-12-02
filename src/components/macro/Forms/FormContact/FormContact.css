@@ -5,3 +5,8 @@
 label.form-label{
     font-weight: 50 !important;
 }
+
+.counter{
+    font-size: 0.8rem;
+    font-family: 'Times New Roman', Times, serif;
+}

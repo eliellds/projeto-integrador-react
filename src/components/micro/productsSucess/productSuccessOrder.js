@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import api from "../../../services/api";
 
 function ProductSuccessOrder(props) {
     const products = JSON.parse(localStorage.getItem('cart')) || []
@@ -12,6 +13,41 @@ function ProductSuccessOrder(props) {
         var imgSrc = require(`../../../assets/images/products/${image}`);
     
         return <img className="imageSuccess" src={`${imgSrc.default}`} />
+    }
+
+    useEffect(() => {
+        setRegion(props.prazo)
+    }, [])
+
+    const [prazo, setPrazo] = useState("")
+    const [frete, setFrete] = useState("")
+    const [freteNum, setFreteNum] = useState(0)
+
+    function setRegion(uf) {
+
+        var today = new Date()
+        var deliveryDate = new Date()
+        var day = ""
+        var month = ""
+        var year = ""
+        var dataBack = ""
+
+        api.get("/deliveryDate/" + uf)
+        .then(res => {
+            deliveryDate.setDate(today.getDate() + res.data.addDate)
+            day = String(deliveryDate.getUTCDate()).padStart(2, '0') // padStart(2, '0') para quando for mes de um unico numero, adicionar 0 a esquerda
+            month = String(deliveryDate.getUTCMonth() + 1).padStart(2, '0') // month + 1 pois o mes inicia em 0 no Date do JS
+            year = deliveryDate.getUTCFullYear()
+            dataBack = year + "-" + month + "-" + day // formatando a data para mandar para o back
+            setPrazo(deliveryDate.toLocaleDateString('pt-BR', { timeZone: 'UTC' }));
+            setFrete(res.data.deliveryPrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }))
+            setFreteNum(res.data.deliveryPrice)
+            props.funcPrazo(dataBack)
+            props.funcFrete(res.data.deliveryPrice)
+        })
+        .catch(err => {
+            console.error("Erro ao buscar prazo", err)
+        })
     }
 
     function listProducts() {
@@ -56,8 +92,9 @@ function ProductSuccessOrder(props) {
             <div className="valor-total">Sub Total: &nbsp;<b>{subTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</b></div>
 
         
-            <div className="valor-total">Frete: &nbsp;<b>{props.frete.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</b></div>
-            <div className="valor-total">Total: &nbsp;<b> {(total).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</b></div>
+            <div className="valor-total">Frete: &nbsp;<b>{frete}</b></div>
+            <div className="valor-total">Total: &nbsp;<b> {(total + freteNum).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</b></div>
+            <div className="valor-total mt-3">Prazo estimado para entrega: <b>{prazo}</b></div>
         </>
     )
 }

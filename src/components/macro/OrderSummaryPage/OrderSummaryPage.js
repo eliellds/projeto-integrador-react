@@ -315,11 +315,12 @@ function OrderSummaryPage(props) {
         const newOrder = {
             ...order,
             address: { ...order.address, cep: order.address.cep.toString().replace(/[^0-9]/g, "") },
-            amount: somar(),
+            amount: (somar() + frete),
             qtyTotal: calcularItens(),
             card: null,
             totalDiscounts: calcularDescontos(),
             deliveryDate: prazo,
+            deliveryValue: frete,
             idStore: 1
         }
 

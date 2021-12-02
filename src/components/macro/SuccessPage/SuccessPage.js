@@ -5,6 +5,7 @@ import ProductSuccess from "../../micro/productsSucess/productsSucess";
 import OrderInfo from '../../micro/productsSucess/orderInfo'
 import Button from "../../micro/Button/Button"
 import api from "../../../services/api";
+import { Link } from "react-router-dom";
 
 const initial = {
     id: 0,
@@ -157,8 +158,9 @@ function SuccessPage(props) {
 
 
                         <OrderInfo titulo="Pagamento"
-                            primeiraLinha={order.payment.description + " - " + order.card.flag.description}
-                            segundaLinha={uncriptCard(order.card.cardNumber)}
+                            primeiraLinha={order.payment.id == 1 ? order.payment.description + " -" + " Veja o seu boleto " : order.payment.description + " - " + order.card.flag.description}
+                            boleto= {order.payment.id == 1 ? <Link to="/ticket" target="_blank" className="linkTicket">AQUI</Link> : ""}
+                            segundaLinha={order.payment.id == 1 ? "" : uncriptCard(order.card.cardNumber)}
                             terceiraLinha={order.payment.installments >= 2 ? order.payment.installments + " x de" : order.payment.installments}
                             terceiraLinha1={order.payment.installments >= 2 ? installmentsPrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : amountFormated}
                             quartaLinha={"Total: " + amountFormated}

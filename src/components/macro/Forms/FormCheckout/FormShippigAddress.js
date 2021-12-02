@@ -194,12 +194,23 @@ function FormShippigAddress(props) {
 
         var tempOrder = { ...order }
 
-        tempOrder = ({
-            ...tempOrder,
-            payment: { ...tempOrder.payment, id: payment },
-            telephone: { ...tempOrder.telephone, number: tempOrder.telephone.number.toString().replace(/[^0-9]/g, "") },
-            card: { ...tempOrder.card, cardNumber: criptCard(tempOrder.card.cardNumber), dueDate: inputYear + "-" + inputMonth + "-01" }
-        })
+        if (payment == 1) {
+            tempOrder = ({
+                ...tempOrder,
+                payment: { ...tempOrder.payment, id: payment },
+                telephone: { ...tempOrder.telephone, number: tempOrder.telephone.number.toString().replace(/[^0-9]/g, "") },
+                card: null
+            })
+        } else if (payment > 1 && payment < 13){
+            tempOrder = ({
+                ...tempOrder,
+                payment: { ...tempOrder.payment, id: payment },
+                telephone: { ...tempOrder.telephone, number: tempOrder.telephone.number.toString().replace(/[^0-9]/g, "") },
+                card: { ...tempOrder.card, cardNumber: criptCard(tempOrder.card.cardNumber), dueDate: "20" + inputYear + "-" + inputMonth + "-01" }
+            })
+        }
+
+        
 
         let orderJson = JSON.stringify(tempOrder)
 
@@ -271,38 +282,42 @@ function FormShippigAddress(props) {
         var dataCurrente = new Date();
         var dateCurrent = (dataCurrente.getFullYear() - 10) + "-" + dataCurrente.getMonth() + "-" + dataCurrente.getDate()
 
-        if (dateCurrent > order.card.birthDate) {
+        if (displayNoneB.display == "d-none") {
+            if (dateCurrent > order.card.birthDate) {
 
-            if (inputBrand != "Cartão não aceito") {
+                if (inputBrand != "Cartão não aceito") {
 
-                if (displayNoneD.display == "") {
-                    if (MoipValidator.isExpiryDateValid(inputMonth, inputYear) == true) {
-                        return postOrder(2)
-                    } else {
-                        return window.alert("Preencha a validade do cartão corretamente")
-                    }
-                }
-
-                if (MoipValidator.isValidNumber(data.CardNum) == true) {
-                    if (MoipValidator.isSecurityCodeValid(data.CardNum, data.cvv) == true) {
+                    if (displayNoneD.display == "") {
                         if (MoipValidator.isExpiryDateValid(inputMonth, inputYear) == true) {
-                            postOrder(order.payment.id)
+                            return postOrder(2)
                         } else {
-                            window.alert("Preencha a validade do cartão corretamente")
+                            return window.alert("Preencha a validade do cartão corretamente")
+                        }
+                    }
+
+                    if (MoipValidator.isValidNumber(data.CardNum) == true) {
+                        if (MoipValidator.isSecurityCodeValid(data.CardNum, data.cvv) == true) {
+                            if (MoipValidator.isExpiryDateValid(inputMonth, inputYear) == true) {
+                                postOrder(order.payment.id)
+                            } else {
+                                window.alert("Preencha a validade do cartão corretamente")
+                            }
+                        } else {
+                            window.alert("Preencha o CVV corretamente")
                         }
                     } else {
-                        window.alert("Preencha o CVV corretamente")
+                        window.alert("Preencha o número do cartão corretamente")
                     }
                 } else {
-                    window.alert("Preencha o número do cartão corretamente")
+                    return window.alert("Cartão não aceito")
                 }
+
             } else {
-                return window.alert("Cartão não aceito")
+                window.alert("Data de nascimento do titular do cartão invalida!")
+
             }
-
         } else {
-            window.alert("Data de nascimento do titular do cartão invalida!")
-
+            return postOrder(1);
         }
     }
 
@@ -313,6 +328,25 @@ function FormShippigAddress(props) {
         return
     }
 
+    function changeB() {
+        setDisplayNoneB({
+            display: ""
+        })
+        setDisplayNoneD({
+            display: "d-none"
+        })
+        setDisplayNoneC({
+            display: "d-none"
+        })
+        setButtons(
+            <>
+                <Button onclick={changeC} class={"col-4 cartao forma-pagamento disabled-button"} label={<H2 h2="Crédito" />}></Button>
+                <Button onclick={changeD} class={"col-4 forma-pagamento cartao disabled-button"} label={<H2 h2="Débito" />}></Button>
+                <Button onclick={changeB} class="col-4 forma-pagamento boleto selected-button" label={<H2 h2="Boleto" />}></Button>
+            </>
+        )
+    }
+
     function changeC() {
         setDisplayNoneC({
             display: ""
@@ -320,11 +354,14 @@ function FormShippigAddress(props) {
         setDisplayNoneD({
             display: "d-none"
         })
+        setDisplayNoneB({
+            display: "d-none"
+        })
         setButtons(
             <>
                 <Button onclick={changeC} class={"col-4 cartao forma-pagamento selected-button"} label={<H2 h2="Crédito" />}></Button>
                 <Button onclick={changeD} class={"col-4 forma-pagamento cartao disabled-button"} label={<H2 h2="Débito" />}></Button>
-                {/* <Button onclick={changeComponent} class="col-4 forma-pagamento boleto disabled-button" label={<H2 h2="Boleto" />}></Button> */}
+                <Button onclick={changeB} class="col-4 forma-pagamento boleto disabled-button" label={<H2 h2="Boleto" />}></Button>
             </>
         )
     }
@@ -336,17 +373,21 @@ function FormShippigAddress(props) {
         setDisplayNoneC({
             display: "d-none"
         })
+        setDisplayNoneB({
+            display: "d-none"
+        })
         setButtons(
             <>
                 <Button onclick={changeC} class={"col-4 cartao forma-pagamento disabled-button"} label={<H2 h2="Crédito" />}></Button>
                 <Button onclick={changeD} class={"col-4 forma-pagamento cartao selected-button"} label={<H2 h2="Débito" />}></Button>
-                {/* <Button onclick={changeComponent} class="col-4 forma-pagamento boleto disabled-button" label={<H2 h2="Boleto" />}></Button> */}
+                <Button onclick={changeB} class="col-4 forma-pagamento boleto disabled-button" label={<H2 h2="Boleto" />}></Button>
             </>
         )
     }
 
 
-    const [displayNoneB, setDisplayNoneB] = useState("d-none")
+    const [displayNoneB, setDisplayNoneB] = useState({
+        display:"d-none"})
     const [displayNoneD, setDisplayNoneD] = useState({
         display: "d-none"
     })
@@ -358,7 +399,7 @@ function FormShippigAddress(props) {
         <>
             <Button onclick={changeC} class={"col-4 cartao forma-pagamento selected-button"} label={<H2 h2="Crédito" />}></Button>
             <Button onclick={changeD} class={"col-4 forma-pagamento cartao disabled-button"} label={<H2 h2="Débito" />}></Button>
-            {/* <Button onclick={changeComponent} class="col-4 forma-pagamento boleto disabled-button" label={<H2 h2="Boleto" />}></Button> */}
+            <Button onclick={changeB} class="col-4 forma-pagamento boleto disabled-button" label={<H2 h2="Boleto" />}></Button>
         </>
     )
     let change = false
@@ -853,12 +894,13 @@ function FormShippigAddress(props) {
                 </div>
 
 
-                {/* <div className={`row pagamento justify-content-center ${displayNoneB}`}>
-                    <div className="col-8 justify-content-center text-center ">
-                        <input type="text" readonly className="form-control-plaintext justifi-content-center text-center" id="staticEmail"
-                            value="Número do boleto: 000000 000000 000000 000000 000000" />
-                    </div>
-                </div> */}
+                <div className={"row justify-content-center"}>
+                    {displayNoneB.display != "d-none" ?
+                        <div className={`row custom-form`}>
+                            <h3 className="ticketInfo">Finalize a sua compra para gerar o boleto para pagamento!</h3>
+                        </div>
+                        : ""}
+                </div>
 
 
                 <div className={"row justify-content-center"}>

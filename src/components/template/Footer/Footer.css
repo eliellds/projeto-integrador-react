@@ -21,7 +21,7 @@
     width: 20px;
     height: 20px;
     float: left;
-    margin: 10px 10px 0 0;
+    margin: 10px 20px 0 0;
 }
 
 .facebook::after {
@@ -32,7 +32,7 @@
     width: 20px;
     height: 20px;
     float: left;
-    margin: 10px 10px 0 0;
+    margin: 10px 20px 0 0;
 }
 
 .instagram::after {
@@ -43,7 +43,95 @@
     width: 20px;
     height: 20px;
     float: left;
-    margin: 10px 10px 0 0;
+    margin: 10px 20px 0 0;
+}
+
+.amex::after {
+    content: "";
+    display: block;
+    background: url('../../../assets/images/footers/amex.svg') no-repeat;
+    background-size: 33px;
+    width: 33px;
+    height: 33px;
+    float: left;
+    /* margin: 15px 105px 0 20px; */
+}
+
+.diners::after {
+    content: "";
+    display: block;
+    background: url('../../../assets/images/footers/diners.svg') no-repeat;
+    background-size: 33px;
+    width: 33px;
+    height: 33px;
+    float: left;
+    /* margin: 15px 105px 0 0; */
+}
+
+.elo::after {
+    content: "";
+    display: block;
+    background: url('../../../assets/images/footers/elo.svg') no-repeat;
+    background-size: 33px;
+    width: 33px;
+    height: 33px;
+    float: left;
+    /* margin: 15px 105px 0 0; */
+}
+
+.hipercard::after {
+    content: "";
+    display: block;
+    background: url('../../../assets/images/footers/hipercard.svg') no-repeat;
+    background-size: 33px;
+    width: 33px;
+    height: 33px;
+    float: left;
+    /* margin: 15px 105px 0 0; */
+}
+
+.mastercard::after {
+    content: "";
+    display: block;
+    background: url('../../../assets/images/footers/mastercard-old.svg') no-repeat;
+    background-size: 33px;
+    width: 33px;
+    height: 33px;
+    float: left;
+    /* margin: 15px 105px 0 0; */
+}
+
+.visa::after {
+    content: "";
+    display: block;
+    background: url('../../../assets/images/footers/visa.svg') no-repeat;
+    background-size: 33px;
+    width: 33px;
+    height: 33px;
+    float: left;
+    /* margin: 15px 105px 0 0; */
+}
+
+.boletoFooter::after {
+    content: "";
+    display: block;
+    background: url('../../../assets/images/footers/boleto.png') no-repeat;
+    background-size: 40px;
+    width: 40px;
+    height: 40px;
+    float: left;
+    /* margin: 15px 0 0 0; */
+}
+
+.pix::after {
+    content: "";
+    display: block;
+    background: url('../../../assets/images/footers/pix-106.svg') no-repeat;
+    background-size: 40px;
+    width: 40px;
+    height: 40px;
+    float: left;
+    /* margin: 16px 105px 0 0; */
 }
 
 .first-footer a {
@@ -78,4 +166,12 @@
     font-family: 'Baskervville', serif;
     font-size: 24px;
     line-height: 66px;
+}
+
+.footerPaymentAndSocial {
+    padding: 0 !important;
+}
+
+.titlePaymentsMethodsFooter {
+    text-align: center;
 }

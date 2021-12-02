@@ -174,18 +174,17 @@ function OrderSummaryPage(props) {
 
     function getFlagByid(callback) {
 
+            api.get(`/flags/${order.card?.flag.id}`).then((result) => {
 
-        api.get(`/flags/${order.card.flag.id}`).then((result) => {
+                initial = { ...initial, card: { ...initial.card, flag: result.data } }
+                setOrder(initial)
 
-            initial = { ...initial, card: { ...initial.card, flag: result.data } }
-            setOrder(initial)
+            }).catch((err) => {
 
-        }).catch((err) => {
+                console.log("Falha ao consumir api" + err)
+            })
 
-            console.log("Falha ao consumir api" + err)
-        })
-
-        setTimeout(() => { callback() }, 1)
+            setTimeout(() => { callback() }, 1)
     }
 
     function getPayments() {
@@ -289,17 +288,19 @@ function OrderSummaryPage(props) {
 
         setDisable(true)
 
-        api.post(`/orders`, {
+
+    if(order.payment.id > 1 && order.payment.id < 13) {
+        const newOrder = {
             ...order,
             address: { ...order.address, cep: order.address.cep.toString().replace(/[^0-9]/g, "") },
             amount: somar(),
             qtyTotal: calcularItens(),
             totalDiscounts: calcularDescontos(),
-            card: { ...order.card, dueDate: "2021-12-10" },
             deliveryDate: prazo,
             idStore: 1
-        }).then(response => {
-
+        }
+        api.post(`/orders`, newOrder)
+            .then(response => {
             localStorage.setItem('idOrderLastCreated', response.data.id)
             let order = response.data
             postItemOrder(order)
@@ -309,8 +310,32 @@ function OrderSummaryPage(props) {
             console.log("Erro ao consumir api de post order" + error)
             setDisable(false)
         })
+    } else if (order.payment.id == 1) {
+        const newOrder = {
+            ...order,
+            address: { ...order.address, cep: order.address.cep.toString().replace(/[^0-9]/g, "") },
+            amount: somar(),
+            qtyTotal: calcularItens(),
+            card: null,
+            totalDiscounts: calcularDescontos(),
+            deliveryDate: prazo,
+            idStore: 1
+        }
 
+        api.post(`/orders`, newOrder)
+            .then(response => {
+            localStorage.setItem('idOrderLastCreated', response.data.id)
+            let order = response.data
+            postItemOrder(order)
+
+
+        }).catch(error => {
+            console.log("Erro ao consumir api de post order" + error)
+            setDisable(false)
+        })
     }
+
+}
 
     const [prazo, setPrazo] = useState()
 
@@ -339,8 +364,8 @@ function OrderSummaryPage(props) {
                     <div className="container col-12 col-lg-5 mx-0">
 
                         <OrderInfo titulo="Pagamento"
-                            primeiraLinha={order.payment.description + " - " + order.card.flag.description}
-                            segundaLinha={uncriptCard(order.card.cardNumber)}
+                            primeiraLinha={order.payment.id == 1 ? order.payment.description : order.payment.description + " - " + order.card.flag.description}
+                            segundaLinha={order.payment.id == 1 ? "" : uncriptCard(order.card.cardNumber)}
                             terceiraLinha={order.payment?.installments >= 2 ? order.payment.installments + " x de" : order.payment.installments} terceiraLinha1={order.payment.installments >= 2 ? calcInstallments() : somar().toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                             quartaLinha={"Total: " + somar().toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} />
 
@@ -364,7 +389,7 @@ function OrderSummaryPage(props) {
 
             </div>
             {success
-                ? <Redirect to={{ pathname: "/success", state: { ...order } }} />
+                ? <Redirect to={{pathname: "/success", state: { ...order } }} />
                 : ""
             }
         </>

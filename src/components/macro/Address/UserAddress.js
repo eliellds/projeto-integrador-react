@@ -46,7 +46,7 @@ function UserAddress(props) {
         <div className="mb-3 mt-3 row d-flex justify-content-around">
 
             {renderUserAddress()}
-
+            {props.children}
         </div>
 
     </div>

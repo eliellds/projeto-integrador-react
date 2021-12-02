@@ -29,8 +29,10 @@ function Header(props) {
                 setLogin(false);
             }
         } else {
-            removeUser();
-            setLogin(true);
+            if (window.confirm("Você realmente deseja sair?")) {
+                removeUser();
+                setLogin(true);
+            }
         }
         compProfile();
     }

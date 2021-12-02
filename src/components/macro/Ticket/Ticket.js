@@ -54,8 +54,8 @@ const initial = {
     bankSlip: ""
 }
 
-function Ticket() {
-
+function Ticket(props) {
+    const id = props.match.params.id;
     const [order, setOrder] = useState(initial);
     const [orderProduct, setOrderProducts] = useState([]);
 
@@ -69,7 +69,7 @@ function Ticket() {
 
     function getOrder() {
         api
-            .get(`/orders/${localStorage.getItem('idOrderLastCreated')}`)
+            .get(`/orders/${id}`)
             .then((response) => {
                 setOrder(response.data)
                 getItemOrder(response.data.id)
@@ -134,7 +134,7 @@ function Ticket() {
                             <div className="titleTicket col-3">Data processamento</div>
 
                             <div className="infoTicketLeft moreInfoTicket col-2">{dataFormatada}</div>
-                            <div className="infoTicketLeft moreInfoTicket col-4">{order.id}</div>
+                            <div className="infoTicketLeft moreInfoTicket col-4">{"11115487" + order.id}</div>
                             <div className="infoTicketLeft moreInfoTicket col-2"></div>
                             <div className="infoTicketLeft moreInfoTicket col-1">N</div>
                             <div className="infoTicketLeft  col-3">{dataFormatada}</div>
@@ -190,7 +190,7 @@ function Ticket() {
                     <div className="slotTicket col-9">
                         <div className="titleTicket col-12">Sacado</div>
                         <div className="infoTicketLeft  infoLastLineTicket col-12"> 
-                            E-COMMERCE DE COLECAO E DECORACAO ANTIGAS E VALIOSAS LMTD. CNPJ: 00.000.000/0001-91 
+                            E-COMMERCE DE COLECAO E DECORACAO ANTIGAS E VALIOSAS LMTD. CNPJ: 21.636.886/0001-34 
                             RUA FRANCISCO MARENGO 1111 1 ANDAR
                             TATUAPÉ - São Paulo/SP - CEP: 03313-000
                         </div>

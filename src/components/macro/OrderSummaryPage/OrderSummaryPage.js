@@ -303,8 +303,8 @@ function OrderSummaryPage(props) {
         api.post(`/orders`, newOrder)
             .then(response => {
             localStorage.setItem('idOrderLastCreated', response.data.id)
-            let order = response.data
-            postItemOrder(order)
+            
+            postItemOrder(response.data)
 
 
         }).catch(error => {

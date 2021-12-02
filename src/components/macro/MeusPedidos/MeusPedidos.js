@@ -78,7 +78,7 @@ function MeusPedidos(props) {
                                         <div className="col-6 text-start">Previsão de Entrega: {deliveryDateForm}</div>
                                             <div className="col-6 text-end">Total: {amountFormated}</div>
                                             <div className="col-11 text-ticket">{payment == 1 ? "Veja o seu boleto" : ""} </div>
-                                            <div className="col-1 linkTicket">{payment == 1 ? <Link to="/ticket" target="_blank" className="linkTicket">AQUI</Link> : ""}</div>
+                                            <div className="col-1 linkTicket">{payment == 1 ? <Link to={"/ticket/" + item.orderNumber} target="_blank" className="linkTicket">AQUI</Link> : ""}</div>
 
                                         </div>
                                         <div className="row  mx-2 mb-1 ">

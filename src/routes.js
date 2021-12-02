@@ -114,7 +114,7 @@ export const Routes = () => {
             <ProtectedRoute path="/myorder" component={MeusPedidos} isAuth={isLogged} />
             <Route path="/newpassword" component={NewPassword} />
             <Route path="/newpasswordform" component={NewPasswordForm} />
-            <Route path="/ticket" component={Ticket}/>
+            <Route path="/ticket/:id" component={Ticket}/>
 
             <Route component={NotFound} />
         </Switch>

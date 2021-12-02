@@ -159,7 +159,7 @@ function SuccessPage(props) {
 
                         <OrderInfo titulo="Pagamento"
                             primeiraLinha={order.payment.id == 1 ? order.payment.description + " -" + " Veja o seu boleto " : order.payment.description + " - " + order.card.flag.description}
-                            boleto= {order.payment.id == 1 ? <Link to="/ticket" target="_blank" className="linkTicket">AQUI</Link> : ""}
+                            boleto= {order.payment.id == 1 ? <Link to={"/ticket/" + order.id} target="_blank" className="linkTicket">aqui</Link> : ""}
                             segundaLinha={order.payment.id == 1 ? "" : uncriptCard(order.card.cardNumber)}
                             terceiraLinha={order.payment.installments >= 2 ? order.payment.installments + " x de" : order.payment.installments}
                             terceiraLinha1={order.payment.installments >= 2 ? installmentsPrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : amountFormated}

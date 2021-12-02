@@ -27,6 +27,7 @@ import NewPassword from "./pages/ForgotPassword/NewPassword"
 import ProtectedRoute from "./ProtectedRoute"
 import api from "./services/api"
 import OrderSummaryRoute from "./components/macro/Route/OrderSummaryRoute"
+import Ticket from "./components/macro/Ticket/Ticket"
 
 export const Routes = () => {
 
@@ -113,6 +114,7 @@ export const Routes = () => {
             <ProtectedRoute path="/myorder" component={MeusPedidos} isAuth={isLogged} />
             <Route path="/newpassword" component={NewPassword} />
             <Route path="/newpasswordform" component={NewPasswordForm} />
+            <Route path="/ticket" component={Ticket}/>
 
             <Route component={NotFound} />
         </Switch>

@@ -8,21 +8,16 @@ function MoreAddresses(props) {
         
     }
     return <>
-        <div className="container">
-            <div className="row">
-                <div className="col-2 cardContAddress">
-        
-                    <button onClick={e=>{ButtonClick(e)}} className="row m-0 mt-3 p-0 text-center buttonAddress justify-content-center" type="button">
-                            <img src={Cruz}  className="col-12 imgAddAddress" />
-                            Adicionar novo endereço
-                    </button>
                
-
+                <div className="col-3 mt-2 cardContAddress ">
+                    
+                    <button onClick={e=>{ButtonClick(e)}} className="  col-12 row m-0 mt-3 p-0 text-center buttonAddress justify-content-center" type="button">
+                            <img src={Cruz}  className="col-12 imgAddAddress" />
+                            <div className="col-12">Adicionar novo endereço</div>
+                    </button>
 
                 </div>
-            </div>
-
-        </div>
+              
     </>
 }
 export default MoreAddresses

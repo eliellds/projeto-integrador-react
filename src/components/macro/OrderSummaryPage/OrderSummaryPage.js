@@ -16,15 +16,15 @@ const pwd = 'qwertjose'
 
 function OrderSummaryPage(props) {
 
-    let initial = { 
-        ...JSON.parse(localStorage.getItem('order')), 
-        payment: { 
+    let initial = {
+        ...JSON.parse(localStorage.getItem('order')),
+        payment: {
             ...JSON.parse(localStorage.getItem('order')).payment,
-            description: "" 
+            description: ""
         }
-        } || {}
+    } || {}
 
-    
+
     const [success, setSuccess] = useState(false)
     const [back, setBack] = useState(false)
 
@@ -130,20 +130,33 @@ function OrderSummaryPage(props) {
                     totalPrice: calcTotalPrice(item.id)
                 }).then(result => {
                     if (result.data.compositeKey.idItem == cart.length) {
-                        
+
                         setSuccess(true)
+                        postMail(order)
                         alert("Pedido gerado com sucesso!")
                         localStorageRemoveOrder()
-                        // window.location.href = "/success"
                     }
-                }).catch(err => { 
-                    console.log("Erro ao gravar item" + err) 
+                }).catch(err => {
+                    console.log("Erro ao gravar item" + err)
                     setDisable(false)
                     setSuccess(false)
                 });
             }, 20
             )
         })
+    }
+
+    // funcao que realiza o envio do email de compra
+    function postMail(order) {
+
+        api.post("/orders/mail", order)
+            .then(res => {
+                
+            })
+            .catch(err => {
+                console.error("Erro ao enviar confirmação por email", err)
+            })
+
     }
 
     function goToSucces() {
@@ -155,7 +168,7 @@ function OrderSummaryPage(props) {
         getFlagByid(getPayments)
 
         setOrder(initial)
-
+        
 
     }, [])
 
@@ -204,7 +217,7 @@ function OrderSummaryPage(props) {
                     product.salePrice
                         ? valor = valor + (product.salePrice * product.qty)
                         : valor = valor + (product.price * product.qty)
-                       
+
                 }
             })
         }
@@ -241,12 +254,32 @@ function OrderSummaryPage(props) {
         let sub = 0
         if (cart) {
             cart.map(product => {
-
-                sub = sub + (product.price * product.qty)
+                
+                {
+                    product.salePrice 
+                    ? sub = sub + (product.salePrice * product.qty)
+                    : sub = sub + (product.price * product.qty)
+                }
 
             })
         }
         return sub
+    }
+
+    function somarTotal(id) {
+        let tot = 0
+        if (cart) {
+            cart.map(product => {
+               if (product.id == id ) {
+                {
+                product.salePrice 
+                ? tot = tot + (product.salePrice * product.qty)
+                : tot = tot + (product.price * product.qty)
+            }
+            }
+            })
+        }
+        return tot
     }
 
     // desabilita botão finalizar apos o click
@@ -263,6 +296,7 @@ function OrderSummaryPage(props) {
             qtyTotal: calcularItens(),
             totalDiscounts: calcularDescontos(),
             card: { ...order.card, dueDate: "2021-12-10" },
+            deliveryDate: prazo,
             idStore: 1
         }).then(response => {
 
@@ -278,6 +312,13 @@ function OrderSummaryPage(props) {
 
     }
 
+    const [prazo, setPrazo] = useState()
+
+
+    const getPrazo = (prazo) => {
+        setPrazo(prazo)
+    }
+
 
     return (
         <>
@@ -291,7 +332,7 @@ function OrderSummaryPage(props) {
                     <ul className="container col-12 col-lg-6 mx-0 d-flex flex-column">
                         <h4>Itens</h4>
 
-                        <ProductSuccessOrder desconto={calcularDescontos} total={somar} sub={somarSubTotal} frete={150} />
+                        <ProductSuccessOrder func={getPrazo} prazo={order.address.state} desconto={calcularDescontos} total={somar} sub={somarSubTotal} frete={order.deliveryValue} tot={somarTotal}/>
 
                     </ul>
 
@@ -315,15 +356,15 @@ function OrderSummaryPage(props) {
                 <div className="d-flex justify-content-between">
 
                     <Button navigation route="/checkout" class="btn-retorno align-self-center" label="voltar" />
-                    <Button onclick={goToSucces} disabled={disable} class="btn-comprar " label={disable?renderLoading():"Finalizar"} />
+                    <Button onclick={goToSucces} disabled={disable} class="btn-comprar " label={disable ? renderLoading() : "Finalizar"} />
 
                 </div>
 
 
 
-            </div> 
+            </div>
             {success
-                ? <Redirect to={{pathname: "/success", state: {...order}}} />
+                ? <Redirect to={{ pathname: "/success", state: { ...order } }} />
                 : ""
             }
         </>

@@ -65,7 +65,44 @@ function FormContact(props) {
                 event.preventDefault();
             }
         });
+        getUserData()
     }, []);
+
+    function getUserData() {
+        if (localStorage.getItem('user')) {
+            var user = JSON.parse(localStorage.getItem('user'))
+            console.log(localStorage.getItem('user'))
+            api.get("/user/" + user.value.id)
+            .then(res => {
+                setName(res.data.firstName)
+                setEmail(res.data.email)
+                setPhoneNumber(res.data.telephone.number)
+                setValue('nome', res.data.firstName)
+                setValue('email', res.data.email)
+                if (res.data.telephone.number.charAt(2) == 9) {
+                    var number = res.data.telephone.number.toString()
+
+                    const parte1 = number.charAt(0) + number.charAt(1)
+                    const parte2 = number.slice(2,7)
+                    const parte3 = number.slice(7,11)
+
+                    const numeroAjustado = "(" + parte1 + ") " + parte2 + "-" + parte3
+
+                    setValue('telefone', numeroAjustado, { shouldValidate: true })
+                } else {
+                    var number = res.data.telephone.number.toString()
+                    
+                    const parte1 = number.charAt(0) + number.charAt(1)
+                    const parte2 = number.slice(2,6)
+                    const parte3 = number.slice(6,10)
+
+                    const numeroAjustado = "(" + parte1 + ") " + parte2 + "-" + parte3
+
+                    setValue('telefone', numeroAjustado, { shouldValidate: true })
+                }
+            })
+        }
+    }
 
     // const [isValid, setValid] = useState({
     //     email: true
@@ -112,6 +149,7 @@ function FormContact(props) {
                             errors={errors}
                             clear={clearErrors}
                             label="Nome"
+                            value={name}
                             type="text"
                             className="form-input col-12"
                             placeholder="Digite seu nome..." 
@@ -137,6 +175,7 @@ function FormContact(props) {
                             label="E-mail"
                             type="email"
                             id="email"
+                            value={email}
                             errors={errors}
                             className="form-input col-12"
                             placeholder="Digite seu e-mail..."

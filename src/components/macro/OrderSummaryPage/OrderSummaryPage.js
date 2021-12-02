@@ -132,9 +132,9 @@ function OrderSummaryPage(props) {
                     if (result.data.compositeKey.idItem == cart.length) {
 
                         setSuccess(true)
+                        postMail(order)
                         alert("Pedido gerado com sucesso!")
                         localStorageRemoveOrder()
-                        // window.location.href = "/success"
                     }
                 }).catch(err => {
                     console.log("Erro ao gravar item" + err)
@@ -144,6 +144,19 @@ function OrderSummaryPage(props) {
             }, 20
             )
         })
+    }
+
+    // funcao que realiza o envio do email de compra
+    function postMail(order) {
+
+        api.post("/orders/mail", order)
+            .then(res => {
+                
+            })
+            .catch(err => {
+                console.error("Erro ao enviar confirmação por email", err)
+            })
+
     }
 
     function goToSucces() {

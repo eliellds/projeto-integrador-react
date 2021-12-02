@@ -62,22 +62,22 @@ const pwd = 'qwertjose'
 function SuccessPage(props) {
 
     function uncriptCard(cript) {
-        var decipher = crypto.createDecipher(alg,pwd)
+        var decipher = crypto.createDecipher(alg, pwd)
         var uncrypted = decipher.update(cript, 'hex', 'utf8')
-        let c = ""             
+        let c = ""
         for (let index = 0; index < uncrypted.length; index++) {
-            
-            if(index < uncrypted.length - 4){
-                c = c+"#"
-            }else{
-                c = c+uncrypted.charAt(index)
+
+            if (index < uncrypted.length - 4) {
+                c = c + "#"
+            } else {
+                c = c + uncrypted.charAt(index)
             }
-                          
-            
+
+
         }
         return c
     }
-    
+
 
 
     const user = JSON.parse(localStorage.getItem("user"));
@@ -92,7 +92,7 @@ function SuccessPage(props) {
     const deliveryFormated = order.deliveryValue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
     const totalDiscount = order.totalDiscounts.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
     const installmentsPrice = order.amount / order.payment.installments
-    const cepFormated =  order.address.cep.substring(0,5)+  "-"+ order.address.cep.substring(5);
+    const cepFormated = order.address.cep.substring(0, 5) + "-" + order.address.cep.substring(5);
 
     function getOrder() {
         api
@@ -106,13 +106,16 @@ function SuccessPage(props) {
             });
     }
 
-    function getItemOrder(id) {
+    function getItemOrder(id, order) {
         api
-        .get(`/itemsOrder/${id}`)
-        .then((response) => setOrderProducts(response.data))
-        .catch((err) => {
-            console.error("ops! ocorreu um erro" + err);
-        });
+            .get(`/itemsOrder/${id}`)
+            .then((response) => {
+                setOrderProducts(response.data)
+            }
+            )
+            .catch((err) => {
+                console.error("ops! ocorreu um erro" + err);
+            });
     }
 
     useEffect(() => {
@@ -143,33 +146,33 @@ function SuccessPage(props) {
                             subTotal={subTotal}
                             products={orderProduct}
                             frete={deliveryFormated}
-                            finalPrice={amountFormated} 
+                            finalPrice={amountFormated}
                             discount={totalDiscount}
-                            />
+                        />
 
                     </ul>
 
                     <div class="container col-12 col-lg-5 mx-0 info-sucesso">
-                    
-                
+
+
 
                         <OrderInfo titulo="Pagamento"
-                                    primeiraLinha={order.payment.description + " - " + order.card.flag.description} 
-                                    segundaLinha={uncriptCard(order.card.cardNumber)} 
-                                    terceiraLinha={order.payment.installments >= 2 ? order.payment.installments + " x de" : order.payment.installments } 
-                                    terceiraLinha1={order.payment.installments >= 2 ? installmentsPrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) :amountFormated}
-                                    quartaLinha={"Total: " + amountFormated}
-                                     />
+                            primeiraLinha={order.payment.description + " - " + order.card.flag.description}
+                            segundaLinha={uncriptCard(order.card.cardNumber)}
+                            terceiraLinha={order.payment.installments >= 2 ? order.payment.installments + " x de" : order.payment.installments}
+                            terceiraLinha1={order.payment.installments >= 2 ? installmentsPrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : amountFormated}
+                            quartaLinha={"Total: " + amountFormated}
+                        />
 
                         <OrderInfo titulo="Entrega"
-                                    primeiraLinha={order.delivery.descricao}
-                                    segundaLinha="Prazo estimado para entrega: " segundaLinha1={dataFormatada}
-                                    terceiraLinha= {deliveryFormated} />
+                            primeiraLinha={order.delivery.descricao}
+                            segundaLinha="Prazo estimado para entrega: " segundaLinha1={dataFormatada}
+                            terceiraLinha={deliveryFormated} />
 
                         <OrderInfo titulo="Endereço de entrega"
-                                    primeiraLinha={order.address.street + ","} primeiraLinha1={order.address.number + "."} primeiraLinha2={"Comp: " + order.address.complement}
-                                    segundaLinha={order.address.district + " - "} segundaLinha1={order.address.city + " - "} segundaLinha2={order.address.state}
-                                    terceiraLinha={"CEP: " + cepFormated} quartaLinha={"Referência: " + order.address.reference} />
+                            primeiraLinha={order.address.street + ","} primeiraLinha1={order.address.number + "."} primeiraLinha2={"Comp: " + order.address.complement}
+                            segundaLinha={order.address.district + " - "} segundaLinha1={order.address.city + " - "} segundaLinha2={order.address.state}
+                            terceiraLinha={"CEP: " + cepFormated} quartaLinha={"Referência: " + order.address.reference} />
 
                     </div>
 

@@ -70,3 +70,13 @@
     }
 
 }
+
+.text-ticket {
+    text-align: end;
+    padding: 0 !important;
+}
+
+.linkTicket{
+    text-align: start !important;
+    padding-top: 4px;
+}

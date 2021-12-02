@@ -95,7 +95,6 @@ function Address(props) {
         api.get(`/userAddress/myAddress/${user.value.id}`).then(
             res => {
                 getAllAddressess(res.data)
-                console.log(res)
 
             })
             .catch((err) => {

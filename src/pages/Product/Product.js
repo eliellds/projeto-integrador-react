@@ -155,7 +155,7 @@ function Product(props) {
             <H1 h1={produto.product.product}></H1>
             <section className="mb-4">
                 <div className="container-fluid container-fluid-section">
-                    <div className="container">
+                    <div className="container pb-2">
                         <div className="row row-correction">
                             <div className="container container-imagem mx-0 col-12 col-md-7 col-lg-6 mt-3">
                                 <div className="row p-0 imagem-caixa-registradora">
@@ -166,7 +166,7 @@ function Product(props) {
                                 <h4 className="valor text-center">{preco()}</h4>
                                 <Button onclick={produto.qty>=1?addToCart:AlertDefault } disabled={produto.qty>=1?false:true} class={produto.qty>=1?"btn-comprar  align-self-center":"btn-sem-estoque align-self-center "} label={produto.qty>=1?"COMPRAR":"sem estoque"} />
 
-                                <h4 className="frete-fixo-produto text-center pt-4">Frete fixo R$150,00</h4>
+                   
                             </div>
                         </div>
                     </div>

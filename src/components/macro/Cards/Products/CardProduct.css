@@ -94,3 +94,18 @@
     max-width: 100% !important;
     width: 100% !important;
 }
+
+.sale-etiq::before {
+    content: "APROVEITE";
+    color: rgb(255, 255, 255);
+    font-size: 12px;
+    font-family: 'Baskervville', serif;
+    text-align: center;
+    text-justify: center;
+    position: absolute;
+    height: 20px;
+    width: 90px;
+    box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.301);
+    background-color: #3f79cf;
+    border-radius: 5px 0 5px 0;
+}

@@ -8,7 +8,7 @@ import Loading from "../../../assets/images/success/loading.gif"
 import { Redirect } from "react-router-dom";
 import Modal from 'react-bootstrap/Modal';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Code from "../../../assets/images/pix/code.png"
+import Code from "../../../assets/images/pix/Code1.png"
 
 
 const cart = JSON.parse(localStorage.getItem('cart'))

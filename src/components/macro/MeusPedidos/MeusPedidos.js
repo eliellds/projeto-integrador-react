@@ -8,6 +8,7 @@ import api from "../../../services/api";
 import { Next } from "react-bootstrap/esm/PageItem";
 import OrderProducts from "../../micro/OrderProducts/OrderProducts";
 import "./MeusPedidos.css";
+import TrackingPack from "../Tracking/Tracking";
 
 const initial = [{
     orderNumber: 0,
@@ -48,8 +49,10 @@ function MeusPedidos(props) {
 
                 if (orderNumber == item.orderNumber) {
                     return (
-                        <>
+                        <>  
                             <Accordion.Body >
+                                <TrackingPack status={item.idStatus}/>
+
                                 <ul className="row cabecalho-meu-pedido-item text-center">
                                     <li className="col-7 "><strong>Detalhes do Pedido</strong></li>
                                     <li className="col-2 data justify-self-start"><strong>Data</strong></li>

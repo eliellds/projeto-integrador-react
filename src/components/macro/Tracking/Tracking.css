@@ -16,15 +16,16 @@
     border-radius: 100%;
     background-color: rgb(255, 255, 255);
     width: 32px;
-    margin-left: -20px;
+    margin-left: -13px;
 }
 .line{
     height: 10px;
 
 }
 .tracking-img-col{
-    max-width:20px
+    max-width:20px;
+    z-index: 2
 }
 .completedTask{
-    background-color: rgba(20, 201, 20, 0.653);
+    background-color: rgb(71, 231, 71);
 }

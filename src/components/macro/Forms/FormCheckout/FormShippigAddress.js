@@ -226,6 +226,7 @@ function FormShippigAddress(props) {
         } else if (payment > 1 && payment < 13) {
             tempOrder = ({
                 ...tempOrder,
+                myUser: {...tempOrder.myUser, id: user.value.id, email: user.value.email},
                 payment: { ...tempOrder.payment, id: payment },
                 telephone: { ...tempOrder.telephone, number: tempOrder.telephone.number.toString().replace(/[^0-9]/g, "") },
                 card: { ...tempOrder.card, cardNumber: criptCard(tempOrder.card.cardNumber), dueDate: "20" + inputYear + "-" + inputMonth + "-01" }

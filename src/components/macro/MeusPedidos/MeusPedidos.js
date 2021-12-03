@@ -58,8 +58,8 @@ function MeusPedidos(props) {
 
                                 <ul className="row cabecalho-meu-pedido-item text-center">
                                     <li className="col-7 "><strong>Detalhes do Pedido</strong></li>
-                                    <li className="col-2 data justify-self-start"><strong>Data</strong></li>
-                                    <li className="col-2 text-end me-3"><strong>Status</strong></li>
+                                    <li className="col-3 data justify-self-start"><strong>Data</strong></li>
+                                    <li className="col-2 text-start "><strong>Status</strong></li>
                                 </ul>
                                 <ul className="row ps-1">
                                     <div className="container col-7 align-self-start d-flex flex-column m-0">
@@ -69,8 +69,8 @@ function MeusPedidos(props) {
                                     <div className="container m-0 col-5 d-flex">
                                         <div className="row row-correction">
                                             <div className="container d-flex m-0 p-0">
-                                                <li className="col-5 meu-pedido-item data me-3">{dataFormatada}</li>
-                                                <li className="col-7 meu-pedido-item">{item.status}</li>
+                                                <li className="col-7 meu-pedido-item data text-center me-3">{dataFormatada}</li>
+                                                <li className="col-5 meu-pedido-item text-start">{item.status}</li>
                                             </div>
 
                                         </div>

@@ -25,3 +25,7 @@
     color: #252525;
     font-family:'Times New Roman', Times, serif !important;
 }
+
+.button-remove-address{
+    max-width: 15px;   
+}

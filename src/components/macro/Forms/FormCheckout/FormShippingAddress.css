@@ -8,6 +8,10 @@
     box-sizing: border-box;
 }
 
+.code{
+    width: 250px;
+    height: 250px;
+}
 
 .ticketInfo {
     text-align: center;

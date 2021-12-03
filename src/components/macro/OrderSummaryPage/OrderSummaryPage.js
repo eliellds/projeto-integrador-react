@@ -6,6 +6,9 @@ import api from "../../../services/api";
 import ProductSuccessOrder from "../../micro/productsSucess/productSuccessOrder";
 import Loading from "../../../assets/images/success/loading.gif"
 import { Redirect } from "react-router-dom";
+import Modal from 'react-bootstrap/Modal';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Code from "../../../assets/images/pix/code.png"
 
 
 const cart = JSON.parse(localStorage.getItem('cart'))
@@ -130,11 +133,16 @@ function OrderSummaryPage(props) {
                     totalPrice: calcTotalPrice(item.id)
                 }).then(result => {
                     if (result.data.compositeKey.idItem == cart.length) {
-
-                        setSuccess(true)
-                        postMail(order)
-                        alert("Pedido gerado com sucesso!")
-                        localStorageRemoveOrder()
+                        if (order.payment.id == 13) {
+                            postMail(order)
+                            setSmShow(true)
+                        }
+                        else {
+                            setSuccess(true)
+                            postMail(order)
+                            alert("Pedido gerado com sucesso!")
+                            localStorageRemoveOrder()
+                        }
                     }
                 }).catch(err => {
                     console.log("Erro ao gravar item" + err)
@@ -146,12 +154,21 @@ function OrderSummaryPage(props) {
         })
     }
 
+
+
+    function postPix() {
+        setSuccess(true)
+        alert("Pedido gerado com sucesso!")
+       // localStorageRemoveOrder()
+    }
+
+
     // funcao que realiza o envio do email de compra
     function postMail(order) {
 
         api.post("/orders/mail", order)
             .then(res => {
-                
+
             })
             .catch(err => {
                 console.error("Erro ao enviar confirmação por email", err)
@@ -168,23 +185,23 @@ function OrderSummaryPage(props) {
         getFlagByid(getPayments)
 
         setOrder(initial)
-        
+
 
     }, [])
 
     function getFlagByid(callback) {
 
-            api.get(`/flags/${order.card?.flag.id}`).then((result) => {
+        api.get(`/flags/${order.card?.flag.id}`).then((result) => {
 
-                initial = { ...initial, card: { ...initial.card, flag: result.data } }
-                setOrder(initial)
+            initial = { ...initial, card: { ...initial.card, flag: result.data } }
+            setOrder(initial)
 
-            }).catch((err) => {
+        }).catch((err) => {
 
-                console.log("Falha ao consumir api" + err)
-            })
+            console.log("Falha ao consumir api" + err)
+        })
 
-            setTimeout(() => { callback() }, 1)
+        setTimeout(() => { callback() }, 1)
     }
 
     function getPayments() {
@@ -253,11 +270,11 @@ function OrderSummaryPage(props) {
         let sub = 0
         if (cart) {
             cart.map(product => {
-                
+
                 {
-                    product.salePrice 
-                    ? sub = sub + (product.salePrice * product.qty)
-                    : sub = sub + (product.price * product.qty)
+                    product.salePrice
+                        ? sub = sub + (product.salePrice * product.qty)
+                        : sub = sub + (product.price * product.qty)
                 }
 
             })
@@ -269,13 +286,13 @@ function OrderSummaryPage(props) {
         let tot = 0
         if (cart) {
             cart.map(product => {
-               if (product.id == id ) {
-                {
-                product.salePrice 
-                ? tot = tot + (product.salePrice * product.qty)
-                : tot = tot + (product.price * product.qty)
-            }
-            }
+                if (product.id == id) {
+                    {
+                        product.salePrice
+                            ? tot = tot + (product.salePrice * product.qty)
+                            : tot = tot + (product.price * product.qty)
+                    }
+                }
             })
         }
         return tot
@@ -307,37 +324,66 @@ function OrderSummaryPage(props) {
             postItemOrder(response.data)
 
 
-        }).catch(error => {
-            console.log("Erro ao consumir api de post order" + error)
-            setDisable(false)
-        })
-    } else if (order.payment.id == 1) {
-        const newOrder = {
-            ...order,
-            address: { ...order.address, cep: order.address.cep.toString().replace(/[^0-9]/g, "") },
-            amount: (somar() + frete),
-            qtyTotal: calcularItens(),
-            card: null,
-            totalDiscounts: calcularDescontos(),
-            deliveryDate: prazo,
-            deliveryValue: frete,
-            idStore: 1
+                }).catch(error => {
+                    console.log("Erro ao consumir api de post order" + error)
+                    setDisable(false)
+                })
+        } else if (order.payment.id == 1) {
+            const newOrder = {
+                ...order,
+                address: { ...order.address, cep: order.address.cep.toString().replace(/[^0-9]/g, "") },
+                amount: (somar() + frete),
+                qtyTotal: calcularItens(),
+                card: null,
+                totalDiscounts: calcularDescontos(),
+                deliveryDate: prazo,
+                deliveryValue: frete,
+                idStore: 1
+            }
+
+            api.post(`/orders`, newOrder)
+                .then(response => {
+                    localStorage.setItem('idOrderLastCreated', response.data.id)
+                    let order = response.data
+                    postItemOrder(order)
+
+
+                }).catch(error => {
+                    console.log("Erro ao consumir api de post order" + error)
+                    setDisable(false)
+                })
+        } else if (order.payment.id == 13) {
+            const newOrder = {
+                ...order,
+                address: { ...order.address, cep: order.address.cep.toString().replace(/[^0-9]/g, "") },
+                amount: (somar() + frete),
+                qtyTotal: calcularItens(),
+                card: null,
+                totalDiscounts: calcularDescontos(),
+                deliveryDate: prazo,
+                deliveryValue: frete,
+                idStore: 1
+            }
+
+            api.post(`/orders`, newOrder)
+                .then(response => {
+                    localStorage.setItem('idOrderLastCreated', response.data.id)
+                    let order = response.data
+                    postItemOrder(order)
+
+
+                }).catch(error => {
+                    console.log("Erro ao consumir api de post order" + error)
+                    setDisable(false)
+                })
         }
 
-        api.post(`/orders`, newOrder)
-            .then(response => {
-            localStorage.setItem('idOrderLastCreated', response.data.id)
-            let order = response.data
-            postItemOrder(order)
 
-
-        }).catch(error => {
-            console.log("Erro ao consumir api de post order" + error)
-            setDisable(false)
-        })
     }
 
-}
+    function showModal() {
+        setSmShow(true)
+    }
 
     const [prazo, setPrazo] = useState()
     const [frete, setFrete] = useState()
@@ -351,6 +397,8 @@ function OrderSummaryPage(props) {
         setFrete(frete)
     }
 
+    const [smShow, setSmShow] = useState(false)
+
     return (
         <>
             <h1>RESUMO DO PEDIDO</h1>
@@ -363,14 +411,14 @@ function OrderSummaryPage(props) {
                     <ul className="container col-12 col-lg-6 mx-0 d-flex flex-column">
                         <h4>Itens</h4>
 
-                        <ProductSuccessOrder funcPrazo={getPrazo} funcFrete={getFrete} prazo={order.address.state} desconto={calcularDescontos} total={somar} sub={somarSubTotal} frete={frete} tot={somarTotal}/>
+                        <ProductSuccessOrder funcPrazo={getPrazo} funcFrete={getFrete} prazo={order.address.state} desconto={calcularDescontos} total={somar} sub={somarSubTotal} frete={frete} tot={somarTotal} />
 
                     </ul>
 
                     <div className="container col-12 col-lg-5 mx-0">
 
                         <OrderInfo titulo="Pagamento"
-                            primeiraLinha={order.payment.id == 1 ? order.payment.description : order.payment.description + " - " + order.card.flag.description}
+                            primeiraLinha={order.payment.id == 1 || order.payment.id == 13 ? order.payment.description : order.payment.description + " - " + order.card.flag.description}
                             segundaLinha={order.payment.id == 1 ? "" : uncriptCard(order.card.cardNumber)}
                             terceiraLinha={order.payment?.installments >= 2 ? order.payment.installments + " x de" : order.payment.installments} terceiraLinha1={order.payment.installments >= 2 ? calcInstallments() : somar().toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                             quartaLinha={"Total: " + somar().toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} />
@@ -387,7 +435,7 @@ function OrderSummaryPage(props) {
                 <div className="d-flex justify-content-between">
 
                     <Button navigation route="/checkout" class="btn-retorno align-self-center" label="voltar" />
-                    <Button onclick={goToSucces} disabled={disable} class="btn-comprar " label={disable ? renderLoading() : "Finalizar"} />
+                    <Button onclick={goToSucces} disabled={disable} class="btn-comprar" label={disable ? renderLoading() : "Finalizar"} />
 
                 </div>
 
@@ -395,9 +443,28 @@ function OrderSummaryPage(props) {
 
             </div>
             {success
-                ? <Redirect to={{pathname: "/success", state: { ...order } }} />
+                ? <Redirect to={{ pathname: "/success", state: { ...order } }} />
                 : ""
             }
+            <Modal
+                size="sm"
+                show={smShow}
+               // onHide={() => postPix()}
+                aria-labelledby="example-modal-sizes-title-sm"
+            >
+                <Modal.Header>
+                    <Modal.Title id="example-modal-sizes-title-sm">
+                        Pix
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <img src={Code} />
+                    <div className="row justify-content-center">
+                        <p className="titleModal">123e4567-e12b-12d1-a456–426655445937</p>
+                    </div>
+                    <Button onclick={postPix} class= "btn-comprar pix-button" label= "Confirmar"/>
+                </Modal.Body>
+            </Modal>
         </>
     );
 }

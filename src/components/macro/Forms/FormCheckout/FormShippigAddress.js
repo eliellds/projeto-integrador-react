@@ -108,7 +108,7 @@ function FormShippigAddress(props) {
         shouldUseNativeValidation: false,
         delayError: undefined
     });
-    const { register : register2, handleSubmit: handleSubmit2 , formState: { errors : errors2 }, reset: reset2, clearErrors: clean2, setError: setErr, setValue : setValue2 } = useForm({
+    const { register: register2, handleSubmit: handleSubmit2, formState: { errors: errors2 }, reset: reset2, clearErrors: clean2, setError: setErr, setValue: setValue2 } = useForm({
         mode: 'onChange',
         reValidateMode: 'onChange',
         defaultValues: {},
@@ -121,23 +121,23 @@ function FormShippigAddress(props) {
         delayError: undefined
     });
 
-    
-    const [userA, setUserA] = useState(<UserAddress>            
+
+    const [userA, setUserA] = useState(<UserAddress>
         <MoreAddresses function={setOpenModal} />
-        </UserAddress>);
+    </UserAddress>);
 
     function getAllAddressess(addressList) {
-        
-        setUserA(<UserAddress userAddress={addressList}  function={getSelectedAddress}>
+
+        setUserA(<UserAddress userAddress={addressList} function={getSelectedAddress}>
             <MoreAddresses function={setOpenModal} />
 
-        </UserAddress>);      
+        </UserAddress>);
     }
 
-    function getSelectedAddress(selectedAddress){
+    function getSelectedAddress(selectedAddress) {
         api.get(`/address/find/${selectedAddress}`)
-            .then( response => {
-                setOrder({...order, address: { ...response.data, id: null}})
+            .then(response => {
+                setOrder({ ...order, address: { ...response.data, id: null } })
             })
             .catch((err) => {
                 console.log("Erro ao consumir api de endereços selecionados" + err)
@@ -155,7 +155,7 @@ function FormShippigAddress(props) {
                 console.error("Erro ao consumir api de Address" + err)
             })
     }
-    
+
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -187,7 +187,7 @@ function FormShippigAddress(props) {
 
                     const numeroAjustado = "(" + parte1 + ") " + parte2 + "-" + parte3
 
-                    setValue('telefone', numeroAjustado, { shouldValidate: true})
+                    setValue('telefone', numeroAjustado, { shouldValidate: true })
                 }
                 // setValue('telefone', res.data.telephone.number)
                 setValue('cep', cepTemp)
@@ -223,7 +223,14 @@ function FormShippigAddress(props) {
                 telephone: { ...tempOrder.telephone, number: tempOrder.telephone.number.toString().replace(/[^0-9]/g, "") },
                 card: null
             })
-        } else if (payment > 1 && payment < 13){
+        } else if (payment > 1 && payment < 13) {
+            tempOrder = ({
+                ...tempOrder,
+                payment: { ...tempOrder.payment, id: payment },
+                telephone: { ...tempOrder.telephone, number: tempOrder.telephone.number.toString().replace(/[^0-9]/g, "") },
+                card: { ...tempOrder.card, cardNumber: criptCard(tempOrder.card.cardNumber), dueDate: "20" + inputYear + "-" + inputMonth + "-01" }
+            })
+        } else if (payment == 13) {
             tempOrder = ({
                 ...tempOrder,
                 myUser: {...tempOrder.myUser, id: user.value.id, email: user.value.email},
@@ -233,7 +240,8 @@ function FormShippigAddress(props) {
             })
         }
 
-        
+
+
 
         let orderJson = JSON.stringify(tempOrder)
 
@@ -305,42 +313,46 @@ function FormShippigAddress(props) {
         var dataCurrente = new Date();
         var dateCurrent = (dataCurrente.getFullYear() - 10) + "-" + dataCurrente.getMonth() + "-" + dataCurrente.getDate()
 
-        if (displayNoneB.display == "d-none") {
-            if (dateCurrent > order.card.birthDate) {
+        if (displayNoneE.display == "d-none") {
+            if (displayNoneB.display == "d-none") {
+                if (dateCurrent > order.card.birthDate) {
 
-                if (inputBrand != "Cartão não aceito") {
+                    if (inputBrand != "Cartão não aceito") {
 
-                    if (displayNoneD.display == "") {
-                        if (MoipValidator.isExpiryDateValid(inputMonth, inputYear) == true) {
-                            return postOrder(2)
-                        } else {
-                            return window.alert("Preencha a validade do cartão corretamente")
-                        }
-                    }
-
-                    if (MoipValidator.isValidNumber(data.CardNum) == true) {
-                        if (MoipValidator.isSecurityCodeValid(data.CardNum, data.cvv) == true) {
+                        if (displayNoneD.display == "") {
                             if (MoipValidator.isExpiryDateValid(inputMonth, inputYear) == true) {
-                                postOrder(order.payment.id)
+                                return postOrder(2)
                             } else {
-                                window.alert("Preencha a validade do cartão corretamente")
+                                return window.alert("Preencha a validade do cartão corretamente")
+                            }
+                        }
+
+                        if (MoipValidator.isValidNumber(data.CardNum) == true) {
+                            if (MoipValidator.isSecurityCodeValid(data.CardNum, data.cvv) == true) {
+                                if (MoipValidator.isExpiryDateValid(inputMonth, inputYear) == true) {
+                                    postOrder(order.payment.id)
+                                } else {
+                                    window.alert("Preencha a validade do cartão corretamente")
+                                }
+                            } else {
+                                window.alert("Preencha o CVV corretamente")
                             }
                         } else {
-                            window.alert("Preencha o CVV corretamente")
+                            window.alert("Preencha o número do cartão corretamente")
                         }
                     } else {
-                        window.alert("Preencha o número do cartão corretamente")
+                        return window.alert("Cartão não aceito")
                     }
+
                 } else {
-                    return window.alert("Cartão não aceito")
+                    window.alert("Data de nascimento do titular do cartão invalida!")
+
                 }
-
             } else {
-                window.alert("Data de nascimento do titular do cartão invalida!")
-
+                return postOrder(1);
             }
         } else {
-            return postOrder(1);
+            return postOrder(13);
         }
     }
 
@@ -361,12 +373,16 @@ function FormShippigAddress(props) {
         setDisplayNoneC({
             display: "d-none"
         })
+        setDisplayNoneE({
+            display: "d-none"
+        })
         setButtons(
             <>
                 <Button onclick={changeC} class={"col-4 cartao forma-pagamento disabled-button"} label={<H2 h2="Crédito" />}></Button>
                 <Button onclick={changeD} class={"col-4 forma-pagamento cartao disabled-button"} label={<H2 h2="Débito" />}></Button>
+                <Button onclick={changeE} class="col-4 forma-pagamento boleto disabled-button" label={<H2 h2="Pix" />}></Button>
                 <Button onclick={changeB} class="col-4 forma-pagamento boleto selected-button" label={<H2 h2="Boleto" />}></Button>
-            </>
+ </>
         )
     }
 
@@ -377,6 +393,10 @@ function FormShippigAddress(props) {
         setDisplayNoneD({
             display: "d-none"
         })
+
+        setDisplayNoneE({
+            display: "d-none"
+        })
         setDisplayNoneB({
             display: "d-none"
         })
@@ -384,6 +404,7 @@ function FormShippigAddress(props) {
             <>
                 <Button onclick={changeC} class={"col-4 cartao forma-pagamento selected-button"} label={<H2 h2="Crédito" />}></Button>
                 <Button onclick={changeD} class={"col-4 forma-pagamento cartao disabled-button"} label={<H2 h2="Débito" />}></Button>
+                <Button onclick={changeE} class="col-4 forma-pagamento boleto disabled-button" label={<H2 h2="Pix" />}></Button>
                 <Button onclick={changeB} class="col-4 forma-pagamento boleto disabled-button" label={<H2 h2="Boleto" />}></Button>
             </>
         )
@@ -396,6 +417,10 @@ function FormShippigAddress(props) {
         setDisplayNoneC({
             display: "d-none"
         })
+
+        setDisplayNoneE({
+            display: "d-none"
+        })
         setDisplayNoneB({
             display: "d-none"
         })
@@ -403,25 +428,56 @@ function FormShippigAddress(props) {
             <>
                 <Button onclick={changeC} class={"col-4 cartao forma-pagamento disabled-button"} label={<H2 h2="Crédito" />}></Button>
                 <Button onclick={changeD} class={"col-4 forma-pagamento cartao selected-button"} label={<H2 h2="Débito" />}></Button>
+                <Button onclick={changeE} class="col-4 forma-pagamento pix disabled-button" label={<H2 h2="Pix" />}></Button>
+                <Button onclick={changeB} class="col-4 forma-pagamento boleto disabled-button" label={<H2 h2="Boleto" />}></Button>
+            </>
+        )
+    }
+
+    function changeE() {
+        setDisplayNoneE({
+            display: ""
+        })
+        setDisplayNoneD({
+            display: "d-none"
+        })
+
+        setDisplayNoneC({
+            display: "d-none"
+        })
+        setDisplayNoneB({
+            display: "d-none"
+        })
+        setButtons(
+            <>
+                <Button onclick={changeC} class={"col-4 cartao forma-pagamento disabled-button"} label={<H2 h2="Crédito" />}></Button>
+                <Button onclick={changeD} class={"col-4 forma-pagamento cartao disabled-button"} label={<H2 h2="Débito" />}></Button>
+                <Button onclick={changeE} class="col-4 forma-pagamento pix selected-button" label={<H2 h2="Pix" />}></Button>
                 <Button onclick={changeB} class="col-4 forma-pagamento boleto disabled-button" label={<H2 h2="Boleto" />}></Button>
             </>
         )
     }
 
 
+
     const [displayNoneB, setDisplayNoneB] = useState({
-        display:"d-none"})
-    const [displayNoneD, setDisplayNoneD] = useState({
         display: "d-none"
     })
-    const [displayNoneC, setDisplayNoneC] = useState({
-        display: ""
+    const [displayNoneD, setDisplayNoneD] = useState({
+        display: "d-none"
+
+    })
+    const [displayNoneC, setDisplayNoneC] = useState("d-none")
+    const [displayNoneE, setDisplayNoneE] = useState({
+        display: "d-none"
+
     })
     const [dueDate, setDueDate] = useState("")
     const [buttons, setButtons] = useState(
         <>
             <Button onclick={changeC} class={"col-4 cartao forma-pagamento selected-button"} label={<H2 h2="Crédito" />}></Button>
             <Button onclick={changeD} class={"col-4 forma-pagamento cartao disabled-button"} label={<H2 h2="Débito" />}></Button>
+            <Button onclick={changeE} class="col-4 forma-pagamento pix disabled-button" label={<H2 h2="Pix" />}></Button>
             <Button onclick={changeB} class="col-4 forma-pagamento boleto disabled-button" label={<H2 h2="Boleto" />}></Button>
         </>
     )
@@ -481,13 +537,13 @@ function FormShippigAddress(props) {
 
     function limpa_formulário_cep() {
         //Limpa valores do formulário de cep.
-        setAddressToLink({ ...newAddressToLink, street: "", district: "", city: "", state: "", number: "", complement: "", reference: "" } );
+        setAddressToLink({ ...newAddressToLink, street: "", district: "", city: "", state: "", number: "", complement: "", reference: "" });
     }
 
     function meu_callback(conteudo) {
         if (!("erro" in conteudo)) {
             //Atualiza os campos com os valores.
-            setAddressToLink({ ...newAddressToLink, street: conteudo.logradouro, district: conteudo.bairro, city: conteudo.localidade, state: conteudo.uf  })
+            setAddressToLink({ ...newAddressToLink, street: conteudo.logradouro, district: conteudo.bairro, city: conteudo.localidade, state: conteudo.uf })
         } //end if.
         else {
             //CEP não Encontrado.
@@ -517,7 +573,7 @@ function FormShippigAddress(props) {
             if (validacep.test(cep)) {
 
                 //Preenche os campos com "..." enquanto consulta webservice.
-                setAddressToLink({ ...newAddressToLink, street: "...", district: "...", city: "...", state: "...", number: "", complement: "", reference: ""  });
+                setAddressToLink({ ...newAddressToLink, street: "...", district: "...", city: "...", state: "...", number: "", complement: "", reference: "" });
 
                 fetch(`https://viacep.com.br/ws/${cep}/json/`)
                     .then(res => res.json())
@@ -625,7 +681,7 @@ function FormShippigAddress(props) {
 
     function LimparNumero(e) {
         clean2(["Número"])
-        setAddressToLink({ ...newAddressToLink, number: e.target.value } )
+        setAddressToLink({ ...newAddressToLink, number: e.target.value })
         // clearErrors(["Número"])
         // clearErrors(["NúmeroD"])
         // setOrder({ ...order, address: { ...order.address, id: null, number: e.target.value } })
@@ -721,117 +777,118 @@ function FormShippigAddress(props) {
         setStateModal(true)
 
     }
-    function closeModal(){
+    function closeModal() {
         setStateModal(false)
 
     }
 
-    function postAddressUser(){
+    function postAddressUser() {
         var idUser = JSON.parse(localStorage.getItem('user'))
         var valor = newAddressToLink.cep
         const cep = valor.replace(/\D/g, '');
 
-        api.post('/userAddress',{id:{idUser:idUser.value.id},address:{...newAddressToLink, cep: cep},description:addressAlias}).then(response => {
+        api.post('/userAddress', { id: { idUser: idUser.value.id }, address: { ...newAddressToLink, cep: cep }, description: addressAlias }).then(response => {
             console.log(response)
             window.alert("Endereço Salvo")
             closeModal()
             //chamar a atualização do comp de reder
             getAddress()
-        }).catch(err => {console.log("Falha ao vincular usuario endereço"+err) 
-        window.alert("Erro ao salvar Endereço")
+        }).catch(err => {
+            console.log("Falha ao vincular usuario endereço" + err)
+            window.alert("Erro ao salvar Endereço")
 
         });
 
     }
-    const [newAddressToLink, setAddressToLink] = useState( { cep:"", street: "", district: "", city: "", state: "", number: "", complement: "", reference: "" })
+    const [newAddressToLink, setAddressToLink] = useState({ cep: "", street: "", district: "", city: "", state: "", number: "", complement: "", reference: "" })
     const [addressAlias, setAliasAddress] = useState()
     return (
 
         <>
-   
+
 
             <FormDefault id="address" title="Dados de entrega" action="/order">
-            <div className = "row mt-2 justify-content-center mb-3">
-                {userA}
-            </div>
+                <div className="row mt-2 justify-content-center mb-3">
+                    {userA}
+                </div>
                 <Modal
-                show={modalState}
-                onHide={() => setStateModal(false)}
-                dialogClassName="modal-90w"
-                aria-labelledby="example-custom-modal-styling-title"
-            >
+                    show={modalState}
+                    onHide={() => setStateModal(false)}
+                    dialogClassName="modal-90w"
+                    aria-labelledby="example-custom-modal-styling-title"
+                >
 
-                <Modal.Header closeButton>
-                    <Modal.Title id="example-custom-modal-styling-title">
-                        Adicionar um novo endereço
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
+                    <Modal.Header closeButton>
+                        <Modal.Title id="example-custom-modal-styling-title">
+                            Adicionar um novo endereço
+                        </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
 
-                    <div class="row  justify-content-center mb-3">
+                        <div class="row  justify-content-center mb-3">
 
-                        <div class="row ">
-                          
+                            <div class="row ">
 
-                        
-                            <div class=" col-6 col-sm-6 col-md-4">
-                                <InputCep
-                                    name="cep" pattern={/^\d{5}-\d{3}$/}
-                                    mask={[/[0-9]/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]}
-                                    required={<span className="text-danger">Campo inválido!</span>}
-                                    blur={buscarCep}
-                                    label="CEP" type="text" id="cep" className="form-input col-12"
-                                    placeholder="00000-000" validation={buscarCep}
-                                    change={e => setAddressToLink({  ...newAddressToLink, cep: e.target.value  })} register={register2} errors={errors2}
-                                    value={newAddressToLink.cep} />
-                                {/* <InputCep className="form-input col-12 form-label" length="9" blur={buscarCep} value={order.address.cep} label="CEP" type="text" id="cep" className="form-input col-12" placeholder="Digite seu CEP..." change={e => setOrder({ ...order, address: { ...order.address, cep: e.target.value } })} /> */}
-                            </div>
 
-                            <div class=" col-6 col-sm-6 col-md-2">
-                                <Select label="Estado" disabled={true} options={ufs} selected={newAddressToLink.state} change={e => setAddressToLink({ ...newAddressToLink,   state: e.target.value })} default="Estado:" />
-                            </div>
 
-                            <div class=" col-6 col-sm-6 col-md-5">
-                                <Input value={newAddressToLink.city} disabled={false} change={e => setAddressToLink({ ...newAddressToLink,  city: e.target.value  })} label="Cidade" className="form-input col-12 form-label" type="text" name="city" placeholder="Digite a cidade..." />
-                            </div>
+                                <div class=" col-6 col-sm-6 col-md-4">
+                                    <InputCep
+                                        name="cep" pattern={/^\d{5}-\d{3}$/}
+                                        mask={[/[0-9]/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]}
+                                        required={<span className="text-danger">Campo inválido!</span>}
+                                        blur={buscarCep}
+                                        label="CEP" type="text" id="cep" className="form-input col-12"
+                                        placeholder="00000-000" validation={buscarCep}
+                                        change={e => setAddressToLink({ ...newAddressToLink, cep: e.target.value })} register={register2} errors={errors2}
+                                        value={newAddressToLink.cep} />
+                                    {/* <InputCep className="form-input col-12 form-label" length="9" blur={buscarCep} value={order.address.cep} label="CEP" type="text" id="cep" className="form-input col-12" placeholder="Digite seu CEP..." change={e => setOrder({ ...order, address: { ...order.address, cep: e.target.value } })} /> */}
+                                </div>
 
-                            <div class=" col-9 col-md-6">
-                                <Input value={newAddressToLink.street} disabled={false} change={e => setAddressToLink({ ...newAddressToLink,   street: e.target.value } )} label="Logradouro" className="form-input col-12 form-label" type="text" name="street" placeholder="Digite o logradouro..." />
-                            </div>
+                                <div class=" col-6 col-sm-6 col-md-2">
+                                    <Select label="Estado" disabled={true} options={ufs} selected={newAddressToLink.state} change={e => setAddressToLink({ ...newAddressToLink, state: e.target.value })} default="Estado:" />
+                                </div>
 
-                            <div class=" col-3  col-md-2">
-                                <InputHook hook // hook eh a props para input padrao com a verificacao
-                                    name="Número" // name sera utilizado no componente para fazer as comparacoes
-                                    register={register2} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
-                                    required={<span className="text-danger">Digite um número válido</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
-                                    maxlength={5} // tamanho maximo do campo
-                                    pattern={/(\d)/}
-                                    errors={errors2}
-                                    clear={clean2}
-                                    change={LimparNumero}
-                                    value={newAddressToLink.number}
-                                    label="Número"
-                                    type="text"
-                                    className="form-input col-12"
-                                    placeholder="Digite o número..." />
-                            </div>
+                                <div class=" col-6 col-sm-6 col-md-5">
+                                    <Input value={newAddressToLink.city} disabled={false} change={e => setAddressToLink({ ...newAddressToLink, city: e.target.value })} label="Cidade" className="form-input col-12 form-label" type="text" name="city" placeholder="Digite a cidade..." />
+                                </div>
 
-                            <div class=" col-6 col-md-4">
-                                <Input value={newAddressToLink.district} disabled={false} change={e => setAddressToLink({ ...newAddressToLink, district: e.target.value } )} label="Bairro" className="form-input col-12 form-label" type="text" name="district" placeholder="Digite o Bairro..." />
-                            </div>
+                                <div class=" col-9 col-md-6">
+                                    <Input value={newAddressToLink.street} disabled={false} change={e => setAddressToLink({ ...newAddressToLink, street: e.target.value })} label="Logradouro" className="form-input col-12 form-label" type="text" name="street" placeholder="Digite o logradouro..." />
+                                </div>
 
-                            <div class=" col-6  col-md-4">
-                                <Input value={newAddressToLink.complement} change={e => setAddressToLink({ ...newAddressToLink, complement: e.target.value } )} label="Complemento" className="form-input col-12 form-label" type="text" name="complement" placeholder="Digite o complemento..." />
-                            </div>
+                                <div class=" col-3  col-md-2">
+                                    <InputHook hook // hook eh a props para input padrao com a verificacao
+                                        name="Número" // name sera utilizado no componente para fazer as comparacoes
+                                        register={register2} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
+                                        required={<span className="text-danger">Digite um número válido</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
+                                        maxlength={5} // tamanho maximo do campo
+                                        pattern={/(\d)/}
+                                        errors={errors2}
+                                        clear={clean2}
+                                        change={LimparNumero}
+                                        value={newAddressToLink.number}
+                                        label="Número"
+                                        type="text"
+                                        className="form-input col-12"
+                                        placeholder="Digite o número..." />
+                                </div>
 
-                            <div class=" col-6 col-md-4">
-                                <Input value={newAddressToLink.reference} change={e =>setAddressToLink({ ...newAddressToLink, reference: e.target.value } )} label="Referencia" className="form-input col-12 form-label" type="text" name="reference" placeholder="Digite um ponto de referência" />
+                                <div class=" col-6 col-md-4">
+                                    <Input value={newAddressToLink.district} disabled={false} change={e => setAddressToLink({ ...newAddressToLink, district: e.target.value })} label="Bairro" className="form-input col-12 form-label" type="text" name="district" placeholder="Digite o Bairro..." />
+                                </div>
 
-                            </div>
+                                <div class=" col-6  col-md-4">
+                                    <Input value={newAddressToLink.complement} change={e => setAddressToLink({ ...newAddressToLink, complement: e.target.value })} label="Complemento" className="form-input col-12 form-label" type="text" name="complement" placeholder="Digite o complemento..." />
+                                </div>
 
-                            <div class=" col-6 col-md-4">
-                                <Input   value={addressAlias} change={e => setAliasAddress( e.target.value )} label="Apelido do Endereço" className="form-input col-12 form-label" type="text" name="aliasAddress" placeholder="Ex.: Minha Casa" />
-                            </div>
+                                <div class=" col-6 col-md-4">
+                                    <Input value={newAddressToLink.reference} change={e => setAddressToLink({ ...newAddressToLink, reference: e.target.value })} label="Referencia" className="form-input col-12 form-label" type="text" name="reference" placeholder="Digite um ponto de referência" />
+
+                                </div>
+
+                                <div class=" col-6 col-md-4">
+                                    <Input value={addressAlias} change={e => setAliasAddress(e.target.value)} label="Apelido do Endereço" className="form-input col-12 form-label" type="text" name="aliasAddress" placeholder="Ex.: Minha Casa" />
+                                </div>
 
 
                         </div>
@@ -846,10 +903,10 @@ function FormShippigAddress(props) {
 
                 </Modal.Body>
             </Modal>
-            
 
 
-{/* 
+
+                    {/* 
                 <div class="row  justify-content-center mb-3">
 
                     <div class="row ">
@@ -901,7 +958,7 @@ function FormShippigAddress(props) {
                                 change={e => setOrder({ ...order, address: { ...order.address, id: null, cep: e.target.value } })} register={register} errors={errors}
                                 value={order.address.cep} />
                             {/* <InputCep className="form-input col-12 form-label" length="9" blur={buscarCep} value={order.address.cep} label="CEP" type="text" id="cep" className="form-input col-12" placeholder="Digite seu CEP..." change={e => setOrder({ ...order, address: { ...order.address, cep: e.target.value } })} /> */}
-                        {/* </div>
+                    {/* </div>
 
                         <div class=" col-6 col-sm-6 col-md-2">
                             <Select label="Estado" disabled={false} options={ufs} selected={order.address.state} change={e => setOrder({ ...order, address: { ...order.address, id: null, state: e.target.value } })} default="Estado:" />
@@ -951,231 +1008,241 @@ function FormShippigAddress(props) {
 
             </FormDefault>
 
-            <FormDefault id="card" title="Dados de Pagamento" className="mt-5" action="/order">
-                <div className="escolha row justify-content-around mt-4 ">
+                <FormDefault id="card" title="Dados de Pagamento" className="mt-5" action="/order">
+                    <div className="escolha row justify-content-around mt-4 ">
 
-                    {buttons}
+                        {buttons}
 
-                </div>
+                    </div>
 
-                <div className={"row justify-content-center"}>
-                    {displayNoneD.display != "d-none" ?
-                        <div className={`row custom-form ${displayNoneD.display}`}>
-                            <div className=" col-12 col-md-5">
-                                <InputHook hook // hook eh a props para input padrao com a verificacao
-                                    name="nomeD" // name sera utilizado no componente para fazer as comparacoes
-                                    register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
-                                    required={<span className="text-danger">Digite um nome válido e sem números!</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
-                                    maxlength={50} // tamanho maximo do campo
-                                    pattern={/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u}
-                                    errors={errors}
-                                    clear={clearErrors}
-                                    change={LimparNome}
-                                    label="Nome Titular"
-                                    type="text"
-                                    className="form-input col-12"
-                                    placeholder="Nome como está no cartão" />
-                            </div>
-
-                            <div className=" col-6 col-md-4">
-                                <InputHook // hook eh a props para input padrao com a verificacao
-                                    name="cpfD" // name sera utilizado no componente para fazer as comparacoes
-                                    register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
-                                    required={cpfValue == "" ? <><span className="text-danger">Digite um CPF válido!</span><br /></> : ""} // mensagem de erro que sera exibida caso o campo nao seja valido
-                                    message={cpfValue == "" ? <><span className="text-danger">Digite um CPF válido!</span><br /></> : ""} // mensagem de erro que sera exibida caso o campo nao seja valido
-                                    maxlength={14} // tamanho maximo do campo
-                                    minlength={11} // tamanho minimo do campo
-                                    pattern={/([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})/u}
-                                    errors={errors}
-                                    change={LimparCpf}
-                                    validation={checarCPF}
-                                    mask="999.999.999-99" // mascara que sera aplicada
-                                    value={cpfValue}
-                                    label="CPF Titular"
-                                    type="text"
-                                    className="form-input col-12"
-                                    placeholder="000.000.000-00" />
-
-                            </div>
-
-                            <div className=" col-6 col-md-3">
-                                <InputHook hook // hook eh a props para input padrao com a verificacao
-                                    name="dataD" // name sera utilizado no componente para fazer as comparacoes
-                                    register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
-                                    required={<span className="text-danger">Digite uma data válida!</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
-                                    pattern={/^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$/}
-                                    errors={errors}
-                                    change={LimparData}
-                                    label="Data de Nascimento Titular"
-                                    type="date"
-                                    className="form-input col-12"
-                                />
-                            </div>
-
-                            <div className=" col-12 col-md-4">
-                                <InputCard
-                                    name="CardNumD" // name sera utilizado no componente para fazer as comparacoes
-                                    register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
-                                    required={<span className="text-danger">Insira um número de cartão válido!</span>}
-                                    errors={errors}
-                                    change={LimpaCartao}
-                                    validation={validateCard}
-                                    mask={mask}
-                                    maskchar={null}
-                                    value={cardNumber}
-                                    label="Número do cartão"
-                                    type="text"
-                                    className="form-input col-12"
-                                    placeholder="0000 0000 0000 0000" />
-                            </div>
-
-                            <div className=" col-6 col-md-2">
-                                <Input label="Bandeira" disabled value={inputBrand} />
-                            </div>
-
-
-                            <div className=" col-6 col-md-2">
-                                <div className="row">
-                                    <Input change={e => setInputMonth(e.target.value)} label="Mês" classCustom="col-6" type="text" placeholder="MM" maxlength={2} />
-                                    <Input change={e => setInputYear(e.target.value)} label="Ano" classCustom="col-6" type="text" placeholder="AA" maxlength={2} />
+                    <div className={"row justify-content-center"}>
+                        {displayNoneD.display != "d-none" ?
+                            <div className={`row custom-form ${displayNoneD.display}`}>
+                                <div className=" col-12 col-md-5">
+                                    <InputHook hook // hook eh a props para input padrao com a verificacao
+                                        name="nomeD" // name sera utilizado no componente para fazer as comparacoes
+                                        register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
+                                        required={<span className="text-danger">Digite um nome válido e sem números!</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
+                                        maxlength={50} // tamanho maximo do campo
+                                        pattern={/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u}
+                                        errors={errors}
+                                        clear={clearErrors}
+                                        change={LimparNome}
+                                        label="Nome Titular"
+                                        type="text"
+                                        className="form-input col-12"
+                                        placeholder="Nome como está no cartão" />
                                 </div>
-                            </div>
 
-                        </div>
-                        : ""}
-                </div>
+                                <div className=" col-6 col-md-4">
+                                    <InputHook // hook eh a props para input padrao com a verificacao
+                                        name="cpfD" // name sera utilizado no componente para fazer as comparacoes
+                                        register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
+                                        required={cpfValue == "" ? <><span className="text-danger">Digite um CPF válido!</span><br /></> : ""} // mensagem de erro que sera exibida caso o campo nao seja valido
+                                        message={cpfValue == "" ? <><span className="text-danger">Digite um CPF válido!</span><br /></> : ""} // mensagem de erro que sera exibida caso o campo nao seja valido
+                                        maxlength={14} // tamanho maximo do campo
+                                        minlength={11} // tamanho minimo do campo
+                                        pattern={/([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})/u}
+                                        errors={errors}
+                                        change={LimparCpf}
+                                        validation={checarCPF}
+                                        mask="999.999.999-99" // mascara que sera aplicada
+                                        value={cpfValue}
+                                        label="CPF Titular"
+                                        type="text"
+                                        className="form-input col-12"
+                                        placeholder="000.000.000-00" />
 
-
-                <div className={"row justify-content-center"}>
-                    {displayNoneB.display != "d-none" ?
-                        <div className={`row custom-form`}>
-                            <h3 className="ticketInfo">Finalize a sua compra para gerar o boleto para pagamento!</h3>
-                        </div>
-                        : ""}
-                </div>
-
-
-                <div className={"row justify-content-center"}>
-                    {displayNoneC.display != "d-none" ?
-                        <div className={`row custom-form`}>
-
-                            <div className=" col-12 col-md-5">
-                                <InputHook hook // hook eh a props para input padrao com a verificacao
-                                    name="nome" // name sera utilizado no componente para fazer as comparacoes
-                                    register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
-                                    required={<span className="text-danger">Digite um nome válido e sem números!</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
-                                    maxlength={50} // tamanho maximo do campo
-                                    pattern={/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u}
-                                    errors={errors}
-                                    clear={clearErrors}
-                                    change={LimparNome}
-                                    label="Nome Titular"
-                                    type="text"
-                                    className="form-input col-12"
-                                    placeholder="Nome como está no cartão" />
-                            </div>
-
-                            <div className=" col-6 col-md-4">
-                                <InputHook // hook eh a props para input padrao com a verificacao
-                                    name="cpf" // name sera utilizado no componente para fazer as comparacoes
-                                    register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
-                                    required={cpfValue == "" ? <><span className="text-danger">Digite um CPF válido!</span><br /></> : ""} // mensagem de erro que sera exibida caso o campo nao seja valido
-                                    message={cpfValue == "" ? <><span className="text-danger">Digite um CPF válido!</span><br /></> : ""} // mensagem de erro que sera exibida caso o campo nao seja valido
-                                    maxlength={14} // tamanho maximo do campo
-                                    minlength={11} // tamanho minimo do campo
-                                    pattern={/([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})/u}
-                                    errors={errors}
-                                    change={LimparCpf}
-                                    validation={checarCPF}
-                                    mask="999.999.999-99" // mascara que sera aplicada
-                                    value={cpfValue}
-                                    label="CPF Titular"
-                                    type="text"
-                                    className="form-input col-12"
-                                    placeholder="000.000.000-00" />
-
-                            </div>
-
-                            <div className=" col-6 col-md-3">
-                                <InputHook hook // hook eh a props para input padrao com a verificacao
-                                    name="data" // name sera utilizado no componente para fazer as comparacoes
-                                    register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
-                                    required={<span className="text-danger">Digite uma data válida!</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
-                                    pattern={/^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$/}
-                                    errors={errors}
-                                    change={LimparData}
-                                    label="Data de Nascimento Titular"
-                                    type="date"
-                                    className="form-input col-12"
-                                />
-                            </div>
-
-                            <div className=" col-12 col-md-4">
-                                <InputCard
-                                    name="CardNum" // name sera utilizado no componente para fazer as comparacoes
-                                    register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
-                                    required={<span className="text-danger">Insira um número de cartão válido!</span>}
-                                    errors={errors}
-                                    change={LimpaCartao}
-                                    validation={validateCard}
-                                    maskchar={null}
-                                    mask={mask}
-                                    label="Número do cartão"
-                                    type="text"
-                                    className="form-input col-12"
-                                    placeholder="0000 0000 0000 0000" />
-                            </div>
-
-                            <div className=" col-6 col-md-1">
-                                <InputHook hook
-                                    name="cvv" // name sera utilizado no componente para fazer as comparacoes
-                                    register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
-                                    required // mensagem de erro que sera exibida caso o campo nao seja valido
-                                    errors={errors}
-                                    change={e => { setCvv(e.target.value) }}
-                                    maxlength={4}
-                                    label="CVV"
-                                    type="text"
-                                    value={cvv}
-                                    className="form-input col-12"
-                                    placeholder="CVV" />
-
-                            </div>
-
-                            <div className=" col-6 col-md-2">
-                                <Input label="Bandeira" disabled value={inputBrand} />
-                            </div>
-
-
-                            <div className=" col-6 col-md-2">
-                                <div className="row">
-
-                                    <Input change={e => setInputMonth(e.target.value)} label="Mês" classCustom="col-6" type="text" placeholder="MM" maxlength={2} />
-                                    <Input change={e => setInputYear(e.target.value)} label="Ano" classCustom="col-6" type="text" placeholder="AA" maxlength={2} />
                                 </div>
+
+                                <div className=" col-6 col-md-3">
+                                    <InputHook hook // hook eh a props para input padrao com a verificacao
+                                        name="dataD" // name sera utilizado no componente para fazer as comparacoes
+                                        register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
+                                        required={<span className="text-danger">Digite uma data válida!</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
+                                        pattern={/^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$/}
+                                        errors={errors}
+                                        change={LimparData}
+                                        label="Data de Nascimento Titular"
+                                        type="date"
+                                        className="form-input col-12"
+                                    />
+                                </div>
+
+                                <div className=" col-12 col-md-4">
+                                    <InputCard
+                                        name="CardNumD" // name sera utilizado no componente para fazer as comparacoes
+                                        register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
+                                        required={<span className="text-danger">Insira um número de cartão válido!</span>}
+                                        errors={errors}
+                                        change={LimpaCartao}
+                                        validation={validateCard}
+                                        mask={mask}
+                                        maskchar={null}
+                                        value={cardNumber}
+                                        label="Número do cartão"
+                                        type="text"
+                                        className="form-input col-12"
+                                        placeholder="0000 0000 0000 0000" />
+                                </div>
+
+                                <div className=" col-6 col-md-2">
+                                    <Input label="Bandeira" disabled value={inputBrand} />
+                                </div>
+
+
+                                <div className=" col-6 col-md-2">
+                                    <div className="row">
+                                        <Input change={e => setInputMonth(e.target.value)} label="Mês" classCustom="col-6" type="text" placeholder="MM" maxlength={2} />
+                                        <Input change={e => setInputYear(e.target.value)} label="Ano" classCustom="col-6" type="text" placeholder="AA" maxlength={2} />
+                                    </div>
+                                </div>
+
                             </div>
+                            : ""}
+                    </div>
 
 
-                            <div className=" col-6 col-md-3">
-                                <SelectCard label="Forma de Pagamento:" paymentMethod={paymentMethod} change={e => setOrder({ ...order, payment: { id: e.target.value } })} />
-                            </div>
+                <div className="row pagamento justify-content-center"> {displayNoneE.display != "d-none" ?
+                    <div>
+                        <h3 className="ticketInfo">O PIX será gerado na próxima página, por gentileza clicar no botão "Finalizar"</h3>
 
+                    </div>
+                    : ""}
 
-                        </div>
-                        : ""}
                 </div>
 
+                <div className={"row justify-content-center"}>
+                        {displayNoneB.display != "d-none" ?
+                            <div className={`row custom-form`}>
+                                <h3 className="ticketInfo">Finalize a sua compra para gerar o boleto para pagamento!</h3>
+                            </div>
+                            : ""}
+                    </div>
 
-                <div className="row justify-content-around py-4">
-                    <Button label="Voltar" onclick={backToCart} class="btn-retorno" />
-                    <Button onclick={handleSubmit(authDateCard)} label={disable ? renderLoading() : "Finalizar"} class="btn-confirmacao" type="submit" />
-                </div>
+
+                    <div className={"row justify-content-center"}>
+                        {displayNoneC.display != "d-none" ?
+                            <div className={`row custom-form`}>
+
+                                <div className=" col-12 col-md-5">
+                                    <InputHook hook // hook eh a props para input padrao com a verificacao
+                                        name="nome" // name sera utilizado no componente para fazer as comparacoes
+                                        register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
+                                        required={<span className="text-danger">Digite um nome válido e sem números!</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
+                                        maxlength={50} // tamanho maximo do campo
+                                        pattern={/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u}
+                                        errors={errors}
+                                        clear={clearErrors}
+                                        change={LimparNome}
+                                        label="Nome Titular"
+                                        type="text"
+                                        className="form-input col-12"
+                                        placeholder="Nome como está no cartão" />
+                                </div>
+
+                                <div className=" col-6 col-md-4">
+                                    <InputHook // hook eh a props para input padrao com a verificacao
+                                        name="cpf" // name sera utilizado no componente para fazer as comparacoes
+                                        register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
+                                        required={cpfValue == "" ? <><span className="text-danger">Digite um CPF válido!</span><br /></> : ""} // mensagem de erro que sera exibida caso o campo nao seja valido
+                                        message={cpfValue == "" ? <><span className="text-danger">Digite um CPF válido!</span><br /></> : ""} // mensagem de erro que sera exibida caso o campo nao seja valido
+                                        maxlength={14} // tamanho maximo do campo
+                                        minlength={11} // tamanho minimo do campo
+                                        pattern={/([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})/u}
+                                        errors={errors}
+                                        change={LimparCpf}
+                                        validation={checarCPF}
+                                        mask="999.999.999-99" // mascara que sera aplicada
+                                        value={cpfValue}
+                                        label="CPF Titular"
+                                        type="text"
+                                        className="form-input col-12"
+                                        placeholder="000.000.000-00" />
+
+                                </div>
+
+                                <div className=" col-6 col-md-3">
+                                    <InputHook hook // hook eh a props para input padrao com a verificacao
+                                        name="data" // name sera utilizado no componente para fazer as comparacoes
+                                        register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
+                                        required={<span className="text-danger">Digite uma data válida!</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
+                                        pattern={/^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$/}
+                                        errors={errors}
+                                        change={LimparData}
+                                        label="Data de Nascimento Titular"
+                                        type="date"
+                                        className="form-input col-12"
+                                    />
+                                </div>
+
+                                <div className=" col-12 col-md-4">
+                                    <InputCard
+                                        name="CardNum" // name sera utilizado no componente para fazer as comparacoes
+                                        register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
+                                        required={<span className="text-danger">Insira um número de cartão válido!</span>}
+                                        errors={errors}
+                                        change={LimpaCartao}
+                                        validation={validateCard}
+                                        maskchar={null}
+                                        mask={mask}
+                                        label="Número do cartão"
+                                        type="text"
+                                        className="form-input col-12"
+                                        placeholder="0000 0000 0000 0000" />
+                                </div>
+
+                                <div className=" col-6 col-md-1">
+                                    <InputHook hook
+                                        name="cvv" // name sera utilizado no componente para fazer as comparacoes
+                                        register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
+                                        required // mensagem de erro que sera exibida caso o campo nao seja valido
+                                        errors={errors}
+                                        change={e => { setCvv(e.target.value) }}
+                                        maxlength={4}
+                                        label="CVV"
+                                        type="text"
+                                        value={cvv}
+                                        className="form-input col-12"
+                                        placeholder="CVV" />
+
+                                </div>
+
+                                <div className=" col-6 col-md-2">
+                                    <Input label="Bandeira" disabled value={inputBrand} />
+                                </div>
+
+
+                                <div className=" col-6 col-md-2">
+                                    <div className="row">
+
+                                        <Input change={e => setInputMonth(e.target.value)} label="Mês" classCustom="col-6" type="text" placeholder="MM" maxlength={2} />
+                                        <Input change={e => setInputYear(e.target.value)} label="Ano" classCustom="col-6" type="text" placeholder="AA" maxlength={2} />
+                                    </div>
+                                </div>
+
+
+                                <div className=" col-6 col-md-3">
+                                    <SelectCard label="Forma de Pagamento:" paymentMethod={paymentMethod} change={e => setOrder({ ...order, payment: { id: e.target.value } })} />
+                                </div>
+
+
+                            </div>
+                            : ""}
+                    </div>
+
+
+                    <div className="row justify-content-around py-4">
+                        <Button label="Voltar" onclick={backToCart} class="btn-retorno" />
+                        <Button onclick={handleSubmit(authDateCard)} label={disable ? renderLoading() : "Finalizar"} class="btn-confirmacao" type="submit" />
+                    </div>
 
             </FormDefault>
 
-            {callRedirect()}
+                {callRedirect()}
 
         </>
-    )
+            )
 }
-export default FormShippigAddress
+
+ export default FormShippigAddress

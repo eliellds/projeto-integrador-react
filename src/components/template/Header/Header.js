@@ -29,10 +29,8 @@ function Header(props) {
                 setLogin(false);
             }
         } else {
-            if (window.confirm("Você realmente deseja sair?")) {
-                removeUser();
-                setLogin(true);
-            }
+            removeUser();
+            setLogin(true);
         }
         compProfile();
     }
@@ -106,7 +104,7 @@ function Header(props) {
                         </div>
 
 
-                        <LoginButton click={changeState} logged={login} />
+                        <LoginButton click={changeState} notLogged={login} />
 
                         {perfil}
 

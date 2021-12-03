@@ -123,7 +123,7 @@
     /* margin: 15px 0 0 0; */
 }
 
-.pix::after {
+.pixFooter::after {
     content: "";
     display: block;
     background: url('../../../assets/images/footers/pix-106.svg') no-repeat;

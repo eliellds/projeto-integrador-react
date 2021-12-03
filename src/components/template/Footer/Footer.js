@@ -76,7 +76,7 @@ function Footer(props) {
                                         <li className="visa"></li>
                                     </div>
                                     <div className="col-1 p-0">
-                                        <li className="pix"></li>
+                                        <li className="pixFooter"></li>
                                     </div>
                                     <div className="col-1 p-0">
                                         <li className="boletoFooter"></li>

@@ -8,8 +8,16 @@ export default function LoginButton(props) {
 
     function preventDefault(e) {
         e.preventDefault()
-        props.click()
-        window.location.href = props.logged ? "/login" : "/";
+        if (props.notLogged == false) {
+            if (window.confirm("Você realmente deseja sair?")) {
+                props.click()
+                return window.location.href = "/";
+            } else {
+                return
+            }
+        }
+        
+        window.location.href = "/login";
 
     }
 
@@ -27,7 +35,7 @@ export default function LoginButton(props) {
                     >
 
                         <img className="login-imagem" src={LoginImage} />
-                        <div className="perfil-nome">{props.logged ? "Entrar" : "Sair"}</div>
+                        <div className="perfil-nome">{props.notLogged ? "Entrar" : "Sair"}</div>
                     </Link>
                 </div>
             </>

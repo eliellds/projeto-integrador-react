@@ -9,6 +9,7 @@ import { Next } from "react-bootstrap/esm/PageItem";
 import OrderProducts from "../../micro/OrderProducts/OrderProducts";
 import "./MeusPedidos.css";
 import TrackingPack from "../Tracking/Tracking";
+import { Link } from "react-router-dom";
 
 const initial = [{
     orderNumber: 0,
@@ -44,6 +45,8 @@ function MeusPedidos(props) {
                 const dataFormatada = data.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
                 const dataDeliveryRaw = new Date(item.deliveryDate)
                 const deliveryDateForm =   dataDeliveryRaw.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
+                const payment = item.paymentID;
+                console.log(item)
                 
                 const amountFormated = item.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
@@ -77,6 +80,9 @@ function MeusPedidos(props) {
                                         <div className="row  mx-2 mb-1 ">
                                         <div className="col-6 text-start">Previsão de Entrega: {deliveryDateForm}</div>
                                             <div className="col-6 text-end">Total: {amountFormated}</div>
+                                            <div className="col-11 text-ticket">{payment == 1 ? "Veja o seu boleto" : ""} </div>
+                                            <div className="col-1 linkTicket">{payment == 1 ? <Link to="/ticket" target="_blank" className="linkTicket">AQUI</Link> : ""}</div>
+
                                         </div>
                                         <div className="row  mx-2 mb-1 ">
                                         

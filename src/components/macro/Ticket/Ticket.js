@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Ticket.css"
 import Codigo from "../../../assets/images/ticket/codigo.png"
+import Logo from "../../../assets/images/headers/velho-luxo.png"
 import api from "../../../services/api";
 
 const initial = {
@@ -61,7 +62,7 @@ function Ticket() {
     const dateInput = order.dateOrder
     const data = new Date(dateInput);
     const dueDate = new Date();
-    dueDate.setDate(dueDate.getDate() + 3)
+    dueDate.setDate(data.getDate() + 4)
     const dataFormatada = data.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
     const amountFormated = order.amount.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
     const dueDateTicket = dueDate.toLocaleDateString('pt-BR', { timeZone: 'UTC' });;
@@ -102,7 +103,7 @@ function Ticket() {
             <div className="container layoutTicket">
                 <div className="row">
                     {/* First line */}
-                    <div className="fistLineTicket logoTicket col-3">IMAGE</div>
+                    <div className="fistLineTicket logoTicket col-3"><img src={Logo} height="67"/></div>
                     <div className="fistLineTicket slotTicket col-2"></div>
                     <div className="fistLineTicket slotTicket numTicket col-7"> 23791.11103 60000.000103 01000.222206 1 48622000000000</div>
                     {/* Second line */}

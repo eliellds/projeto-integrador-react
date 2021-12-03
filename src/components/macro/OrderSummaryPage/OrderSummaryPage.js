@@ -8,6 +8,7 @@ import Loading from "../../../assets/images/success/loading.gif"
 import { Redirect } from "react-router-dom";
 import Modal from 'react-bootstrap/Modal';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Code from "../../../assets/images/pix/code.png"
 
 
 const cart = JSON.parse(localStorage.getItem('cart'))
@@ -132,14 +133,16 @@ function OrderSummaryPage(props) {
                     totalPrice: calcTotalPrice(item.id)
                 }).then(result => {
                     if (result.data.compositeKey.idItem == cart.length) {
-                        if (order.payment.id == 13){
+                        if (order.payment.id == 13) {
+                            postMail(order)
                             setSmShow(true)
                         }
-
-                        setSuccess(true)
-                        postMail(order)
-                        alert("Pedido gerado com sucesso!")
-                        localStorageRemoveOrder()
+                        else {
+                            setSuccess(true)
+                            postMail(order)
+                            alert("Pedido gerado com sucesso!")
+                            localStorageRemoveOrder()
+                        }
                     }
                 }).catch(err => {
                     console.log("Erro ao gravar item" + err)
@@ -150,6 +153,15 @@ function OrderSummaryPage(props) {
             )
         })
     }
+
+
+
+    function postPix() {
+        setSuccess(true)
+        alert("Pedido gerado com sucesso!")
+       // localStorageRemoveOrder()
+    }
+
 
     // funcao que realiza o envio do email de compra
     function postMail(order) {
@@ -340,8 +352,37 @@ function OrderSummaryPage(props) {
                     console.log("Erro ao consumir api de post order" + error)
                     setDisable(false)
                 })
+        } else if (order.payment.id == 13) {
+            const newOrder = {
+                ...order,
+                address: { ...order.address, cep: order.address.cep.toString().replace(/[^0-9]/g, "") },
+                amount: (somar() + frete),
+                qtyTotal: calcularItens(),
+                card: null,
+                totalDiscounts: calcularDescontos(),
+                deliveryDate: prazo,
+                deliveryValue: frete,
+                idStore: 1
+            }
+
+            api.post(`/orders`, newOrder)
+                .then(response => {
+                    localStorage.setItem('idOrderLastCreated', response.data.id)
+                    let order = response.data
+                    postItemOrder(order)
+
+
+                }).catch(error => {
+                    console.log("Erro ao consumir api de post order" + error)
+                    setDisable(false)
+                })
         }
 
+
+    }
+
+    function showModal() {
+        setSmShow(true)
     }
 
     const [prazo, setPrazo] = useState()
@@ -356,7 +397,7 @@ function OrderSummaryPage(props) {
         setFrete(frete)
     }
 
-    const [smShow, setSmShow] = useState (false)
+    const [smShow, setSmShow] = useState(false)
 
     return (
         <>
@@ -394,7 +435,7 @@ function OrderSummaryPage(props) {
                 <div className="d-flex justify-content-between">
 
                     <Button navigation route="/checkout" class="btn-retorno align-self-center" label="voltar" />
-                    <Button onclick={goToSucces} disabled={disable} class="btn-comprar " label={disable ? renderLoading() : "Finalizar"} />
+                    <Button onclick={goToSucces} disabled={disable} class="btn-comprar" label={disable ? renderLoading() : "Finalizar"} />
 
                 </div>
 
@@ -408,15 +449,21 @@ function OrderSummaryPage(props) {
             <Modal
                 size="sm"
                 show={smShow}
-                onHide={() => setSmShow(false)}
+               // onHide={() => postPix()}
                 aria-labelledby="example-modal-sizes-title-sm"
             >
-                <Modal.Header closeButton>
+                <Modal.Header>
                     <Modal.Title id="example-modal-sizes-title-sm">
-                        Small Modal
+                        Pix
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body>...</Modal.Body>
+                <Modal.Body>
+                    <img src={Code} />
+                    <div className="row justify-content-center">
+                        <p className="titleModal">123e4567-e12b-12d1-a456–426655445937</p>
+                    </div>
+                    <Button onclick={postPix} class= "btn-comprar pix-button" label= "Confirmar"/>
+                </Modal.Body>
             </Modal>
         </>
     );

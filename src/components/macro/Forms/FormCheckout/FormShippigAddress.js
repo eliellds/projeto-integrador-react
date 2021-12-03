@@ -22,7 +22,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Form from 'react-bootstrap/Form'
 import "./FormShippingAddress.css"
 import cardValidator from "card-validator";
-import Code from "../../../../assets/images/pix/code.jpg"
 import RadioButton from "../../../micro/Forms/Radio/RadioButton";
 import UserAddress from "../../Address/UserAddress";
 

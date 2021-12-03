@@ -36,7 +36,7 @@ function SelectCard(props) {
                     return <option key={option.id} value={option.id}>{option.description} {option.installmentsPrice} {somar().toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</option>
                 }
 
-                if(option.id>=4){
+                if(option.id>=4 && option.id<13){
                     return <option key={option.id} value={option.id}>{option.description} {option.installments + " x de "}{calcInstallments(option.installments).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</option>
                 }
             })

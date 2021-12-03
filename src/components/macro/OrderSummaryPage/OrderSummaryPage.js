@@ -133,16 +133,10 @@ function OrderSummaryPage(props) {
                     totalPrice: calcTotalPrice(item.id)
                 }).then(result => {
                     if (result.data.compositeKey.idItem == cart.length) {
-                        if (order.payment.id == 13) {
-                            postMail(order)
-                            setSmShow(true)
-                        }
-                        else {
-                            setSuccess(true)
-                            postMail(order)
-                            alert("Pedido gerado com sucesso!")
-                            localStorageRemoveOrder()
-                        }
+                        setSuccess(true)
+                        postMail(order)
+                        alert("Pedido gerado com sucesso!")
+                        localStorageRemoveOrder()
                     }
                 }).catch(err => {
                     console.log("Erro ao gravar item" + err)
@@ -157,9 +151,12 @@ function OrderSummaryPage(props) {
 
 
     function postPix() {
-        setSuccess(true)
-        alert("Pedido gerado com sucesso!")
-       // localStorageRemoveOrder()
+        setSmShow(true)
+    }
+
+    function unpostPix() {
+        setSmShow(false)
+        setSuccess(false)
     }
 
 
@@ -306,22 +303,22 @@ function OrderSummaryPage(props) {
         setDisable(true)
 
 
-    if(order.payment.id > 1 && order.payment.id < 13) {
-        const newOrder = {
-            ...order,
-            address: { ...order.address, cep: order.address.cep.toString().replace(/[^0-9]/g, "") },
-            amount: (somar() + frete),
-            qtyTotal: calcularItens(),
-            totalDiscounts: calcularDescontos(),
-            deliveryDate: prazo,
-            deliveryValue: frete,
-            idStore: 1
-        }
-        api.post(`/orders`, newOrder)
-            .then(response => {
-            localStorage.setItem('idOrderLastCreated', response.data.id)
-            
-            postItemOrder(response.data)
+        if (order.payment.id > 1 && order.payment.id < 13) {
+            const newOrder = {
+                ...order,
+                address: { ...order.address, cep: order.address.cep.toString().replace(/[^0-9]/g, "") },
+                amount: (somar() + frete),
+                qtyTotal: calcularItens(),
+                totalDiscounts: calcularDescontos(),
+                deliveryDate: prazo,
+                deliveryValue: frete,
+                idStore: 1
+            }
+            api.post(`/orders`, newOrder)
+                .then(response => {
+                    localStorage.setItem('idOrderLastCreated', response.data.id)
+
+                    postItemOrder(response.data)
 
 
                 }).catch(error => {
@@ -435,7 +432,7 @@ function OrderSummaryPage(props) {
                 <div className="d-flex justify-content-between">
 
                     <Button navigation route="/checkout" class="btn-retorno align-self-center" label="voltar" />
-                    <Button onclick={goToSucces} disabled={disable} class="btn-comprar" label={disable ? renderLoading() : "Finalizar"} />
+                    <Button onclick={order.payment.id == 13 ? postPix : goToSucces} disabled={disable} class="btn-comprar" label={disable ? renderLoading() : "Finalizar"} />
 
                 </div>
 
@@ -449,10 +446,10 @@ function OrderSummaryPage(props) {
             <Modal
                 size="sm"
                 show={smShow}
-               // onHide={() => postPix()}
+                onHide={() => unpostPix()}
                 aria-labelledby="example-modal-sizes-title-sm"
             >
-                <Modal.Header>
+                <Modal.Header closeButton>
                     <Modal.Title id="example-modal-sizes-title-sm">
                         Pix
                     </Modal.Title>
@@ -462,7 +459,7 @@ function OrderSummaryPage(props) {
                     <div className="row justify-content-center">
                         <p className="titleModal">123e4567-e12b-12d1-a456–426655445937</p>
                     </div>
-                    <Button onclick={postPix} class= "btn-comprar pix-button" label= "Confirmar"/>
+                    <Button onclick={postOrder} class="btn-comprar pix-button" label="Confirmar" />
                 </Modal.Body>
             </Modal>
         </>

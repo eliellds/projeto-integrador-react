@@ -109,8 +109,9 @@ function FormContact(props) {
     // }) 
 
     function ValidarTel(e) {
-        setPhoneNumber(e.target.value)
-        setPhoneNumber.toString().replace(/[^0-9]/g, ""); // transforma o valor digitado para apenas numeros
+        var tel = e.target.value
+        tel = tel.toString().replace(/[^0-9]/g, ""); // transforma o valor digitado para apenas numeros
+        setPhoneNumber(tel)
         clearErrors(["telefone"])
         return phoneNumber
     }
@@ -135,8 +136,8 @@ function FormContact(props) {
     const [disable, setDisable] = React.useState(false);
 
     // limitar caracteres
-    const [count, setCount] =useState(0);
-  
+    const [count, setCount] = useState(0);
+
     return <>
         <FormDefault title="Contato" className="custom-form-box mx-3 mx-sm-1 mx-lg-4 px-5 px-sm-1 px-lg-4" >
             <div className="row forms-block justify-content-center">
@@ -194,7 +195,7 @@ function FormContact(props) {
                             required={<span className="text-danger">Digite o campo com DDD e telefone!</span>}
                             pattern={/\([1-9]\d\)\s9?\d{4}-\d{4}/}
                             errors={errors}
-                            mask={phoneNumber.charAt(5) == 9 ? "(99) 99999-9999" : "(99) 9999-9999"}
+                            mask={phoneNumber.charAt(2) == 9 ? "(99) 99999-9999" : "(99) 9999-9999"}
                             value={phoneNumber}
                             change={ValidarTel}
                             label="Telefone"

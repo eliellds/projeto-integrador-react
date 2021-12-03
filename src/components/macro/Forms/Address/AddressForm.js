@@ -11,6 +11,9 @@ import { ErrorMessage } from "@hookform/error-message"; // lembrar de fazer npm 
 import InputHook from "../../../micro/Forms/Input/InputHook"
 import RadioButton from "../../../micro/Forms/Radio/RadioButton";
 import UserAddress from "../../Address/UserAddress";
+import Modal from 'react-bootstrap/Modal'
+import MoreAddresses from "../../moreAddress/MoreAddress";
+import Loading from "../../../../assets/images/success/loading.gif"
 
 const initial = {
     id: 0,
@@ -29,6 +32,19 @@ function Address(props) {
 
     // desfragmentando as funcoes e objetos da biblioteca react-hook-form
     const { register, handleSubmit, watch, formState: { errors }, reset, setValue, clearErrors, setError } = useForm();
+
+    const { register: register2, handleSubmit: handleSubmit2, formState: { errors: errors2 }, reset: reset2, clearErrors: clean2, setError: setErr, setValue: setValue2 } = useForm({
+        mode: 'onChange',
+        reValidateMode: 'onChange',
+        defaultValues: {},
+        resolver: undefined,
+        context: undefined,
+        criteriaMode: "firstError",
+        shouldFocusError: true,
+        shouldUnregister: false,
+        shouldUseNativeValidation: false,
+        delayError: undefined
+    });
 
     const [address, setAddress] = useState({ ...initial });
     const [show, setShow] = useState(bool);
@@ -64,17 +80,22 @@ function Address(props) {
     const user = JSON.parse(localStorage.getItem("user"));
 
     // buscar e mostrar endereços cadastrados 
-    const [userA, setUserA] = useState(<UserAddress />)
+    const [userA, setUserA] = useState(
+        <UserAddress>
+            <MoreAddresses function={setOpenModal} />
+        </UserAddress>);
 
     function getAllAddressess(addressList) {
-
-        setUserA(<UserAddress userAddress={addressList} function={getSelectedAddress} />)
+        setUserA(
+            <UserAddress userAddress={addressList} function={getSelectedAddress}>
+                <MoreAddresses function={setOpenModal} />
+            </UserAddress>);
     }
 
     function getSelectedAddress(selectedAddress) {
         api.get(`/address/find/${selectedAddress}`)
             .then(response => {
-                setAddress({...response.data, id: selectedAddress} )
+                setAddress({ ...response.data, id: selectedAddress })
 
                 var cep = response.data.cep
                 cep = cep.substring(0, 5) + "-" + cep.substring(5, cep.length)
@@ -101,8 +122,6 @@ function Address(props) {
                 console.error("Erro ao consumir api de Address" + err)
             })
     }
-
-    
 
     const getUfs = () => {
         return ufs
@@ -153,12 +172,14 @@ function Address(props) {
     function limpa_formulário_cep() {
         //Limpa valores do formulário de cep.
         setAddress({ ...address, street: "", district: "", city: "", state: "", number: "", complement: "", reference: "" });
+        setAddressToLink({ ...newAddressToLink, street: "", district: "", city: "", state: "", number: "", complement: "", reference: "" } );
     }
 
     function meu_callback(conteudo) {
         if (!("erro" in conteudo)) {
             //Atualiza os campos com os valores.
             setAddress({ ...address, street: conteudo.logradouro, district: conteudo.bairro, city: conteudo.localidade, state: conteudo.uf })
+            setAddressToLink({ ...newAddressToLink, street: conteudo.logradouro, district: conteudo.bairro, city: conteudo.localidade, state: conteudo.uf});
             setValue("rua", conteudo.logradouro)
             setValue("bairro", conteudo.bairro)
             setValue("cidade", conteudo.localidade)
@@ -170,10 +191,15 @@ function Address(props) {
         }
     }
 
+    /////////////////// FIM FUNCOES DE BUSCA DE CEP /////////////////////
+
     function pesquisacep(e) {
 
+        clean2(["cep"])
+        
         const valor = e
         setValue("cep", valor)
+        setValue2("cep", valor)
 
         //Nova variável "cep" somente com dígitos.
         const cep = valor.replace(/\D/g, '');
@@ -189,6 +215,7 @@ function Address(props) {
 
                 //Preenche os campos com "..." enquanto consulta webservice.
                 setAddress({ ...address, street: "...", district: "...", city: "...", state: "...", number: "", complement: "", reference: "" });
+                setAddressToLink({ ...newAddressToLink, street: "...", district: "...", city: "...", state: "...", number: "", complement: "", reference: "" });
 
                 fetch(`https://viacep.com.br/ws/${cep}/json/`)
                     .then(res => res.json())
@@ -206,6 +233,7 @@ function Address(props) {
             limpa_formulário_cep();
         }
     };
+
     /////////////////// FIM FUNCOES DE BUSCA E VALIDACAO DE CEP /////////////////////
 
     function setInputCep(e) {
@@ -221,6 +249,7 @@ function Address(props) {
     function LimparNumero(e) {
         clearErrors(["numero"])
         setAddress({ ...address, number: e.target.value })
+        setAddressToLink({ ...newAddressToLink, number: e.target.value })
     }
 
     function LimparRua(e) {
@@ -238,11 +267,145 @@ function Address(props) {
         setAddress({ ...address, city: e.target.value })
     }
 
+
+    // adicionar endereço
+
+    const [modalState, setStateModal] = useState(false)
+    const [newAddressToLink, setAddressToLink] = useState({ cep: "", street: "", district: "", city: "", state: "", number: "", complement: "", reference: "" })
+    const [addressAlias, setAliasAddress] = useState()
+
+    function setOpenModal() {
+        setStateModal(true)
+
+    }
+    function closeModal() {
+        setStateModal(false)
+
+    }
+
+    function postAddressUser() {
+        var idUser = JSON.parse(localStorage.getItem('user'))
+        var valor = newAddressToLink.cep
+        const cep = valor.replace(/\D/g, '');
+
+        api.post('/userAddress', { id: { idUser: idUser.value.id }, address: { ...newAddressToLink, cep: cep }, description: addressAlias }).then(response => {
+            console.log(response)
+            window.alert("Endereço Salvo")
+            closeModal()
+            //chamar a atualização do comp de reder
+            getAddress()
+        }).catch(err => {
+            console.log("Falha ao vincular usuario endereço" + err)
+            window.alert("Erro ao salvar Endereço")
+
+        });
+
+    }
+
+    // desabilita botão finalizar apos o click
+    const [disable, setDisable] = React.useState(false);
+
+    function renderLoading() {
+        return <img className="img-loading-btn" src={Loading} alt="Gerando pedido" />
+    }
+
+
     return (
         <>
             <FormDefault title="Endereços" className="container custom-form-box mx-3 mx-sm-1 mx-lg-4 px-5 px-sm-1 px-lg-4">
+                <div className="row mt-2 justify-content-center mb-3">
+                    {userA}
+                </div>
+                <Modal
+                    show={modalState}
+                    onHide={() => setStateModal(false)}
+                    dialogClassName="modal-90w"
+                    aria-labelledby="example-custom-modal-styling-title"
+                >
 
-                {userA}
+                    <Modal.Header closeButton>
+                        <Modal.Title id="example-custom-modal-styling-title">
+                            Adicionar um novo endereço
+                        </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+
+                        <div class="row  justify-content-center mb-3">
+
+                            <div class="row ">
+
+                                <div class=" col-6 col-sm-6 col-md-4">
+                                    <InputCep
+                                        name="cep" pattern={/^\d{5}-\d{3}$/}
+                                        mask={[/[0-9]/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]}
+                                        required={<span className="text-danger">Campo inválido!</span>}
+                                        blur={pesquisacep}
+                                        label="CEP" type="text" id="cep" className="form-input col-12"
+                                        placeholder="00000-000" validation={pesquisacep}
+                                        change={e => setAddressToLink({ ...newAddressToLink, cep: e.target.value })} register={register2} errors={errors2}
+                                        value={newAddressToLink.cep} />
+                                    {/* <InputCep className="form-input col-12 form-label" length="9" blur={pesquisacep} value={order.address.cep} label="CEP" type="text" id="cep" className="form-input col-12" placeholder="Digite seu CEP..." change={e => setOrder({ ...order, address: { ...order.address, cep: e.target.value } })} /> */}
+                                </div>
+
+                                <div class=" col-6 col-sm-6 col-md-2">
+                                    <Select label="Estado" disabled={true} options={ufs} selected={newAddressToLink.state} change={e => setAddressToLink({ ...newAddressToLink, state: e.target.value })} default="Estado:" />
+                                </div>
+
+                                <div class=" col-6 col-sm-6 col-md-5">
+                                    <Input value={newAddressToLink.city} disabled={false} change={e => setAddressToLink({ ...newAddressToLink, city: e.target.value })} label="Cidade" className="form-input col-12 form-label" type="text" name="city" placeholder="Digite a cidade..." />
+                                </div>
+
+                                <div class=" col-9 col-md-6">
+                                    <Input value={newAddressToLink.street} disabled={false} change={e => setAddressToLink({ ...newAddressToLink, street: e.target.value })} label="Logradouro" className="form-input col-12 form-label" type="text" name="street" placeholder="Digite o logradouro..." />
+                                </div>
+
+                                <div class=" col-3  col-md-2">
+                                    <InputHook hook // hook eh a props para input padrao com a verificacao
+                                        name="Número" // name sera utilizado no componente para fazer as comparacoes
+                                        register={register2} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
+                                        required={<span className="text-danger">Digite um número válido</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
+                                        maxlength={5} // tamanho maximo do campo
+                                        pattern={/(\d)/}
+                                        errors={errors2}
+                                        clear={clean2}
+                                        change={LimparNumero}
+                                        value={newAddressToLink.number}
+                                        label="Número"
+                                        type="text"
+                                        className="form-input col-12"
+                                        placeholder="Digite o número..." />
+                                </div>
+
+                                <div class=" col-6 col-md-4">
+                                    <Input value={newAddressToLink.district} disabled={false} change={e => setAddressToLink({ ...newAddressToLink, district: e.target.value })} label="Bairro" className="form-input col-12 form-label" type="text" name="district" placeholder="Digite o Bairro..." />
+                                </div>
+
+                                <div class=" col-6  col-md-4">
+                                    <Input value={newAddressToLink.complement} change={e => setAddressToLink({ ...newAddressToLink, complement: e.target.value })} label="Complemento" className="form-input col-12 form-label" type="text" name="complement" placeholder="Digite o complemento..." />
+                                </div>
+
+                                <div class=" col-6 col-md-4">
+                                    <Input value={newAddressToLink.reference} change={e => setAddressToLink({ ...newAddressToLink, reference: e.target.value })} label="Referencia" className="form-input col-12 form-label" type="text" name="reference" placeholder="Digite um ponto de referência" />
+
+                                </div>
+
+                                <div class=" col-6 col-md-4">
+                                    <Input value={addressAlias} change={e => setAliasAddress(e.target.value)} label="Apelido do Endereço" className="form-input col-12 form-label" type="text" name="aliasAddress" placeholder="Ex.: Minha Casa" />
+                                </div>
+
+
+                            </div>
+
+                            <div className="col-10 d-flex justify-content-between mt-3">
+
+                                <Button label="Fechar" onclick={closeModal} class="btn-retorno" />
+                                <Button onclick={handleSubmit2(postAddressUser)} label={disable ? renderLoading() : "Salvar"} class="btn-confirmacao" type="submit" />
+                            </div>
+
+                        </div>
+
+                    </Modal.Body>
+                </Modal>
 
 
                 <div className="row custom-form d-flex justify-content-center">

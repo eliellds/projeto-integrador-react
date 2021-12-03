@@ -5,16 +5,30 @@ function RadioButton(props) {
     return (
 
         <div className={props.className}>
-            <input name={props.name}
-                type="radio"
-                value={props.id}
-                id={props.id}
-                value={props.id}
-                checked={props.checked}
-                onChange={props.onChange}>
-            </input>
+            <div className="row d-flex justify-content-between">
 
-            <label for={props.id}>{props.label}</label>
+                <input name={props.name}
+                    type="radio"
+                    value={props.id}
+                    id={props.id}
+                    value={props.id}
+                    checked={props.checked}
+                    onChange={props.onChange}
+                    className="col-3 mt-1">
+                </input>
+
+                <a href="" onClick={props.onClick} className="col-3 mt-1">
+                    <img src={props.src} className={props.clname} />
+                </a>
+
+            </div>
+
+            <div className="row">
+
+                <label className="d-flex justify-content-center" for={props.id}>{props.label}</label>
+
+            </div>
+
 
             <p>{props.street} {props.number} {props.complement}</p>
             <p>{props.district} {props.city} {props.state}</p>

@@ -107,7 +107,7 @@ function CardProduct(props) {
             <li className="card-product col-11 col-sm-8 col-md-3 col-lg-2 mb-4 ">
 
 
-                <div className="caixa-imagem">
+                <div className={props.salePrice && props.qty>=1 ? "sale-etiq caixa-imagem" : "caixa-imagem"}>
                     <a href={`/product/${props.id}`}>
                         {imageRender()}
                     </a>

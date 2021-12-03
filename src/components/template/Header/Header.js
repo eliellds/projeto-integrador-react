@@ -104,7 +104,7 @@ function Header(props) {
                         </div>
 
 
-                        <LoginButton click={changeState} logged={login} />
+                        <LoginButton click={changeState} notLogged={login} />
 
                         {perfil}
 

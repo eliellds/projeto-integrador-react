@@ -363,7 +363,7 @@ function FormShippigAddress(props) {
                             if (MoipValidator.isSecurityCodeValid(data.CardNum, data.cvv) == true) {
                                 if (MoipValidator.isExpiryDateValid(inputMonth, inputYear) == true) {
                                     
-                                    postOrder(order.payment.id)
+                                    postOrder(paymentOp)
                                 } else {
                                     window.alert("Preencha a validade do cartão corretamente")
                                 }
@@ -441,6 +441,7 @@ function FormShippigAddress(props) {
                 <Button onclick={changeB} class="col-4 forma-pagamento boleto disabled-button" label={<H2 h2="Boleto" />}></Button>
             </>
         )
+        setPaymentOp(3)
     }
 
     function changeD() {

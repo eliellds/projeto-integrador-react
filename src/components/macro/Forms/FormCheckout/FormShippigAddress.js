@@ -465,6 +465,7 @@ function FormShippigAddress(props) {
                 <Button onclick={changeB} class="col-4 forma-pagamento boleto disabled-button" label={<H2 h2="Boleto" />}></Button>
             </>
         )
+        setPaymentOp(2)
     }
 
     function changeE() {

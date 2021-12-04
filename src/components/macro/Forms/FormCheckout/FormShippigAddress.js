@@ -72,7 +72,7 @@ const alg = 'aes-256-ctr'
 const pwd = 'qwertjose'
 
 function FormShippigAddress(props) {
-
+    const [paymentOp, setPaymentOp] = useState(3)
     const [success, setSuccess] = useState(false)
     const [paymentMethod, setPaymentMethod] = useState("")
 
@@ -229,13 +229,14 @@ function FormShippigAddress(props) {
     const getUfs = () => {
         return ufs
     }
+    console.log(order)
 
     function postOrder(payment) {
         if (cpfCheck == false) {
             return alert("Preencha os dados corretamente")
         }
 
-
+        console.log(order)
         var tempOrder = { ...order }
         let user = JSON.parse(localStorage.getItem("user"))
 
@@ -251,7 +252,7 @@ function FormShippigAddress(props) {
             tempOrder = ({
                 ...tempOrder,
                 myUser: { ...tempOrder.myUser, id: user.value.id, email: user.value.email },
-                payment: { ...tempOrder.payment, id: payment },
+                payment: { ...tempOrder.payment, id: paymentOp },
                 telephone: { ...tempOrder.telephone, number: tempOrder.telephone.number.toString().replace(/[^0-9]/g, "") },
                 card: { ...tempOrder.card, cardNumber: criptCard(tempOrder.card.cardNumber), dueDate: "20" + inputYear + "-" + inputMonth + "-01" }
             })
@@ -361,6 +362,7 @@ function FormShippigAddress(props) {
                         if (MoipValidator.isValidNumber(data.CardNum) == true) {
                             if (MoipValidator.isSecurityCodeValid(data.CardNum, data.cvv) == true) {
                                 if (MoipValidator.isExpiryDateValid(inputMonth, inputYear) == true) {
+                                    
                                     postOrder(order.payment.id)
                                 } else {
                                     window.alert("Preencha a validade do cartão corretamente")
@@ -520,14 +522,15 @@ function FormShippigAddress(props) {
             .get("/payments")
             .then((response) => {
                 setPaymentMethod(response.data)
-                setSelectA(<SelectCard  freight={frete} label="Forma de Pagamento:" paymentMethod={response.data} change={e => setOrder({ ...order, payment: { id: e.target.value } })} />)
+                setSelectA(<SelectCard  freight={frete} label="Forma de Pagamento:" paymentMethod={response.data} change={e => setPaymentOp(e.target.value) }  />)
+                
             })
             .catch((err) => {
                 console.error("Erro ao consumir api de payments" + err)
             })
 
     }
-
+    console.log(paymentOp)
     function getListFlags() {
         api
             .get("/flags")
@@ -827,7 +830,7 @@ function FormShippigAddress(props) {
     const [addressAlias, setAliasAddress] = useState()
 
     const [selectA, setSelectA] = useState(
-        <SelectCard label="Forma de Pagamento:" paymentMethod={paymentMethod} change={e => setOrder({ ...order, payment: { id: e.target.value } })} />
+        <SelectCard label="Forma de Pagamento:"  />
     )
 
     return (

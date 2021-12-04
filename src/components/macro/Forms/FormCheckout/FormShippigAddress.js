@@ -149,7 +149,7 @@ function FormShippigAddress(props) {
     function getSelectedAddress(selectedAddress) {
         api.get(`/address/find/${selectedAddress}`)
             .then(response => {
-                setOrder({ ...order, address: { ...response.data, id: null } })
+                setOrder({...order, address:{...response.data}})
                 setRegion(response.data.state)
                 
                
@@ -163,6 +163,7 @@ function FormShippigAddress(props) {
     const getAddress = () => {
         api.get(`/userAddress/myAddress/${user.value.id}`).then(
             res => {
+
                 getTelephone(res.data[0].address)
                 getAllAddressess(res.data)
                 getSelectedAddress(res.data[0].address.id)
@@ -535,9 +536,6 @@ function FormShippigAddress(props) {
                 console.error("Erro ao consumir api de flag" + err)
             })
 
-    }
-    function getOrderLocal() {
-        setOrder()
     }
 
   

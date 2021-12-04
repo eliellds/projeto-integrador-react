@@ -74,6 +74,9 @@ const pwd = 'qwertjose'
 function FormShippigAddress(props) {
 
     const [success, setSuccess] = useState(false)
+    const [paymentMethod, setPaymentMethod] = useState("")
+
+    console.log(paymentMethod)
 
     function criptCard(num) {
 
@@ -85,9 +88,6 @@ function FormShippigAddress(props) {
 
     }
 
-
-
-
     const user = JSON.parse(localStorage.getItem('user'))
 
     const [order, setOrder] = useState(initial);
@@ -95,6 +95,7 @@ function FormShippigAddress(props) {
     const [inputBrand, setInputBrand] = useState("");
     const [inputMonth, setInputMonth] = useState("");
     const [inputYear, setInputYear] = useState("");
+
     // desfragmentando as funcoes e objetos da biblioteca react-hook-form
     const { register, handleSubmit, formState: { errors }, reset, clearErrors, setError, setValue } = useForm({
         mode: 'onChange',
@@ -108,6 +109,7 @@ function FormShippigAddress(props) {
         shouldUseNativeValidation: false,
         delayError: undefined
     });
+
     const { register: register2, handleSubmit: handleSubmit2, formState: { errors: errors2 }, reset: reset2, clearErrors: clean2, setError: setErr, setValue: setValue2 } = useForm({
         mode: 'onChange',
         reValidateMode: 'onChange',
@@ -120,7 +122,6 @@ function FormShippigAddress(props) {
         shouldUseNativeValidation: false,
         delayError: undefined
     });
-
 
     const [userA, setUserA] = useState(<UserAddress>
         <MoreAddresses function={setOpenModal} />
@@ -138,6 +139,11 @@ function FormShippigAddress(props) {
         api.get(`/address/find/${selectedAddress}`)
             .then(response => {
                 setOrder({ ...order, address: { ...response.data, id: null } })
+                let pay = paymentMethod
+                setSelectA(<SelectCard id={selectedAddress} label="Forma de Pagamento:" paymentMethod={pay} change={e => setOrder({ ...order, payment: { id: e.target.value } })} />)
+                console.log(pay)
+                console.log(paymentMethod)
+                console.log(selectedAddress)
             })
             .catch((err) => {
                 console.log("Erro ao consumir api de endereços selecionados" + err)
@@ -491,9 +497,6 @@ function FormShippigAddress(props) {
     let change = false
     const history = useHistory()
 
-
-    const [paymentMethod, setPaymentMethod] = useState("")
-
     function getListPayments() {
         api
             .get("/payments")
@@ -503,6 +506,7 @@ function FormShippigAddress(props) {
             })
 
     }
+
     function getListFlags() {
         api
             .get("/flags")
@@ -809,11 +813,14 @@ function FormShippigAddress(props) {
     }
     const [newAddressToLink, setAddressToLink] = useState({ cep: "", street: "", district: "", city: "", state: "", number: "", complement: "", reference: "" })
     const [addressAlias, setAliasAddress] = useState()
+
+    const [selectA, setSelectA] = useState(
+        <SelectCard label="Forma de Pagamento:" paymentMethod={paymentMethod} change={e => setOrder({ ...order, payment: { id: e.target.value } })} />
+    )
+
     return (
 
         <>
-
-
             <FormDefault id="address" title="Dados de entrega" action="/order">
                 <div className="row mt-2 justify-content-center mb-3">
                     {userA}
@@ -913,6 +920,86 @@ function FormShippigAddress(props) {
 
 
 
+                {/* 
+                <div class="row  justify-content-center mb-3">
+
+                    <div class="row ">
+                        <div class=" col-6  col-sm-6 col-md-3">
+                            <InputHook  // hook eh a props para input padrao com a verificacao
+                                name="telefone" // name sera utilizado no componente para fazer as comparacoes
+                                register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
+                                required={<span className="text-danger">Digite um telefone válido</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
+                                maxlength={15} // tamanho maximo do campo
+                                pattern={/^\(?[1-9]{2}\)? ?(?:[2-8]|9[1-9])[0-9]{3}\-?[0-9]{4}$/}
+                                errors={errors}
+                                clear={clearErrors}
+                                change={LimparTelefone}
+                                mask={order.telephone.number.charAt(2) == 9 ? "(99) 99999-9999" : "(99) 9999-9999"}
+                                label="Telefone"
+                                type="tel"
+                                className="form-input col-12"
+                                placeholder="Telefone para contato com DDD" />
+
+                        </div>
+
+                        <div class=" col-6  col-sm-6 col-md-4">
+                            <InputHook hook // hook eh a props para input padrao com a verificacao
+                                name="E-mail" // name sera utilizado no componente para fazer as comparacoes
+                                register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
+                                required={<span className="text-danger">Digite um email válido</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
+                                maxlength={30} // tamanho maximo do campo
+                                pattern={/^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$/i}
+                                errors={errors}
+                                clear={clearErrors}
+                                change={LimparEmail}
+                                disabled={true}
+                                label="E-mail"
+                                type="mail"
+                                className="form-input col-12 form-label"
+                                placeholder="E-mail para contato" />
+
+                        </div>
+
+
+                        <div class=" col-6 col-sm-6 col-md-3">
+                            <InputCep
+                                name="cep" pattern={/^\d{5}-\d{3}$/}
+                                mask={[/[0-9]/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]}
+                                required={<span className="text-danger">Campo inválido!</span>}
+                                blur={buscarCep}
+                                label="CEP" type="text" id="cep" className="form-input col-12"
+                                placeholder="00000-000" validation={buscarCep}
+                                change={e => setOrder({ ...order, address: { ...order.address, id: null, cep: e.target.value } })} register={register} errors={errors}
+                                value={order.address.cep} />
+                            {/* <InputCep className="form-input col-12 form-label" length="9" blur={buscarCep} value={order.address.cep} label="CEP" type="text" id="cep" className="form-input col-12" placeholder="Digite seu CEP..." change={e => setOrder({ ...order, address: { ...order.address, cep: e.target.value } })} /> */}
+                {/* </div>
+
+                        <div class=" col-6 col-sm-6 col-md-2">
+                            <Select label="Estado" disabled={false} options={ufs} selected={order.address.state} change={e => setOrder({ ...order, address: { ...order.address, id: null, state: e.target.value } })} default="Estado:" />
+                        </div>
+
+                        <div class=" col-6 col-sm-6 col-md-4">
+                            <Input value={order.address.city} disabled={false} change={e => setOrder({ ...order, address: { ...order.address, id: null, city: e.target.value } })} label="Cidade" className="form-input col-12 form-label" type="text" name="city" placeholder="Digite a cidade..." />
+                        </div>
+
+                        <div class=" col-9 col-md-6">
+                            <Input value={order.address.street} disabled={false} change={e => setOrder({ ...order, address: { ...order.address, id: null, street: e.target.value } })} label="Logradouro" className="form-input col-12 form-label" type="text" name="street" placeholder="Digite o logradouro..." />
+                        </div>
+
+                            <div className="col-10 d-flex justify-content-between mt-3">
+
+                                <Button label="Fechar" onclick={closeModal} class="btn-retorno" />
+                                <Button onclick={handleSubmit2(postAddressUser)} label={disable ? renderLoading() : "Salvar"} class="btn-confirmacao" type="submit" />
+                            </div>
+
+                        </div>
+
+                    </Modal.Body>
+                </Modal>
+
+
+
+                </div> */}
 
             </FormDefault>
 
@@ -1146,7 +1233,7 @@ function FormShippigAddress(props) {
 
 
                             <div className=" col-6 col-md-3">
-                                <SelectCard label="Forma de Pagamento:" paymentMethod={paymentMethod} change={e => setOrder({ ...order, payment: { id: e.target.value } })} />
+                                {selectA}
                             </div>
 
 

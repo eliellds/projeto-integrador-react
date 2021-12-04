@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Remove from '../../../../assets/images/cart/remover.png'
+import api from '../../../../services/api'
 
 export default function CartCard(props) {
 
@@ -14,7 +15,39 @@ export default function CartCard(props) {
         window.location.reload()
     }
 
+    function getInventory() {
+
+        api.get("/inventories/1/" + props.id)
+            .then(res => {
+                list.map(item => {
+                    if (item.id == props.id) {
+                        if (res.data.qty_products < iqty) {
+                            if (res.data.qty_products <= 0) {
+                                remove(props.id)
+                            } else {
+                                setQty(res.data.qty_products)
+                                setStorage(res.data.qty_products)
+                                setList(...list, item.qty = res.data.qty_products, item.storage = res.data.qty_products)
+                                updateCart(list)
+                            }
+                        } else if (res.data.qty_products > item.storage) {
+                            setStorage(res.data.qty_products)
+                            setList(...list, item.storage = res.data.qty_products)
+                            updateCart(list)
+                        }
+                    }
+                })
+                if (res.data.qty_products < iqty) {
+                    window.alert("Quantidade indisponível!")
+                }
+            })
+            .catch(err => {
+                console.error("Erro ao buscar estoque ", err)
+            })
+    }
+
     useEffect(() => {
+        getInventory()
         setQty(props.qty)
         setList(props.list)
     }, [])
@@ -80,22 +113,22 @@ export default function CartCard(props) {
                 </a>
 
                 <div className=" col-1 numero quantidade align-content-center text-center">
-                    {iqty < storage ?<button onClick={e => {
+                    {iqty < storage ? <button onClick={e => {
                         e.preventDefault()
                         increaseItem(props.id)
                     }} className="controle positivo increase-btn">+</button>
-                    : <button className="controle limit-btn increase-btn">+</button>} {iqty}
-                    {iqty > 1 ?<button onClick={e => {
+                        : <button className="controle limit-btn increase-btn">+</button>} {iqty}
+                    {iqty > 1 ? <button onClick={e => {
                         e.preventDefault()
                         decreaseItem(props.id)
                     }} className="controle negativo decrease-btn" >-</button>
-                    : <button className="controle limit-btn decrease-btn">-</button>}
+                        : <button className="controle limit-btn decrease-btn">-</button>}
                 </div>
 
                 <div className="col-2 texto-carrinho text-center">
-                    <span className="numero">{props.salePrice 
-                    ? (props.salePrice * iqty).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) 
-                    : (props.price * iqty).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
+                    <span className="numero">{props.salePrice
+                        ? (props.salePrice * iqty).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+                        : (props.price * iqty).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
                 </div>
 
                 <div className="col-2 ">

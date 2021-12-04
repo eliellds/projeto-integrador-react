@@ -344,10 +344,16 @@ function FormShippigAddress(props) {
                     if (inputBrand != "Cartão não aceito") {
 
                         if (displayNoneD.display == "") {
-                            if (MoipValidator.isExpiryDateValid(inputMonth, inputYear) == true) {
-                                return postOrder(2)
+                            var valid = require('card-validator')
+                            let cvvValidator = valid.cvv(data.cvvD)
+                            if (cvvValidator.isValid) {
+                                if (MoipValidator.isExpiryDateValid(inputMonth, inputYear) == true) {
+                                    return postOrder(2)
+                                } else {
+                                    return window.alert("Preencha a validade do cartão corretamente")
+                                }
                             } else {
-                                return window.alert("Preencha a validade do cartão corretamente")
+                                return window.alert("Preencha o CVV corretamente")
                             }
                         }
 
@@ -994,37 +1000,18 @@ function FormShippigAddress(props) {
                             <Input value={order.address.street} disabled={false} change={e => setOrder({ ...order, address: { ...order.address, id: null, street: e.target.value } })} label="Logradouro" className="form-input col-12 form-label" type="text" name="street" placeholder="Digite o logradouro..." />
                         </div>
 
-                        <div class=" col-3  col-md-2">
-                            <InputHook hook // hook eh a props para input padrao com a verificacao
-                                name="Número" // name sera utilizado no componente para fazer as comparacoes
-                                register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
-                                required={<span className="text-danger">Digite um número válido</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
-                                maxlength={5} // tamanho maximo do campo
-                                pattern={/(\d)/}
-                                errors={errors}
-                                clear={clearErrors}
-                                change={LimparNumero}
-                                value={order.address.number}
-                                label="Número"
-                                type="text"
-                                className="form-input col-12"
-                                placeholder="Digite o número..." />
-                        </div>
+                            <div className="col-10 d-flex justify-content-between mt-3">
 
-                        <div class=" col-6 col-md-4">
-                            <Input value={order.address.district} disabled={false} change={e => setOrder({ ...order, address: { ...order.address, id: null, district: e.target.value } })} label="Bairro" className="form-input col-12 form-label" type="text" name="district" placeholder="Digite o Bairro..." />
-                        </div>
-
-                        <div class=" col-6  col-md-4">
-                            <Input value={order.address.complement} change={e => setOrder({ ...order, address: { ...order.address, id: null, complement: e.target.value } })} label="Complemento" className="form-input col-12 form-label" type="text" name="complement" placeholder="Digite o complemento..." />
-                        </div>
-
-                        <div class=" col-6 col-md-4">
-                            <Input value={order.address.reference} change={e => setOrder({ ...order, address: { ...order.address, id: null, reference: e.target.value } })} label="Referencia" className="form-input col-12 form-label" type="text" name="reference" placeholder="Digite um ponto de referência" />
+                                <Button label="Fechar" onclick={closeModal} class="btn-retorno" />
+                                <Button onclick={handleSubmit2(postAddressUser)} label={disable ? renderLoading() : "Salvar"} class="btn-confirmacao" type="submit" />
+                            </div>
 
                         </div>
 
-                    </div>
+                    </Modal.Body>
+                </Modal>
+
+
 
                 </div> */}
 
@@ -1108,10 +1095,25 @@ function FormShippigAddress(props) {
                                     placeholder="0000 0000 0000 0000" />
                             </div>
 
+                            <div className=" col-6 col-md-1">
+                                <InputHook hook
+                                    name="cvvD" // name sera utilizado no componente para fazer as comparacoes
+                                    register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
+                                    required // mensagem de erro que sera exibida caso o campo nao seja valido
+                                    errors={errors}
+                                    change={e => { setCvv(e.target.value) }}
+                                    maxlength={3}
+                                    label="CVV"
+                                    type="text"
+                                    value={cvv}
+                                    className="form-input col-12"
+                                    placeholder="CVV" />
+
+                            </div>
+
                             <div className=" col-6 col-md-2">
                                 <Input label="Bandeira" disabled value={inputBrand} />
                             </div>
-
 
                             <div className=" col-6 col-md-2">
                                 <div className="row">

@@ -295,6 +295,25 @@ function OrderSummaryPage(props) {
         return tot
     }
 
+    function checkInventory() {
+        let tempCart = cart
+        let lengthCheck = 1
+        tempCart.map(item => {
+            api.get("/inventories/1/" + item.id)
+                .then(res => {
+                    if (res.data.qty_products < item.qty) {
+                        return window.location.href = "/cart"
+                    } else if (lengthCheck == tempCart.length) {
+                        postOrder()
+                    }
+                    lengthCheck = lengthCheck + 1
+                })
+                .catch(err => {
+                    console.err("Erro ao buscar estoque ", err)
+                })
+        })
+    }
+
     // desabilita botão finalizar apos o click
     const [disable, setDisable] = React.useState(false);
 
@@ -417,8 +436,8 @@ function OrderSummaryPage(props) {
                         <OrderInfo titulo="Pagamento"
                             primeiraLinha={order.payment.id == 1 || order.payment.id == 13 ? order.payment.description : order.payment.description + " - " + order.card.flag.description}
                             segundaLinha={order.payment.id == 1 ? "" : uncriptCard(order.card.cardNumber)}
-                            terceiraLinha={order.payment?.installments >= 2 ? order.payment.installments + " x de" : order.payment.installments} terceiraLinha1={order.payment.installments >= 2 ? calcInstallments() : (somar()+frete).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                            quartaLinha={"Total: " + (somar()+ frete).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} />
+                            terceiraLinha={order.payment?.installments >= 2 ? order.payment.installments + " x de" : order.payment.installments} terceiraLinha1={order.payment.installments >= 2 ? calcInstallments() : (somar() + frete).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                            quartaLinha={"Total: " + (somar() + frete).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} />
 
                         <OrderInfo titulo="Endereço de entrega"
                             primeiraLinha={order.address.street + ","} primeiraLinha1={order.address.number + "."} primeiraLinha2={"Comp: " + order.address.complement}
@@ -432,7 +451,7 @@ function OrderSummaryPage(props) {
                 <div className="d-flex justify-content-between">
 
                     <Button navigation route="/checkout" class="btn-retorno align-self-center" label="voltar" />
-                    <Button onclick={order.payment.id == 13 ? postPix : goToSucces} disabled={disable} class="btn-comprar" label={disable ? renderLoading() : "Finalizar"} />
+                    <Button onclick={order.payment.id == 13 ? postPix : checkInventory} disabled={disable} class="btn-comprar" label={disable ? renderLoading() : "Finalizar"} />
 
                 </div>
 
@@ -459,7 +478,7 @@ function OrderSummaryPage(props) {
                     <div className="row justify-content-center">
                         <p className="titleModal">123e4567-e12b-12d1-a456–426655445937</p>
                     </div>
-                    <Button onclick={postOrder} class="btn-comprar pix-button" label="Confirmar" />
+                    <Button onclick={checkInventory} class="btn-comprar pix-button" label="Confirmar" />
                 </Modal.Body>
             </Modal>
         </>

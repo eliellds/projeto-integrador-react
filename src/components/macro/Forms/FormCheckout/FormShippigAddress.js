@@ -134,16 +134,26 @@ function FormShippigAddress(props) {
 
         </UserAddress>);
     }
+    function setRegion(state) {
+        api.get("/deliveryDate/" + state)
+            .then(res => {
+                getListPayments(res.data.deliveryPrice)
+               
+
+            })
+            .catch(err => {
+                console.error("Erro ao buscar endereço", err)
+            })
+    }
 
     function getSelectedAddress(selectedAddress) {
         api.get(`/address/find/${selectedAddress}`)
             .then(response => {
                 setOrder({ ...order, address: { ...response.data, id: null } })
-                let pay = paymentMethod
-                setSelectA(<SelectCard id={selectedAddress} label="Forma de Pagamento:" paymentMethod={pay} change={e => setOrder({ ...order, payment: { id: e.target.value } })} />)
-                console.log(pay)
-                console.log(paymentMethod)
-                console.log(selectedAddress)
+                setRegion(response.data.state)
+                
+               
+             
             })
             .catch((err) => {
                 console.log("Erro ao consumir api de endereços selecionados" + err)
@@ -155,6 +165,7 @@ function FormShippigAddress(props) {
             res => {
                 getTelephone(res.data[0].address)
                 getAllAddressess(res.data)
+                getSelectedAddress(res.data[0].address.id)
                 // CepRun(res.data[0].address.cep)
             })
             .catch((err) => {
@@ -164,6 +175,12 @@ function FormShippigAddress(props) {
 
 
     useEffect(() => {
+        
+
+            getListFlags()
+    
+       
+    
         window.scrollTo(0, 0);
         getAddress();
         getUfs();
@@ -491,10 +508,13 @@ function FormShippigAddress(props) {
     let change = false
     const history = useHistory()
 
-    function getListPayments() {
+    function getListPayments(frete) {
         api
             .get("/payments")
-            .then((response) => setPaymentMethod(response.data))
+            .then((response) => {
+                setPaymentMethod(response.data)
+                setSelectA(<SelectCard  freight={frete} label="Forma de Pagamento:" paymentMethod={response.data} change={e => setOrder({ ...order, payment: { id: e.target.value } })} />)
+            })
             .catch((err) => {
                 console.error("Erro ao consumir api de payments" + err)
             })
@@ -514,13 +534,7 @@ function FormShippigAddress(props) {
         setOrder()
     }
 
-    useEffect(() => {
-
-        getListPayments()
-        getListFlags()
-
-    }, [])
-
+  
     function backToCart() {
         window.location.href = "/cart"
     }

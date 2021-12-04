@@ -7,31 +7,12 @@ function SelectCard(props) {
     const cart = JSON.parse(localStorage.getItem('cart'))
 
 
-    const [freight, setFreight] = useState(0);
+    const freight =props.freight || 0
 
-    function setRegion(state) {
-        api.get("/deliveryDate/" + state)
-            .then(res => {
-                setFreight(res.data.deliveryPrice)
-            })
-            .catch(err => {
-                console.error("Erro ao buscar endereço", err)
-            })
-    }
+  
 
-    function getAddress() {
-        api.get(`/address/find/${props.id}`)
-            .then(response => {
-                setRegion(response.data.state)
-            })
-            .catch((err) => {
-                console.log("Erro ao consumir api de endereços" + err)
-            })
-    }
 
-    useEffect(() => {
-        getAddress()
-    }, [])
+
 
     function somar(initial) {
 
@@ -58,7 +39,9 @@ function SelectCard(props) {
 
     function getPaymentMethod() {
         return paymentMethod.map(
+          
             option => {
+                console.log("oi")
                 if (option.id == 3) {
                     return <option key={option.id} value={option.id}>{option.description} {option.installmentsPrice} {somar(freight).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</option>
                 }

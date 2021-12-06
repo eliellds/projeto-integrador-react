@@ -30,15 +30,16 @@ function FormContact(props) {
     function sendContact(contact) {
         var data = new FormData()
         var imagedata = imagePlace
-        data.append("data", imagedata);
-        console.log(data)
+        data.append("multi", imagedata);
+        console.log(imagedata)
+
         api.post("/contacts", data, { params: {
             subject : contact.subject.id,
             name: contact.name,
             phoneNumber: contact.phoneNumber,
             email: contact.email,
             content: contact.content
-        }})
+        },headers:{ 'Content-Type': 'multipart/form-data;  boundary=aaaaaaa ;  charset=utf-8' }})
             .then((response) => {
                 setShow(true)
                 alert("Sua mensagem foi enviada com sucesso! Responderemos o mais breve possível. O prazo máximo é de 24h para o retorno de nossa equipe. Confira seu e-mail e cheque sua caixa de spam. Obrigado!")

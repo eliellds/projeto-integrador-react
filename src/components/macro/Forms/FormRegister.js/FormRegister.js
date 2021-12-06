@@ -152,7 +152,7 @@ function FormRegister(props) {
         shouldUnregister: false,
         shouldUseNativeValidation: false,
         delayError: undefined
-      });
+    });
 
     const [user, setUser] = useState(initial)
     const [passwordConfirm, setConfirm] = useState("")
@@ -176,13 +176,14 @@ function FormRegister(props) {
     }, []);
 
     // buscar email na base para saber se já foi cadastrado
-    const checkMail = (email) => {
-        api.get('/user/checkEmail/' + email).then((response) => {
+    const checkMail = (data) => {
+        api.get('/user/checkEmail/' + user.email).then((response) => {
             if (response.data) {
                 setValid({ ...isValid, email: false })
-                return true
+                window.alert("E-mail já cadastrado!")
             } else {
                 setValid({ ...isValid, email: true })
+                registration(data)
                 return false
             }
         }).catch((error) => {
@@ -192,14 +193,16 @@ function FormRegister(props) {
     }
 
     // buscar cpf na base para saber se já foi cadastrado
-    const checkCPF = (cpf) => {
-        api.get('/user/cpf/' + cpf).then((response) => {
+    const checkCPF = (data) => {
+        api.get('/user/cpf/' + user.cpf.toString().replace(/[^0-9]/g, "")).then((response) => {
             if (response.data) {
                 setValid({ ...isValid, cpf: true, cpfCheck: false })
-                return true
+                return window.alert("CPF já cadastrado!")
+            } else {
+                checkMail(data)
             }
         }).catch((error) => {
-            console.log("Erro ao buscar"+ error)
+            console.log("Erro ao buscar" + error)
             return false
             // setValid({ ...isValid, cpfCheck: true })
         })
@@ -208,7 +211,7 @@ function FormRegister(props) {
     const [disable, setDisable] = React.useState(false);
     //retorna dataFormatada
 
-    
+
     // funcao async executada recebendo o parametro data do register do react-hook-form
     const registration = async data => {
 
@@ -217,56 +220,47 @@ function FormRegister(props) {
         if (isValid.cpf == false) {
             setDisable(false)
             return window.alert("CPF inválido!")
-        } else if (checkMail(data.email)) {
-            setDisable(false)
-            return window.alert("E-mail já cadastrado!")
-        } else if (checkCPF(user.cpf.toString().replace(/[^0-9]/g, ""))) {
-            setDisable(false)
-            return window.alert("CPF já cadastrado!")
-        }
-        // objeto newUser recebendo os valores de register 
-        // (register guarda os valores dos inputs atraves do props name)
-        const newUser = ({
-            firstName: data.nome,
-            lastName: data.sobrenome,
-            cpf: user.cpf.toString().replace(/[^0-9]/g, ""), // formatando para apenas numeros
-            email: data.email,
-            telephone: {
+        } else {
+            // objeto newUser recebendo os valores de register 
+            // (register guarda os valores dos inputs atraves do props name)
+            const newUser = ({
+                firstName: data.nome,
+                lastName: data.sobrenome,
+                cpf: user.cpf.toString().replace(/[^0-9]/g, ""), // formatando para apenas numeros
+                email: data.email,
+                telephone: {
 
-                number: data.telefone.toString().replace(/[^0-9]/g, "") // formatando para apenas numeros
-            },
-            born: data.data,
-            password: data.senha
-        })
-
-        //verificação da data de nascimento
-        var dataCurrente = new Date();
-        var dateCurrent = (dataCurrente.getFullYear()-16)+"-"+dataCurrente.getMonth()+"-"+dataCurrente.getDate()
-
-        if(dateCurrent>newUser.born) {
-           
-                api.post('/sign-up', newUser).then((response) => {
-                window.alert("Cadastrado com successo!")
-                sendAddress(response.data.id)
-                goBackTo()
-            }).catch((error) => {
-                window.alert("Erro ao cadastrar")
-                setDisable(false)
+                    number: data.telefone.toString().replace(/[^0-9]/g, "") // formatando para apenas numeros
+                },
+                born: data.data,
+                password: data.senha
             })
-        }else{
-            setDisable(false)
-            var formatedDateError =  newUser.born
-            var formatedDateError = new Date(formatedDateError)
-            window.alert("Erro ao cadastrar! Data de nascimento invalida: " +formatedDateError.toLocaleDateString('pt-BR', {timeZone: 'UTC'})+ "\n Certifique-se de ter mais de 16 anos ao efetuar o cadastro")
+
+            //verificação da data de nascimento
+            var dataCurrente = new Date();
+            var dateCurrent = (dataCurrente.getFullYear() - 16) + "-" + dataCurrente.getMonth() + "-" + dataCurrente.getDate()
+
+            if (dateCurrent > newUser.born) {
+
+                api.post('/sign-up', newUser).then((response) => {
+                    window.alert("Cadastrado com successo!")
+                    sendAddress(response.data.id)
+                    goBackTo()
+                }).catch((error) => {
+                    window.alert("Erro ao cadastrar")
+                    setDisable(false)
+                })
+            } else {
+                setDisable(false)
+                var formatedDateError = newUser.born
+                var formatedDateError = new Date(formatedDateError)
+                window.alert("Erro ao cadastrar! Data de nascimento invalida: " + formatedDateError.toLocaleDateString('pt-BR', { timeZone: 'UTC' }) + "\n Certifique-se de ter mais de 16 anos ao efetuar o cadastro")
+            }
         }
-            
-         
 
-      
 
-       
     }
-    
+
 
     function sendAddress(userId) {
         api.post("/address", address)
@@ -378,7 +372,7 @@ function FormRegister(props) {
     // limpam o vaor do input ao alterar o campo quando o mesmo tem erro
     function LimparCPF(e) {
         clearErrors(["cpf"])
-        setValid({...isValid, cpfCheck: true})
+        setValid({ ...isValid, cpfCheck: true })
     }
     function LimparNome(e) {
         clearErrors(["nome"])
@@ -414,7 +408,7 @@ function FormRegister(props) {
     function LimparBairro(e) {
         clearErrors(["bairro"])
         setAddress({ ...address, district: e.target.value })
-        
+
     }
     function LimparCidade(e) {
         clearErrors(["cidade"])
@@ -430,7 +424,7 @@ function FormRegister(props) {
         //Nova variável "cep" somente com dígitos.
         const cep = valor.replace(/\D/g, '');
 
-        setAddress({ ...address, cep: cep})
+        setAddress({ ...address, cep: cep })
     }
 
 
@@ -688,7 +682,7 @@ function FormRegister(props) {
                 {/* no onclick, eh executada a funcao 'handleSubmit' do hook-form, 
                 a qual ira exibir os erros de cada campo preenchido incorretamente,
                 ou ira executar a funcao callback passada para ela caso o formulario esteja corretamente preenchido */}
-                <Button onclick={handleSubmit(registration)} disabled={disable} label={disable ? renderLoading() : "Cadastrar"} class="btn-confirmacao" />
+                <Button onclick={handleSubmit(checkCPF)} disabled={disable} label={disable ? renderLoading() : "Cadastrar"} class="btn-confirmacao" />
             </div>
         </>
     )

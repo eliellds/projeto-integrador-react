@@ -217,6 +217,10 @@ function CartItemsComp(props) {
                             <div className="col-6 mt-4 pt-2">
                                 {freight ? <h4 className="texto-total">Frete: <span className="numero total">{freight.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span></h4> : ""}
                             </div>
+                            
+                            <div className="row justify-content-center">
+                                <small >* Entregamos somente em território nacional.</small>
+                            </div>
                         </div>
                     </div>
                     <div className="col-5 mb-3 mt-5">

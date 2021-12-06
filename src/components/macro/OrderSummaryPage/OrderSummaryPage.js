@@ -325,7 +325,7 @@ function OrderSummaryPage(props) {
         if (order.payment.id > 1 && order.payment.id < 13) {
             const newOrder = {
                 ...order,
-                address: { ...order.address, cep: order.address.cep.toString().replace(/[^0-9]/g, "") },
+                address: { ...order.address, id:null, cep: order.address.cep.toString().replace(/[^0-9]/g, "") },
                 amount: (somar() + frete),
                 qtyTotal: calcularItens(),
                 totalDiscounts: calcularDescontos(),
@@ -347,7 +347,7 @@ function OrderSummaryPage(props) {
         } else if (order.payment.id == 1) {
             const newOrder = {
                 ...order,
-                address: { ...order.address, cep: order.address.cep.toString().replace(/[^0-9]/g, "") },
+                address: { ...order.address, id:null, cep: order.address.cep.toString().replace(/[^0-9]/g, "") },
                 amount: (somar() + frete),
                 qtyTotal: calcularItens(),
                 card: null,
@@ -371,7 +371,7 @@ function OrderSummaryPage(props) {
         } else if (order.payment.id == 13) {
             const newOrder = {
                 ...order,
-                address: { ...order.address, cep: order.address.cep.toString().replace(/[^0-9]/g, "") },
+                address: { ...order.address, id:null, cep: order.address.cep.toString().replace(/[^0-9]/g, "") },
                 amount: (somar() + frete),
                 qtyTotal: calcularItens(),
                 card: null,

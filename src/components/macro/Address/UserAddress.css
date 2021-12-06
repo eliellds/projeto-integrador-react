@@ -5,6 +5,7 @@
 .new-address{
     margin: 2px !important;
     border: 1px solid #bc4c2a !important;
+
 }
 
 .new-address label {
@@ -28,4 +29,10 @@
 
 .button-remove-address{
     max-width: 15px;   
+}
+.renderListAddresses{
+    overflow-y: scroll;
+    width: 100%;
+    height: 250px;
+
 }

@@ -9,9 +9,9 @@ function MoreAddresses(props) {
     }
     return <>
                
-                <div className="col-3 mt-2 cardContAddress ">
+                <div className="col-3 mt-2 mb-2 cardContAddress ">
                     
-                    <button onClick={e=>{ButtonClick(e)}} className="  col-12 row m-0 mt-3 p-0 text-center buttonAddress justify-content-center" type="button">
+                    <button onClick={e=>{ButtonClick(e)}} className="  col-12 row m-0 mt-3  p-0 text-center buttonAddress justify-content-center" type="button">
                             <img src={Cruz}  className="col-12 imgAddAddress" />
                             <div className="col-12">Adicionar novo endereço</div>
                     </button>

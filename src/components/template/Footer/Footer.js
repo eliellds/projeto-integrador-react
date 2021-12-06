@@ -82,12 +82,14 @@ function Footer(props) {
                                             <li className="boletoFooter"></li>
                                         </div>
                                     </div>
+
+                                    <div className="row justify-content-center">
+                                        <p className="text-center">*Entregamos somente em território nacional.</p>
+                                    </div>
                                 </div>
 
-                                <div className="row justify-content-center">
-                                    <p className="text-center">*Entregamos somente em território nacional.</p>
-                                </div>
-                                
+
+
                                 {/* <li className="diners"></li>
                             <li className="elo"></li>
                             <li className="hipercard"></li>

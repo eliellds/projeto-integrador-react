@@ -1136,7 +1136,7 @@ function FormShippigAddress(props) {
 
                 <div className="row pagamento justify-content-center"> {displayNoneE.display != "d-none" ?
                     <div>
-                        <h3 className="ticketInfo">O PIX será gerado na próxima página, por gentileza clicar no botão "Finalizar"</h3>
+                        <h3 className="ticketInfo pt-3">Finalize a sua compra para gerar o QR Code do Pix para pagamento!</h3>
 
                     </div>
                     : ""}
@@ -1146,7 +1146,7 @@ function FormShippigAddress(props) {
                 <div className={"row justify-content-center"}>
                     {displayNoneB.display != "d-none" ?
                         <div className={`row custom-form`}>
-                            <h3 className="ticketInfo">Finalize a sua compra para gerar o boleto para pagamento!</h3>
+                            <h3 className="ticketInfo pt-3">Finalize a sua compra para gerar o boleto para pagamento!</h3>
                         </div>
                         : ""}
                 </div>

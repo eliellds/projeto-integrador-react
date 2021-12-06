@@ -92,10 +92,11 @@ function FormShippigAddress(props) {
 
     const [order, setOrder] = useState(initial);
     const [flags, setFlag] = useState([]);
+    const [finalAddress, setFinalAddress]= useState();
     const [inputBrand, setInputBrand] = useState("");
     const [inputMonth, setInputMonth] = useState("");
     const [inputYear, setInputYear] = useState("");
-
+    console.log(finalAddress)
     // desfragmentando as funcoes e objetos da biblioteca react-hook-form
     const { register, handleSubmit, formState: { errors }, reset, clearErrors, setError, setValue } = useForm({
         mode: 'onChange',
@@ -130,9 +131,9 @@ function FormShippigAddress(props) {
     function getAllAddressess(addressList) {
 
         setUserA(<UserAddress userAddress={addressList} function={getSelectedAddress}>
-            <MoreAddresses function={setOpenModal} />
+                <MoreAddresses function={setOpenModal} />
 
-        </UserAddress>);
+            </UserAddress>);
     }
     function setRegion(state) {
         api.get("/deliveryDate/" + state)
@@ -149,7 +150,7 @@ function FormShippigAddress(props) {
     function getSelectedAddress(selectedAddress) {
         api.get(`/address/find/${selectedAddress}`)
             .then(response => {
-                setOrder({...order, address:{...response.data}})
+                setFinalAddress({...response.data})
                 setRegion(response.data.state)
                 
                
@@ -246,7 +247,8 @@ function FormShippigAddress(props) {
                 myUser: { ...tempOrder.myUser, id: user.value.id, email: user.value.email },
                 payment: { ...tempOrder.payment, id: payment },
                 telephone: { ...tempOrder.telephone, number: tempOrder.telephone.number.toString().replace(/[^0-9]/g, "") },
-                card: null
+                card: null,
+                address:{...finalAddress}
             })
         } else if (payment > 1 && payment < 13) {
             tempOrder = ({
@@ -254,7 +256,8 @@ function FormShippigAddress(props) {
                 myUser: { ...tempOrder.myUser, id: user.value.id, email: user.value.email },
                 payment: { ...tempOrder.payment, id: paymentOp },
                 telephone: { ...tempOrder.telephone, number: tempOrder.telephone.number.toString().replace(/[^0-9]/g, "") },
-                card: { ...tempOrder.card, cardNumber: criptCard(tempOrder.card.cardNumber), dueDate: "20" + inputYear + "-" + inputMonth + "-01" }
+                card: { ...tempOrder.card, cardNumber: criptCard(tempOrder.card.cardNumber), dueDate: "20" + inputYear + "-" + inputMonth + "-01" },
+                address:{...finalAddress}
             })
         } else if (payment == 13) {
             tempOrder = ({
@@ -262,7 +265,8 @@ function FormShippigAddress(props) {
                 myUser: { ...tempOrder.myUser, id: user.value.id, email: user.value.email },
                 payment: { ...tempOrder.payment, id: payment },
                 telephone: { ...tempOrder.telephone, number: tempOrder.telephone.number.toString().replace(/[^0-9]/g, "") },
-                card: { ...tempOrder.card, cardNumber: criptCard(tempOrder.card.cardNumber), dueDate: "20" + inputYear + "-" + inputMonth + "-01" }
+                card: { ...tempOrder.card, cardNumber: criptCard(tempOrder.card.cardNumber), dueDate: "20" + inputYear + "-" + inputMonth + "-01" },
+                address:{...finalAddress}
             })
         }
 

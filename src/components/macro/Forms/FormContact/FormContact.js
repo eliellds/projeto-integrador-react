@@ -32,13 +32,17 @@ function FormContact(props) {
         var imagedata = imagePlace
         data.append("data", imagedata);
         console.log(data)
-        api.post("/contacts", contact, { params:{
-            file:data
+        api.post("/contacts", data, { params: {
+            subject : contact.subject.id,
+            name: contact.name,
+            phoneNumber: contact.phoneNumber,
+            email: contact.email,
+            content: contact.content
         }})
             .then((response) => {
                 setShow(true)
                 alert("Sua mensagem foi enviada com sucesso! Responderemos o mais breve possível. O prazo máximo é de 24h para o retorno de nossa equipe. Confira seu e-mail e cheque sua caixa de spam. Obrigado!")
-                window.location.href = "/home";
+                // window.location.href = "/home";
                 console.log(data)
 
             })

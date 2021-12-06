@@ -28,11 +28,19 @@ function FormContact(props) {
     }
 
     function sendContact(contact) {
-        api.post("/contacts", contact)
+        var data = new FormData()
+        var imagedata = imagePlace
+        data.append("data", imagedata);
+        console.log(data)
+        api.post("/contacts", contact, { params:{
+            file:data
+        }})
             .then((response) => {
                 setShow(true)
                 alert("Sua mensagem foi enviada com sucesso! Responderemos o mais breve possível. O prazo máximo é de 24h para o retorno de nossa equipe. Confira seu e-mail e cheque sua caixa de spam. Obrigado!")
                 window.location.href = "/home";
+                console.log(data)
+
             })
             .catch((err) => {
                 console.error("Erro ao realizar Post de contato" + err)
@@ -126,7 +134,7 @@ function FormContact(props) {
         clearErrors(["email"])
         return email
     }
-
+    const [imagePlace, setImagePlace]= useState()
     // imagem de loading
     function renderLoading() {
         return <img className="img-loading-btn" src={Loading} alt="Gerando pedido" />
@@ -203,6 +211,9 @@ function FormContact(props) {
                             id="telefone"
                             className="form-input col-12"
                             placeholder="(00) 00000-0000" />
+                    </div>
+                    <div className="col-12">
+                    <input name="image" type="file" onChange={e=>{setImagePlace(e.target.files[0])}}  accept=".img,.png,.webpm,.jpeg"/>
                     </div>
 
                 </div>

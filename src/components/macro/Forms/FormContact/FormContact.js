@@ -218,7 +218,7 @@ function FormContact(props) {
                             placeholder="(00) 00000-0000" />
                     </div>
                     <div className="col-12">
-                    <input name="image" type="file" onChange={e=>{setImagePlace(e.target.files[0])}}  accept=".img,.png,.webpm,.jpeg"/>
+                    <input className="imageInput" name="image" type="file" onChange={e=>{setImagePlace(e.target.files[0])}}  accept=".img,.png,.webpm,.jpeg, .jpg"/>
                     </div>
 
                 </div>

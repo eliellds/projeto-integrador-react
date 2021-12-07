@@ -10,3 +10,7 @@ label.form-label{
     font-size: 0.8rem;
     font-family: 'Times New Roman', Times, serif;
 }
+
+.imageInput {
+    padding: 10px 0 10px 25px ;
+}

@@ -43,7 +43,7 @@ function FormContact(props) {
             .then((response) => {
                 setShow(true)
                 alert("Sua mensagem foi enviada com sucesso! Responderemos o mais breve possível. O prazo máximo é de 24h para o retorno de nossa equipe. Confira seu e-mail e cheque sua caixa de spam. Obrigado!")
-                // window.location.href = "/home";
+                window.location.href = "/home";
                 console.log(data)
 
             })

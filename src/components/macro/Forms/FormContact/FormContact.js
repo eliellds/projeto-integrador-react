@@ -227,7 +227,7 @@ function FormContact(props) {
                     <div className="col-12 col-md-11">
                         <label htmlFor="textarea" className="form-label col-12">Deixe sua mensagem:</label>
                         <textarea required className="textarea col-12" id="textarea" rows="5"
-                            placeholder=" Escreva sua mensagem..." maxlength="300" onKeyDown={e => setContent(e.target.value)} onChange={e => setCount(e.target.value.length)}></textarea>
+                            placeholder=" Escreva sua mensagem..." maxlength="300" onKeyUp={e => setContent(e.target.value)} onChange={e => setCount(e.target.value.length)}></textarea>
                         <small className="counter">{count}/300</small>
                     </div>
                 </div>

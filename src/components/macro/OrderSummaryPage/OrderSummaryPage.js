@@ -435,7 +435,7 @@ function OrderSummaryPage(props) {
 
                         <OrderInfo titulo="Pagamento"
                             primeiraLinha={order.payment.id == 1 || order.payment.id == 13 ? order.payment.description : order.payment.description + " - " + order.card.flag.description}
-                            segundaLinha={order.payment.id == 1 ? "" : uncriptCard(order.card.cardNumber)}
+                            segundaLinha={order.payment.id == 1 || order.payment.id == 13 ? "" : uncriptCard(order.card.cardNumber)}
                             terceiraLinha={order.payment?.installments >= 2 ? order.payment.installments + " x de" : order.payment.installments} terceiraLinha1={order.payment.installments >= 2 ? calcInstallments() : (somar() + frete).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                             quartaLinha={"Total: " + (somar() + frete).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} />
 

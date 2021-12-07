@@ -265,7 +265,7 @@ function FormShippigAddress(props) {
                 myUser: { ...tempOrder.myUser, id: user.value.id, email: user.value.email },
                 payment: { ...tempOrder.payment, id: payment },
                 telephone: { ...tempOrder.telephone, number: tempOrder.telephone.number.toString().replace(/[^0-9]/g, "") },
-                card: { ...tempOrder.card, cardNumber: criptCard(tempOrder.card.cardNumber), dueDate: "20" + inputYear + "-" + inputMonth + "-01" },
+                card: null,
                 address:{...finalAddress}
             })
         }
@@ -1095,7 +1095,6 @@ function FormShippigAddress(props) {
                                     validation={validateCard}
                                     mask={mask}
                                     maskchar={null}
-                                    value={cardNumber}
                                     label="Número do cartão"
                                     type="text"
                                     className="form-input col-12"

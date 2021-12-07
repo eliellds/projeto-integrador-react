@@ -55,18 +55,26 @@ function FormContact(props) {
     }
 
     function postContact() {
-        const contact = ({
-            subject: {
-                id: subject
-            },
-            name: name,
-            phoneNumber: phoneNumber.toString().replace(/[^0-9]/g, ""),
-            email: email,
-            content: content
-        })
 
-        sendContact(contact)
-        setDisable(true)
+        var checkContent = content.replace(/\s/g, '')
+
+        if (checkContent.length > 0) {
+            const contact = ({
+                subject: {
+                    id: subject
+                },
+                name: name,
+                phoneNumber: phoneNumber.toString().replace(/[^0-9]/g, ""),
+                email: email,
+                content: content
+            })
+    
+            sendContact(contact)
+            setDisable(true)
+        } else {
+            return window.alert("Preencha o corpo da mensagem")
+        }
+        
     }
 
     useEffect(() => {
@@ -165,7 +173,7 @@ function FormContact(props) {
                             pattern={/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u}
                             errors={errors}
                             clear={clearErrors}
-                            label="Nome"
+                            label="*Nome"
                             value={name}
                             type="text"
                             className="form-input col-12"
@@ -189,7 +197,7 @@ function FormContact(props) {
                             maxlength={255}
                             pattern={/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/}
                             errors={errors}
-                            label="E-mail"
+                            label="*E-mail"
                             type="email"
                             id="email"
                             value={email}
@@ -211,21 +219,22 @@ function FormContact(props) {
                             mask={phoneNumber.charAt(2) == 9 ? "(99) 99999-9999" : "(99) 9999-9999"}
                             value={phoneNumber}
                             change={ValidarTel}
-                            label="Telefone"
+                            label="*Telefone"
                             type="text"
                             id="telefone"
                             className="form-input col-12"
                             placeholder="(00) 00000-0000" />
                     </div>
                     <div className="col-12">
-                    <input className="imageInput" name="image" type="file" onChange={e=>{setImagePlace(e.target.files[0])}}  accept=".img,.png,.webpm,.jpeg, .jpg"/>
+                        <label className="imageInput col-12 py-0" for="imageContact">Imagem:</label> 
+                    <input className="imageInput" name="image" id="imageContact" type="file" onChange={e=>{setImagePlace(e.target.files[0])}}  accept=".img,.png,.webpm,.jpeg, .jpg" />
                     </div>
 
                 </div>
 
                 <div className="row justify-content-center">
                     <div className="col-12 col-md-11">
-                        <label htmlFor="textarea" className="form-label col-12">Deixe sua mensagem:</label>
+                        <label htmlFor="textarea" className="form-label col-12">*Deixe sua mensagem:</label>
                         <textarea required className="textarea col-12" id="textarea" rows="5"
                             placeholder=" Escreva sua mensagem..." maxlength="300" onKeyUp={e => setContent(e.target.value)} onChange={e => setCount(e.target.value.length)}></textarea>
                         <small className="counter">{count}/300</small>

@@ -291,50 +291,6 @@ function FormShippigAddress(props) {
 
     const [mask, setMask] = useState("9999 9999 9999 9999999")
 
-    function authCard(e) {
-        clearErrors(["CardNum"])
-        var card = e
-
-        if (MoipValidator.isValidNumber(card) == true) {
-
-
-            switch (MoipValidator.cardType(card).brand) {
-                case "VISA":
-                    setOrder({ ...order, card: { ...order.card, flag: { id: 2 }, cardNumber: card } })
-                    setInputBrand("VISA")
-                    return true
-                    break;
-                case "MASTERCARD":
-                    setOrder({ ...order, card: { ...order.card, flag: { id: 1 }, cardNumber: card } })
-                    setInputBrand("MASTERCARD");
-                    return true
-                    break;
-                case "AMEX":
-                    setOrder({ ...order, card: { ...order.card, flag: { id: 3 }, cardNumber: card } })
-                    setInputBrand("AMERICAN EXPRESS");
-                    return true
-                    break;
-                case "ELO":
-                    setOrder({ ...order, card: { ...order.card, flag: { id: 4 }, cardNumber: card } })
-                    setInputBrand("ELO");
-                    return true
-                    break;
-                case "HIPERCARD":
-                    setOrder({ ...order, card: { ...order.card, flag: { id: 5 }, cardNumber: card } })
-                    setInputBrand("HIPERCARD");
-                    return true
-                    break;
-                case "DINERS":
-                    setOrder({ ...order, card: { ...order.card, flag: { id: 6 }, cardNumber: card } })
-                    setInputBrand("DINERS CLUB");
-                    return true
-                    break;
-                default:
-                    return setInputBrand("Cartão não aceito!")
-            }
-        }
-        return false
-    }
 
     const [cardNumber, setCardNumber] = useState("");
     const [cvv, setCvv] = useState("");
@@ -941,86 +897,6 @@ function FormShippigAddress(props) {
 
 
 
-                {/* 
-                <div class="row  justify-content-center mb-3">
-
-                    <div class="row ">
-                        <div class=" col-6  col-sm-6 col-md-3">
-                            <InputHook  // hook eh a props para input padrao com a verificacao
-                                name="telefone" // name sera utilizado no componente para fazer as comparacoes
-                                register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
-                                required={<span className="text-danger">Digite um telefone válido</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
-                                maxlength={15} // tamanho maximo do campo
-                                pattern={/^\(?[1-9]{2}\)? ?(?:[2-8]|9[1-9])[0-9]{3}\-?[0-9]{4}$/}
-                                errors={errors}
-                                clear={clearErrors}
-                                change={LimparTelefone}
-                                mask={order.telephone.number.charAt(2) == 9 ? "(99) 99999-9999" : "(99) 9999-9999"}
-                                label="Telefone"
-                                type="tel"
-                                className="form-input col-12"
-                                placeholder="Telefone para contato com DDD" />
-
-                        </div>
-
-                        <div class=" col-6  col-sm-6 col-md-4">
-                            <InputHook hook // hook eh a props para input padrao com a verificacao
-                                name="E-mail" // name sera utilizado no componente para fazer as comparacoes
-                                register={register} // register recebe o estado atual do que esta em register para utilizar na funcao do componente
-                                required={<span className="text-danger">Digite um email válido</span>} // mensagem de erro que sera exibida caso o campo nao seja valido
-                                maxlength={30} // tamanho maximo do campo
-                                pattern={/^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$/i}
-                                errors={errors}
-                                clear={clearErrors}
-                                change={LimparEmail}
-                                disabled={true}
-                                label="E-mail"
-                                type="mail"
-                                className="form-input col-12 form-label"
-                                placeholder="E-mail para contato" />
-
-                        </div>
-
-
-                        <div class=" col-6 col-sm-6 col-md-3">
-                            <InputCep
-                                name="cep" pattern={/^\d{5}-\d{3}$/}
-                                mask={[/[0-9]/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]}
-                                required={<span className="text-danger">Campo inválido!</span>}
-                                blur={buscarCep}
-                                label="CEP" type="text" id="cep" className="form-input col-12"
-                                placeholder="00000-000" validation={buscarCep}
-                                change={e => setOrder({ ...order, address: { ...order.address, id: null, cep: e.target.value } })} register={register} errors={errors}
-                                value={order.address.cep} />
-                            {/* <InputCep className="form-input col-12 form-label" length="9" blur={buscarCep} value={order.address.cep} label="CEP" type="text" id="cep" className="form-input col-12" placeholder="Digite seu CEP..." change={e => setOrder({ ...order, address: { ...order.address, cep: e.target.value } })} /> */}
-                {/* </div>
-
-                        <div class=" col-6 col-sm-6 col-md-2">
-                            <Select label="Estado" disabled={false} options={ufs} selected={order.address.state} change={e => setOrder({ ...order, address: { ...order.address, id: null, state: e.target.value } })} default="Estado:" />
-                        </div>
-
-                        <div class=" col-6 col-sm-6 col-md-4">
-                            <Input value={order.address.city} disabled={false} change={e => setOrder({ ...order, address: { ...order.address, id: null, city: e.target.value } })} label="Cidade" className="form-input col-12 form-label" type="text" name="city" placeholder="Digite a cidade..." />
-                        </div>
-
-                        <div class=" col-9 col-md-6">
-                            <Input value={order.address.street} disabled={false} change={e => setOrder({ ...order, address: { ...order.address, id: null, street: e.target.value } })} label="Logradouro" className="form-input col-12 form-label" type="text" name="street" placeholder="Digite o logradouro..." />
-                        </div>
-
-                            <div className="col-10 d-flex justify-content-between mt-3">
-
-                                <Button label="Fechar" onclick={closeModal} class="btn-retorno" />
-                                <Button onclick={handleSubmit2(postAddressUser)} label={disable ? renderLoading() : "Salvar"} class="btn-confirmacao" type="submit" />
-                            </div>
-
-                        </div>
-
-                    </Modal.Body>
-                </Modal>
-
-
-
-                </div> */}
 
             </FormDefault>
 
